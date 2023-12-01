@@ -17,6 +17,9 @@ installGlobals();
 const BUILD_PATH = path.resolve("build/index.js");
 const VERSION_PATH = path.resolve("build/version.txt");
 
+const basePath = "/meldekort";
+const port = process.env.PORT || 3000;
+
 const initialBuild = await reimportServer();
 const remixHandler =
   process.env.NODE_ENV === "development"
@@ -45,9 +48,10 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
+app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
+
 app.all("*", remixHandler);
 
-const port = process.env.PORT || 3000;
 app.listen(port, async () => {
   console.log(`Express server listening on port ${port}`);
 
