@@ -50,6 +50,20 @@ app.use(morgan("tiny"));
 
 app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
+// Dette brukes når vi kjører frontenden lokalt
+app.get("/api/tekst/hentAlle", (_, res) =>  res.send("{}"))
+app.get("/dekorator/css/client.css", (_, res) =>  res.sendStatus(200))
+app.get("/dekorator/client.js", (_, res) =>  res.send(""))
+app.get("/dekorator", (_, res) => res.send("{" +
+    "fragments: {" +
+    "DECORATOR_STYLES: ''" +
+    "DECORATOR_HEADER: '<div>HEADER</div>'" +
+    "DECORATOR_FOOTER: '<div>FOOTER</div>'" +
+    "DECORATOR_SCRIPTS: ''" +
+    "}" +
+    "}"))
+
+
 app.all("*", remixHandler);
 
 app.listen(port, async () => {

@@ -5,12 +5,13 @@ export async function hentDekoratorHtml() {
 
   const config: DecoratorFetchProps = {
     env: process.env.DEKORATOR_MILJO ?? "localhost",
-    localUrl: "https://dekoratoren.ekstern.dev.nav.no",
+    localUrl: "http://localhost:3000/dekorator",
     params: {
       simple: false,
       feedback: false,
       chatbot: false,
       shareScreen: true,
+      enforceLogin: true,
       logoutWarning: true,
     },
   };
