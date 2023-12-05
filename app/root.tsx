@@ -5,9 +5,20 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderD
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+import navStyles from "@navikt/ds-css/dist/index.css";
+import indexStyle from "~/index.css";
+
+export const links: LinksFunction = () => {
+  return [
+    ...(cssBundleHref
+        ? [
+          { rel: "stylesheet", href: navStyles },
+          { rel: "stylesheet", href: cssBundleHref },
+          { rel: "stylesheet", href: indexStyle },
+        ]
+        : []),
+  ];
+}
 
 export async function loader() {
   const fragments = await hentDekoratorHtml();
