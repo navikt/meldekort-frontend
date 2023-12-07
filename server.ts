@@ -64,6 +64,8 @@ app.get("/dekorator", (_, res) => res.send("" +
   "  }" +
   "}"
 ))
+app.get("/locales/en/common.json", (_, res) => res.send("{\"overskrift.meldekort\": \"Employment status form\"}"))
+app.get("/locales/nb/common.json", (_, res) => res.send("{\"overskrift.meldekort\": \"Meldekort\"}"))
 
 // Check if the server is running in development mode and use the devBuild to reflect realtime changes in the codebase
 app.all(
