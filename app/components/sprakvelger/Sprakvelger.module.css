@@ -1,0 +1,17 @@
+.sprakvelger {
+    width: 9rem;
+}
+
+.sprakvelger select {
+    padding-left: 45px; /* 25px width of the flag SVGs + 10px on each side of the image */
+    background-position: 10px 0.8rem; /* "padding" 10px from the left and centered vertically */
+    background-repeat: no-repeat;
+}
+
+.en select {
+    background-image: url('en.svg');
+}
+
+.nb select {
+    background-image: url('no.svg');
+}
