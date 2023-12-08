@@ -1,5 +1,6 @@
-import styles from "./meldekortHeader.module.css";
+import styles from "./MeldekortHeader.module.css";
 import { NavLink } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 
 type LinkState = {
   isActive: boolean,
@@ -10,12 +11,13 @@ function setClassName(linkState: LinkState) {
 }
 
 export default function MeldekortHeader() {
+  const { t } = useTranslation();
 
   return (
     <div>
       <div className={styles.heading}>
         <div className={styles.title}>
-          <h1 className="navds-heading navds-heading--xlarge">Meldekort</h1>
+          <h1 className="navds-heading navds-heading--xlarge">{t("overskrift.meldekort")}</h1>
         </div>
       </div>
       <div className={styles.menu}>
