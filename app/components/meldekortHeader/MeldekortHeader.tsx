@@ -1,13 +1,15 @@
 import styles from "./MeldekortHeader.module.css";
 import { NavLink } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
+import classNames from "classnames";
 
 type LinkState = {
   isActive: boolean,
   isPending: boolean
 }
+
 function setClassName(linkState: LinkState) {
-  return linkState.isPending || linkState.isActive ? styles.menuItem + " " + styles.menuItemActive : styles.menuItem
+  return linkState.isPending || linkState.isActive ? classNames(styles.menuItem, styles.menuItemActive) : styles.menuItem
 }
 
 export default function MeldekortHeader() {
@@ -22,19 +24,19 @@ export default function MeldekortHeader() {
       </div>
       <div className={styles.menu}>
         <NavLink to="/send-meldekort" className={setClassName}>
-          Send meldekort
+          {t("sekundarmeny.send")}
         </NavLink>
         <NavLink to="/tidligere-meldekort" className={setClassName}>
-          Tidligere meldekort
+          {t("sekundarmeny.tidligere")}
         </NavLink>
         <NavLink to="/etterregistrering" className={setClassName}>
-          Etterregistrere meldekort
+          {t("sekundarmeny.etterregistrer")}
         </NavLink>
         <NavLink to="/om-meldekort" className={setClassName}>
-          Om meldekort
+          {t("sekundarmeny.omMeldekort")}
         </NavLink>
         <NavLink to="/ofte-stilte-sporsmal" className={setClassName}>
-          Ofte stilte spørsmål
+          {t("sekundarmeny.faq")}
         </NavLink>
       </div>
     </div>
