@@ -44,7 +44,7 @@ export async function loader() {
   return json({ feil, skrivemodus, historiskeMeldekort });
 }
 
-export default function TidligereMeldekort_() {
+export default function TidligereMeldekort() {
   const { i18n, t } = useTranslation();
 
   // Hent skrivemodus
