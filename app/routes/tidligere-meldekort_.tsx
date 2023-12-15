@@ -10,7 +10,7 @@ import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { finnRiktigTagVariant, formaterBelop, mapKortStatusTilTekst } from "~/utils/miscUtils";
-import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
+import { NavLink, useLoaderData } from "@remix-run/react";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
 
@@ -22,9 +22,9 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
+  let feil = false;
   let skrivemodus: ISkrivemodus | null = null;
   let historiskeMeldekort: IMeldekort[] | null = null;
-  let feil = false;
 
   const skrivemodusResponse = await hentSkrivemodus();
   const historiskeMeldekortResponse = await hentHistoriskeMeldekort();
@@ -44,7 +44,7 @@ export async function loader() {
   return json({ feil, skrivemodus, historiskeMeldekort });
 }
 
-export default function TidligereMeldekort() {
+export default function TidligereMeldekort_() {
   const { i18n, t } = useTranslation();
 
   // Hent skrivemodus
@@ -125,7 +125,6 @@ export default function TidligereMeldekort() {
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={t("overskrift.tidligereMeldekort")} innhold={innhold} />
-      <Outlet />
     </div>
   );
 }
