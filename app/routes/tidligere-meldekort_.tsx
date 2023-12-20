@@ -11,8 +11,6 @@ import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { finnRiktigTagVariant, formaterBelop, mapKortStatusTilTekst } from "~/utils/miscUtils";
 import { NavLink, useLoaderData } from "@remix-run/react";
-import type { ISkrivemodus } from "~/models/skrivemodus";
-import { hentSkrivemodus } from "~/models/skrivemodus";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,17 +21,9 @@ export const meta: MetaFunction = () => {
 
 export async function loader() {
   let feil = false;
-  let skrivemodus: ISkrivemodus | null = null;
   let historiskeMeldekort: IMeldekort[] | null = null;
 
-  const skrivemodusResponse = await hentSkrivemodus();
   const historiskeMeldekortResponse = await hentHistoriskeMeldekort();
-
-  if (!skrivemodusResponse.ok) {
-    feil = true
-  } else {
-    skrivemodus = await skrivemodusResponse.json();
-  }
 
   if (!historiskeMeldekortResponse.ok) {
     feil = true
@@ -41,35 +31,23 @@ export async function loader() {
     historiskeMeldekort = await historiskeMeldekortResponse.json();
   }
 
-  return json({ feil, skrivemodus, historiskeMeldekort });
+  return json({ feil, historiskeMeldekort });
 }
 
 export default function TidligereMeldekort() {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
 
-  // Hent skrivemodus
   // Hent historiske meldekort
   // Hvis det er feil, vis feilmelding
-  // Hvis skrivemodus ikke er OK, vis infomelding
-  // Hvis historiske meldekort ikke er hentet, vis advarselsmelding
+  // Hvis det ikke finnes historiske meldekort, vis advarselsmelding
   // Hvis historiske meldekort er hentet, vis data
 
-  const { feil, skrivemodus, historiskeMeldekort } = useLoaderData<typeof loader>();
+  const { feil, historiskeMeldekort } = useLoaderData<typeof loader>();
 
   let innhold: ReactElement
 
   if (feil) {
     innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
-  } else if (skrivemodus?.skrivemodus !== true) {
-    // Hvis skrivemodues ikke er OK (ikke true):
-    // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
-    // Ellers vis standard melding
-    let melding = t("skrivemodusInfomelding")
-    if (!!skrivemodus && !!skrivemodus.melding) {
-      melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
-    }
-
-    innhold = <Alert variant="info">{formatHtmlMessage(melding)}</Alert>
   } else if (!historiskeMeldekort || historiskeMeldekort.length === 0) {
     innhold = <Alert variant="warning">{formatHtmlMessage(t("tidligereMeldekort.harIngen"))}</Alert>
   } else {
