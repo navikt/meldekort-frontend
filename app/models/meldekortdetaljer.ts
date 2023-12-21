@@ -1,5 +1,6 @@
 import { getEnv } from "~/utils/envUtils";
 import type { KortType } from "~/models/kortType";
+import type { ISporsmal } from "~/models/sporsmal";
 
 export interface IMeldekortdetaljer {
   id: string;
@@ -11,25 +12,6 @@ export interface IMeldekortdetaljer {
   lestDato: Date;
   sporsmal: ISporsmal;
   begrunnelse: string;
-}
-
-export interface ISporsmal {
-  arbeidssoker: boolean;
-  arbeidet: boolean;
-  syk: boolean;
-  annetFravaer: boolean;
-  kurs: boolean;
-  signatur: boolean;
-  meldekortDager: IMeldekortDag[];
-}
-
-export interface IMeldekortDag {
-  dag: number;
-  arbeidetTimerSum: number;
-  syk: boolean;
-  annetFravaer: boolean;
-  kurs: boolean;
-  meldegruppe?: string;
 }
 
 export async function hentMeldekortdetaljer(meldekortId: string): Promise<Response> {
