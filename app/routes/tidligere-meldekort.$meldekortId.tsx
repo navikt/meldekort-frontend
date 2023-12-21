@@ -56,14 +56,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
       meldekortdetaljer = await meldekortdetaljerResponse.json()
 
       valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId)
-
-      if (!valgtMeldekort) {
-        feil = true
-      } else {
-        const fom = valgtMeldekort.meldeperiode.fra
-        console.log(fom)
-        // TODO: hent riktige tekster int fomDato
-      }
     }
   }
 
@@ -71,8 +63,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function Meldekortdetaljer() {
-  const { t } = useTranslation()
   const { feil, valgtMeldekort, meldekortdetaljer } = useLoaderData<typeof loader>()
+
+  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
+  const { t } = useTranslation(fraDato)
 
   let innhold: ReactElement
 
@@ -152,8 +146,9 @@ export default function Meldekortdetaljer() {
         </RemixLink>
       </div>
       <div className="centeredButtons">
-        <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />}
-                onClick={() => window.print()}>{t("overskrift.skrivUt")}</Button>
+        <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
+          {t("overskrift.skrivUt")}
+        </Button>
       </div>
     </div>
   }
