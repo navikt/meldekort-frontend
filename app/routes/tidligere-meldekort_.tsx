@@ -9,7 +9,8 @@ import type { ReactElement } from "react";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
-import { finnRiktigTagVariant, formaterBelop, mapKortStatusTilTekst } from "~/utils/miscUtils";
+import { formaterBelop } from "~/utils/miscUtils";
+import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import { NavLink, useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
