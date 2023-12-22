@@ -29,11 +29,11 @@ export default async function handleRequest(
 
   await instance
     .use(initReactI18next) // Tell our instance to use react-i18next
-    .use(Backend) // Set up our backend
+    .use(Backend) // Setup backend (filesystem-backend)
     .init({
-      ...i18n, // spread the configuration
+      ...i18n, // Spread the configuration
       lng, // The locale we detected above
-      ns, // The namespaces the routes about to render wants to use
+      ns, // The namespaces the route about to render wants to use
       backend: { loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json") },
     });
 

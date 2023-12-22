@@ -1,0 +1,16 @@
+.ukeliste {
+    margin-bottom: 2rem;
+}
+
+.ukeTittel {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.ukeTittelDelimiter {
+    border: 1px solid #000;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    width: 2rem;
+}
