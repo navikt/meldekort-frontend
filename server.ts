@@ -64,8 +64,26 @@ app.get("/dekorator", (_, res) => res.send("" +
   "  }" +
   "}"
 ))
-app.get("/locales/en/common.json", (_, res) => res.send("{\"overskrift.meldekort\": \"Employment status form\"}"))
-app.get("/locales/nb/common.json", (_, res) => res.send("{\"overskrift.meldekort\": \"Meldekort\"}"))
+
+app.get("/locales/:sprak/:fraDato.json", (req, res) => {
+    const sprak = req.params["sprak"] || "nb"
+    const fraDato = req.params["fraDato"] || "1000-01-01"
+
+    const feilmelding = (sprak === "nb") ? "Noe gikk galt" : "Something went wrong"
+
+    fetch(
+      `http://localhost:8801/meldekort/meldekort-api/api/tekst/hentAlle?sprak=${sprak}&fraDato=${fraDato}`,
+      {
+        method: "GET"
+      })
+      .then(response => response.json())
+      .then(json => res.send(json))
+      .catch(err => {
+        console.error('Error:' + err)
+        res.send({ "feilmelding.baksystem": feilmelding })
+      })
+  }
+)
 
 // Check if the server is running in development mode and use the devBuild to reflect realtime changes in the codebase
 app.all(
