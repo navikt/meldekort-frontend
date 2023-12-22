@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 
 export const meta: MetaFunction = () => {
   return [
@@ -9,9 +10,12 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Etterregistrering() {
+  const innhold = <div></div>
+
   return (
     <div>
       <MeldekortHeader />
+      <Sideinnhold tittel={"Etterregistrering"} innhold={innhold} />
     </div>
   );
 }
