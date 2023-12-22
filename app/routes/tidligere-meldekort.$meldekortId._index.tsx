@@ -5,7 +5,7 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
 import type { ReactElement } from "react";
-import { Alert, BodyLong, Button, Table, Tag } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
 import { formatHtmlMessage } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
@@ -119,9 +119,7 @@ export default function Meldekortdetaljer() {
         </Table.Body>
       </Table>
 
-      <BodyLong as="div" spacing>
-        <div />
-      </BodyLong>
+      <Box padding="6" />
 
       <Begrunnelse begrunnelse={meldekortdetaljer.begrunnelse} />
 
