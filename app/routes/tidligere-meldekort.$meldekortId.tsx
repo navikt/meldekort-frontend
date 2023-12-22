@@ -5,15 +5,14 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
 import type { ReactElement } from "react";
-import { Alert, BodyLong, Button, Label, Table, Tag } from "@navikt/ds-react";
+import { Alert, BodyLong, Button, Table, Tag } from "@navikt/ds-react";
 import { formatHtmlMessage } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import utklippstavle from "~/img/utklippstavle.svg"
 import { formaterBelop } from "~/utils/miscUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import { CheckmarkCircleIcon, PrinterSmallFillIcon } from '@navikt/aksel-icons';
+import { PrinterSmallFillIcon } from '@navikt/aksel-icons';
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { RemixLink } from "~/components/RemixLink";
@@ -25,6 +24,7 @@ import {
 } from "~/utils/meldekortUtils";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
+import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 
 export const meta: MetaFunction = () => {
   return [
@@ -123,11 +123,7 @@ export default function Meldekortdetaljer() {
         <div />
       </BodyLong>
 
-      <div key="begrunnelse" className="sporsmalOgSvar">
-        <Label>{formatHtmlMessage(t("korrigering.sporsmal.begrunnelse"))}</Label>
-        <UtvidetInformasjon innhold={formatHtmlMessage(t("forklaring.sporsmal.begrunnelse"))} />
-        <CheckmarkCircleIcon className="checkmarkCircleIcon" /> {meldekortdetaljer.begrunnelse}
-      </div>
+      <Begrunnelse begrunnelse={meldekortdetaljer.begrunnelse} />
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />
 
