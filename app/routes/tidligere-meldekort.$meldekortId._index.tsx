@@ -135,9 +135,15 @@ export default function Meldekortdetaljer() {
         <RemixLink as="Button" variant="primary" to="/tidligere-meldekort">
           {t("naviger.tilbake")}
         </RemixLink>
-        <RemixLink as="Button" variant="secondary" to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
-          {t("korriger.meldekort")}
-        </RemixLink>
+        {
+          // Viser Korriger-knappen kun når valgt meldekort er korrigerbart
+          valgtMeldekort.korrigerbart &&
+            <RemixLink as="Button"
+                       variant="secondary"
+                       to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
+              {t("korriger.meldekort")}
+            </RemixLink>
+        }
       </div>
       <div className="centeredButtons">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
