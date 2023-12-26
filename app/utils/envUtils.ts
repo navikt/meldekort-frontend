@@ -12,6 +12,7 @@ interface IEnv {
   MELDEKORT_API_URL: string;
   LOGIN_URL: string;
   LOGOUT_URL: string;
+  MIN_SIDE_URL: string;
 }
 
 export function getEnv(value: keyof IEnv) {
