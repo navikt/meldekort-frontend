@@ -6,6 +6,7 @@ import { formatHtmlMessage } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "react-i18next";
+import { hentSvar } from "~/utils/miscUtils";
 import styles from "./SporsmalOgSvar.module.css";
 
 interface IProps {
@@ -18,16 +19,6 @@ export default function SporsmalOgSvar(props: IProps) {
   const { t } = useTranslation();
   const { sporsmal, fom, ytelsestypePostfix } = props
 
-  const hentSvar = (spmid: string): ISporsmal | undefined => {
-    for (const sporsmalKey in sporsmal) {
-      if (sporsmalKey === spmid) {
-        return (sporsmal as any)[sporsmalKey]
-      }
-    }
-
-    return undefined
-  }
-
   const nestePeriodeFormatertDato = nestePeriodeFormatert(fom)
 
   const sporsmalOgSvar: ISporsmalOgSvar[] = sporsmalConfig.map(sporsmalsObj => {
@@ -35,7 +26,7 @@ export default function SporsmalOgSvar(props: IProps) {
       kategori: sporsmalsObj.kategori,
       sporsmal: sporsmalsObj.sporsmal + ytelsestypePostfix,
       forklaring: sporsmalsObj.forklaring + ytelsestypePostfix,
-      svar: hentSvar(sporsmalsObj.id),
+      svar: hentSvar(sporsmal, sporsmalsObj.id),
       formatertDato: sporsmalsObj.kategori === "registrert" ? nestePeriodeFormatertDato : undefined,
     }
   })
