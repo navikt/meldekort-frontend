@@ -18,9 +18,9 @@ interface IProps {
 }
 
 export default function Bekreftelse(props: IProps) {
-  const { t } = useTranslation()
-
   const { begrunnelse, sporsmal, fom, ytelsestypePostfix, forrigeOnclickHandler, nesteOnclickHandler } = props
+
+  const { t } = useTranslation(fom)
 
   const [bekreftet, setBekreftet] = useState(false)
   const [visFeil, setVisFeil] = useState(false)
