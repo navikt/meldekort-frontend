@@ -1,3 +1,5 @@
+import type { ISporsmal } from "~/models/sporsmal";
+
 export function formaterBelop(belop?: number): string {
   if (typeof belop === "number") {
     if (belop === 0) {
@@ -26,4 +28,25 @@ export function formaterBelop(belop?: number): string {
   } else {
     return "";
   }
+}
+
+export function byggBegrunnelseObjekt(str: string) {
+  let obj = {}
+  try {
+    obj = JSON.parse(str)
+  } catch (e) {
+
+  }
+
+  return obj
+}
+
+export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
+  for (const sporsmalKey in sporsmal) {
+    if (sporsmalKey === spmid) {
+      return (sporsmal as any)[sporsmalKey]
+    }
+  }
+
+  return null
 }
