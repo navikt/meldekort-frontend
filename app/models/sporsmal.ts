@@ -65,12 +65,12 @@ export interface ISporsmalOgSvar {
 }
 
 export interface ISporsmal {
-  arbeidssoker: boolean;
-  arbeidet: boolean;
-  syk: boolean;
-  annetFravaer: boolean;
-  kurs: boolean;
-  signatur: boolean;
+  arbeidssoker: boolean | null;
+  arbeidet: boolean | null;
+  syk: boolean | null;
+  annetFravaer: boolean | null;
+  kurs: boolean | null;
+  signatur: boolean | null;
   meldekortDager: IMeldekortDag[];
 }
 
