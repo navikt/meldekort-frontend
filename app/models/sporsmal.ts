@@ -6,11 +6,7 @@ export const sporsmalConfig: ISporsmalObj[] = [
     ja: "svar.arbeid.ja",
     nei: "svar.arbeid.nei",
     forklaring: "forklaring.sporsmal.arbeid",
-    checked: undefined,
-    feil: {
-      erFeil: false,
-      feilmeldingId: "arbeidet.required",
-    }
+    feilmeldingId: "arbeidet.required",
   },
   {
     id: "kurs",
@@ -19,11 +15,7 @@ export const sporsmalConfig: ISporsmalObj[] = [
     ja: "svar.aktivitetArbeid.ja",
     nei: "svar.aktivitetArbeid.nei",
     forklaring: "forklaring.sporsmal.aktivitetArbeid",
-    checked: undefined,
-    feil: {
-      erFeil: false,
-      feilmeldingId: "kurs.required",
-    }
+    feilmeldingId: "kurs.required",
   },
   {
     id: "syk",
@@ -32,11 +24,7 @@ export const sporsmalConfig: ISporsmalObj[] = [
     ja: "svar.forhindret.ja",
     nei: "svar.forhindret.nei",
     forklaring: "forklaring.sporsmal.forhindret",
-    checked: undefined,
-    feil: {
-      erFeil: false,
-      feilmeldingId: "syk.required",
-    }
+    feilmeldingId: "syk.required",
   },
   {
     id: "annetFravaer",
@@ -45,11 +33,7 @@ export const sporsmalConfig: ISporsmalObj[] = [
     ja: "svar.ferieFravar.ja",
     nei: "svar.ferieFravar.nei",
     forklaring: "forklaring.sporsmal.ferieFravar",
-    checked: undefined,
-    feil: {
-      erFeil: false,
-      feilmeldingId: "annetFravar.required",
-    }
+    feilmeldingId: "annetFravar.required",
   },
   {
     id: "arbeidssoker",
@@ -58,11 +42,7 @@ export const sporsmalConfig: ISporsmalObj[] = [
     ja: "svar.registrert.ja",
     nei: "svar.registrert.nei",
     forklaring: "forklaring.sporsmal.registrert",
-    checked: undefined,
-    feil: {
-      erFeil: false,
-      feilmeldingId: "fortsetteRegistrert.required",
-    }
+    feilmeldingId: "fortsetteRegistrert.required",
   },
 ];
 
@@ -73,18 +53,14 @@ export interface ISporsmalObj {
   ja: string;
   nei: string;
   forklaring: string;
-  checked: boolean | undefined;
-  feil: {
-    erFeil: boolean;
-    feilmeldingId: string;
-  }
+  feilmeldingId: string;
 }
 
 export interface ISporsmalOgSvar {
   kategori: string;
   sporsmal: string;
   forklaring: string;
-  svar: ISporsmal | undefined;
+  svar: boolean | null;
   formatertDato: string | undefined,
 }
 
