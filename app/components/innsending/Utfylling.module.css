@@ -1,0 +1,58 @@
+.uke {
+    --__ac-accordion-header-shadow-color: #FFFFFF;
+    border: 1px solid #000000;
+    margin-bottom: 2rem;
+}
+
+/* "Tabell" med rader (arbeid, kurs, syk, ferie) og kolonner (dager) */
+.grid {
+    display: grid;
+    grid-template: auto / 6fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+/* Radtittel */
+.grid > *:nth-child(9n+1) {
+    padding-top: 1.1rem;
+    padding-left: 0.5rem;
+}
+
+/* "Les mer" */
+.grid > *:nth-child(9n) {
+    grid-column: auto / span 8;
+    padding-left: 0.5rem;
+    border-bottom: 1px solid #D3D3D3FF;
+}
+
+.arbeid {
+    border-left: 9px solid #99C2E8FF;
+}
+
+.tiltak {
+    border-left: 9px solid #FFE9CCFF;
+}
+
+.syk {
+    border-left: 9px solid #6AB889FF;
+}
+
+.ferieFravar {
+    border-left: 9px solid #C1B5D0FF;
+}
+
+.centered div {
+    margin: 0 auto;
+    padding-top: 0.5rem;
+}
+
+.centered abbr {
+    display: flex;
+    justify-content: center;
+}
+
+.input {
+    width: 3rem;
+}
+
+.error {
+    margin-bottom: 2rem;
+}
