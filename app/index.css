@@ -25,3 +25,7 @@ body {
     justify-content: center;
     margin-top: 2rem;
 }
+
+.navds-checkbox--error .navds-checkbox__label {
+    --ac-radio-checkbox-action: var(--a-red-500);
+}
