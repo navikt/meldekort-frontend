@@ -52,7 +52,7 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
           <span> </span>
           {
             [
-              dag.arbeidetTimerSum ? dag.arbeidetTimerSum : "",
+              dag.arbeidetTimerSum ? `${t("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${t("overskrift.timer").trim()}` : "",
               dag.kurs ? t("utfylling.tiltak").trim() : "",
               dag.syk ? t("utfylling.syk").trim() : "",
               dag.annetFravaer ? t("utfylling.ferieFravar").trim() : ""
