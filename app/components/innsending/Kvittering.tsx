@@ -20,7 +20,6 @@ interface IProps {
   personInfo: IPersonInfo;
   fom: string;
   tom: string;
-  mottattDato: Date;
   begrunnelse: string;
   sporsmal: ISporsmal;
   forrigeOnclickHandler: Function;
@@ -34,13 +33,13 @@ export default function Kvittering(props: IProps) {
     personInfo,
     fom,
     tom,
-    mottattDato,
     begrunnelse,
     sporsmal
   } = props
 
   const { t } = useTranslation(fom)
 
+  const mottattDato= new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
   const nesteDato = false // TODO: Finn neste dato hvis det ikke er ETTERREGISTRERING eller KORRIGERING
 
   // TODO: Finn neste URL når INNSENDING eller ETTERREGISTRERING
