@@ -20,20 +20,12 @@ interface IProps {
   valgtMeldekort: Jsonify<IMeldekort>;
   innsendingstype: Innsendingstype;
   melekortApiUrl: string;
-  forrigeOnclickHandler: Function;
-  nesteOnclickHandler: Function;
+  activeStep: number;
+  setActiveStep: Function;
 }
 
 export default function Bekreftelse(props: IProps) {
-  const {
-    begrunnelse,
-    sporsmal,
-    valgtMeldekort,
-    innsendingstype,
-    melekortApiUrl,
-    forrigeOnclickHandler,
-    nesteOnclickHandler
-  } = props
+  const { begrunnelse, sporsmal, valgtMeldekort, innsendingstype, melekortApiUrl, activeStep, setActiveStep } = props
 
   const fom = valgtMeldekort.meldeperiode.fra
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
@@ -78,7 +70,12 @@ export default function Bekreftelse(props: IProps) {
     return fravar;
   }
 
-  const valider = () => {
+  const tilbake = () => {
+    if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep - 2)
+    else setActiveStep(activeStep - 1)
+  }
+
+  const validerOgVidere = () => {
     if (!bekreftet) {
       setVisFeil(true)
     } else {
@@ -100,7 +97,7 @@ export default function Bekreftelse(props: IProps) {
       }
       sendInnMeldekort(melekortApiUrl, meldekortdetaljer)
         .then(response => {
-          if (response.ok) nesteOnclickHandler()
+          if (response.ok) setActiveStep(activeStep + 1)
           else {
             console.log(response.status + " " + response.statusText)
           }
@@ -140,8 +137,8 @@ export default function Bekreftelse(props: IProps) {
       <Box padding="6" />
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => forrigeOnclickHandler()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => valider()}>{t("naviger.send")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">

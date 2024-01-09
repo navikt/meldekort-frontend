@@ -57,23 +57,24 @@ export default function Innsending(props: IProps) {
                         setBegrunnelse={setBegrunnelse}
                         sporsmal={nyeSporsmal}
                         setSporsmal={setNyeSporsmal}
-                        nesteOnclickHandler={() => setActiveStep(2)} />
+                        activeStep={activeStep}
+                        setActiveStep={setActiveStep} />
   } else if (activeStep === 2) {
     innhold = <Utfylling sporsmal={nyeSporsmal}
                          setSporsmal={setNyeSporsmal}
                          fom={fom}
                          ytelsestypePostfix={ytelsestypePostfix}
                          meldegruppe={valgtMeldekort.meldegruppe}
-                         forrigeOnclickHandler={() => setActiveStep(1)}
-                         nesteOnclickHandler={() => setActiveStep(3)} />
+                         activeStep={activeStep}
+                         setActiveStep={setActiveStep} />
   } else if (activeStep === 3) {
     innhold = <Bekreftelse begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
                            sporsmal={nyeSporsmal}
                            valgtMeldekort={valgtMeldekort}
                            innsendingstype={innsendingstype}
                            melekortApiUrl={melekortApiUrl}
-                           forrigeOnclickHandler={() => setActiveStep(2)}
-                           nesteOnclickHandler={() => setActiveStep(4)} />
+                           activeStep={activeStep}
+                           setActiveStep={setActiveStep} />
   } else {
     innhold = <Kvittering minSideUrl={minSideUrl}
                           innsendingstype={innsendingstype}
@@ -82,8 +83,7 @@ export default function Innsending(props: IProps) {
                           fom={fom}
                           tom={tom}
                           begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
-                          sporsmal={nyeSporsmal}
-                          forrigeOnclickHandler={() => setActiveStep(3)} />
+                          sporsmal={nyeSporsmal} />
   }
 
   return (

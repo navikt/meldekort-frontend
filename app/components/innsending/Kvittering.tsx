@@ -22,7 +22,6 @@ interface IProps {
   tom: string;
   begrunnelse: string;
   sporsmal: ISporsmal;
-  forrigeOnclickHandler: Function;
 }
 
 export default function Kvittering(props: IProps) {

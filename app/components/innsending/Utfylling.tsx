@@ -16,20 +16,12 @@ interface IProps {
   fom: string;
   ytelsestypePostfix: string;
   meldegruppe: Meldegruppe;
-  forrigeOnclickHandler: Function;
-  nesteOnclickHandler: Function;
+  activeStep: number;
+  setActiveStep: Function;
 }
 
 export default function Utfylling(props: IProps) {
-  const {
-    fom,
-    sporsmal,
-    setSporsmal,
-    ytelsestypePostfix,
-    meldegruppe,
-    forrigeOnclickHandler,
-    nesteOnclickHandler
-  } = props
+  const { fom, sporsmal, setSporsmal, ytelsestypePostfix, meldegruppe, activeStep, setActiveStep } = props
 
   const { t } = useTranslation(fom)
 
@@ -141,7 +133,11 @@ export default function Utfylling(props: IProps) {
     </Accordion.Item>
   }
 
-  const valider = () => {
+  const tilbake = () => {
+    setActiveStep(activeStep - 1)
+  }
+
+  const validerOgVidere = () => {
     // Reset
     let feilDager: string[] = []
     setFeilDager([])
@@ -249,7 +245,7 @@ export default function Utfylling(props: IProps) {
       setFeilDager(feilDager)
       document.documentElement.scrollTo(0, 0);
     } else {
-      nesteOnclickHandler()
+      setActiveStep(activeStep + 1)
     }
   }
 
@@ -315,8 +311,8 @@ export default function Utfylling(props: IProps) {
       <Box padding="6" />
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => forrigeOnclickHandler()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => valider()}>{t("naviger.neste")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">
