@@ -12,14 +12,14 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { ISporsmal } from "~/models/sporsmal";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;
-  meldekortdetaljer: Jsonify<IMeldekortdetaljer>;
+  sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
   melekortApiUrl: string;
   minSideUrl: string;
@@ -28,7 +28,7 @@ interface IProps {
 export default function Innsending(props: IProps) {
   const [activeStep, setActiveStep] = useState(1)
 
-  const { innsendingstype, valgtMeldekort, meldekortdetaljer, melekortApiUrl, minSideUrl, personInfo } = props
+  const { innsendingstype, valgtMeldekort, sporsmal, melekortApiUrl, minSideUrl, personInfo } = props
 
   const fom = valgtMeldekort.meldeperiode.fra
   const tom = valgtMeldekort.meldeperiode.til
@@ -36,7 +36,7 @@ export default function Innsending(props: IProps) {
 
   const { t } = useTranslation(fom)
   const [begrunnelse, setBegrunnelse] = useState("")
-  const [nyeSporsmal, setNyeSporsmal] = useState(meldekortdetaljer.sporsmal)
+  const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal)
 
   const steps = [
     "overskrift.steg1",

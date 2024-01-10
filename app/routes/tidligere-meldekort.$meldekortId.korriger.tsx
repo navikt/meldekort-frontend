@@ -92,7 +92,7 @@ export default function TidligereMeldekortKorrigering() {
 
   return <Innsending innsendingstype={Innsendingstype.KORRIGERING}
                      valgtMeldekort={valgtMeldekort}
-                     meldekortdetaljer={meldekortdetaljer}
+                     sporsmal={meldekortdetaljer.sporsmal}
                      personInfo={personInfo}
                      melekortApiUrl={melekortApiUrl}
                      minSideUrl={minSideUrl} />
