@@ -61,10 +61,12 @@ export default function Sporsmal(props: IProps) {
   const validerOgVidere = () => {
     let feil = false
 
+    // Begrunnelse må velges kun ved korrigering
     if (innsendingstype === Innsendingstype.KORRIGERING && !begrunnelse) {
       feil = true
     }
 
+    // Sjekker at alle spørsmålene er besvart
     for (const sporsmalKey in sporsmal) {
       if ((sporsmal as any)[sporsmalKey] === null) {
         feil = true
@@ -81,6 +83,7 @@ export default function Sporsmal(props: IProps) {
       if (!sporsmal.syk) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "syk")
       if (!sporsmal.annetFravaer) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "annetFravaer")
 
+      // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
       if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
       else setActiveStep(activeStep + 1)
     }
@@ -127,7 +130,7 @@ export default function Sporsmal(props: IProps) {
           const label = <div>
             {formatHtmlMessage(t(item.sporsmal + ytelsestypePostfix))}
             {
-              item.id === "arbeidssoker" ? <span>{nestePeriodeFormatertDato}?</span> : null
+              item.id === "arbeidssoker" ? <span> {nestePeriodeFormatertDato}?</span> : null
             }
           </div>
 
