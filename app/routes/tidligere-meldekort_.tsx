@@ -72,7 +72,7 @@ export default function TidligereMeldekort() {
         <Table.Body>
           {historiskeMeldekort.map((meldekort) => {
             return (
-              <Table.Row key={meldekort.meldekortId}>
+              <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
                 <Table.DataCell>
                   <NavLink to={"/tidligere-meldekort/" + meldekort.meldekortId}>
                     {t("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
