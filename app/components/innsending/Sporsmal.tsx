@@ -19,7 +19,8 @@ interface IProps {
   setBegrunnelse: Dispatch<SetStateAction<string>>;
   sporsmal: ISporsmal;
   setSporsmal: Dispatch<SetStateAction<ISporsmal>>;
-  nesteOnclickHandler: Function;
+  activeStep: number;
+  setActiveStep: Function;
 }
 
 export default function Sporsmal(props: IProps) {
@@ -31,7 +32,8 @@ export default function Sporsmal(props: IProps) {
     setBegrunnelse,
     sporsmal,
     setSporsmal,
-    nesteOnclickHandler
+    activeStep,
+    setActiveStep
   } = props
 
   const { t } = useTranslation(fom)
@@ -50,13 +52,21 @@ export default function Sporsmal(props: IProps) {
     setSporsmal(tmpSporsmal)
   }
 
-  const valider = () => {
+  const oppdaterMeldekortDager = (value: string | boolean, index: number, spObjKey: string) => {
+    const tmpSporsmal: any = { ...sporsmal }
+    tmpSporsmal.meldekortDager[index][spObjKey] = value
+    setSporsmal(tmpSporsmal)
+  }
+
+  const validerOgVidere = () => {
     let feil = false
 
+    // Begrunnelse må velges kun ved korrigering
     if (innsendingstype === Innsendingstype.KORRIGERING && !begrunnelse) {
       feil = true
     }
 
+    // Sjekker at alle spørsmålene er besvart
     for (const sporsmalKey in sporsmal) {
       if ((sporsmal as any)[sporsmalKey] === null) {
         feil = true
@@ -67,7 +77,15 @@ export default function Sporsmal(props: IProps) {
       setVisFeil(true)
       document.documentElement.scrollTo(0, 600);
     } else {
-      nesteOnclickHandler()
+      // Slett info hvis brukeren har svart Nei på det tilsvarende spørsmålet
+      if (!sporsmal.arbeidet) for (let i = 0; i < 14; i++) oppdaterMeldekortDager("", i, "arbeidetTimerSum")
+      if (!sporsmal.kurs) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "kurs")
+      if (!sporsmal.syk) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "syk")
+      if (!sporsmal.annetFravaer) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "annetFravaer")
+
+      // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
+      if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
+      else setActiveStep(activeStep + 1)
     }
   }
 
@@ -112,7 +130,7 @@ export default function Sporsmal(props: IProps) {
           const label = <div>
             {formatHtmlMessage(t(item.sporsmal + ytelsestypePostfix))}
             {
-              item.id === "arbeidssoker" ? <span>{nestePeriodeFormatertDato}?</span> : null
+              item.id === "arbeidssoker" ? <span> {nestePeriodeFormatertDato}?</span> : null
             }
           </div>
 
@@ -151,7 +169,7 @@ export default function Sporsmal(props: IProps) {
 
       <div className="buttons">
         <div />
-        <Button variant="primary" onClick={() => valider()}>{t("naviger.neste")}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">

@@ -1,6 +1,7 @@
 import type { TFunction } from "i18next";
-import { KortStatus, Meldegruppe } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
 import { KortType } from "~/models/kortType";
+import { Meldegruppe } from "~/models/meldegruppe";
 import { Ytelsestype } from "~/models/ytelsestype";
 
 export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "warning" | "error" => {

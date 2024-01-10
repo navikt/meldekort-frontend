@@ -1,5 +1,7 @@
-import { getEnv } from "~/utils/envUtils";
 import type { KortType } from "~/models/kortType";
+import type { IMeldeperiode } from "~/models/meldeperiode";
+import type { Meldegruppe } from "~/models/meldegruppe";
+import { getEnv } from "~/utils/envUtils";
 
 export interface IMeldekort {
   meldekortId: number;
@@ -11,23 +13,6 @@ export interface IMeldekort {
   erForskuddsPeriode: boolean;
   mottattDato: Date;
   korrigerbart: boolean;
-}
-
-export interface IMeldeperiode {
-  fra: Date;
-  til: Date;
-  kortKanSendesFra: Date;
-  kanKortSendes: boolean;
-  periodeKode: string;
-}
-
-export enum Meldegruppe {
-  ATTF = "ATTF",
-  DAGP = "DAGP",
-  INDIV = "INDIV",
-  ARBS = "ARBS",
-  FY = "FY",
-  NULL = "NULL"
 }
 
 export enum KortStatus {

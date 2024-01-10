@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { Accordion, Alert, Box, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
@@ -6,21 +7,21 @@ import type { ISporsmal } from "~/models/sporsmal";
 import { ukeFormatert } from "~/utils/datoUtils";
 import { formatHtmlMessage } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import type { Dispatch, SetStateAction } from "react";
+import { Meldegruppe } from "~/models/meldegruppe";
 import styles from "./Utfylling.module.css";
-import { Ytelsestype } from "~/models/ytelsestype";
 
 interface IProps {
   sporsmal: ISporsmal;
   setSporsmal: Dispatch<SetStateAction<ISporsmal>>;
   fom: string;
   ytelsestypePostfix: string;
-  forrigeOnclickHandler: Function;
-  nesteOnclickHandler: Function;
+  meldegruppe: Meldegruppe;
+  activeStep: number;
+  setActiveStep: Function;
 }
 
 export default function Utfylling(props: IProps) {
-  const { fom, sporsmal, setSporsmal, ytelsestypePostfix, forrigeOnclickHandler, nesteOnclickHandler } = props
+  const { fom, sporsmal, setSporsmal, ytelsestypePostfix, meldegruppe, activeStep, setActiveStep } = props
 
   const { t } = useTranslation(fom)
 
@@ -132,7 +133,11 @@ export default function Utfylling(props: IProps) {
     </Accordion.Item>
   }
 
-  const valider = () => {
+  const tilbake = () => {
+    setActiveStep(activeStep - 1)
+  }
+
+  const validerOgVidere = () => {
     // Reset
     let feilDager: string[] = []
     setFeilDager([])
@@ -178,29 +183,7 @@ export default function Utfylling(props: IProps) {
         }
       }
 
-      // TODO: Sjekke iht meldegruppe?
-      if (ytelsestypePostfix === Ytelsestype.AAP) {
-        // Sjekk at brukeren ikke jobbet og ikke hadde annet fravaer samme dag
-        if (Number(dag.arbeidetTimerSum) > 0 && dag.annetFravaer) {
-          feilDager.push("arbeid" + dag.dag)
-          feilDager.push("annetFravaer" + dag.dag)
-          setFeilKombinasjonFravaerArbeid(true)
-        }
-
-        // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
-        if (dag.syk && dag.annetFravaer) {
-          feilDager.push("syk" + dag.dag)
-          feilDager.push("annetFravaer" + dag.dag)
-          setFeilKombinasjonFravaerSyk(true)
-        }
-      } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER) {
-        // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
-        if (dag.syk && dag.annetFravaer) {
-          feilDager.push("syk" + dag.dag)
-          feilDager.push("annetFravaer" + dag.dag)
-          setFeilKombinasjonFravaerSyk(true)
-        }
-      } else {
+      if (meldegruppe === Meldegruppe.DAGP) {
         // Sjekk at brukeren ikke jobbet og ikke var syk samme dag
         if (Number(dag.arbeidetTimerSum) > 0 && dag.syk) {
           feilDager.push("arbeid" + dag.dag)
@@ -213,6 +196,27 @@ export default function Utfylling(props: IProps) {
           feilDager.push("arbeid" + dag.dag)
           feilDager.push("annetFravaer" + dag.dag)
           setFeilKombinasjonFravaerArbeid(true)
+        }
+      } else if (meldegruppe === Meldegruppe.ATTF) {
+        // Sjekk at brukeren ikke jobbet og ikke hadde annet fravaer samme dag
+        if (Number(dag.arbeidetTimerSum) > 0 && dag.annetFravaer) {
+          feilDager.push("arbeid" + dag.dag)
+          feilDager.push("annetFravaer" + dag.dag)
+          setFeilKombinasjonFravaerArbeid(true)
+        }
+
+        // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
+        if (dag.syk && dag.annetFravaer) {
+          feilDager.push("syk" + dag.dag)
+          feilDager.push("annetFravaer" + dag.dag)
+          setFeilKombinasjonFravaerSyk(true)
+        }
+      } else if (meldegruppe === Meldegruppe.INDIV) {
+        // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
+        if (dag.syk && dag.annetFravaer) {
+          feilDager.push("syk" + dag.dag)
+          feilDager.push("annetFravaer" + dag.dag)
+          setFeilKombinasjonFravaerSyk(true)
         }
       }
     });
@@ -234,13 +238,14 @@ export default function Utfylling(props: IProps) {
       for (let i = 1; i <= 14; i++) feilDager.push("annetFravaer" + i)
     }
 
-    //
+    // Hvis det finnes noen dager med feil, vis disse dagene
+    // Ellers fortsett
     if (feilDager.length > 0) {
       setVisFeil(true)
       setFeilDager(feilDager)
       document.documentElement.scrollTo(0, 0);
     } else {
-      nesteOnclickHandler()
+      setActiveStep(activeStep + 1)
     }
   }
 
@@ -306,8 +311,8 @@ export default function Utfylling(props: IProps) {
       <Box padding="6" />
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => forrigeOnclickHandler()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => valider()}>{t("naviger.neste")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">
