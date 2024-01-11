@@ -7,7 +7,7 @@ import { hentPerson, hentPersonInfo } from "~/models/person";
 import { useTranslation } from "react-i18next";
 import { useLoaderData } from "@remix-run/react";
 import { Alert } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
@@ -63,7 +63,7 @@ export default function Etterregistrering() {
   const { feil, valgtMeldekort, personInfo, melekortApiUrl, minSideUrl } = useLoaderData<typeof loader>()
 
   if (feil || !valgtMeldekort || !personInfo) {
-    const innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
 
     return (
       <div>

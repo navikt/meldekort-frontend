@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import { Alert, BodyLong, Table, Tag } from "@navikt/ds-react";
 import type { ReactElement } from "react";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
@@ -48,16 +48,16 @@ export default function TidligereMeldekort() {
   let innhold: ReactElement
 
   if (feil) {
-    innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
   } else if (!historiskeMeldekort || historiskeMeldekort.length === 0) {
-    innhold = <Alert variant="warning">{formatHtmlMessage(t("tidligereMeldekort.harIngen"))}</Alert>
+    innhold = <Alert variant="warning">{parseHtml(t("tidligereMeldekort.harIngen"))}</Alert>
   } else {
     innhold = <div>
       <BodyLong spacing>
-        {formatHtmlMessage(t("tidligereMeldekort.forklaring"))}
+        {parseHtml(t("tidligereMeldekort.forklaring"))}
       </BodyLong>
       <BodyLong spacing>
-        {formatHtmlMessage(t("tidligereMeldekort.forklaring.korrigering"))}
+        {parseHtml(t("tidligereMeldekort.forklaring.korrigering"))}
       </BodyLong>
       <Table zebraStripes>
         <Table.Header>

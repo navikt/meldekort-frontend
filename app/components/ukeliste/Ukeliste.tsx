@@ -2,7 +2,7 @@ import type { IMeldekortDag } from "~/models/sporsmal";
 import { Label } from "@navikt/ds-react";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { TFunction } from "i18next";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import { useTranslation } from "react-i18next";
 import { ukeFormatert } from "~/utils/datoUtils";
 import styles from "./Ukeliste.module.css";
@@ -92,6 +92,6 @@ function hentDagsdata(dag: IMeldekortDag, ytelsestypePostfix: string, t: TFuncti
 function formaterDagsdata(utfyllingTekstid: string, forklaringTekstid: string, t: TFunction) {
   return <div key={utfyllingTekstid}>
     <Label>{t(utfyllingTekstid).toUpperCase()}</Label><br />
-    {formatHtmlMessage(t(forklaringTekstid))}<br /><br />
+    {parseHtml(t(forklaringTekstid))}<br /><br />
   </div>
 }

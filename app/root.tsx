@@ -10,7 +10,7 @@ import { useChangeLanguage } from "remix-i18next";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
 import { Alert } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 
@@ -84,7 +84,7 @@ export default function App() {
   // Hvis skrivemodus er hentet men ikke er true, vis infomelding
   // Ellers vis Outlet
   if (feil || skrivemodus?.skrivemodus !== true) {
-    let alert = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    let alert = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
 
     if (skrivemodus && skrivemodus.skrivemodus !== true) {
       // Hvis skrivemodues ikke er true:
@@ -95,7 +95,7 @@ export default function App() {
         melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
       }
 
-      alert = <Alert variant="info">{formatHtmlMessage(melding)}</Alert>
+      alert = <Alert variant="info">{parseHtml(melding)}</Alert>
     }
 
     innhold = <div>

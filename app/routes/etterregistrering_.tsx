@@ -7,7 +7,7 @@ import { hentPerson } from "~/models/person";
 import { useTranslation } from "react-i18next";
 import { useLoaderData } from "@remix-run/react";
 import { Alert, BodyLong, Box, Table } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import type { ReactElement } from "react";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { RemixLink } from "~/components/RemixLink";
@@ -42,13 +42,13 @@ export default function Etterregistrering() {
   let innhold: ReactElement
 
   if (feil || !person) {
-    innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
   } else {
     const nesteMeldekortId = person.etterregistrerteMeldekort[0].meldekortId
 
     innhold = <div>
       <BodyLong spacing>
-        {formatHtmlMessage(t("sendMeldekort.info.kanSende"))}
+        {parseHtml(t("sendMeldekort.info.kanSende"))}
       </BodyLong>
       <Table zebraStripes>
         <Table.Header>

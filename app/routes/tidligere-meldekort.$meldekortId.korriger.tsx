@@ -3,7 +3,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IMeldekort } from "~/models/meldekort";
@@ -80,7 +80,7 @@ export default function TidligereMeldekortKorrigering() {
   const { t } = useTranslation(fraDato)
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
-    const innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
 
     return (
       <div>

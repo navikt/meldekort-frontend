@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { Ytelsestype } from "~/models/ytelsestype";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
@@ -56,7 +56,7 @@ export default function Kvittering(props: IProps) {
   return (
     <div>
       <Alert variant="success">
-        {formatHtmlMessage(t("overskrift.meldekort.sendt"))}
+        {parseHtml(t("overskrift.meldekort.sendt"))}
       </Alert>
 
       <Box padding="4" />
@@ -64,7 +64,7 @@ export default function Kvittering(props: IProps) {
       {ytelsestypePostfix === Ytelsestype.DAGPENGER &&
           <div>
               <Alert variant="info">
-                {formatHtmlMessage(t("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
+                {parseHtml(t("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
               </Alert>
 
               <Box padding="4" />
@@ -78,7 +78,7 @@ export default function Kvittering(props: IProps) {
         {t("meldekort.for.perioden")} {t("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)} ({formaterPeriodeDato(fom, tom)})
       </BodyLong>
       <BodyLong size="large">
-        {formatHtmlMessage(
+        {parseHtml(
           t("sendt.mottatt.label"),
           [formaterDato(mottattDato), mottattDato.getHours() + ":" + mottattDato.getMinutes()]
         )}
@@ -86,7 +86,7 @@ export default function Kvittering(props: IProps) {
       {nesteDato && (
         <BodyLong size="large">
             <span>
-              {formatHtmlMessage(
+              {parseHtml(
                 t("sendt.meldekortKanSendes"),
                 [formaterDato(nesteDato)]
               )}

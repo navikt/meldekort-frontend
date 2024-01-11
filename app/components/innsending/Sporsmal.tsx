@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, GuidePanel, Radio, RadioGroup, Select } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import { Innsendingstype } from "~/models/innsendingstype";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useState } from "react";
@@ -94,9 +94,9 @@ export default function Sporsmal(props: IProps) {
   return (
     <div>
       <GuidePanel>
-        <Box>{formatHtmlMessage(t("sporsmal.lesVeiledning"))}</Box>
+        <Box>{parseHtml(t("sporsmal.lesVeiledning"))}</Box>
         <Box padding="2" />
-        <Box>{formatHtmlMessage(t("sporsmal.ansvarForRiktigUtfylling"))}</Box>
+        <Box>{parseHtml(t("sporsmal.ansvarForRiktigUtfylling"))}</Box>
       </GuidePanel>
 
       <Box padding="4" />
@@ -104,8 +104,8 @@ export default function Sporsmal(props: IProps) {
       {
         // Man må velge bregrunnelse hvis det er KORRIGERING
         innsendingstype === Innsendingstype.KORRIGERING && <div>
-              <Select label={formatHtmlMessage(t("korrigering.sporsmal.begrunnelse"))}
-                      description={<UtvidetInformasjon innhold={formatHtmlMessage(t("forklaring.sporsmal.begrunnelse"))} />}
+              <Select label={parseHtml(t("korrigering.sporsmal.begrunnelse"))}
+                      description={<UtvidetInformasjon innhold={parseHtml(t("forklaring.sporsmal.begrunnelse"))} />}
                       value={begrunnelse}
                       onChange={setValgtBegrunnelse}
                       error={!begrunnelse && visFeil && t("begrunnelse.required")}>
@@ -128,13 +128,13 @@ export default function Sporsmal(props: IProps) {
       {
         sporsmalConfig.map((item) => {
           const label = <div>
-            {formatHtmlMessage(t(item.sporsmal + ytelsestypePostfix))}
+            {parseHtml(t(item.sporsmal + ytelsestypePostfix))}
             {
               item.id === "arbeidssoker" ? <span> {nestePeriodeFormatertDato}?</span> : null
             }
           </div>
 
-          const desc = <UtvidetInformasjon innhold={formatHtmlMessage(t(item.forklaring + ytelsestypePostfix))} />
+          const desc = <UtvidetInformasjon innhold={parseHtml(t(item.forklaring + ytelsestypePostfix))} />
 
           let value = hentSvar(sporsmal, item.id)
           let disabled = false
@@ -157,8 +157,8 @@ export default function Sporsmal(props: IProps) {
                 disabled={disabled}
                 error={visFeil && hentSvar(sporsmal, item.id) === null && t(item.feilmeldingId)}
               >
-                <Radio value={true}>{formatHtmlMessage(t(item.ja + ytelsestypePostfix))}</Radio>
-                <Radio value={false}>{formatHtmlMessage(t(item.nei + ytelsestypePostfix))}</Radio>
+                <Radio value={true}>{parseHtml(t(item.ja + ytelsestypePostfix))}</Radio>
+                <Radio value={false}>{parseHtml(t(item.nei + ytelsestypePostfix))}</Radio>
               </RadioGroup>
 
               <Box padding="6" />

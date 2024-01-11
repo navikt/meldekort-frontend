@@ -3,7 +3,7 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { BodyLong, GuidePanel } from "@navikt/ds-react";
 import { useTranslation } from "react-i18next";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,7 +31,7 @@ export default function OmMeldekort() {
       </ul>
     </BodyLong>
     <BodyLong>
-      {formatHtmlMessage(t("genereltOmMeldekort.om.meldekort"),
+      {parseHtml(t("genereltOmMeldekort.om.meldekort"),
         [
           "https://www.nav.no",
           t("genereltOmMeldekort.informasjonOmMeldekortLink").trim()

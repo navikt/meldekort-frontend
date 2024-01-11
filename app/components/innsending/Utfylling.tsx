@@ -5,7 +5,7 @@ import { Accordion, Alert, Box, Button, Checkbox, Heading, TextField } from "@na
 import { RemixLink } from "~/components/RemixLink";
 import type { ISporsmal } from "~/models/sporsmal";
 import { ukeFormatert } from "~/utils/datoUtils";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
 import styles from "./Utfylling.module.css";
@@ -72,7 +72,7 @@ export default function Utfylling(props: IProps) {
         })
       }
       <div className={styles.arbeid}>
-        <UtvidetInformasjon innhold={formatHtmlMessage(t(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon innhold={parseHtml(t(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
       </div>
     </>
   }
@@ -95,7 +95,7 @@ export default function Utfylling(props: IProps) {
         })
       }
       <div className={styles[type]}>
-        <UtvidetInformasjon innhold={formatHtmlMessage(t(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon innhold={parseHtml(t(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
       </div>
     </>
   }
@@ -257,47 +257,47 @@ export default function Utfylling(props: IProps) {
               <ul>
                 {
                   feilIArbeid
-                    ? <li>{formatHtmlMessage(t("utfylling.mangler.arbeid"))}</li>
+                    ? <li>{parseHtml(t("utfylling.mangler.arbeid"))}</li>
                     : null
                 }
                 {
                   feilIKurs
-                    ? <li>{formatHtmlMessage(t("utfylling.mangler.tiltak"))}</li>
+                    ? <li>{parseHtml(t("utfylling.mangler.tiltak"))}</li>
                     : null
                 }
                 {
                   feilISyk
-                    ? <li>{formatHtmlMessage(t("utfylling.mangler.syk"))}</li>
+                    ? <li>{parseHtml(t("utfylling.mangler.syk"))}</li>
                     : null
                 }
                 {
                   feilIAnnetFravaer
-                    ? <li>{formatHtmlMessage(t("utfylling.mangler.ferieFravar"))}</li>
+                    ? <li>{parseHtml(t("utfylling.mangler.ferieFravar"))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimerHeleHalve
-                    ? <li>{formatHtmlMessage(t("arbeidTimer.heleEllerHalveTallValidator"))}</li>
+                    ? <li>{parseHtml(t("arbeidTimer.heleEllerHalveTallValidator"))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimer
-                    ? <li>{formatHtmlMessage(t("arbeidTimer.rangeValidator.range"))}</li>
+                    ? <li>{parseHtml(t("arbeidTimer.rangeValidator.range"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonSykArbeid
-                    ? <li>{formatHtmlMessage(t("arbeidTimer.kombinasjonSykArbeidValidator"))}</li>
+                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonSykArbeidValidator"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerArbeid
-                    ? <li>{formatHtmlMessage(t("arbeidTimer.kombinasjonFravaerArbeidValidator"))}</li>
+                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonFravaerArbeidValidator"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerSyk
-                    ? <li>{formatHtmlMessage(t("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
+                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
                     : null
                 }
               </ul>

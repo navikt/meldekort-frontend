@@ -6,7 +6,7 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
 import type { ReactElement } from "react";
 import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
@@ -71,7 +71,7 @@ export default function Meldekortdetaljer() {
   let innhold: ReactElement
 
   if (feil || !valgtMeldekort || !meldekortdetaljer) {
-    innhold = <Alert variant="error">{formatHtmlMessage(t("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
   } else {
     const fom = valgtMeldekort.meldeperiode.fra
     const tom = valgtMeldekort.meldeperiode.til

@@ -2,7 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import { useTranslation } from "react-i18next";
 import { Accordion } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import sporrende from "~/img/sporrende.svg"
 
@@ -24,7 +24,7 @@ export default function OfteStilteSporsmal() {
           {t("oss.sende.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {formatHtmlMessage(t("oss.sende.tekst"))}
+          {parseHtml(t("oss.sende.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="2">
@@ -32,7 +32,7 @@ export default function OfteStilteSporsmal() {
           {t("oss.frist.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {formatHtmlMessage(t("oss.frist.tekst"))}
+          {parseHtml(t("oss.frist.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="3">
@@ -40,7 +40,7 @@ export default function OfteStilteSporsmal() {
           {t("oss.korrigere.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {formatHtmlMessage(t("oss.korrigere.tekst"))}
+          {parseHtml(t("oss.korrigere.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="4">
@@ -48,7 +48,7 @@ export default function OfteStilteSporsmal() {
           {t("oss.pengene.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {formatHtmlMessage(t("oss.pengene.tekst"))}
+          {parseHtml(t("oss.pengene.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="5">
@@ -56,7 +56,7 @@ export default function OfteStilteSporsmal() {
           {t("oss.utbetalt.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {formatHtmlMessage(t("oss.utbetalt.tekst"))}
+          {parseHtml(t("oss.utbetalt.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
     </Accordion>

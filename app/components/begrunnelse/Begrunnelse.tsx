@@ -1,5 +1,5 @@
 import { Label } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 import { useTranslation } from "react-i18next";
@@ -14,8 +14,8 @@ export default function Begrunnelse(props: IProps) {
 
   return (
     <div key="begrunnelse" className={styles.begrunnelse}>
-      <Label>{formatHtmlMessage(t("korrigering.sporsmal.begrunnelse"))}</Label>
-      <UtvidetInformasjon innhold={formatHtmlMessage(t("forklaring.sporsmal.begrunnelse"))} />
+      <Label>{parseHtml(t("korrigering.sporsmal.begrunnelse"))}</Label>
+      <UtvidetInformasjon innhold={parseHtml(t("forklaring.sporsmal.begrunnelse"))} />
       <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} /> {props.begrunnelse}
     </div>
   )

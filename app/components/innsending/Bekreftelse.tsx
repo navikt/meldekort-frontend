@@ -8,7 +8,7 @@ import { useState } from "react";
 import type { IFravaerInnsending, IMeldekortdetaljerInnsending } from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending, sendInnMeldekort } from "~/models/meldekortdetaljerInnsending";
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
-import { formatHtmlMessage } from "~/utils/intlUtils";
+import { parseHtml } from "~/utils/intlUtils";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
@@ -109,8 +109,8 @@ export default function Bekreftelse(props: IProps) {
   return (
     <div>
       <Alert variant="warning">
-        {formatHtmlMessage(t("overskrift.steg3.info.ikkeSendt"))}
-        {formatHtmlMessage(t("overskrift.steg3.info.bekreftVerdier"))}
+        {parseHtml(t("overskrift.steg3.info.ikkeSendt"))}
+        {parseHtml(t("overskrift.steg3.info.bekreftVerdier"))}
       </Alert>
 
       <Box padding="4" />
@@ -131,7 +131,7 @@ export default function Bekreftelse(props: IProps) {
         onChange={() => setBekreftet((bekreftet) => !bekreftet)}
         error={!bekreftet && visFeil && t("utfylling.bekreft.feil")}
       >
-        {formatHtmlMessage(t("utfylling.bekreft"))}
+        {parseHtml(t("utfylling.bekreft"))}
       </ConfirmationPanel>
 
       <Box padding="6" />
