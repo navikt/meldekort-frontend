@@ -23,7 +23,7 @@ interface IProps {
 export default function Utfylling(props: IProps) {
   const { fom, sporsmal, setSporsmal, ytelsestypePostfix, meldegruppe, activeStep, setActiveStep } = props
 
-  const { t } = useTranslation(fom)
+  const { t } = useTranslation()
 
   const [visFeil, setVisFeil] = useState(false)
   const [feilDager, setFeilDager] = useState<string[]>([])

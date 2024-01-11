@@ -30,7 +30,7 @@ export default function Bekreftelse(props: IProps) {
   const fom = valgtMeldekort.meldeperiode.fra
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
 
-  const { t } = useTranslation(fom)
+  const { t } = useTranslation()
 
   const [bekreftet, setBekreftet] = useState(false)
   const [visFeil, setVisFeil] = useState(false)

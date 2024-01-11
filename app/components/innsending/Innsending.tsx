@@ -34,7 +34,7 @@ export default function Innsending(props: IProps) {
   const tom = valgtMeldekort.meldeperiode.til
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
 
-  const { t } = useTranslation(fom)
+  const { t } = useTranslation()
   const [begrunnelse, setBegrunnelse] = useState("")
   const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal)
 

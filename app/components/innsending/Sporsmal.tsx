@@ -36,7 +36,7 @@ export default function Sporsmal(props: IProps) {
     setActiveStep
   } = props
 
-  const { t } = useTranslation(fom)
+  const { t } = useTranslation()
 
   const [visFeil, setVisFeil] = useState(false)
 

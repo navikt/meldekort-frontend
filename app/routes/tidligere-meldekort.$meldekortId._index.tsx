@@ -66,7 +66,8 @@ export default function Meldekortdetaljer() {
   const { feil, valgtMeldekort, meldekortdetaljer } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
-  const { t } = useTranslation(fraDato)
+  const { i18n, t } = useTranslation(fraDato)
+  i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   let innhold: ReactElement
 

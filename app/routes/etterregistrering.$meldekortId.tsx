@@ -58,9 +58,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function Etterregistrering() {
-  const { t } = useTranslation()
-
   const { feil, valgtMeldekort, personInfo, melekortApiUrl, minSideUrl } = useLoaderData<typeof loader>()
+
+  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
+  const { i18n, t } = useTranslation(fraDato)
+  i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   if (feil || !valgtMeldekort || !personInfo) {
     const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>

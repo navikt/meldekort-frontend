@@ -36,7 +36,7 @@ export default function Kvittering(props: IProps) {
     sporsmal
   } = props
 
-  const { t } = useTranslation(fom)
+  const { t } = useTranslation()
 
   const mottattDato= new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
   const nesteDato = false // TODO: Finn neste dato hvis det ikke er ETTERREGISTRERING eller KORRIGERING

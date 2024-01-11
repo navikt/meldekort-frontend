@@ -77,7 +77,8 @@ export default function TidligereMeldekortKorrigering() {
   } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
-  const { t } = useTranslation(fraDato)
+  const { i18n, t } = useTranslation(fraDato)
+  i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
     const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
