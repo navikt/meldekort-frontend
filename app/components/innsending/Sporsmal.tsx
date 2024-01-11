@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Box, Button, GuidePanel, Radio, RadioGroup, Select } from "@navikt/ds-react";
+import { BodyLong, Box, Button, GuidePanel, Modal, Radio, RadioGroup, Select } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { nestePeriodeFormatert } from "~/utils/datoUtils";
@@ -41,6 +41,7 @@ export default function Sporsmal(props: IProps) {
   const [visFeil, setVisFeil] = useState(false)
 
   const begrunnelseObjekt = byggBegrunnelseObjekt(t("korriger.begrunnelse.valg"))
+  const ref = useRef<HTMLDialogElement>(null);
 
   const setValgtBegrunnelse = (event: ChangeEvent<HTMLSelectElement>) => {
     setBegrunnelse(event.target.value)
@@ -58,7 +59,7 @@ export default function Sporsmal(props: IProps) {
     setSporsmal(tmpSporsmal)
   }
 
-  const validerOgVidere = () => {
+  const validerOgVidere = (modalBekreftet: boolean = false) => {
     let feil = false
 
     // Begrunnelse må velges kun ved korrigering
@@ -82,6 +83,11 @@ export default function Sporsmal(props: IProps) {
       if (!sporsmal.kurs) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "kurs")
       if (!sporsmal.syk) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "syk")
       if (!sporsmal.annetFravaer) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "annetFravaer")
+
+      if (innsendingstype === Innsendingstype.INNSENDING && sporsmal.arbeidssoker === false && !modalBekreftet) {
+        ref.current?.showModal()
+        return;
+      }
 
       // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
       if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
@@ -166,6 +172,27 @@ export default function Sporsmal(props: IProps) {
           )
         })
       }
+
+      <Modal ref={ref} header={{
+        heading: t("sporsmal.bekreft"),
+        size: "small",
+        closeButton: false,
+      }}>
+        <Modal.Body>
+          <BodyLong spacing>{parseHtml(t("sporsmal.bekreftelse"))}</BodyLong>
+          <div className="buttons">
+            <Button type="button" variant="secondary" onClick={() => ref.current?.close()}>
+              {t("sporsmal.tilbakeEndre")}
+            </Button>
+            <Button type="button" variant="primary" onClick={() => {
+              ref.current?.close();
+              validerOgVidere(true);
+            }}>
+              {t("overskrift.bekreftOgFortsett")}
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
 
       <div className="buttons">
         <div />
