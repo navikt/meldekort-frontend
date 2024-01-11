@@ -19,6 +19,8 @@ import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;
+  nesteMeldekort: Number | undefined;
+  nesteEtterregistrerteMeldekort: Number | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
   melekortApiUrl: string;
@@ -28,7 +30,16 @@ interface IProps {
 export default function Innsending(props: IProps) {
   const [activeStep, setActiveStep] = useState(1)
 
-  const { innsendingstype, valgtMeldekort, sporsmal, melekortApiUrl, minSideUrl, personInfo } = props
+  const {
+    innsendingstype,
+    valgtMeldekort,
+    sporsmal,
+    melekortApiUrl,
+    minSideUrl,
+    personInfo,
+    nesteMeldekort,
+    nesteEtterregistrerteMeldekort
+  } = props
 
   const fom = valgtMeldekort.meldeperiode.fra
   const tom = valgtMeldekort.meldeperiode.til
@@ -83,7 +94,9 @@ export default function Innsending(props: IProps) {
                           fom={fom}
                           tom={tom}
                           begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
-                          sporsmal={nyeSporsmal} />
+                          sporsmal={nyeSporsmal}
+                          nesteMeldekort={nesteMeldekort}
+                          nesteEtterregistrerteMeldekort={nesteEtterregistrerteMeldekort} />
   }
 
   return (

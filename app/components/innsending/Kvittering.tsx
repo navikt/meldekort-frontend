@@ -12,6 +12,7 @@ import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "
 import type { IPersonInfo } from "~/models/person";
 import { NavLink } from "@remix-run/react";
 import { Innsendingstype } from "~/models/innsendingstype";
+import { format } from "date-fns";
 
 interface IProps {
   minSideUrl: string;
@@ -22,6 +23,8 @@ interface IProps {
   tom: string;
   begrunnelse: string;
   sporsmal: ISporsmal;
+  nesteMeldekort: Number | undefined;
+  nesteEtterregistrerteMeldekort: Number | undefined;
 }
 
 export default function Kvittering(props: IProps) {
@@ -33,24 +36,36 @@ export default function Kvittering(props: IProps) {
     fom,
     tom,
     begrunnelse,
-    sporsmal
+    sporsmal,
+    nesteMeldekort,
+    nesteEtterregistrerteMeldekort
   } = props
 
   const { t } = useTranslation()
 
-  const mottattDato= new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
+  const mottattDato = new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
   const nesteDato = false // TODO: Finn neste dato hvis det ikke er ETTERREGISTRERING eller KORRIGERING
 
-  // TODO: Finn neste URL når INNSENDING eller ETTERREGISTRERING
+  const createButton = (to: string, text: string) => {
+    return <Button variant="primary" onClick={() => {location.href=to}}>{text}</Button>
+  }
+
   let nesteLink = <NavLink to={minSideUrl}>{t("tilbake.minSide")}</NavLink>
+  const mLink = createButton(`/send-meldekort/${nesteMeldekort}`, t("overskrift.etterregistrertMeldekort"))
+  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekort}`, t("overskrift.etterregistrertMeldekort"))
+
   if (innsendingstype === Innsendingstype.INNSENDING) {
-    // harBrukerFlereMeldekort ? nesteMeldekort
-    // harBrukerFlereEtterregistrerteMeldekort ? nesteEtterregistrering
-    nesteLink = <RemixLink as="Button" variant="primary" to="">{t("overskrift.nesteMeldekort")}</RemixLink>
+    if (nesteMeldekort) {
+      nesteLink = mLink
+    } else if (nesteEtterregistrerteMeldekort) {
+      nesteLink = eLink
+    }
   } else if (innsendingstype === Innsendingstype.ETTERREGISTRERING) {
-    // harBrukerFlereEtterregistrerteMeldekort ? nesteEtterregistrering
-    // harBrukerFlereMeldekort ? nesteMeldekort
-    nesteLink = <RemixLink as="Button" variant="primary" to="">{t("overskrift.etterregistrertMeldekort")}</RemixLink>
+    if (nesteEtterregistrerteMeldekort) {
+      nesteLink = eLink
+    } else if (nesteMeldekort) {
+      nesteLink = mLink
+    }
   }
 
   return (
@@ -80,7 +95,7 @@ export default function Kvittering(props: IProps) {
       <BodyLong size="large">
         {parseHtml(
           t("sendt.mottatt.label"),
-          [formaterDato(mottattDato), mottattDato.getHours() + ":" + mottattDato.getMinutes()]
+          [formaterDato(mottattDato), format(mottattDato, "HH:mm")]
         )}
       </BodyLong>
       {nesteDato && (
