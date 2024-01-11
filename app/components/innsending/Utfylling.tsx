@@ -227,7 +227,7 @@ export default function Utfylling(props: IProps) {
     }
     if (sporsmal.kurs && !kurs) {
       setFeilIKurs(true)
-      for (let i = 1; i <= 14; i++) feilDager.push("tiltak" + i)
+      for (let i = 1; i <= 14; i++) feilDager.push("kurs" + i)
     }
     if (sporsmal.syk && !syk) {
       setFeilISyk(true)
