@@ -1,0 +1,54 @@
+apiVersion: nais.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ appName }}{{ dashEnv }}
+  namespace: meldekort
+  labels:
+    team: meldekort
+spec:
+  image: {{image}}
+  port: 8080
+  secureLogs:
+    enabled: true
+  ingresses:
+  {{#each ingresses as |url|}}
+     - {{url}}
+  {{/each}}
+  liveness:
+    path: /meldekort/internal/isAlive
+    initialDelay: 10
+  readiness:
+    path: /meldekort/internal/isReady
+    initialDelay: 10
+  prometheus:
+    enabled: true
+    path: /meldekort/internal/metrics
+  replicas:
+    min: 2
+    max: 4
+  webproxy: true
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
+  envFrom:
+    - secret: {{ appName }}{{ dashEnv }}
+  env:
+    - name: DEKORATOR_MILJO
+      value: "{{ dekoratorMiljo }}"
+    - name: MELDEKORT_API_URL
+      value: "{{ meldekortApiUrl }}"
+    - name: LOGIN_URL
+      value: "{{ loginUrl }}"
+    - name: LOGOUT_URL
+      value: "{{ logoutUrl }}"
+    - name: MIN_SIDE_URL
+      value: "{{ minSideUrl }}"
+  accessPolicy:
+    outbound:
+      rules:
+        - application: meldekort-api{{ dashEnv }}
+        - application: nav-dekoratoren
+          namespace: personbruker

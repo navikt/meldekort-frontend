@@ -1,0 +1,8 @@
+dashEnv: -q1
+ingresses:
+  - "https://meldekort-frontend-q1.intern.dev.nav.no"
+dekoratorMiljo: "dev"
+meldekortApiUrl: "https://meldekort-api-q1.intern.dev.nav.no/meldekort/meldekort-api/api"
+loginUrl: "https://meldekort-api-q1.intern.dev.nav.no/oauth2/login",
+logoutUrl: "https://meldekort-api-q1.intern.dev.nav.no/oauth2/logout"
+minSideUrl: "https://www.intern.dev.nav.no/minside/"
