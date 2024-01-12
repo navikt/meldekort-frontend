@@ -1,6 +1,19 @@
 name: Build and deploy
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Miljø'
+        required: true
+        default: 'q2'
+        type: choice
+        options:
+          - q1
+          - q2
 
 jobs:
   install:
