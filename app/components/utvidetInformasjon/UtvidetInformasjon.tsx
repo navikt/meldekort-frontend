@@ -32,7 +32,7 @@ export default function UtvidetInformasjon(props: IProps) {
   } else {
     return (
       <div>
-        <Link href="#" className={styles.link} onClick={clickHandler}>
+        <Link href="#" onClick={clickHandler}>
           {t("veiledning.les")}
           <ChevronDownIcon />
         </Link>

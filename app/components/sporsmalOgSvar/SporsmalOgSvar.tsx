@@ -1,7 +1,7 @@
 import type { ISporsmal, ISporsmalOgSvar } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { nestePeriodeFormatert } from "~/utils/datoUtils";
-import { Label } from "@navikt/ds-react";
+import { Box, Label } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
@@ -39,12 +39,13 @@ export default function SporsmalOgSvar(props: IProps) {
           {item.formatertDato ? <span>{item.formatertDato}?</span> : null}
         </Label>
         <UtvidetInformasjon innhold={parseHtml(t(item.forklaring))} />
-        <div>
+        <Box paddingBlock="1">
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />
+          &nbsp;
           {
             item.svar ? parseHtml(t("diverse.ja")) : parseHtml(t("diverse.nei"))
           }
-        </div>
+        </Box>
       </div>
     )
   })

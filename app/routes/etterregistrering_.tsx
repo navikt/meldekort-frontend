@@ -6,7 +6,7 @@ import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
 import { useTranslation } from "react-i18next";
 import { useLoaderData } from "@remix-run/react";
-import { Alert, BodyLong, Box, Table } from "@navikt/ds-react";
+import { Alert, BodyLong, Table } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import type { ReactElement } from "react";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
@@ -72,8 +72,6 @@ export default function Etterregistrering() {
           })}
         </Table.Body>
       </Table>
-
-      <Box padding="6" />
 
       <div className="buttons">
         <div />

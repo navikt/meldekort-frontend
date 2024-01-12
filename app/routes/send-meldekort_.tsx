@@ -81,8 +81,6 @@ export default function SendMeldekort() {
         <div>{parseHtml(t("sendMeldekort.info.automatiskLedet"))}</div>
       </Box>
 
-      <Box padding="6" />
-
       <div className="buttons">
         <div />
         <RemixLink as="Button" variant="primary" to={`/send-meldekort/${nesteMeldekortId}`}>

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { Accordion, Alert, Box, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
+import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import type { ISporsmal } from "~/models/sporsmal";
 import { ukeFormatert } from "~/utils/datoUtils";
@@ -307,8 +307,6 @@ export default function Utfylling(props: IProps) {
         {opprettUke(0)}
         {opprettUke(7)}
       </Accordion>
-
-      <Box padding="6" />
 
       <div className="buttons">
         <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>

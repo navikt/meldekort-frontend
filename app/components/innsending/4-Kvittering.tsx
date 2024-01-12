@@ -121,8 +121,6 @@ export default function Kvittering(props: IProps) {
 
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
-      <Box padding="6" />
-
       <div className="buttons">
         <RemixLink as="Button" variant="secondary" to="/tidligere-meldekort">
           {t("sendt.linkTilTidligereMeldekort")}

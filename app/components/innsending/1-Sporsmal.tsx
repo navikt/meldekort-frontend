@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { BodyLong, Box, Button, GuidePanel, Modal, Radio, RadioGroup, Select } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, Button, GuidePanel, Modal, Radio, RadioGroup, Select } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { parseHtml } from "~/utils/intlUtils";
@@ -105,11 +105,11 @@ export default function Sporsmal(props: IProps) {
         <Box>{parseHtml(t("sporsmal.ansvarForRiktigUtfylling"))}</Box>
       </GuidePanel>
 
-      <Box padding="4" />
-
       {
         // Man må velge bregrunnelse hvis det er KORRIGERING
         innsendingstype === Innsendingstype.KORRIGERING && <div>
+              <Box padding="4" />
+
               <Select label={parseHtml(t("korrigering.sporsmal.begrunnelse"))}
                       description={<UtvidetInformasjon innhold={parseHtml(t("forklaring.sporsmal.begrunnelse"))} />}
                       value={begrunnelse}
@@ -126,8 +126,6 @@ export default function Sporsmal(props: IProps) {
                   ))
                 }
               </Select>
-
-              <Box padding="4" />
           </div>
       }
 
@@ -155,6 +153,8 @@ export default function Sporsmal(props: IProps) {
 
           return (
             <div key={item.sporsmal}>
+              <Box padding="4" />
+
               <RadioGroup
                 legend={label}
                 description={desc}
@@ -166,11 +166,16 @@ export default function Sporsmal(props: IProps) {
                 <Radio value={true}>{parseHtml(t(item.ja + ytelsestypePostfix))}</Radio>
                 <Radio value={false}>{parseHtml(t(item.nei + ytelsestypePostfix))}</Radio>
               </RadioGroup>
-
-              <Box padding="6" />
             </div>
           )
         })
+      }
+
+      {
+        innsendingstype === Innsendingstype.INNSENDING &&
+          <Alert variant="warning">
+            {parseHtml(t("sporsmal.registrertMerknad"))}
+          </Alert>
       }
 
       <Modal ref={ref} header={{
@@ -179,7 +184,7 @@ export default function Sporsmal(props: IProps) {
         closeButton: false,
       }}>
         <Modal.Body>
-          <BodyLong spacing>{parseHtml(t("sporsmal.bekreftelse"))}</BodyLong>
+          <BodyLong>{parseHtml(t("sporsmal.bekreftelse"))}</BodyLong>
           <div className="buttons">
             <Button type="button" variant="secondary" onClick={() => ref.current?.close()}>
               {t("sporsmal.tilbakeEndre")}

@@ -115,7 +115,9 @@ export default function Bekreftelse(props: IProps) {
 
       <Box padding="4" />
 
-      <Begrunnelse begrunnelse={begrunnelse} />
+      {
+        innsendingstype === Innsendingstype.KORRIGERING && <Begrunnelse begrunnelse={begrunnelse} />
+      }
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />
 
@@ -133,8 +135,6 @@ export default function Bekreftelse(props: IProps) {
       >
         {parseHtml(t("utfylling.bekreft"))}
       </ConfirmationPanel>
-
-      <Box padding="6" />
 
       <div className="buttons">
         <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
