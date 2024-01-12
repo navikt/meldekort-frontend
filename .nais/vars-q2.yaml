@@ -1,6 +1,6 @@
 dashEnv: -q2
 ingresses:
-  - "https://meldekort-frontend-q2.intern.dev.nav.no"
+  - "https://meldekort-frontend-new-q2.intern.dev.nav.no"
 dekoratorMiljo: "dev"
 meldekortApiUrl: "https://meldekort-api-q2.intern.dev.nav.no/meldekort/meldekort-api/api"
 loginUrl: "https://meldekort-api-q2.intern.dev.nav.no/oauth2/login",
