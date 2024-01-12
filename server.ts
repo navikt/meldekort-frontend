@@ -2,6 +2,7 @@ import * as path from "node:path";
 import express from "express";
 import compression from "compression";
 import morgan from "morgan";
+import promBundle from "express-prom-bundle";
 import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
@@ -47,6 +48,13 @@ app.use(express.static("public", { maxAge: "1h" }));
 app.use(morgan("tiny"));
 
 app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
+
+app.use(
+  promBundle({
+    metricsPath: `${basePath}/internal/metrics`,
+    buckets: [0.1, 0.5, 1, 1.5],
+  })
+);
 
 // This is used when we test the app locally
 app.get("/api/tekst/hentAlle", (_, res) => res.send("{}"))
