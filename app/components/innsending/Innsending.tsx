@@ -1,7 +1,3 @@
-import Sporsmal from "~/components/innsending/Sporsmal";
-import Utfylling from "~/components/innsending/Utfylling";
-import Bekreftelse from "~/components/innsending/Bekreftelse";
-import Kvittering from "~/components/innsending/Kvittering";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { Innsendingstype } from "~/models/innsendingstype";
@@ -14,6 +10,10 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import type { ISporsmal } from "~/models/sporsmal";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import Sporsmal from "~/components/innsending/1-Sporsmal";
+import Utfylling from "~/components/innsending/2-Utfylling";
+import Bekreftelse from "~/components/innsending/3-Bekreftelse";
+import Kvittering from "~/components/innsending/4-Kvittering";
 import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 
 interface IProps {

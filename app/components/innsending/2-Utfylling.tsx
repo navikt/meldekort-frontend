@@ -8,7 +8,7 @@ import { ukeFormatert } from "~/utils/datoUtils";
 import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
-import styles from "./Utfylling.module.css";
+import styles from "./Innsending.module.css";
 
 interface IProps {
   sporsmal: ISporsmal;
