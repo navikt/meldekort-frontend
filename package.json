@@ -4,8 +4,9 @@
   "sideEffects": false,
   "type": "commonjs",
   "scripts": {
-    "build": "remix build",
-    "dev": "remix dev -c \"ts-node ./server.ts\" --manual",
+    "build": "remix build && npm run build:server",
+    "build:server": "tsc --project server/tsconfig.json",
+    "dev": "remix dev -c \"ts-node ./server/server.ts\" --manual",
     "start": "cross-env NODE_ENV=production ts-node ./server.js",
     "test": "",
     "test-coverage": "",
