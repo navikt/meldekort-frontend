@@ -18,7 +18,7 @@ const BUILD_PATH = path.resolve("./build/index.js");
 const WATCH_PATH = path.resolve("./build/version.txt");
 
 const basePath = "/meldekort";
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 
 /**
  * Initial build

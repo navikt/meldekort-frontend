@@ -5,7 +5,7 @@ export async function hentDekoratorHtml() {
 
   const config: DecoratorFetchProps = {
     env: (process.env.DEKORATOR_MILJO ?? "localhost") as DecoratorEnvProps["env"],
-    localUrl: "http://localhost:4000/dekorator",
+    localUrl: "http://localhost:8080/dekorator",
     params: {
       simple: false,
       feedback: false,
