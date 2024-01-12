@@ -3,7 +3,7 @@ name: Build and deploy
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
   workflow_dispatch:
     inputs:
       environment:
@@ -81,7 +81,7 @@ jobs:
         uses: nais/docker-build-push@v0
         id: docker-build-push
         with:
-          team: teamdagpenger
+          team: meldekort
           push_image: true # optional, default true
           dockerfile: Dockerfile # optional, default Dockerfile
           docker_context: . # optional, default .
@@ -117,7 +117,7 @@ jobs:
       - name: Upload static files
         uses: navikt/frontend/actions/cdn-upload/v1@main
         with:
-          cdn-team-name: teamdagpenger
+          cdn-team-name: meldekort
           source: ./public
           destination: "/meldekort-frontend/"
 
