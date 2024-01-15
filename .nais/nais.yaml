@@ -15,14 +15,14 @@ spec:
      - {{url}}
   {{/each}}
   liveness:
-    path: /meldekort/internal/isAlive
+    path: /internal/isAlive
     initialDelay: 10
   readiness:
-    path: /meldekort/internal/isReady
+    path: /internal/isReady
     initialDelay: 10
   prometheus:
     enabled: true
-    path: /meldekort/internal/metrics
+    path: /internal/metrics
   replicas:
     min: 2
     max: 4

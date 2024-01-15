@@ -17,7 +17,6 @@ sourceMapSupport.install();
 const BUILD_PATH = path.resolve("./build/index.js");
 const WATCH_PATH = path.resolve("./build/version.txt");
 
-const basePath = "/meldekort";
 const port = process.env.PORT || 8080;
 
 /**
@@ -47,11 +46,11 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
-app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
+app.get(`/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
 app.use(
   promBundle({
-    metricsPath: `${basePath}/internal/metrics`,
+    metricsPath: `/internal/metrics`,
     buckets: [0.1, 0.5, 1, 1.5],
   })
 );
