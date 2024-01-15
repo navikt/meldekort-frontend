@@ -33,8 +33,6 @@ spec:
     requests:
       cpu: 500m
       memory: 128Mi
-  envFrom:
-    - secret: {{ appName }}{{ dashEnv }}
   env:
     - name: DEKORATOR_MILJO
       value: "{{ dekoratorMiljo }}"
@@ -52,3 +50,9 @@ spec:
         - application: meldekort-api{{ dashEnv }}
         - application: nav-dekoratoren
           namespace: personbruker
+  idporten:
+    enabled: true
+    sidecar:
+      enabled: true
+      level: Level3
+      autoLogin: false

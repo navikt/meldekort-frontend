@@ -4,6 +4,4 @@ ingresses:
   - "https://www.nav.no/meldekort"
 dekoratorMiljo: "prod"
 meldekortApiUrl: "https://meldekort-api.nav.no/meldekort/meldekort-api/api"
-loginUrl: "https://meldekort-api.nav.no/oauth2/login"
-logoutUrl: "https://meldekort-api.nav.no/oauth2/logout"
 minSideUrl: "https://www.nav.no/minside/"

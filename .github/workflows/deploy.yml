@@ -15,6 +15,10 @@ on:
           - q1
           - q2
 
+env:
+  APPNAME: meldekort-frontend-new
+  ENVIRONMENT: ${{ github.event.inputs.environment }}
+
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -125,12 +129,15 @@ jobs:
     needs: [build, test, upload-cdn]
     runs-on: ubuntu-latest
     steps:
+      - name: Set default environment for push to main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: echo "ENVIRONMENT=q2" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2
         env:
-          VAR: image=${{ needs.build.outputs.image }}
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
+          VAR: image=${{ needs.build.outputs.image }},appName=${{ env.APPNAME }}
+          VARS: .nais/vars-${{ env.ENVIRONMENT }}.yaml
           RESOURCE: .nais/nais.yaml
-          VARS: .nais/vars-q1.yaml
           PRINT_PAYLOAD: true
