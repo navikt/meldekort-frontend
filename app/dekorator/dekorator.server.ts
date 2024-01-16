@@ -11,7 +11,7 @@ export async function hentDekoratorHtml() {
       feedback: false,
       chatbot: false,
       shareScreen: true,
-      enforceLogin: true,
+      enforceLogin: false,
       logoutWarning: true,
     },
   };

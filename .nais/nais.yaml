@@ -55,4 +55,6 @@ spec:
     sidecar:
       enabled: true
       level: Level3
-      autoLogin: false
+      autoLogin: true
+  tokenx:
+    enabled: true
