@@ -7,10 +7,12 @@
     "build": "remix build && npm run build:server",
     "build:server": "tsc --project server/tsconfig.json",
     "dev": "remix dev -c \"ts-node ./server/server.ts\" --manual",
-    "start": "cross-env NODE_ENV=production ts-node ./server.js",
+    "start": "cross-env NODE_ENV=production ts-node ./server/server.js",
+    "lint": "eslint . --ext .ts,.tsx",
+    "validate": "npm run lint && tsc",
     "test": "",
     "test-coverage": "",
-    "typecheck": "tsc"
+    "typecheck": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "@navikt/ds-css": "^5.11.3",
