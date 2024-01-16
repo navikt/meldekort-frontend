@@ -6,6 +6,7 @@ import promBundle from "express-prom-bundle";
 import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
+import { getEnv } from "../app/utils/envUtils";
 
 // Patch in Remix runtime globals
 installGlobals();
@@ -79,7 +80,7 @@ app.get("/locales/:sprak/:fraDato.json", (req, res) => {
     const feilmelding = (sprak === "nb") ? "Noe gikk galt" : "Something went wrong"
 
     fetch(
-      `http://localhost:8801/meldekort/meldekort-api/api/tekst/hentAlle?sprak=${sprak}&fraDato=${fraDato}`,
+      `${getEnv("MELDEKORT_API_URL")}/tekst/hentAlle?sprak=${sprak}&fraDato=${fraDato}`,
       {
         method: "GET"
       })
