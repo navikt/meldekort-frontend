@@ -3,5 +3,6 @@ ingresses:
   - "https://meldekort-frontend.nav.no"
   - "https://www.nav.no/meldekort"
 dekoratorMiljo: "prod"
+meldekortApiAudience: "prod-gcp:meldekort:meldekort-api"
 meldekortApiUrl: "https://meldekort-api.nav.no/meldekort/meldekort-api/api"
 minSideUrl: "https://www.nav.no/minside/"

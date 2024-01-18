@@ -2,5 +2,6 @@ dashEnv: -q2
 ingresses:
   - "https://meldekort-frontend-new-q2.intern.dev.nav.no"
 dekoratorMiljo: "dev"
+meldekortApiAudience: "dev-gcp:meldekort:meldekort-api-q2"
 meldekortApiUrl: "https://meldekort-api-q2.intern.dev.nav.no/meldekort/meldekort-api/api"
 minSideUrl: "https://www.intern.dev.nav.no/minside/"

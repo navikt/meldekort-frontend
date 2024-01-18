@@ -26,7 +26,6 @@ spec:
   replicas:
     min: 2
     max: 4
-  webproxy: true
   resources:
     limits:
       memory: 256Mi
@@ -36,12 +35,10 @@ spec:
   env:
     - name: DEKORATOR_MILJO
       value: "{{ dekoratorMiljo }}"
+    - name: MELDEKORT_API_AUDIENCE
+      value: "{{ meldekortApiAudience }}"
     - name: MELDEKORT_API_URL
       value: "{{ meldekortApiUrl }}"
-    - name: LOGIN_URL
-      value: "{{ loginUrl }}"
-    - name: LOGOUT_URL
-      value: "{{ logoutUrl }}"
     - name: MIN_SIDE_URL
       value: "{{ minSideUrl }}"
   accessPolicy:

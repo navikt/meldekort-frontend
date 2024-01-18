@@ -9,9 +9,8 @@ interface IEnv {
   PORT: string;
   BASE_PATH: string;
   DEKORATOR_MILJO: string;
+  MELDEKORT_API_AUDIENCE: string;
   MELDEKORT_API_URL: string;
-  LOGIN_URL: string;
-  LOGOUT_URL: string;
   MIN_SIDE_URL: string;
 }
 
