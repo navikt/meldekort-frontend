@@ -15,6 +15,7 @@
     "typecheck": "tsc --project tsconfig.json"
   },
   "dependencies": {
+    "@navikt/dp-auth": "^0.3.17",
     "@navikt/ds-css": "^5.11.3",
     "@navikt/ds-react": "^5.11.3",
     "@navikt/nav-dekoratoren-moduler": "^2.1.4",

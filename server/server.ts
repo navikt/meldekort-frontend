@@ -6,6 +6,7 @@ import promBundle from "express-prom-bundle";
 import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
+import { tokenX } from "@navikt/dp-auth/obo-providers";
 
 // Patch in Remix runtime globals
 installGlobals();
@@ -72,21 +73,44 @@ app.get("/dekorator", (_, res) => res.send("" +
   "}"
 ))
 
-app.get("/locales/:sprak/:fraDato.json", (req, res) => {
+app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
     const sprak = req.params["sprak"] || "nb"
     const fraDato = req.params["fraDato"] || "1000-01-01"
 
     const feilmelding = (sprak === "nb") ? "Noe gikk galt" : "Something went wrong"
 
+    let token = req.headers.authorization || ""
+    token = token.substring(7) // Ta alt etter "Bearer "
+
+    let onBehalfOfToken = ""
+    // Det er ingen vits i å hente ObO Token når token er tom
+    if (token) {
+      try {
+        onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     fetch(
       `${process.env.MELDEKORT_API_URL}/tekst/hentAlle?sprak=${sprak}&fraDato=${fraDato}`,
       {
-        method: "GET"
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "TokenXAuthorization": `Bearer ${onBehalfOfToken}`
+        }
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status >= 400) {
+          throw new Error(`Unexpected response status ${response.status} ${response.statusText} for ${response.url}`)
+        }
+
+        return response.json()
+      })
       .then(json => res.send(json))
       .catch(err => {
-        console.error('Error:' + err)
+        console.error(err)
         res.send({ "feilmelding.baksystem": feilmelding })
       })
   }
