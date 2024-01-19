@@ -15,6 +15,7 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import Innsending from "~/components/innsending/Innsending";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { getOboToken } from "~/utils/authUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,7 +24,7 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false
   let historiskeMeldekort: IMeldekort[] | null = null
   let meldekortdetaljer: IMeldekortdetaljer | null = null
@@ -37,9 +38,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (!meldekortId) {
     feil = true
   } else {
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort()
-    const meldekortdetaljerResponse = await hentMeldekortdetaljer(meldekortId)
-    const personInfoResponse = await hentPersonInfo()
+    const onBehalfOfToken = await getOboToken(request);
+    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
+    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId)
+    const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
 
     if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok) {
       feil = true

@@ -13,6 +13,7 @@ import { Alert } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { getOboToken } from "~/utils/authUtils";
 
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
@@ -50,9 +51,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
   let skrivemodus: ISkrivemodus | null = null;
 
+  const onBehalfOfToken = await getOboToken(request);
+
   const fragments = await hentDekoratorHtml();
   const locale = await i18next.getLocale(request);
-  const skrivemodusResponse = await hentSkrivemodus();
+  const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
   if (!skrivemodusResponse.ok) {
     feil = true

@@ -1,4 +1,5 @@
 import { getEnv } from "~/utils/envUtils";
+import { getHeaders } from "~/utils/fetchUtils";
 
 export interface ISkrivemodus {
   skrivemodus: boolean;
@@ -10,12 +11,13 @@ export interface IInfomelding {
   engelsk: string;
 }
 
-export async function hentSkrivemodus(): Promise<Response> {
+export async function hentSkrivemodus(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/skrivemodus`;
 
   try {
     return await fetch(url, {
-      method: "GET"
+      method: "GET",
+      headers: getHeaders(onBehalfOfToken)
     });
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });

@@ -95,7 +95,9 @@ export default function Bekreftelse(props: IProps) {
         signatur: true, // Vi sender ikke uten brukerens samtykke
         sporsmalsobjekter: []
       }
-      sendInnMeldekort(melekortApiUrl, meldekortdetaljer)
+
+      const onBehalfOfToken = ""
+      sendInnMeldekort(onBehalfOfToken, melekortApiUrl, meldekortdetaljer)
         .then(response => {
           if (response.ok) setActiveStep(activeStep + 1)
           else {

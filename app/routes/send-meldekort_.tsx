@@ -1,4 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
@@ -10,7 +11,7 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 import { RemixLink } from "~/components/RemixLink";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
-import { json } from "@remix-run/node";
+import { getOboToken } from "~/utils/authUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,11 +20,12 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false
   let person: IPerson | null = null
 
-  const personResponse = await hentPerson();
+  const onBehalfOfToken = await getOboToken(request);
+  const personResponse = await hentPerson(onBehalfOfToken);
 
   if (!personResponse.ok) {
     feil = true

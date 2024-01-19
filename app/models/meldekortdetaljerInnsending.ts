@@ -3,6 +3,7 @@ import type { KortStatus } from "~/models/meldekort";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldeperiode } from "~/models/meldeperiode";
+import { getHeaders } from "~/utils/fetchUtils";
 
 export interface IMeldekortdetaljerInnsending {
   meldekortId: number;
@@ -44,14 +45,12 @@ export interface ISporsmalsobjekt {
 }
 
 
-export async function sendInnMeldekort(melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
+export async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
   try {
     return await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: getHeaders(onBehalfOfToken),
       body: JSON.stringify(meldekortdetaljer)
     });
   } catch (err) {

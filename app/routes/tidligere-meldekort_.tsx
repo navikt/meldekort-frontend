@@ -1,5 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, LoaderFunctionArgs } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { formaterBelop } from "~/utils/miscUtils";
 import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import { NavLink, useLoaderData } from "@remix-run/react";
+import { getOboToken } from "~/utils/authUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -20,11 +21,12 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
   let historiskeMeldekort: IMeldekort[] | null = null;
 
-  const historiskeMeldekortResponse = await hentHistoriskeMeldekort();
+  const onBehalfOfToken = await getOboToken(request);
+  const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
 
   if (!historiskeMeldekortResponse.ok) {
     feil = true

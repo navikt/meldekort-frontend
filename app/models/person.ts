@@ -1,5 +1,6 @@
 import { getEnv } from "~/utils/envUtils";
 import type { IMeldekort } from "~/models/meldekort";
+import { getHeaders } from "~/utils/fetchUtils";
 
 export interface IPerson {
   maalformkode: string;
@@ -39,12 +40,13 @@ export interface IPersonInfo {
   fornavn: string;
 }
 
-export async function hentPerson(): Promise<Response> {
+export async function hentPerson(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/meldekort`; // Ja, URLen er litt rar her
 
   try {
     return await fetch(url, {
-      method: "GET"
+      method: "GET",
+      headers: getHeaders(onBehalfOfToken)
     });
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
@@ -53,12 +55,13 @@ export async function hentPerson(): Promise<Response> {
   }
 }
 
-export async function hentPersonInfo(): Promise<Response> {
+export async function hentPersonInfo(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/info`;
 
   try {
     return await fetch(url, {
-      method: "GET"
+      method: "GET",
+      headers:getHeaders(onBehalfOfToken)
     });
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });

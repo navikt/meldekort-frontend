@@ -2,6 +2,7 @@ import type { KortType } from "~/models/kortType";
 import type { IMeldeperiode } from "~/models/meldeperiode";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import { getEnv } from "~/utils/envUtils";
+import { getHeaders } from "~/utils/fetchUtils";
 
 export interface IMeldekort {
   meldekortId: number;
@@ -34,12 +35,13 @@ export enum KortStatus {
   UBEHA = "UBEHA"
 }
 
-export async function hentHistoriskeMeldekort(): Promise<Response> {
+export async function hentHistoriskeMeldekort(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/historiskemeldekort`;
 
   try {
     return await fetch(url, {
-      method: "GET"
+      method: "GET",
+      headers: getHeaders(onBehalfOfToken)
     });
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });

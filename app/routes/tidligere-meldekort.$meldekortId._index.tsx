@@ -25,6 +25,7 @@ import {
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
+import { getOboToken } from "~/utils/authUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -33,7 +34,7 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false
   let historiskeMeldekort: IMeldekort[] | null = null
   let meldekortdetaljer: IMeldekortdetaljer | null = null
@@ -46,8 +47,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (!meldekortId) {
     feil = true
   } else {
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort()
-    const meldekortdetaljerResponse = await hentMeldekortdetaljer(meldekortId)
+    const onBehalfOfToken = await getOboToken(request);
+    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
+    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId)
 
     if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok) {
       feil = true

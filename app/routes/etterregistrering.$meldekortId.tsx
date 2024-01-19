@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -14,6 +14,7 @@ import type { IMeldekort } from "~/models/meldekort";
 import { getEnv } from "~/utils/envUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
+import { getOboToken } from "~/utils/authUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,7 +23,7 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false
   let person: IPerson | null = null
   let personInfo: IPersonInfo | null = null
@@ -37,8 +38,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (!meldekortId) {
     feil = true
   } else {
-    const personResponse = await hentPerson()
-    const personInfoResponse = await hentPersonInfo()
+    const onBehalfOfToken = await getOboToken(request);
+    const personResponse = await hentPerson(onBehalfOfToken)
+    const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
 
     if (!personResponse.ok || !personInfoResponse.ok) {
       feil = true
