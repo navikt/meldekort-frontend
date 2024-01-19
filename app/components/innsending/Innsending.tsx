@@ -19,8 +19,8 @@ import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;
-  nesteMeldekort: Number | undefined;
-  nesteEtterregistrerteMeldekort: Number | undefined;
+  nesteMeldekort?: Number | undefined;
+  nesteEtterregistrerteMeldekort?: Number | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
   melekortApiUrl: string;
