@@ -47,7 +47,7 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
     const ukedag = dag.dag <= 7 ? ukedager[dag.dag - 1] : ukedager[dag.dag - 8]
     if (harAktivitet) {
       return (
-        <div key={"dag" + dag.dag}>
+        <div key={"dag" + dag.dag} className={styles.dag}>
           <Label>{ukedag}:</Label>
           <span> </span>
           {
