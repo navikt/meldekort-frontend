@@ -36,7 +36,7 @@ export default function SporsmalOgSvar(props: IProps) {
       <div key={item.sporsmal} className={styles.sporsmalOgSvar}>
         <Label>
           {parseHtml(t(item.sporsmal))}
-          {item.formatertDato ? <span>{item.formatertDato}?</span> : null}
+          {item.formatertDato ? <span> {item.formatertDato}?</span> : null}
         </Label>
         <UtvidetInformasjon innhold={parseHtml(t(item.forklaring))} />
         <Box paddingBlock="1">
