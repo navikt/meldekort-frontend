@@ -1,36 +1,40 @@
-# Welcome to Remix!
+# Meldekort
+Meldekort er et webgrensesnitt for brukere til å fylle ut og sende inn meldekort til NAV.  
+Meldekort tilbyr påloggende arbeidssøkere å se sin meldekorthistorikk, samt å fylle ut og sende inn meldekort.
 
-- [Remix Docs](https://remix.run/docs)
+## Dokumentasjon
+https://navikt.github.io/dp-dokumentasjon/innbyggerflate/losninger/meldeplikt  
+Om Meldekort journalføring: https://confluence.adeo.no/pages/viewpage.action?pageId=431009242
 
-## Development
+## Tekster
+Denne appen har en mekanisme for tekstversjonering. Dvs. appen viser gjeldende versjon av tekstene som var gyldige i
+begynnelsen av meldeperioden til aktivt meldekort. Hvis meldekort ikke er valgt, viser appen den nyeste versjonen av
+tekstene. Tekstene er lagret i en DB og derfor må vi gå gjennom meldekort-api og meldekortservice for å nå dem.
 
-Start the Remix development asset server and the Express server by running:
+For å endre tekstene (eller opprette nye versjoner), må man endre fil R__recreate_texts.sql i meldekort-api og deploye
+meldekort-api på nytt. Dette gir mulighet for å teste endringer i DEV/QA først og hindrer direkte endringer i prod DB.
 
-```sh
-npm run dev
-```
+OBS! Meldekort-frontend har også cache for tekstene (30 minutter), dvs. appen skal ikke prøve å hente tekstene med samme
+språk og gyldighetstid på nytt i løpet av 30 minutter.
 
-This starts your app in development mode, which will purge the server require cache when Remix rebuilds assets so you don't need a process manager restarting the express server.
+## Henvendelser
+Spørsmål knyttet til koden eller prosjekt rettes til:
 
-## Deployment
+* Igor Shuliakov, igor.shuliakov@nav.no
+* Mona Kjeldsrud, mona.kjeldsrud@nav.no
 
-First, build your app for production:
+## For NAV-ansatte
+Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekort
 
-```sh
-npm run build
-```
+## For utviklere
+Appen er basert på [Remix](https://remix.run/docs)
 
-Then run the app in production mode:
+For å starte appen lokalt:
+0. Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt
+1. Kopier `.env.example` og rename til `.env`.
+1. `npm install`
+3. `npm run dev`
+4. Åpen http://localhost:8080/send-meldekort i nettlseren
 
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying express applications you should be right at home just make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
+OBS! `npm run dev` starter serveren i [manual mode](https://remix.run/docs/en/main/guides/manual-mode), dvs. man må
+restarte serveren hver gang man gjør endringer i server.ts (men dette skjer ikke veldig ofte)
