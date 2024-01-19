@@ -7,11 +7,12 @@ declare global {
 interface IEnv {
   NODE_ENV: string;
   PORT: string;
-  BASE_PATH: string;
   DEKORATOR_MILJO: string;
   MELDEKORT_API_AUDIENCE: string;
   MELDEKORT_API_URL: string;
   MIN_SIDE_URL: string;
+  IS_LOCALHOST: string;
+  MELDEKORT_API_TOKEN: string;
 }
 
 export function getEnv(value: keyof IEnv) {
