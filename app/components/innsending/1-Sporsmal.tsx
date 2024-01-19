@@ -89,6 +89,8 @@ export default function Sporsmal(props: IProps) {
         return;
       }
 
+      document.documentElement.scrollTo(0, 0)
+
       // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
       if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
       else setActiveStep(activeStep + 1)

@@ -33,7 +33,9 @@ export default function Bekreftelse(props: IProps) {
   const { t } = useTranslation()
 
   const [bekreftet, setBekreftet] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [visFeil, setVisFeil] = useState(false)
+  const [visBaksystemFeil, setVisBaksystemFeil] = useState(false)
 
   const hentFravaersdager = () => {
     const fravar: IFravaerInnsending[] = [];
@@ -71,6 +73,8 @@ export default function Bekreftelse(props: IProps) {
   }
 
   const tilbake = () => {
+    document.documentElement.scrollTo(0, 0)
+
     if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep - 2)
     else setActiveStep(activeStep - 1)
   }
@@ -80,6 +84,8 @@ export default function Bekreftelse(props: IProps) {
       setVisFeil(true)
     } else {
       // Send
+      setLoading(true)
+
       const meldekortdetaljer: IMeldekortdetaljerInnsending = {
         begrunnelse: begrunnelse,
         erArbeidssokerNestePeriode: !!sporsmal.arbeidssoker,
@@ -102,9 +108,16 @@ export default function Bekreftelse(props: IProps) {
           if (response.ok) setActiveStep(activeStep + 1)
           else {
             console.log(response.status + " " + response.statusText)
+            setVisBaksystemFeil(true)
+            setLoading(false)
           }
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            console.log(error)
+            setVisBaksystemFeil(true)
+            setLoading(false)
+          }
+        )
     }
   }
 
@@ -138,9 +151,19 @@ export default function Bekreftelse(props: IProps) {
         {parseHtml(t("utfylling.bekreft"))}
       </ConfirmationPanel>
 
+      {visBaksystemFeil &&
+          <div>
+              <Box padding="4" />
+
+              <Alert variant="error">
+                {parseHtml(t("meldekortkontroll.feilkode.00"))}
+              </Alert>
+          </div>
+      }
+
       <div className="buttons">
         <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.send")}</Button>
+        <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{t("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">

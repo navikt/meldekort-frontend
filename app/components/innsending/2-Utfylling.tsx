@@ -134,6 +134,7 @@ export default function Utfylling(props: IProps) {
   }
 
   const tilbake = () => {
+    document.documentElement.scrollTo(0, 0)
     setActiveStep(activeStep - 1)
   }
 
@@ -238,12 +239,13 @@ export default function Utfylling(props: IProps) {
       for (let i = 1; i <= 14; i++) feilDager.push("annetFravaer" + i)
     }
 
+    document.documentElement.scrollTo(0, 0)
+
     // Hvis det finnes noen dager med feil, vis disse dagene
     // Ellers fortsett
     if (feilDager.length > 0) {
       setVisFeil(true)
       setFeilDager(feilDager)
-      document.documentElement.scrollTo(0, 0);
     } else {
       setActiveStep(activeStep + 1)
     }
