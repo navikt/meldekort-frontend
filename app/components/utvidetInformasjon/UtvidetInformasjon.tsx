@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { ReactElement } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import styles from "./UtvidetInformasjon.module.css";
@@ -24,7 +24,7 @@ export default function UtvidetInformasjon(props: IProps) {
       <div className={styles.innhold}>
         {props.innhold}
       </div>
-      <Link href="#" className={styles.link} onClick={clickHandler}>
+      <Link href="#" onClick={clickHandler}>
         {t("veiledning.lukk")}
         <ChevronUpIcon />
       </Link>
