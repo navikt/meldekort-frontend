@@ -5,6 +5,7 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldeperiode } from "~/models/meldeperiode";
 import { getHeaders } from "~/utils/fetchUtils";
 
+// Request
 export interface IMeldekortdetaljerInnsending {
   meldekortId: number;
   kortType: KortType;
@@ -44,6 +45,28 @@ export interface ISporsmalsobjekt {
   svar?: string;
 }
 
+// Response
+export interface IValideringsResultat {
+  meldekortId: number;
+  status: string;
+  arsakskoder: IArsakskode[] | null,
+  meldekortdager: IMeldekortDag[] | null
+}
+
+export interface IArsakskode {
+  kode: string;
+  tekst: string;
+  params: string[] | null;
+}
+
+export interface IMeldekortDag {
+  dag: number;
+  arbeidetTimerSum: number | null;
+  syk: boolean | null;
+  annetFravaer: boolean | null;
+  kurs: boolean | null;
+  meldegruppe: string | null;
+}
 
 export async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
