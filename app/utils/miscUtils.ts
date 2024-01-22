@@ -3,7 +3,7 @@ import type { ISporsmal } from "~/models/sporsmal";
 export function formaterBelop(belop?: number): string {
   if (typeof belop === "number") {
     if (belop === 0) {
-      return "";
+      return "kr. 0";
     }
     const desimaler = 2;
     const desimalSeparator = ",";
@@ -26,7 +26,7 @@ export function formaterBelop(belop?: number): string {
         : "")
     );
   } else {
-    return "";
+    return "kr. 0";
   }
 }
 

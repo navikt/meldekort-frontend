@@ -1,5 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
-import { json, LoaderFunctionArgs } from "@remix-run/node";
+import type { MetaFunction , LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useTranslation } from "react-i18next";
@@ -8,11 +8,12 @@ import { Alert, BodyLong, Table, Tag } from "@navikt/ds-react";
 import type { ReactElement } from "react";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
 import { formaterBelop } from "~/utils/miscUtils";
 import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import { NavLink, useLoaderData } from "@remix-run/react";
 import { getOboToken } from "~/utils/authUtils";
+import { KortType } from "~/models/kortType";
 
 export const meta: MetaFunction = () => {
   return [
@@ -92,7 +93,11 @@ export default function TidligereMeldekort() {
                   </Tag>
                 </Table.DataCell>
                 <Table.DataCell>
-                  {formaterBelop(meldekort.bruttoBelop)}
+                  {
+                    (meldekort.kortStatus === KortStatus.FERDI && meldekort.kortType !== KortType.KORRIGERT_ELEKTRONISK)
+                      ? formaterBelop(meldekort.bruttoBelop)
+                      : ""
+                  }
                 </Table.DataCell>
               </Table.Row>
             );

@@ -14,7 +14,7 @@ import utklippstavle from "~/img/utklippstavle.svg"
 import { formaterBelop } from "~/utils/miscUtils";
 import { PrinterSmallFillIcon } from '@navikt/aksel-icons';
 import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
 import { RemixLink } from "~/components/RemixLink";
 import {
   finnRiktigTagVariant,
@@ -26,6 +26,7 @@ import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import { getOboToken } from "~/utils/authUtils";
+import { KortType } from "~/models/kortType";
 
 export const meta: MetaFunction = () => {
   return [
@@ -113,7 +114,11 @@ export default function Meldekortdetaljer() {
               </Tag>
             </Table.DataCell>
             <Table.DataCell>
-              {formaterBelop(valgtMeldekort.bruttoBelop)}
+              {
+                (valgtMeldekort.kortStatus === KortStatus.FERDI && valgtMeldekort.kortType !== KortType.KORRIGERT_ELEKTRONISK)
+                  ? formaterBelop(valgtMeldekort.bruttoBelop)
+                  : ""
+              }
             </Table.DataCell>
             <Table.DataCell>
               {mapKortTypeTilTekst(t, valgtMeldekort.kortType)}
