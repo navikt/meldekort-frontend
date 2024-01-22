@@ -97,7 +97,7 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
       {
         method: "GET",
         headers: {
-          Accept: "application/json",
+          "Accept": "application/json",
           "TokenXAuthorization": `Bearer ${onBehalfOfToken}`
         }
       })
