@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -15,6 +15,8 @@ import { getEnv } from "~/utils/envUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getOboToken } from "~/utils/authUtils";
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekort } from "~/models/meldekortdetaljerInnsending";
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,7 +40,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   if (!meldekortId) {
     feil = true
   } else {
-    const onBehalfOfToken = await getOboToken(request);
+    const onBehalfOfToken = await getOboToken(request)
     const personResponse = await hentPerson(onBehalfOfToken)
     const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
 
@@ -63,6 +65,28 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     minSideUrl: getEnv("MIN_SIDE_URL"),
     melekortApiUrl: getEnv("MELDEKORT_API_URL")
   })
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  let baksystemFeil = false
+  let innsending: IValideringsResultat | null = null
+
+  const onBehalfOfToken = await getOboToken(request)
+  const formdata = await request.formData();
+  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}")
+  // Send meldekort
+  // Hvis ikke OK, vis feil
+  // Hvis OK og uten arsakskoder, gå til Kvittering
+  // Hvis OK, men med arsakskoder, gå til Utfylling
+  const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
+
+  if (!innsendingResponse.ok) {
+    baksystemFeil = true
+  } else {
+    innsending = await innsendingResponse.json()
+  }
+
+  return json({ baksystemFeil, innsending })
 }
 
 export default function Etterregistrering() {
