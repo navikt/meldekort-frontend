@@ -4,17 +4,17 @@ import { useTranslation } from "react-i18next";
 import { Accordion } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import sporrende from "~/img/sporrende.svg"
+import sporrende from "~/img/sporrende.svg";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Ofte stilte spørsmål" },
-  ];
-};
+  ]
+}
 
 export default function OfteStilteSporsmal() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const innhold = <div>
     <img src={sporrende} className="img" alt="" />
@@ -67,5 +67,5 @@ export default function OfteStilteSporsmal() {
       <MeldekortHeader />
       <Sideinnhold tittel={t("overskrift.ofteStilteSporsmal")} innhold={innhold} />
     </div>
-  );
+  )
 }

@@ -19,34 +19,34 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Tidligere meldekort" },
-  ];
-};
+  ]
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let feil = false;
-  let historiskeMeldekort: IMeldekort[] | null = null;
+  let feil = false
+  let historiskeMeldekort: IMeldekort[] | null = null
 
-  const onBehalfOfToken = await getOboToken(request);
-  const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
+  const onBehalfOfToken = await getOboToken(request)
+  const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
 
   if (!historiskeMeldekortResponse.ok) {
     feil = true
   } else {
-    historiskeMeldekort = await historiskeMeldekortResponse.json();
+    historiskeMeldekort = await historiskeMeldekortResponse.json()
   }
 
-  return json({ feil, historiskeMeldekort });
+  return json({ feil, historiskeMeldekort })
 }
 
 export default function TidligereMeldekort() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   // Hent historiske meldekort
   // Hvis det er feil, vis feilmelding
   // Hvis det ikke finnes historiske meldekort, vis advarselsmelding
   // Hvis historiske meldekort er hentet, vis data
 
-  const { feil, historiskeMeldekort } = useLoaderData<typeof loader>();
+  const { feil, historiskeMeldekort } = useLoaderData<typeof loader>()
 
   let innhold: ReactElement
 
@@ -100,7 +100,7 @@ export default function TidligereMeldekort() {
                   }
                 </Table.DataCell>
               </Table.Row>
-            );
+            )
           })}
         </Table.Body>
       </Table>
@@ -112,5 +112,5 @@ export default function TidligereMeldekort() {
       <MeldekortHeader />
       <Sideinnhold tittel={t("overskrift.tidligereMeldekort")} innhold={innhold} />
     </div>
-  );
+  )
 }

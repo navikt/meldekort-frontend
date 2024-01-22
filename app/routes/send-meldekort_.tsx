@@ -17,29 +17,29 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Send meldekort" },
-  ];
-};
+  ]
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false
   let person: IPerson | null = null
 
-  const onBehalfOfToken = await getOboToken(request);
-  const personResponse = await hentPerson(onBehalfOfToken);
+  const onBehalfOfToken = await getOboToken(request)
+  const personResponse = await hentPerson(onBehalfOfToken)
 
   if (!personResponse.ok) {
     feil = true
   } else {
-    person = await personResponse.json();
+    person = await personResponse.json()
   }
 
-  return json({ feil, person });
+  return json({ feil, person })
 }
 
 export default function SendMeldekort() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const { feil, person } = useLoaderData<typeof loader>();
+  const { feil, person } = useLoaderData<typeof loader>()
 
   let innhold: ReactElement
 
@@ -70,7 +70,7 @@ export default function SendMeldekort() {
                   {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
                 </Table.DataCell>
               </Table.Row>
-            );
+            )
           })}
         </Table.Body>
       </Table>
@@ -97,5 +97,5 @@ export default function SendMeldekort() {
       <MeldekortHeader />
       <Sideinnhold tittel={t("overskrift.innsending")} innhold={innhold} />
     </div>
-  );
+  )
 }

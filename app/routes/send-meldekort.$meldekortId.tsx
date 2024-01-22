@@ -38,7 +38,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   if (!meldekortId) {
     feil = true
   } else {
-    const onBehalfOfToken = await getOboToken(request);
+    const onBehalfOfToken = await getOboToken(request)
     const personResponse = await hentPerson(onBehalfOfToken)
     const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
 

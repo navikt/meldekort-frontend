@@ -9,11 +9,11 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Generelt om meldekort" },
-  ];
-};
+  ]
+}
 
 export default function OmMeldekort() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const innhold = <GuidePanel poster>
     <BodyLong>
@@ -48,5 +48,5 @@ export default function OmMeldekort() {
       <MeldekortHeader />
       <Sideinnhold tittel={t("overskrift.genereltOmMeldekort")} innhold={innhold} />
     </div>
-  );
+  )
 }

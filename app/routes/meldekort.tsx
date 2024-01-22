@@ -9,9 +9,9 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return redirect("/", 301);
+  return redirect("/", 301)
 };
 
 export default function Index() {
-  return (<div></div>);
+  return (<div></div>)
 }
