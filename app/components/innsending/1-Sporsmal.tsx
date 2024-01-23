@@ -8,7 +8,7 @@ import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
 import type { ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
-import { nestePeriodeFormatert } from "~/utils/datoUtils";
+import { formaterPeriode } from "~/utils/datoUtils";
 import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 
 interface IProps {
@@ -97,7 +97,7 @@ export default function Sporsmal(props: IProps) {
     }
   }
 
-  const nestePeriodeFormatertDato = nestePeriodeFormatert(fom)
+  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14)
 
   return (
     <div>

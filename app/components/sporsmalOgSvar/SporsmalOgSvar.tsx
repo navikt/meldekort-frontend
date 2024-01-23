@@ -1,6 +1,6 @@
 import type { ISporsmal, ISporsmalOgSvar } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
-import { nestePeriodeFormatert } from "~/utils/datoUtils";
+import { formaterPeriode } from "~/utils/datoUtils";
 import { Box, Label } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
@@ -19,7 +19,7 @@ export default function SporsmalOgSvar(props: IProps) {
   const { t } = useTranslation();
   const { sporsmal, fom, ytelsestypePostfix } = props
 
-  const nestePeriodeFormatertDato = nestePeriodeFormatert(fom)
+  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14)
 
   const sporsmalOgSvar: ISporsmalOgSvar[] = sporsmalConfig.map(sporsmalsObj => {
     return {
