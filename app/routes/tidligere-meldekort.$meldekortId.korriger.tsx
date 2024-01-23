@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction , ActionFunctionArgs} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useTranslation } from "react-i18next";
@@ -16,12 +16,17 @@ import Innsending from "~/components/innsending/Innsending";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
+import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Korriger tidligere meldekort" },
   ]
+}
+
+export async function action(args: ActionFunctionArgs) {
+  return await sendInnMeldekortAction(args)
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {

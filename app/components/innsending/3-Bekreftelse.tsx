@@ -4,15 +4,18 @@ import type { IMeldekort } from "~/models/meldekort";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { IFravaerInnsending, IMeldekortdetaljerInnsending } from "~/models/meldekortdetaljerInnsending";
-import { FravaerTypeInnsending, sendInnMeldekort } from "~/models/meldekortdetaljerInnsending";
+import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
 import { parseHtml } from "~/utils/intlUtils";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { RemixLink } from "~/components/RemixLink";
+import { useActionData, useSubmit } from "@remix-run/react";
+import type { action } from "~/routes/etterregistrering.$meldekortId";
+import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 
 interface IProps {
   begrunnelse: string;
@@ -25,17 +28,32 @@ interface IProps {
 }
 
 export default function Bekreftelse(props: IProps) {
-  const { begrunnelse, sporsmal, valgtMeldekort, innsendingstype, melekortApiUrl, activeStep, setActiveStep } = props
+  const { begrunnelse, sporsmal, valgtMeldekort, innsendingstype, activeStep, setActiveStep } = props
 
-  const fom = valgtMeldekort.meldeperiode.fra
-  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
+  const actionData = useActionData<typeof action>() // TODO: Action fra..?
+  const baksystemFeil = actionData?.baksystemFeil
+  const innsending = actionData?.innsending
+
+  // Vi bruker useEffect for å sjekke data etter at vi sender meldekort
+  // Hvis innsending er OK, kan vi vise Kvittering
+  // Hvis innsending ikke er OK, går vi tilbake til Utfylling
+  useEffect(() => {
+    if (innsending?.status === "OK") {
+      setActiveStep(activeStep + 1)
+    } else if (innsending?.status === "FEIL") {
+      setActiveStep(activeStep - 1)
+    }
+  }, [innsending, activeStep, setActiveStep]);
 
   const { t } = useTranslation()
+  const submit = useSubmit()
 
   const [bekreftet, setBekreftet] = useState(false)
   const [loading, setLoading] = useState(false)
   const [visFeil, setVisFeil] = useState(false)
-  const [visBaksystemFeil, setVisBaksystemFeil] = useState(false)
+
+  const fom = valgtMeldekort.meldeperiode.fra
+  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
 
   const hentFravaersdager = () => {
     const fravar: IFravaerInnsending[] = [];
@@ -86,6 +104,8 @@ export default function Bekreftelse(props: IProps) {
       // Send
       setLoading(true)
 
+      const mottattDato = new Date()
+
       const meldekortdetaljer: IMeldekortdetaljerInnsending = {
         begrunnelse: begrunnelse,
         erArbeidssokerNestePeriode: !!sporsmal.arbeidssoker,
@@ -96,28 +116,16 @@ export default function Bekreftelse(props: IProps) {
         meldegruppe: valgtMeldekort.meldegruppe,
         meldekortId: valgtMeldekort.meldekortId,
         meldeperiode: valgtMeldekort.meldeperiode,
-        mottattDato: new Date(),
+        mottattDato: mottattDato,
         sesjonsId: "IKKE I BRUK",
         signatur: true, // Vi sender ikke uten brukerens samtykke
-        sporsmalsobjekter: []
+        sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato) // Her samler vi alt bruker har sett for å lagre i Dokarkiv
       }
 
-      const onBehalfOfToken = ""
-      sendInnMeldekort(onBehalfOfToken, melekortApiUrl, meldekortdetaljer)
-        .then(response => {
-          if (response.ok) setActiveStep(activeStep + 1)
-          else {
-            console.log(response.status + " " + response.statusText)
-            setVisBaksystemFeil(true)
-            setLoading(false)
-          }
-        })
-        .catch((error) => {
-            console.log(error)
-            setVisBaksystemFeil(true)
-            setLoading(false)
-          }
-        )
+      console.log(meldekortdetaljer)
+      const formData = new FormData()
+      formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer))
+      submit(formData, { method: "post" })
     }
   }
 
@@ -151,7 +159,7 @@ export default function Bekreftelse(props: IProps) {
         {parseHtml(t("utfylling.bekreft"))}
       </ConfirmationPanel>
 
-      {visBaksystemFeil &&
+      {baksystemFeil &&
           <div>
               <Box padding="4" />
 

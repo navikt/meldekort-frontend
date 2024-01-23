@@ -4,6 +4,10 @@ import type { Meldegruppe } from "~/models/meldegruppe";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldeperiode } from "~/models/meldeperiode";
 import { getHeaders } from "~/utils/fetchUtils";
+import type { ActionFunctionArgs} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { getOboToken } from "~/utils/authUtils";
+import { getEnv } from "~/utils/envUtils";
 
 // Request
 export interface IMeldekortdetaljerInnsending {
@@ -81,4 +85,26 @@ export async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: 
 
     return Promise.resolve(response)
   }
+}
+
+export async function sendInnMeldekortAction({ request }: ActionFunctionArgs) {
+  let baksystemFeil = false
+  let innsending: IValideringsResultat | null = null
+
+  const onBehalfOfToken = await getOboToken(request)
+  const formdata = await request.formData();
+  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}")
+  // Send meldekort
+  // Hvis ikke OK, vis feil
+  // Hvis OK og uten arsakskoder, gå til Kvittering
+  // Hvis OK, men med arsakskoder, gå til Utfylling
+  const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
+
+  if (!innsendingResponse.ok) {
+    baksystemFeil = true
+  } else {
+    innsending = await innsendingResponse.json()
+  }
+
+  return json({ baksystemFeil, innsending })
 }

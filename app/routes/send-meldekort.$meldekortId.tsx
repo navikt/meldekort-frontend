@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction , ActionFunctionArgs} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -15,12 +15,17 @@ import { getEnv } from "~/utils/envUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getOboToken } from "~/utils/authUtils";
+import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Send meldekort" },
   ]
+}
+
+export async function action(args: ActionFunctionArgs) {
+  return await sendInnMeldekortAction(args)
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {

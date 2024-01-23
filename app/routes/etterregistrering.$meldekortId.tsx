@@ -15,14 +15,17 @@ import { getEnv } from "~/utils/envUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getOboToken } from "~/utils/authUtils";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { sendInnMeldekort } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Etterregistrer meldekort" },
   ]
+}
+
+export async function action(args: ActionFunctionArgs) {
+  return await sendInnMeldekortAction(args)
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
@@ -65,28 +68,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     minSideUrl: getEnv("MIN_SIDE_URL"),
     melekortApiUrl: getEnv("MELDEKORT_API_URL")
   })
-}
-
-export async function action({ request }: ActionFunctionArgs) {
-  let baksystemFeil = false
-  let innsending: IValideringsResultat | null = null
-
-  const onBehalfOfToken = await getOboToken(request)
-  const formdata = await request.formData();
-  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}")
-  // Send meldekort
-  // Hvis ikke OK, vis feil
-  // Hvis OK og uten arsakskoder, gå til Kvittering
-  // Hvis OK, men med arsakskoder, gå til Utfylling
-  const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
-
-  if (!innsendingResponse.ok) {
-    baksystemFeil = true
-  } else {
-    innsending = await innsendingResponse.json()
-  }
-
-  return json({ baksystemFeil, innsending })
 }
 
 export default function Etterregistrering() {
