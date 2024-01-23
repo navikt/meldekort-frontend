@@ -111,7 +111,9 @@ export default function Kvittering(props: IProps) {
 
       <Box padding="6" />
 
-      <Begrunnelse begrunnelse={begrunnelse} />
+      {
+        innsendingstype === Innsendingstype.KORRIGERING && <Begrunnelse begrunnelse={begrunnelse} />
+      }
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />
 
