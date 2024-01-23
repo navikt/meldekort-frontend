@@ -4,6 +4,10 @@ export const formaterDato = (dato: Date | string): string => {
   return format(new Date(dato), "dd.MM.yyyy");
 };
 
+export const formaterTid = (dato: Date | string): string => {
+  return format(new Date(dato), "HH:mm");
+};
+
 export function formaterPeriodeDato(fraOgMed: Date | string, tilOgMed: Date | string) {
   const fom = formaterDato(fraOgMed);
   const tom = formaterDato(tilOgMed);
@@ -18,7 +22,7 @@ export function formaterPeriodeTilUkenummer(fraOgMed: Date | string, tilOgMed: D
   return `${startUkenummer} - ${sluttUkenummer}`;
 }
 
-export function nestePeriodeFormatert(fom: string, plussDager = 14, periodelengde = 14): string {
+export function formaterPeriode(fom: string, plussDager: number, periodelengde: number): string {
   const nestePeriodeFom = new Date(fom)
   nestePeriodeFom.setDate(nestePeriodeFom.getDate() + plussDager)
   const nestePeriodeTom = new Date(nestePeriodeFom)
