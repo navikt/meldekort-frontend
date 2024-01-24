@@ -23,7 +23,6 @@ interface IProps {
   nesteEtterregistrerteMeldekort?: Number | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
-  melekortApiUrl: string;
   minSideUrl: string;
 }
 
@@ -34,7 +33,6 @@ export default function Innsending(props: IProps) {
     innsendingstype,
     valgtMeldekort,
     sporsmal,
-    melekortApiUrl,
     minSideUrl,
     personInfo,
     nesteMeldekort,
@@ -83,7 +81,6 @@ export default function Innsending(props: IProps) {
                            sporsmal={nyeSporsmal}
                            valgtMeldekort={valgtMeldekort}
                            innsendingstype={innsendingstype}
-                           melekortApiUrl={melekortApiUrl}
                            activeStep={activeStep}
                            setActiveStep={setActiveStep} />
   } else {

@@ -64,8 +64,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     nesteMeldekort,
     nesteEtterregistrerteMeldekort,
     personInfo,
-    minSideUrl: getEnv("MIN_SIDE_URL"),
-    melekortApiUrl: getEnv("MELDEKORT_API_URL")
+    minSideUrl: getEnv("MIN_SIDE_URL")
   })
 }
 
@@ -76,7 +75,6 @@ export default function SendMeldekort() {
     nesteMeldekort,
     nesteEtterregistrerteMeldekort,
     personInfo,
-    melekortApiUrl,
     minSideUrl
   } = useLoaderData<typeof loader>()
 
@@ -121,6 +119,5 @@ export default function SendMeldekort() {
                      nesteEtterregistrerteMeldekort={nesteEtterregistrerteMeldekort}
                      sporsmal={sporsmal}
                      personInfo={personInfo}
-                     melekortApiUrl={melekortApiUrl}
                      minSideUrl={minSideUrl} />
 }

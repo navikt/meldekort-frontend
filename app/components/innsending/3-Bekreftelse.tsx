@@ -21,7 +21,6 @@ interface IProps {
   sporsmal: ISporsmal;
   valgtMeldekort: Jsonify<IMeldekort>;
   innsendingstype: Innsendingstype;
-  melekortApiUrl: string;
   activeStep: number;
   setActiveStep: Function;
 }

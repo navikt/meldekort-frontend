@@ -67,8 +67,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     valgtMeldekort,
     meldekortdetaljer,
     personInfo,
-    minSideUrl: getEnv("MIN_SIDE_URL"),
-    melekortApiUrl: getEnv("MELDEKORT_API_URL")
+    minSideUrl: getEnv("MIN_SIDE_URL")
   })
 }
 
@@ -78,7 +77,6 @@ export default function TidligereMeldekortKorrigering() {
     valgtMeldekort,
     meldekortdetaljer,
     personInfo,
-    melekortApiUrl,
     minSideUrl
   } = useLoaderData<typeof loader>()
 
@@ -101,6 +99,5 @@ export default function TidligereMeldekortKorrigering() {
                      valgtMeldekort={valgtMeldekort}
                      sporsmal={meldekortdetaljer.sporsmal}
                      personInfo={personInfo}
-                     melekortApiUrl={melekortApiUrl}
                      minSideUrl={minSideUrl} />
 }
