@@ -1,7 +1,7 @@
 import type { IMeldekortDag } from "~/models/sporsmal";
 import { Label } from "@navikt/ds-react";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import type { TTFunction} from "~/utils/intlUtils";
+import type { TTFunction } from "~/utils/intlUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { ukeFormatert } from "~/utils/datoUtils";
 import styles from "./Ukeliste.module.css";
@@ -23,14 +23,14 @@ export default function Ukeliste(props: IProps) {
     <hr className={styles.ukeTittelDelimiter} />
 
     {
-      formaterUke(dager, fraDag, tilDag, ytelsestypePostfix, tt)
+      formaterUke(tt, dager, fraDag, tilDag, ytelsestypePostfix)
     }
 
     <hr />
   </div>
 }
 
-function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string, tt: TTFunction) {
+function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string) {
   const ukedager = [
     tt("ukedag.mandag").trim(),
     tt("ukedag.tirsdag").trim(),
@@ -57,7 +57,7 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
               dag.annetFravaer ? tt("utfylling.ferieFravar").trim() : ""
             ].filter(Boolean).join(", ")
           }
-          <UtvidetInformasjon innhold={hentDagsdata(dag, ytelsestypePostfix, tt)} />
+          <UtvidetInformasjon innhold={hentDagsdata(tt, dag, ytelsestypePostfix)} />
         </div>
       )
     } else {
@@ -66,29 +66,28 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
   })
 }
 
-function hentDagsdata(dag: IMeldekortDag, ytelsestypePostfix: string, tt: TTFunction) {
+function hentDagsdata(tt: TTFunction, dag: IMeldekortDag, ytelsestypePostfix: string) {
   const innhold = []
 
   if (dag.arbeidetTimerSum > 0) {
-    innhold.push(formaterDagsdata("utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix, tt))
+    innhold.push(formaterDagsdata(tt, "utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix))
   }
 
   if (dag.kurs) {
-    innhold.push(formaterDagsdata("utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix, tt))
+    innhold.push(formaterDagsdata(tt, "utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix))
   }
-
   if (dag.syk) {
-    innhold.push(formaterDagsdata("utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix, tt))
+    innhold.push(formaterDagsdata(tt, "utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix))
   }
 
   if (dag.annetFravaer) {
-    innhold.push(formaterDagsdata("utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix, tt))
+    innhold.push(formaterDagsdata(tt, "utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix))
   }
 
   return <div key={"dagInfo" + dag.dag}>{innhold}</div>
 }
 
-function formaterDagsdata(utfyllingTekstid: string, forklaringTekstid: string, tt: TTFunction) {
+function formaterDagsdata(tt: TTFunction, utfyllingTekstid: string, forklaringTekstid: string) {
   return <div key={utfyllingTekstid}>
     <Label>{tt(utfyllingTekstid).toUpperCase()}</Label><br />
     {parseHtml(tt(forklaringTekstid))}<br /><br />
