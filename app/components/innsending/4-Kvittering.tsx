@@ -76,7 +76,7 @@ export default function Kvittering(props: IProps) {
 
       <Box padding="4" />
 
-      {ytelsestypePostfix === Ytelsestype.DAGPENGER &&
+      {(ytelsestypePostfix === Ytelsestype.DAGPENGER || ytelsestypePostfix === Ytelsestype.AAP) &&
           <div>
               <Alert variant="info">
                 {parseHtml(t("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
