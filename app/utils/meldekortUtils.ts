@@ -1,4 +1,4 @@
-import type { TFunction } from "i18next";
+import type { TTFunction } from "~/utils/intlUtils";
 import { KortStatus } from "~/models/meldekort";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
@@ -21,33 +21,33 @@ export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "
   }
 };
 
-export const mapKortStatusTilTekst = (t: TFunction, status: KortStatus) => {
+export const mapKortStatusTilTekst = (tt: TTFunction, status: KortStatus) => {
   switch (status) {
     case KortStatus.KLAR:
-      return t("meldekort.status.klar");
+      return tt("meldekort.status.klar");
 
     case KortStatus.REGIS:
-      return t("meldekort.status.regis");
+      return tt("meldekort.status.regis");
     case KortStatus.NYKTR:
-      return t("meldekort.status.nyktr");
+      return tt("meldekort.status.nyktr");
     case KortStatus.UBEHA:
-      return t("meldekort.status.ubeha");
+      return tt("meldekort.status.ubeha");
 
     case KortStatus.FERDI:
-      return t("meldekort.status.ferdi");
+      return tt("meldekort.status.ferdi");
     case KortStatus.IKKE:
-      return t("meldekort.status.ikke");
+      return tt("meldekort.status.ikke");
     case KortStatus.OVERM:
-      return t("meldekort.status.overm");
+      return tt("meldekort.status.overm");
 
     case KortStatus.FMOPP:
-      return t("meldekort.status.fmopp");
+      return tt("meldekort.status.fmopp");
     case KortStatus.FUOPP:
-      return t("meldekort.status.fuopp");
+      return tt("meldekort.status.fuopp");
     case KortStatus.FEIL:
-      return t("meldekort.status.feil");
+      return tt("meldekort.status.feil");
     case KortStatus.VENTE:
-      return t("meldekort.status.vente");
+      return tt("meldekort.status.vente");
 
 
     default:
@@ -55,26 +55,26 @@ export const mapKortStatusTilTekst = (t: TFunction, status: KortStatus) => {
   }
 };
 
-export const mapKortTypeTilTekst = (t: TFunction, type: KortType) => {
+export const mapKortTypeTilTekst = (tt: TTFunction, type: KortType) => {
   switch (type) {
     case KortType.RETUR:
-      return t("meldekort.type.retur");
+      return tt("meldekort.type.retur");
     case KortType.ORDINAER:
-      return t("meldekort.type.ordinar");
+      return tt("meldekort.type.ordinar");
     case KortType.ERSTATNING:
-      return t("meldekort.type.erstatning");
+      return tt("meldekort.type.erstatning");
     case KortType.ELEKTRONISK:
-      return t("meldekort.type.elektronisk");
+      return tt("meldekort.type.elektronisk");
     case KortType.AAP:
-      return t("meldekort.type-AAP");
+      return tt("meldekort.type-AAP");
     case KortType.ORDINAER_MANUELL:
-      return t("meldekort.type.ordinarManuell");
+      return tt("meldekort.type.ordinarManuell");
     case KortType.MASKINELT_OPPDATERT:
-      return t("meldekort.type.maskineltOppdatert");
+      return tt("meldekort.type.maskineltOppdatert");
     case KortType.MANUELL_ARENA:
-      return t("meldekort.type.manuellArena");
+      return tt("meldekort.type.manuellArena");
     case KortType.KORRIGERT_ELEKTRONISK:
-      return t("meldekort.type.korrigertElektronisk");
+      return tt("meldekort.type.korrigertElektronisk");
 
     default:
       return "Feil i korttype";

@@ -3,10 +3,9 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { useTranslation } from "react-i18next";
 import type { ReactElement } from "react";
 import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
@@ -69,13 +68,13 @@ export default function Meldekortdetaljer() {
   const { feil, valgtMeldekort, meldekortdetaljer } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
-  const { i18n, t } = useTranslation(fraDato)
+  const { i18n, tt } = useExtendedTranslation(fraDato)
   i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   let innhold: ReactElement
 
   if (feil || !valgtMeldekort || !meldekortdetaljer) {
-    innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else {
     const fom = valgtMeldekort.meldeperiode.fra
     const tom = valgtMeldekort.meldeperiode.til
@@ -85,10 +84,10 @@ export default function Meldekortdetaljer() {
     innhold = <div>
       <BodyLong as="div" align="center" spacing>
         <img src={utklippstavle} className="imgSmall" alt="" />
-        <div>{t("meldekort.for.perioden")}</div>
+        <div>{tt("meldekort.for.perioden")}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
-            {t("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
+            {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
           </h2>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
@@ -97,10 +96,10 @@ export default function Meldekortdetaljer() {
       <Table zebraStripes>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell scope="col">{t("overskrift.mottatt")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{t("overskrift.status")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{t("overskrift.bruttoBelop")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{t("overskrift.meldekorttype")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt("overskrift.mottatt")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt("overskrift.status")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt("overskrift.bruttoBelop")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt("overskrift.meldekorttype")}</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -110,7 +109,7 @@ export default function Meldekortdetaljer() {
             </Table.DataCell>
             <Table.DataCell>
               <Tag variant={finnRiktigTagVariant(valgtMeldekort.kortStatus)}>
-                {mapKortStatusTilTekst(t, valgtMeldekort.kortStatus)}
+                {mapKortStatusTilTekst(tt, valgtMeldekort.kortStatus)}
               </Tag>
             </Table.DataCell>
             <Table.DataCell>
@@ -121,7 +120,7 @@ export default function Meldekortdetaljer() {
               }
             </Table.DataCell>
             <Table.DataCell>
-              {mapKortTypeTilTekst(t, valgtMeldekort.kortType)}
+              {mapKortTypeTilTekst(tt, valgtMeldekort.kortType)}
             </Table.DataCell>
           </Table.Row>
         </Table.Body>
@@ -141,7 +140,7 @@ export default function Meldekortdetaljer() {
 
       <div className="buttons">
         <RemixLink as="Button" variant="primary" to="/tidligere-meldekort">
-          {t("naviger.tilbake")}
+          {tt("naviger.tilbake")}
         </RemixLink>
         {
           // Viser Korriger-knappen kun når valgt meldekort er korrigerbart
@@ -149,13 +148,13 @@ export default function Meldekortdetaljer() {
             <RemixLink as="Button"
                        variant="secondary"
                        to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
-              {t("korriger.meldekort")}
+              {tt("korriger.meldekort")}
             </RemixLink>
         }
       </div>
       <div className="centeredButtons">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
-          {t("overskrift.skrivUt")}
+          {tt("overskrift.skrivUt")}
         </Button>
       </div>
     </div>

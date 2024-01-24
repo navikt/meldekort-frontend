@@ -1,8 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import { useTranslation } from "react-i18next";
 import { Accordion } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import sporrende from "~/img/sporrende.svg";
 
@@ -14,49 +13,49 @@ export const meta: MetaFunction = () => {
 }
 
 export default function OfteStilteSporsmal() {
-  const { t } = useTranslation()
+  const { tt } = useExtendedTranslation()
 
   const innhold = <div>
     <img src={sporrende} className="img" alt="" />
     <Accordion>
       <Accordion.Item key="1">
         <Accordion.Header>
-          {t("oss.sende.overskrift")}
+          {tt("oss.sende.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {parseHtml(t("oss.sende.tekst"))}
+          {parseHtml(tt("oss.sende.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="2">
         <Accordion.Header>
-          {t("oss.frist.overskrift")}
+          {tt("oss.frist.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {parseHtml(t("oss.frist.tekst"))}
+          {parseHtml(tt("oss.frist.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="3">
         <Accordion.Header>
-          {t("oss.korrigere.overskrift")}
+          {tt("oss.korrigere.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {parseHtml(t("oss.korrigere.tekst"))}
+          {parseHtml(tt("oss.korrigere.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="4">
         <Accordion.Header>
-          {t("oss.pengene.overskrift")}
+          {tt("oss.pengene.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {parseHtml(t("oss.pengene.tekst"))}
+          {parseHtml(tt("oss.pengene.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
       <Accordion.Item key="5">
         <Accordion.Header>
-          {t("oss.utbetalt.overskrift")}
+          {tt("oss.utbetalt.overskrift")}
         </Accordion.Header>
         <Accordion.Content>
-          {parseHtml(t("oss.utbetalt.tekst"))}
+          {parseHtml(tt("oss.utbetalt.tekst"))}
         </Accordion.Content>
       </Accordion.Item>
     </Accordion>
@@ -65,7 +64,7 @@ export default function OfteStilteSporsmal() {
   return (
     <div>
       <MeldekortHeader />
-      <Sideinnhold tittel={t("overskrift.ofteStilteSporsmal")} innhold={innhold} />
+      <Sideinnhold tittel={tt("overskrift.ofteStilteSporsmal")} innhold={innhold} />
     </div>
   )
 }

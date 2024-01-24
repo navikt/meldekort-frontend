@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useExtendedTranslation } from "~/utils/intlUtils";
 import type { Innsendingstype } from "~/models/innsendingstype";
 import type { IPersonInfo } from "~/models/person";
 import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
@@ -45,7 +45,7 @@ export default function Innsending(props: IProps) {
   const tom = valgtMeldekort.meldeperiode.til
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
 
-  const { t } = useTranslation()
+  const { tt } = useExtendedTranslation()
   const [begrunnelse, setBegrunnelse] = useState("")
   const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal)
 
@@ -56,7 +56,7 @@ export default function Innsending(props: IProps) {
     "overskrift.steg4"
   ]
 
-  const begrunnelseObjekt = byggBegrunnelseObjekt(t("korriger.begrunnelse.valg"))
+  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"))
 
   let innhold: JSX.Element
 
@@ -102,10 +102,10 @@ export default function Innsending(props: IProps) {
   return (
     <div className={styles.sideInnhold}>
       <BodyLong as="div" align="center" spacing>
-        <div>{t("meldekort.for.perioden")}</div>
+        <div>{tt("meldekort.for.perioden")}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
-            {t("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
+            {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
           </h2>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
@@ -118,13 +118,13 @@ export default function Innsending(props: IProps) {
         orientation="horizontal"
       >
         {
-          steps.map(step => <Stepper.Step key={step} href="#">{t(step)}</Stepper.Step>)
+          steps.map(step => <Stepper.Step key={step} href="#">{tt(step)}</Stepper.Step>)
         }
       </Stepper>
 
       <Box padding="8" />
 
-      <Sideoverskrift tittel={t(steps[activeStep - 1])} />
+      <Sideoverskrift tittel={tt(steps[activeStep - 1])} />
       {innhold}
     </div>
   )

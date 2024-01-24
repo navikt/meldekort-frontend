@@ -3,12 +3,11 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
-import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import type { IFravaerInnsending, IMeldekortdetaljerInnsending } from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
@@ -45,7 +44,7 @@ export default function Bekreftelse(props: IProps) {
     }
   }, [innsending, activeStep, setActiveStep]);
 
-  const { t } = useTranslation()
+  const { tt } = useExtendedTranslation()
   const submit = useSubmit()
 
   const [bekreftet, setBekreftet] = useState(false)
@@ -132,8 +131,8 @@ export default function Bekreftelse(props: IProps) {
   return (
     <div>
       <Alert variant="warning">
-        {parseHtml(t("overskrift.steg3.info.ikkeSendt"))}
-        {parseHtml(t("overskrift.steg3.info.bekreftVerdier"))}
+        {parseHtml(tt("overskrift.steg3.info.ikkeSendt"))}
+        {parseHtml(tt("overskrift.steg3.info.bekreftVerdier"))}
       </Alert>
 
       <Box padding="4" />
@@ -151,12 +150,12 @@ export default function Bekreftelse(props: IProps) {
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
       <ConfirmationPanel
-        label={t("utfylling.bekreftAnsvar")}
+        label={tt("utfylling.bekreftAnsvar")}
         checked={bekreftet}
         onChange={() => setBekreftet((bekreftet) => !bekreftet)}
-        error={!bekreftet && visFeil && t("utfylling.bekreft.feil")}
+        error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
       >
-        {parseHtml(t("utfylling.bekreft"))}
+        {parseHtml(tt("utfylling.bekreft"))}
       </ConfirmationPanel>
 
       {baksystemFeil &&
@@ -164,18 +163,18 @@ export default function Bekreftelse(props: IProps) {
               <Box padding="4" />
 
               <Alert variant="error">
-                {parseHtml(t("meldekortkontroll.feilkode.00"))}
+                {parseHtml(tt("meldekortkontroll.feilkode.00"))}
               </Alert>
           </div>
       }
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{t("naviger.send")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{tt("naviger.forrige")}</Button>
+        <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">
-          {t("naviger.avbryt")}
+          {tt("naviger.avbryt")}
         </RemixLink>
       </div>
     </div>

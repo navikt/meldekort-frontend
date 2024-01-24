@@ -1,6 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { Ytelsestype } from "~/models/ytelsestype";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
@@ -41,7 +40,7 @@ export default function Kvittering(props: IProps) {
     nesteEtterregistrerteMeldekort
   } = props
 
-  const { t } = useTranslation()
+  const { tt } = useExtendedTranslation()
 
   const mottattDato = new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
   const nesteDato = false // TODO: Finn neste dato hvis det ikke er ETTERREGISTRERING eller KORRIGERING
@@ -50,9 +49,9 @@ export default function Kvittering(props: IProps) {
     return <Button variant="primary" onClick={() => {location.href=to}}>{text}</Button>
   }
 
-  let nesteLink = <NavLink to={minSideUrl}>{t("tilbake.minSide")}</NavLink>
-  const mLink = createButton(`/send-meldekort/${nesteMeldekort}`, t("overskrift.etterregistrertMeldekort"))
-  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekort}`, t("overskrift.etterregistrertMeldekort"))
+  let nesteLink = <NavLink to={minSideUrl}>{tt("tilbake.minSide")}</NavLink>
+  const mLink = createButton(`/send-meldekort/${nesteMeldekort}`, tt("overskrift.etterregistrertMeldekort"))
+  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekort}`, tt("overskrift.etterregistrertMeldekort"))
 
   if (innsendingstype === Innsendingstype.INNSENDING) {
     if (nesteMeldekort) {
@@ -71,7 +70,7 @@ export default function Kvittering(props: IProps) {
   return (
     <div>
       <Alert variant="success">
-        {parseHtml(t("overskrift.meldekort.sendt"))}
+        {parseHtml(tt("overskrift.meldekort.sendt"))}
       </Alert>
 
       <Box padding="4" />
@@ -79,7 +78,7 @@ export default function Kvittering(props: IProps) {
       {(ytelsestypePostfix === Ytelsestype.DAGPENGER || ytelsestypePostfix === Ytelsestype.AAP) &&
           <div>
               <Alert variant="info">
-                {parseHtml(t("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
+                {parseHtml(tt("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
               </Alert>
 
               <Box padding="4" />
@@ -87,14 +86,14 @@ export default function Kvittering(props: IProps) {
       }
 
       <BodyLong size="large">
-        {t("meldekort.for")} {personInfo.fornavn} {personInfo.etternavn} ({personInfo.fodselsnr})
+        {tt("meldekort.for")} {personInfo.fornavn} {personInfo.etternavn} ({personInfo.fodselsnr})
       </BodyLong>
       <BodyLong size="large">
-        {t("meldekort.for.perioden")} {t("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)} ({formaterPeriodeDato(fom, tom)})
+        {tt("meldekort.for.perioden")} {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)} ({formaterPeriodeDato(fom, tom)})
       </BodyLong>
       <BodyLong size="large">
         {parseHtml(
-          t("sendt.mottatt.label"),
+          tt("sendt.mottatt.label"),
           [formaterDato(mottattDato), format(mottattDato, "HH:mm")]
         )}
       </BodyLong>
@@ -102,7 +101,7 @@ export default function Kvittering(props: IProps) {
         <BodyLong size="large">
             <span>
               {parseHtml(
-                t("sendt.meldekortKanSendes"),
+                tt("sendt.meldekortKanSendes"),
                 [formaterDato(nesteDato)]
               )}
             </span>
@@ -125,13 +124,13 @@ export default function Kvittering(props: IProps) {
 
       <div className="buttons">
         <RemixLink as="Button" variant="secondary" to="/tidligere-meldekort">
-          {t("sendt.linkTilTidligereMeldekort")}
+          {tt("sendt.linkTilTidligereMeldekort")}
         </RemixLink>
         {nesteLink}
       </div>
       <div className="centeredButtons">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
-          {t("overskrift.skrivUt")}
+          {tt("overskrift.skrivUt")}
         </Button>
       </div>
     </div>

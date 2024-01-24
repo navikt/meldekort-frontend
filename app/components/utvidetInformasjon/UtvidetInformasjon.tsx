@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useExtendedTranslation } from "~/utils/intlUtils";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
 import { Link } from "@navikt/ds-react";
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export default function UtvidetInformasjon(props: IProps) {
-  const { t } = useTranslation();
+  const { tt } = useExtendedTranslation();
   const [open, setOpen] = useState(false);
 
   const clickHandler = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,7 +25,7 @@ export default function UtvidetInformasjon(props: IProps) {
         {props.innhold}
       </div>
       <Link href="#" onClick={clickHandler}>
-        {t("veiledning.lukk")}
+        {tt("veiledning.lukk")}
         <ChevronUpIcon />
       </Link>
     </div>
@@ -33,7 +33,7 @@ export default function UtvidetInformasjon(props: IProps) {
     return (
       <div>
         <Link href="#" onClick={clickHandler}>
-          {t("veiledning.les")}
+          {tt("veiledning.les")}
           <ChevronDownIcon />
         </Link>
       </div>

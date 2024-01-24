@@ -1,9 +1,8 @@
 import type { LoaderFunctionArgs, MetaFunction , ActionFunctionArgs} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
 import { Alert } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IMeldekort } from "~/models/meldekort";
@@ -84,11 +83,11 @@ export default function TidligereMeldekortKorrigering() {
   } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
-  const { i18n, t } = useTranslation(fraDato)
+  const { i18n, tt } = useExtendedTranslation(fraDato)
   i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
-    const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
+    const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
 
     return (
       <div>

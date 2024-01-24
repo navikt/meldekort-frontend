@@ -1,9 +1,8 @@
 import type { IMeldekortDag } from "~/models/sporsmal";
 import { Label } from "@navikt/ds-react";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import type { TFunction } from "i18next";
-import { parseHtml } from "~/utils/intlUtils";
-import { useTranslation } from "react-i18next";
+import type { TTFunction} from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { ukeFormatert } from "~/utils/datoUtils";
 import styles from "./Ukeliste.module.css";
 
@@ -16,30 +15,30 @@ interface IProps {
 }
 
 export default function Ukeliste(props: IProps) {
-  const { t } = useTranslation();
+  const { tt } = useExtendedTranslation();
   const { dager, fom, fraDag, tilDag, ytelsestypePostfix } = props
 
   return <div className={styles.ukeliste}>
-    <h3 className={styles.ukeTittel}>{t("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
+    <h3 className={styles.ukeTittel}>{tt("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
     <hr className={styles.ukeTittelDelimiter} />
 
     {
-      formaterUke(dager, fraDag, tilDag, ytelsestypePostfix, t)
+      formaterUke(dager, fraDag, tilDag, ytelsestypePostfix, tt)
     }
 
     <hr />
   </div>
 }
 
-function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string, t: TFunction) {
+function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string, tt: TTFunction) {
   const ukedager = [
-    t("ukedag.mandag").trim(),
-    t("ukedag.tirsdag").trim(),
-    t("ukedag.onsdag").trim(),
-    t("ukedag.torsdag").trim(),
-    t("ukedag.fredag").trim(),
-    t("ukedag.lordag").trim(),
-    t("ukedag.sondag").trim(),
+    tt("ukedag.mandag").trim(),
+    tt("ukedag.tirsdag").trim(),
+    tt("ukedag.onsdag").trim(),
+    tt("ukedag.torsdag").trim(),
+    tt("ukedag.fredag").trim(),
+    tt("ukedag.lordag").trim(),
+    tt("ukedag.sondag").trim(),
   ]
 
   return dager.slice(fraDag, tilDag).map((dag) => {
@@ -52,13 +51,13 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
           <span> </span>
           {
             [
-              dag.arbeidetTimerSum ? `${t("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${t("overskrift.timer").trim()}` : "",
-              dag.kurs ? t("utfylling.tiltak").trim() : "",
-              dag.syk ? t("utfylling.syk").trim() : "",
-              dag.annetFravaer ? t("utfylling.ferieFravar").trim() : ""
+              dag.arbeidetTimerSum ? `${tt("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${tt("overskrift.timer").trim()}` : "",
+              dag.kurs ? tt("utfylling.tiltak").trim() : "",
+              dag.syk ? tt("utfylling.syk").trim() : "",
+              dag.annetFravaer ? tt("utfylling.ferieFravar").trim() : ""
             ].filter(Boolean).join(", ")
           }
-          <UtvidetInformasjon innhold={hentDagsdata(dag, ytelsestypePostfix, t)} />
+          <UtvidetInformasjon innhold={hentDagsdata(dag, ytelsestypePostfix, tt)} />
         </div>
       )
     } else {
@@ -67,31 +66,31 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
   })
 }
 
-function hentDagsdata(dag: IMeldekortDag, ytelsestypePostfix: string, t: TFunction) {
+function hentDagsdata(dag: IMeldekortDag, ytelsestypePostfix: string, tt: TTFunction) {
   const innhold = []
 
   if (dag.arbeidetTimerSum > 0) {
-    innhold.push(formaterDagsdata("utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix, t))
+    innhold.push(formaterDagsdata("utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix, tt))
   }
 
   if (dag.kurs) {
-    innhold.push(formaterDagsdata("utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix, t))
+    innhold.push(formaterDagsdata("utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix, tt))
   }
 
   if (dag.syk) {
-    innhold.push(formaterDagsdata("utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix, t))
+    innhold.push(formaterDagsdata("utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix, tt))
   }
 
   if (dag.annetFravaer) {
-    innhold.push(formaterDagsdata("utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix, t))
+    innhold.push(formaterDagsdata("utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix, tt))
   }
 
   return <div key={"dagInfo" + dag.dag}>{innhold}</div>
 }
 
-function formaterDagsdata(utfyllingTekstid: string, forklaringTekstid: string, t: TFunction) {
+function formaterDagsdata(utfyllingTekstid: string, forklaringTekstid: string, tt: TTFunction) {
   return <div key={utfyllingTekstid}>
-    <Label>{t(utfyllingTekstid).toUpperCase()}</Label><br />
-    {parseHtml(t(forklaringTekstid))}<br /><br />
+    <Label>{tt(utfyllingTekstid).toUpperCase()}</Label><br />
+    {parseHtml(tt(forklaringTekstid))}<br /><br />
   </div>
 }

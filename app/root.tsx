@@ -5,12 +5,11 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderD
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
 import i18next from "~/i18next.server";
-import { useTranslation } from "react-i18next";
 import { useChangeLanguage } from "remix-i18next";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
 import { Alert } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
@@ -75,7 +74,7 @@ export default function App() {
 
   const { fragments, locale, feil, skrivemodus } = useLoaderData<typeof loader>();
 
-  const { i18n, t } = useTranslation();
+  const { i18n, tt } = useExtendedTranslation();
 
   // This hook will change the i18n instance language to the current locale detected by the loader
   useChangeLanguage(locale);
@@ -87,13 +86,13 @@ export default function App() {
   // Hvis skrivemodus er hentet men ikke er true, vis infomelding
   // Ellers vis Outlet
   if (feil || skrivemodus?.skrivemodus !== true) {
-    let alert = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
+    let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
 
     if (skrivemodus && skrivemodus.skrivemodus !== true) {
       // Hvis skrivemodues ikke er true:
       // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
       // Ellers vis standard melding
-      let melding = t("skrivemodusInfomelding")
+      let melding = tt("skrivemodusInfomelding")
       if (skrivemodus.melding) {
         melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
       }

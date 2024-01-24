@@ -1,11 +1,10 @@
-import { useTranslation } from "react-i18next";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import type { ISporsmal } from "~/models/sporsmal";
 import { ukeFormatert } from "~/utils/datoUtils";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
 import styles from "./Innsending.module.css";
@@ -23,7 +22,7 @@ interface IProps {
 export default function Utfylling(props: IProps) {
   const { fom, sporsmal, setSporsmal, ytelsestypePostfix, meldegruppe, activeStep, setActiveStep } = props
 
-  const { t } = useTranslation()
+  const { tt } = useExtendedTranslation()
 
   const [visFeil, setVisFeil] = useState(false)
   const [feilDager, setFeilDager] = useState<string[]>([])
@@ -38,13 +37,13 @@ export default function Utfylling(props: IProps) {
   const [feilKombinasjonFravaerSyk, setFeilKombinasjonFravaerSyk] = useState(false)
 
   const ukedager = [
-    t("ukedag.mandag").trim(),
-    t("ukedag.tirsdag").trim(),
-    t("ukedag.onsdag").trim(),
-    t("ukedag.torsdag").trim(),
-    t("ukedag.fredag").trim(),
-    t("ukedag.lordag").trim(),
-    t("ukedag.sondag").trim(),
+    tt("ukedag.mandag").trim(),
+    tt("ukedag.tirsdag").trim(),
+    tt("ukedag.onsdag").trim(),
+    tt("ukedag.torsdag").trim(),
+    tt("ukedag.fredag").trim(),
+    tt("ukedag.lordag").trim(),
+    tt("ukedag.sondag").trim(),
   ]
 
   const oppdaterSvar = (value: string | boolean, index: number, spObjKey: string) => {
@@ -56,7 +55,7 @@ export default function Utfylling(props: IProps) {
   const opprettArbeidsrad = (plussDager: number) => {
     return <>
       <div className={styles.arbeid}>
-        <Heading level="4" size="small">{t("utfylling.arbeid")}</Heading>
+        <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
       </div>
       {
         ukedager.map((dag, index) => {
@@ -72,7 +71,7 @@ export default function Utfylling(props: IProps) {
         })
       }
       <div className={styles.arbeid}>
-        <UtvidetInformasjon innhold={parseHtml(t(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
       </div>
     </>
   }
@@ -80,7 +79,7 @@ export default function Utfylling(props: IProps) {
   const opprettAktivitetsrad = (type: string, spObjKey: string, plussDager: number) => {
     return <>
       <div className={styles[type]}>
-        <Heading level="4" size="small">{t(`utfylling.${type}`)}</Heading>
+        <Heading level="4" size="small">{tt(`utfylling.${type}`)}</Heading>
       </div>
       {
         ukedager.map((dag, index) => {
@@ -95,14 +94,14 @@ export default function Utfylling(props: IProps) {
         })
       }
       <div className={styles[type]}>
-        <UtvidetInformasjon innhold={parseHtml(t(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
       </div>
     </>
   }
 
   const opprettUke = (plussDager: number) => {
     return <Accordion.Item defaultOpen className={styles.uke}>
-      <Accordion.Header>{t("overskrift.uke")} {ukeFormatert(fom, plussDager)}</Accordion.Header>
+      <Accordion.Header>{tt("overskrift.uke")} {ukeFormatert(fom, plussDager)}</Accordion.Header>
       <Accordion.Content>
         <div className={styles.grid}>
           <div></div>
@@ -259,47 +258,47 @@ export default function Utfylling(props: IProps) {
               <ul>
                 {
                   feilIArbeid
-                    ? <li>{parseHtml(t("utfylling.mangler.arbeid"))}</li>
+                    ? <li>{parseHtml(tt("utfylling.mangler.arbeid"))}</li>
                     : null
                 }
                 {
                   feilIKurs
-                    ? <li>{parseHtml(t("utfylling.mangler.tiltak"))}</li>
+                    ? <li>{parseHtml(tt("utfylling.mangler.tiltak"))}</li>
                     : null
                 }
                 {
                   feilISyk
-                    ? <li>{parseHtml(t("utfylling.mangler.syk"))}</li>
+                    ? <li>{parseHtml(tt("utfylling.mangler.syk"))}</li>
                     : null
                 }
                 {
                   feilIAnnetFravaer
-                    ? <li>{parseHtml(t("utfylling.mangler.ferieFravar"))}</li>
+                    ? <li>{parseHtml(tt("utfylling.mangler.ferieFravar"))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimerHeleHalve
-                    ? <li>{parseHtml(t("arbeidTimer.heleEllerHalveTallValidator"))}</li>
+                    ? <li>{parseHtml(tt("arbeidTimer.heleEllerHalveTallValidator"))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimer
-                    ? <li>{parseHtml(t("arbeidTimer.rangeValidator.range"))}</li>
+                    ? <li>{parseHtml(tt("arbeidTimer.rangeValidator.range"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonSykArbeid
-                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonSykArbeidValidator"))}</li>
+                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonSykArbeidValidator"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerArbeid
-                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonFravaerArbeidValidator"))}</li>
+                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonFravaerArbeidValidator"))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerSyk
-                    ? <li>{parseHtml(t("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
+                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
                     : null
                 }
               </ul>
@@ -311,12 +310,12 @@ export default function Utfylling(props: IProps) {
       </Accordion>
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => tilbake()}>{t("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => validerOgVidere()}>{t("naviger.neste")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{tt("naviger.forrige")}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">
-          {t("naviger.avbryt")}
+          {tt("naviger.avbryt")}
         </RemixLink>
       </div>
     </div>

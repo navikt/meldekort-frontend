@@ -4,10 +4,9 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { IPerson, IPersonInfo } from "~/models/person";
 import { hentPerson, hentPersonInfo } from "~/models/person";
-import { useTranslation } from "react-i18next";
 import { useLoaderData } from "@remix-run/react";
 import { Alert } from "@navikt/ds-react";
-import { parseHtml } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
@@ -82,11 +81,11 @@ export default function Etterregistrering() {
   } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
-  const { i18n, t } = useTranslation(fraDato)
+  const { i18n, tt } = useExtendedTranslation(fraDato)
   i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   if (feil || !valgtMeldekort || !personInfo) {
-    const innhold = <Alert variant="error">{parseHtml(t("feilmelding.baksystem"))}</Alert>
+    const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
 
     return (
       <div>
