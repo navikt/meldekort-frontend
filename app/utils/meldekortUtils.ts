@@ -89,12 +89,12 @@ export const finnYtelsestypePostfix = (meldegruppe: Meldegruppe): string => {
   return Ytelsestype.DAGPENGER;
 };
 
-export const finnNesteSomKanSendes = (meldekort: IMeldekort[] | undefined, valgtMeldekortId: string) => {
+export const finnNesteSomKanSendes = (meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) => {
   return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId && meldekort.meldeperiode.kanKortSendes)
 }
 
-export const finnFoersteSomIkkeKanSendesEnna = (meldekort: IMeldekort[] | undefined) => {
+export const finnFoersteSomIkkeKanSendesEnna = (meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) => {
   return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => meldekort.kortStatus === KortStatus.OPPRE && !meldekort.meldeperiode.kanKortSendes)
 }

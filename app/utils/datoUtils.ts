@@ -22,7 +22,7 @@ export function formaterPeriodeTilUkenummer(fraOgMed: Date | string, tilOgMed: D
   return `${startUkenummer} - ${sluttUkenummer}`;
 }
 
-export function formaterPeriode(fom: string, plussDager: number, periodelengde: number): string {
+export function formaterPeriode(fom: Date | string, plussDager: number, periodelengde: number): string {
   const nestePeriodeFom = new Date(fom)
   nestePeriodeFom.setDate(nestePeriodeFom.getDate() + plussDager)
   const nestePeriodeTom = new Date(nestePeriodeFom)

@@ -5,7 +5,7 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
 import { useLoaderData } from "@remix-run/react";
-import { Alert, BodyLong, Table } from "@navikt/ds-react";
+import { Alert, BodyLong, GuidePanel, Table } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import type { ReactElement } from "react";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
@@ -46,10 +46,13 @@ export default function Etterregistrering() {
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else if (person.etterregistrerteMeldekort.length === 0) {
-    innhold = <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+    innhold = <GuidePanel>
+      <div>&nbsp;</div>
+      <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+    </GuidePanel>
   } else {
-    person.etterregistrerteMeldekort.sort(meldekortEtterKanSendesFraKomparator)
-    const nesteMeldekortId = person.etterregistrerteMeldekort[0].meldekortId
+    const meldekortListe = person.etterregistrerteMeldekort.sort(meldekortEtterKanSendesFraKomparator)
+    const nesteMeldekortId = meldekortListe[0].meldekortId
 
     innhold = <div>
       <BodyLong spacing>
@@ -63,7 +66,7 @@ export default function Etterregistrering() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {person.etterregistrerteMeldekort.map((meldekort) => {
+          {meldekortListe.map((meldekort) => {
             return (
               <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
                 <Table.DataCell>

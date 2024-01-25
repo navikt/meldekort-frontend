@@ -4,14 +4,18 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
-import { Alert, BodyLong, Box, Table } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, GuidePanel, Label, Table } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { RemixLink } from "~/components/RemixLink";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
 import { getOboToken } from "~/utils/authUtils";
-import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
+import {
+  finnFoersteSomIkkeKanSendesEnna,
+  finnNesteSomKanSendes,
+  meldekortEtterKanSendesFraKomparator
+} from "~/utils/meldekortUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -43,11 +47,33 @@ export default function SendMeldekort() {
 
   let innhold: ReactElement
 
+  const nesteMeldekort = finnNesteSomKanSendes(person?.meldekort, "")
+  const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort)
+
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+  } else if (!nesteMeldekort) {
+    if (foersteMeldekortSomIkkeKanSendesEnna) {
+      innhold = <GuidePanel>
+        <div>
+          {parseHtml(tt("overskrift.nesteMeldekort"))}
+          {parseHtml(tt("sendMeldekort.info.innsendingStatus.kanSendes"))}
+          {formaterDato(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.kortKanSendesFra)}
+        </div>
+        <Label>
+          {tt("overskrift.uke")}
+          {formaterPeriode(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.fra, 0, 14)}
+        </Label>
+        <div>
+          {parseHtml(tt("sendMeldekort.info.ingenKlare"))}
+        </div>
+      </GuidePanel>
+    } else {
+      innhold = <GuidePanel>{tt("sporsmal.ingenMeldekortASende")}</GuidePanel>
+    }
   } else {
-    person.meldekort.sort(meldekortEtterKanSendesFraKomparator)
-    const nesteMeldekortId = person.meldekort[0].meldekortId
+    const meldekortListe = person.meldekort.sort(meldekortEtterKanSendesFraKomparator)
+    const nesteMeldekortId = nesteMeldekort.meldekortId
 
     innhold = <div>
       <BodyLong spacing>
@@ -61,7 +87,7 @@ export default function SendMeldekort() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {person.meldekort.map((meldekort) => {
+          {meldekortListe.map((meldekort) => {
             return (
               <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
                 <Table.DataCell>
