@@ -45,6 +45,8 @@ export default function Etterregistrering() {
 
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+  } else if (person.etterregistrerteMeldekort.length === 0) {
+    innhold = <div>{tt("sporsmal.ingenMeldekortASende")}</div>
   } else {
     person.etterregistrerteMeldekort.sort(meldekortEtterKanSendesFraKomparator)
     const nesteMeldekortId = person.etterregistrerteMeldekort[0].meldekortId
@@ -84,6 +86,7 @@ export default function Etterregistrering() {
       </div>
     </div>
   }
+
 
   return (
     <div>
