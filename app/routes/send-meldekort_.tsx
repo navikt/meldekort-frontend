@@ -16,6 +16,7 @@ import {
   finnNesteSomKanSendes,
   meldekortEtterKanSendesFraKomparator
 } from "~/utils/meldekortUtils";
+import { Navigate } from "react-router";
 
 export const meta: MetaFunction = () => {
   return [
@@ -53,7 +54,10 @@ export default function SendMeldekort() {
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else if (!nesteMeldekort) {
+    // Det finnes ikke meldekort som kan sendes nå
+    // Finnes det meldekort som kan sendes senere?
     if (foersteMeldekortSomIkkeKanSendesEnna) {
+      // Ja, det finnes minst et meldekort som kan sendes senere. Viser informasjon om dette meldekortet
       innhold = <GuidePanel>
         <div>
           {parseHtml(tt("overskrift.nesteMeldekort"))}
@@ -69,54 +73,75 @@ export default function SendMeldekort() {
         </div>
       </GuidePanel>
     } else {
+      // Nei, det finnes ingen meldekort å sende
       innhold = <GuidePanel>{tt("sporsmal.ingenMeldekortASende")}</GuidePanel>
     }
   } else {
-    const meldekortListe = person.meldekort.sort(meldekortEtterKanSendesFraKomparator)
-    const nesteMeldekortId = nesteMeldekort.meldekortId
+    const meldekortListe = person?.meldekort.sort(meldekortEtterKanSendesFraKomparator)
 
-    innhold = <div>
-      <BodyLong spacing>
-        {parseHtml(tt("sendMeldekort.info.kanSende"))}
-      </BodyLong>
-      <Table zebraStripes>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell scope="col">{tt("overskrift.periode")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.dato")}</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {meldekortListe.map((meldekort) => {
-            return (
-              <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
-                <Table.DataCell>
-                  {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
-                </Table.DataCell>
-                <Table.DataCell>
-                  {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
-                </Table.DataCell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-      </Table>
+    // Det finnes meldekort som kan sendes nå
+    // Men er det ikke for mange?
+    if (meldekortListe.length > 5) {
+      // Ja, det er for mange. Viser en feilmelding
+      innhold = <GuidePanel>
+        <BodyLong size="large">
+          {parseHtml(tt("sendMeldekort.info.forMangeMeldekort"))}
+        </BodyLong>
+        <Box padding="2" />
+        <BodyLong>
+          {parseHtml(tt("sendMeldekort.info.forMangeMeldekort.feilmelding"))}
+        </BodyLong>
+      </GuidePanel>
+    } else if (meldekortListe.length === 1) {
+      // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
+      innhold = <Navigate to={`/send-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />
+    } else {
+      // Det finnes flere meldekort. Viser dem
+      const nesteMeldekortId = nesteMeldekort.meldekortId
 
-      <Box padding="4" />
+      innhold = <div>
+        <BodyLong spacing>
+          {parseHtml(tt("sendMeldekort.info.kanSende"))}
+        </BodyLong>
+        <Table zebraStripes>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell scope="col">{tt("overskrift.periode")}</Table.HeaderCell>
+              <Table.HeaderCell scope="col">{tt("overskrift.dato")}</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {meldekortListe.map((meldekort) => {
+              return (
+                <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
+                  <Table.DataCell>
+                    {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
+                  </Table.DataCell>
+                  <Table.DataCell>
+                    {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
+                  </Table.DataCell>
+                </Table.Row>
+              )
+            })}
+          </Table.Body>
+        </Table>
 
-      <Box padding="4" borderColor="border-subtle" borderWidth="2" borderRadius="xlarge">
-        <div>{parseHtml(tt("sendMeldekort.info.neste"))}</div>
-        <div>{parseHtml(tt("sendMeldekort.info.eldstePerioden"))}</div>
-        <div>{parseHtml(tt("sendMeldekort.info.automatiskLedet"))}</div>
-      </Box>
+        <Box padding="4" />
 
-      <div className="buttons">
-        <div />
-        <RemixLink as="Button" variant="primary" to={`/send-meldekort/${nesteMeldekortId}`}>
-          {tt("naviger.neste")}
-        </RemixLink>
+        <Box padding="4" borderColor="border-subtle" borderWidth="2" borderRadius="xlarge">
+          <div>{parseHtml(tt("sendMeldekort.info.neste"))}</div>
+          <div>{parseHtml(tt("sendMeldekort.info.eldstePerioden"))}</div>
+          <div>{parseHtml(tt("sendMeldekort.info.automatiskLedet"))}</div>
+        </Box>
+
+        <div className="buttons">
+          <div />
+          <RemixLink as="Button" variant="primary" to={`/send-meldekort/${nesteMeldekortId}`}>
+            {tt("naviger.neste")}
+          </RemixLink>
+        </div>
       </div>
-    </div>
+    }
   }
 
   return (
