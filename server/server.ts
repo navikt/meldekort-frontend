@@ -45,8 +45,6 @@ app.use(
 // Everything else (like favicon.ico) is cached for an hour. You may want to be more aggressive with this caching
 app.use(express.static("public", { maxAge: "1h" }));
 
-app.use(morgan("tiny"));
-
 app.get(`/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
 app.use(
@@ -55,6 +53,10 @@ app.use(
     buckets: [0.1, 0.5, 1, 1.5],
   })
 );
+
+// Morgan is an HTTP request logger middleware
+// We should use Morgan after isAlive|isReady and metrics so as Morgan doesn't log these requests
+app.use(morgan("tiny"));
 
 // This is used when we test the app locally
 app.get("/api/tekst/hentAlle", (_, res) => res.send("{}"))
