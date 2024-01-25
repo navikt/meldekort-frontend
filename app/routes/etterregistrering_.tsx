@@ -11,6 +11,7 @@ import type { ReactElement } from "react";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { RemixLink } from "~/components/RemixLink";
 import { getOboToken } from "~/utils/authUtils";
+import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -45,6 +46,7 @@ export default function Etterregistrering() {
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else {
+    person.etterregistrerteMeldekort.sort(meldekortEtterKanSendesFraKomparator)
     const nesteMeldekortId = person.etterregistrerteMeldekort[0].meldekortId
 
     innhold = <div>

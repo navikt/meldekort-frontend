@@ -72,7 +72,7 @@ export interface IMeldekortDag {
   meldegruppe: string | null;
 }
 
-export async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
+async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
   try {
     return await fetch(url, {

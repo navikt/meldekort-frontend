@@ -1,8 +1,10 @@
 import type { TTFunction } from "~/utils/intlUtils";
+import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
 import { Ytelsestype } from "~/models/ytelsestype";
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 
 export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "warning" | "error" => {
   switch (status) {
@@ -86,3 +88,20 @@ export const finnYtelsestypePostfix = (meldegruppe: Meldegruppe): string => {
   if (meldegruppe === Meldegruppe.INDIV) return Ytelsestype.TILTAKSPENGER;
   return Ytelsestype.DAGPENGER;
 };
+
+export const finnNesteSomKanSendes = (meldekort: IMeldekort[] | undefined, valgtMeldekortId: string) => {
+  return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
+    .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId && meldekort.meldeperiode.kanKortSendes)
+}
+
+export const finnFoersteSomIkkeKanSendesEnna = (meldekort: IMeldekort[] | undefined) => {
+  return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
+    .find(meldekort => meldekort.kortStatus === KortStatus.OPPRE && !meldekort.meldeperiode.kanKortSendes)
+}
+
+export const meldekortEtterKanSendesFraKomparator = (a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number => {
+  return (
+    new Date(a.meldeperiode.kortKanSendesFra).valueOf() -
+    new Date(b.meldeperiode.kortKanSendesFra).valueOf()
+  );
+}

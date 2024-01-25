@@ -15,7 +15,8 @@ export function opprettSporsmalsobjekter(
   innsendingstype: Innsendingstype,
   begrunnelse: string,
   sporsmal: ISporsmal,
-  mottattDato: Date
+  mottattDato: Date,
+  nesteMeldekortKanSendes: string | undefined
 ): ISporsmalsobjekt[] {
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
 
@@ -23,12 +24,10 @@ export function opprettSporsmalsobjekter(
 
   const korrigering = innsendingstype === Innsendingstype.KORRIGERING
 
-  const nesteDato = new Date() // TODO:
-
   // Oppretter et object for å samle alt vi trenger
   const sporsmalsobjekter = new Array<ISporsmalsobjekt>()
 
-  sporsmalsobjekter.push(header(korrigering, valgtMeldekort, mottattDato, nesteDato))
+  sporsmalsobjekter.push(header(korrigering, valgtMeldekort, mottattDato, nesteMeldekortKanSendes))
   sporsmalsobjekter.push(veiledning(ytelsestypePostfix))
   sporsmalsobjekter.push(ansvar(ytelsestypePostfix))
 
@@ -58,7 +57,7 @@ function header(
   korrigering: boolean,
   valgtMeldekort: Jsonify<IMeldekort>,
   mottattDato: Date,
-  nesteDato: Date | null
+  nesteDato: string | undefined
 ): ISporsmalsobjekt {
   const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato)
 

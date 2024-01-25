@@ -19,8 +19,9 @@ import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;
-  nesteMeldekort?: Number | undefined;
-  nesteEtterregistrerteMeldekort?: Number | undefined;
+  nesteMeldekortId?: Number | undefined;
+  nesteEtterregistrerteMeldekortId?: Number | undefined;
+  nesteMeldekortKanSendes?: string | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
   minSideUrl: string;
@@ -35,8 +36,9 @@ export default function Innsending(props: IProps) {
     sporsmal,
     minSideUrl,
     personInfo,
-    nesteMeldekort,
-    nesteEtterregistrerteMeldekort
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
+    nesteMeldekortKanSendes
   } = props
 
   const fom = valgtMeldekort.meldeperiode.fra
@@ -82,7 +84,8 @@ export default function Innsending(props: IProps) {
                            valgtMeldekort={valgtMeldekort}
                            innsendingstype={innsendingstype}
                            activeStep={activeStep}
-                           setActiveStep={setActiveStep} />
+                           setActiveStep={setActiveStep}
+                           nesteMeldekortKanSendes={nesteMeldekortKanSendes} />
   } else {
     innhold = <Kvittering minSideUrl={minSideUrl}
                           innsendingstype={innsendingstype}
@@ -92,8 +95,9 @@ export default function Innsending(props: IProps) {
                           tom={tom}
                           begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
                           sporsmal={nyeSporsmal}
-                          nesteMeldekort={nesteMeldekort}
-                          nesteEtterregistrerteMeldekort={nesteEtterregistrerteMeldekort} />
+                          nesteMeldekortId={nesteMeldekortId}
+                          nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
+                          nesteMeldekortKanSendes={nesteMeldekortKanSendes} />
   }
 
   return (

@@ -23,10 +23,19 @@ interface IProps {
   innsendingstype: Innsendingstype;
   activeStep: number;
   setActiveStep: Function;
+  nesteMeldekortKanSendes: string | undefined;
 }
 
 export default function Bekreftelse(props: IProps) {
-  const { begrunnelse, sporsmal, valgtMeldekort, innsendingstype, activeStep, setActiveStep } = props
+  const {
+    begrunnelse,
+    sporsmal,
+    valgtMeldekort,
+    innsendingstype,
+    activeStep,
+    setActiveStep,
+    nesteMeldekortKanSendes
+  } = props
 
   const actionData = useActionData<typeof action>() // TODO: Action fra..?
   const baksystemFeil = actionData?.baksystemFeil
@@ -117,10 +126,9 @@ export default function Bekreftelse(props: IProps) {
         mottattDato: mottattDato,
         sesjonsId: "IKKE I BRUK",
         signatur: true, // Vi sender ikke uten brukerens samtykke
-        sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato) // Her samler vi alt bruker har sett for å lagre i Dokarkiv
+        sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato, nesteMeldekortKanSendes) // Her samler vi alt bruker har sett for å lagre i Dokarkiv
       }
 
-      console.log(meldekortdetaljer)
       const formData = new FormData()
       formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer))
       submit(formData, { method: "post" })

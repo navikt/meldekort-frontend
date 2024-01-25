@@ -22,8 +22,9 @@ interface IProps {
   tom: string;
   begrunnelse: string;
   sporsmal: ISporsmal;
-  nesteMeldekort: Number | undefined;
-  nesteEtterregistrerteMeldekort: Number | undefined;
+  nesteMeldekortId: Number | undefined;
+  nesteEtterregistrerteMeldekortId: Number | undefined;
+  nesteMeldekortKanSendes: string | undefined;
 }
 
 export default function Kvittering(props: IProps) {
@@ -36,33 +37,33 @@ export default function Kvittering(props: IProps) {
     tom,
     begrunnelse,
     sporsmal,
-    nesteMeldekort,
-    nesteEtterregistrerteMeldekort
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
+    nesteMeldekortKanSendes
   } = props
 
   const { tt } = useExtendedTranslation()
 
   const mottattDato = new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
-  const nesteDato = false // TODO: Finn neste dato hvis det ikke er ETTERREGISTRERING eller KORRIGERING
 
   const createButton = (to: string, text: string) => {
     return <Button variant="primary" onClick={() => {location.href=to}}>{text}</Button>
   }
 
   let nesteLink = <NavLink to={minSideUrl}>{tt("tilbake.minSide")}</NavLink>
-  const mLink = createButton(`/send-meldekort/${nesteMeldekort}`, tt("overskrift.etterregistrertMeldekort"))
-  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekort}`, tt("overskrift.etterregistrertMeldekort"))
+  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
+  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
 
   if (innsendingstype === Innsendingstype.INNSENDING) {
-    if (nesteMeldekort) {
+    if (nesteMeldekortId) {
       nesteLink = mLink
-    } else if (nesteEtterregistrerteMeldekort) {
+    } else if (nesteEtterregistrerteMeldekortId) {
       nesteLink = eLink
     }
   } else if (innsendingstype === Innsendingstype.ETTERREGISTRERING) {
-    if (nesteEtterregistrerteMeldekort) {
+    if (nesteEtterregistrerteMeldekortId) {
       nesteLink = eLink
-    } else if (nesteMeldekort) {
+    } else if (nesteMeldekortId) {
       nesteLink = mLink
     }
   }
@@ -97,12 +98,12 @@ export default function Kvittering(props: IProps) {
           [formaterDato(mottattDato), format(mottattDato, "HH:mm")]
         )}
       </BodyLong>
-      {nesteDato && (
+      {nesteMeldekortKanSendes && (
         <BodyLong size="large">
             <span>
               {parseHtml(
                 tt("sendt.meldekortKanSendes"),
-                [formaterDato(nesteDato)]
+                [formaterDato(nesteMeldekortKanSendes)]
               )}
             </span>
         </BodyLong>

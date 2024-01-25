@@ -15,6 +15,7 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getOboToken } from "~/utils/authUtils";
 import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -32,8 +33,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let person: IPerson | null = null
   let personInfo: IPersonInfo | null = null
   let valgtMeldekort: IMeldekort | undefined
-  let nesteMeldekort: Number | undefined
-  let nesteEtterregistrerteMeldekort: Number | undefined
+  let nesteMeldekortId: Number | undefined
+  let nesteEtterregistrerteMeldekortId: Number | undefined
 
   const meldekortId = params.meldekortId
 
@@ -53,16 +54,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       personInfo = await personInfoResponse.json()
 
       valgtMeldekort = person?.etterregistrerteMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId)
-      nesteMeldekort = (person?.meldekort?.length) ? person?.meldekort[0].meldekortId : undefined
-      nesteEtterregistrerteMeldekort = person?.etterregistrerteMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) !== meldekortId)?.meldekortId
+      nesteMeldekortId = finnNesteSomKanSendes(person?.meldekort, meldekortId)?.meldekortId
+      nesteEtterregistrerteMeldekortId = finnNesteSomKanSendes(person?.etterregistrerteMeldekort, meldekortId)?.meldekortId
     }
   }
 
   return json({
     feil,
     valgtMeldekort,
-    nesteMeldekort,
-    nesteEtterregistrerteMeldekort,
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
     personInfo,
     minSideUrl: getEnv("MIN_SIDE_URL")
   })
@@ -72,8 +73,8 @@ export default function Etterregistrering() {
   const {
     feil,
     valgtMeldekort,
-    nesteMeldekort,
-    nesteEtterregistrerteMeldekort,
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
     personInfo,
     minSideUrl
   } = useLoaderData<typeof loader>()
@@ -115,8 +116,8 @@ export default function Etterregistrering() {
 
   return <Innsending innsendingstype={Innsendingstype.ETTERREGISTRERING}
                      valgtMeldekort={valgtMeldekort}
-                     nesteMeldekort={nesteMeldekort}
-                     nesteEtterregistrerteMeldekort={nesteEtterregistrerteMeldekort}
+                     nesteMeldekortId={nesteMeldekortId}
+                     nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
                      sporsmal={sporsmal}
                      personInfo={personInfo}
                      minSideUrl={minSideUrl} />

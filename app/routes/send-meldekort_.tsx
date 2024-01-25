@@ -11,6 +11,7 @@ import { RemixLink } from "~/components/RemixLink";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
 import { getOboToken } from "~/utils/authUtils";
+import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -45,6 +46,7 @@ export default function SendMeldekort() {
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else {
+    person.meldekort.sort(meldekortEtterKanSendesFraKomparator)
     const nesteMeldekortId = person.meldekort[0].meldekortId
 
     innhold = <div>
