@@ -8,7 +8,8 @@ import type { FallbackNs, UseTranslationOptions } from "react-i18next";
 export const getText = (key: string, values?: object): string => {
   // Prøv å finne tekst med den gitte nøkkelen
   // Hvis teksten ikke blir funnet, prøv nøkkelen uten postfix
-  let text = i18next.t([key, key.split("-")[0]]).trim()
+  let text = i18next.t([key, key.split("-")[0]]) || ""
+  text = text.trim()
 
   if (values) {
     for (const key in values) {
