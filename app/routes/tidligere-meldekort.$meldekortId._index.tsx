@@ -109,7 +109,7 @@ export default function Meldekortdetaljer() {
             </Table.DataCell>
             <Table.DataCell>
               <Tag variant={finnRiktigTagVariant(valgtMeldekort.kortStatus)}>
-                {mapKortStatusTilTekst(tt, valgtMeldekort.kortStatus)}
+                {mapKortStatusTilTekst(valgtMeldekort.kortStatus)}
               </Tag>
             </Table.DataCell>
             <Table.DataCell>
@@ -120,7 +120,7 @@ export default function Meldekortdetaljer() {
               }
             </Table.DataCell>
             <Table.DataCell>
-              {mapKortTypeTilTekst(tt, valgtMeldekort.kortType)}
+              {mapKortTypeTilTekst(valgtMeldekort.kortType)}
             </Table.DataCell>
           </Table.Row>
         </Table.Body>

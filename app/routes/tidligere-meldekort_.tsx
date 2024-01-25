@@ -88,7 +88,7 @@ export default function TidligereMeldekort() {
                 </Table.DataCell>
                 <Table.DataCell>
                   <Tag variant={finnRiktigTagVariant(meldekort.kortStatus)}>
-                    {mapKortStatusTilTekst(tt, meldekort.kortStatus)}
+                    {mapKortStatusTilTekst(meldekort.kortStatus)}
                   </Tag>
                 </Table.DataCell>
                 <Table.DataCell>

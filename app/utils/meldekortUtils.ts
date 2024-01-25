@@ -1,10 +1,10 @@
-import type { TTFunction } from "~/utils/intlUtils";
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
 import { Ytelsestype } from "~/models/ytelsestype";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import { getText } from "~/utils/intlUtils";
 
 export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "warning" | "error" => {
   switch (status) {
@@ -23,33 +23,33 @@ export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "
   }
 };
 
-export const mapKortStatusTilTekst = (tt: TTFunction, status: KortStatus) => {
+export const mapKortStatusTilTekst = (status: KortStatus) => {
   switch (status) {
     case KortStatus.KLAR:
-      return tt("meldekort.status.klar");
+      return getText("meldekort.status.klar");
 
     case KortStatus.REGIS:
-      return tt("meldekort.status.regis");
+      return getText("meldekort.status.regis");
     case KortStatus.NYKTR:
-      return tt("meldekort.status.nyktr");
+      return getText("meldekort.status.nyktr");
     case KortStatus.UBEHA:
-      return tt("meldekort.status.ubeha");
+      return getText("meldekort.status.ubeha");
 
     case KortStatus.FERDI:
-      return tt("meldekort.status.ferdi");
+      return getText("meldekort.status.ferdi");
     case KortStatus.IKKE:
-      return tt("meldekort.status.ikke");
+      return getText("meldekort.status.ikke");
     case KortStatus.OVERM:
-      return tt("meldekort.status.overm");
+      return getText("meldekort.status.overm");
 
     case KortStatus.FMOPP:
-      return tt("meldekort.status.fmopp");
+      return getText("meldekort.status.fmopp");
     case KortStatus.FUOPP:
-      return tt("meldekort.status.fuopp");
+      return getText("meldekort.status.fuopp");
     case KortStatus.FEIL:
-      return tt("meldekort.status.feil");
+      return getText("meldekort.status.feil");
     case KortStatus.VENTE:
-      return tt("meldekort.status.vente");
+      return getText("meldekort.status.vente");
 
 
     default:
@@ -57,26 +57,26 @@ export const mapKortStatusTilTekst = (tt: TTFunction, status: KortStatus) => {
   }
 };
 
-export const mapKortTypeTilTekst = (tt: TTFunction, type: KortType) => {
+export const mapKortTypeTilTekst = (type: KortType) => {
   switch (type) {
     case KortType.RETUR:
-      return tt("meldekort.type.retur");
+      return getText("meldekort.type.retur");
     case KortType.ORDINAER:
-      return tt("meldekort.type.ordinar");
+      return getText("meldekort.type.ordinar");
     case KortType.ERSTATNING:
-      return tt("meldekort.type.erstatning");
+      return getText("meldekort.type.erstatning");
     case KortType.ELEKTRONISK:
-      return tt("meldekort.type.elektronisk");
+      return getText("meldekort.type.elektronisk");
     case KortType.AAP:
-      return tt("meldekort.type-AAP");
+      return getText("meldekort.type-AAP");
     case KortType.ORDINAER_MANUELL:
-      return tt("meldekort.type.ordinarManuell");
+      return getText("meldekort.type.ordinarManuell");
     case KortType.MASKINELT_OPPDATERT:
-      return tt("meldekort.type.maskineltOppdatert");
+      return getText("meldekort.type.maskineltOppdatert");
     case KortType.MANUELL_ARENA:
-      return tt("meldekort.type.manuellArena");
+      return getText("meldekort.type.manuellArena");
     case KortType.KORRIGERT_ELEKTRONISK:
-      return tt("meldekort.type.korrigertElektronisk");
+      return getText("meldekort.type.korrigertElektronisk");
 
     default:
       return "Feil i korttype";
