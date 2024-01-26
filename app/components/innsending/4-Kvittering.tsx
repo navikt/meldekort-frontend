@@ -50,7 +50,7 @@ export default function Kvittering(props: IProps) {
   }
 
   let nesteLink = <NavLink to={minSideUrl}>{tt("tilbake.minSide")}</NavLink>
-  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
+  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"))
   const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
 
   if (innsendingstype === Innsendingstype.INNSENDING) {
