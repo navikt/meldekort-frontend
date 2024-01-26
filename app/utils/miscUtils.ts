@@ -1,4 +1,5 @@
 import type { ISporsmal } from "~/models/sporsmal";
+import { getText } from "~/utils/intlUtils";
 
 export function formaterBelop(belop?: number): string {
   if (typeof belop === "number") {
@@ -49,4 +50,16 @@ export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
   }
 
   return null
+}
+
+export function ukeDager() {
+  return [
+    getText("ukedag.mandag").trim(),
+    getText("ukedag.tirsdag").trim(),
+    getText("ukedag.onsdag").trim(),
+    getText("ukedag.torsdag").trim(),
+    getText("ukedag.fredag").trim(),
+    getText("ukedag.lordag").trim(),
+    getText("ukedag.sondag").trim(),
+  ]
 }

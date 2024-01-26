@@ -7,6 +7,7 @@ import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { formaterDato, formaterTid, formaterPeriode } from "~/utils/datoUtils";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { getText } from "~/utils/intlUtils";
+import { ukeDager } from "~/utils/miscUtils";
 
 // Vi må samle alt vi har vist til bruker og sende sammen med meldekort for å lagre dette i Dokarkiv
 // Dette brukes når vi mottar spørsmål eller klager på informasjon brukere kunne få på et eller annet tidspunkt
@@ -135,15 +136,7 @@ function uke(
 }
 
 function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string) {
-  const ukedager = [
-    getText("ukedag.mandag").trim(),
-    getText("ukedag.tirsdag").trim(),
-    getText("ukedag.onsdag").trim(),
-    getText("ukedag.torsdag").trim(),
-    getText("ukedag.fredag").trim(),
-    getText("ukedag.lordag").trim(),
-    getText("ukedag.sondag").trim(),
-  ]
+  const ukedager = ukeDager()
 
   return dager.slice(fraDag, tilDag).map((dag) => {
     const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk

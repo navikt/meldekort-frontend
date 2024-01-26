@@ -5,6 +5,7 @@ import type { TTFunction } from "~/utils/intlUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { ukeFormatert } from "~/utils/datoUtils";
 import styles from "./Ukeliste.module.css";
+import { ukeDager } from "~/utils/miscUtils";
 
 interface IProps {
   dager: IMeldekortDag[];
@@ -31,15 +32,7 @@ export default function Ukeliste(props: IProps) {
 }
 
 function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string) {
-  const ukedager = [
-    tt("ukedag.mandag").trim(),
-    tt("ukedag.tirsdag").trim(),
-    tt("ukedag.onsdag").trim(),
-    tt("ukedag.torsdag").trim(),
-    tt("ukedag.fredag").trim(),
-    tt("ukedag.lordag").trim(),
-    tt("ukedag.sondag").trim(),
-  ]
+  const ukedager = ukeDager()
 
   return dager.slice(fraDag, tilDag).map((dag) => {
     const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk

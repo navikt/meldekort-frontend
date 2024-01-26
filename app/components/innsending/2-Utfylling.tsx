@@ -8,6 +8,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
 import styles from "./Innsending.module.css";
+import { ukeDager } from "~/utils/miscUtils";
 
 interface IProps {
   sporsmal: ISporsmal;
@@ -36,15 +37,7 @@ export default function Utfylling(props: IProps) {
   const [feilKombinasjonFravaerArbeid, setFeilKombinasjonFravaerArbeid] = useState(false)
   const [feilKombinasjonFravaerSyk, setFeilKombinasjonFravaerSyk] = useState(false)
 
-  const ukedager = [
-    tt("ukedag.mandag").trim(),
-    tt("ukedag.tirsdag").trim(),
-    tt("ukedag.onsdag").trim(),
-    tt("ukedag.torsdag").trim(),
-    tt("ukedag.fredag").trim(),
-    tt("ukedag.lordag").trim(),
-    tt("ukedag.sondag").trim(),
-  ]
+  const ukedager = ukeDager()
 
   const oppdaterSvar = (value: string | boolean, index: number, spObjKey: string) => {
     const tmpSporsmal: any = { ...sporsmal }
