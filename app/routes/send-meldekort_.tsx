@@ -59,22 +59,25 @@ export default function SendMeldekort() {
     if (foersteMeldekortSomIkkeKanSendesEnna) {
       // Ja, det finnes minst et meldekort som kan sendes senere. Viser informasjon om dette meldekortet
       innhold = <GuidePanel>
-        <div>
+        <BodyLong>
           {parseHtml(tt("overskrift.nesteMeldekort"))}
           {parseHtml(tt("sendMeldekort.info.innsendingStatus.kanSendes"))}
           {formaterDato(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.kortKanSendesFra)}
-        </div>
+        </BodyLong>
         <Label>
           {tt("overskrift.uke")}
           {formaterPeriode(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.fra, 0, 14)}
         </Label>
-        <div>
+        <BodyLong>
           {parseHtml(tt("sendMeldekort.info.ingenKlare"))}
-        </div>
+        </BodyLong>
       </GuidePanel>
     } else {
       // Nei, det finnes ingen meldekort å sende
-      innhold = <GuidePanel>{tt("sporsmal.ingenMeldekortASende")}</GuidePanel>
+      innhold = <GuidePanel>
+        <div>&nbsp;</div>
+        <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+      </GuidePanel>
     }
   } else {
     const meldekortListe = person?.meldekort.sort(meldekortEtterKanSendesFraKomparator)
