@@ -75,6 +75,8 @@ app.get("/dekorator", (_, res) => res.send("" +
   "}"
 ))
 
+// i18next tries to load texts from files, but we don't have these texts in files, we have them in meldekort-api
+// So we check what i18next wants to get, fetch data from meldekort-api and return to i18next
 app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
     const sprak = req.params["sprak"] || "nb"
     const fraDato = req.params["fraDato"] || "1000-01-01"
@@ -82,10 +84,10 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
     const feilmelding = (sprak === "nb") ? "Noe gikk galt" : "Something went wrong"
 
     let token = req.headers.authorization || ""
-    token = token.substring(7) // Ta alt etter "Bearer "
+    token = token.substring(7) // Take everything after "Bearer "
 
     let onBehalfOfToken = ""
-    // Det er ingen vits i å hente ObO Token når token er tom
+    // There is no point in fetching OBO Token when the given token is empty
     if (token) {
       try {
         onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE)
@@ -94,6 +96,7 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
       }
     }
 
+    // Get texts from meldekort-api using given params and OBO token
     fetch(
       `${process.env.MELDEKORT_API_URL}/tekst/hentAlle?sprak=${sprak}&fraDato=${fraDato}`,
       {
