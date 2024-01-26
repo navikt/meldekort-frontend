@@ -1,7 +1,6 @@
 import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
-import { Ytelsestype } from "~/models/ytelsestype";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
@@ -76,15 +75,11 @@ export default function Kvittering(props: IProps) {
 
       <Box padding="4" />
 
-      {(ytelsestypePostfix === Ytelsestype.DAGPENGER || ytelsestypePostfix === Ytelsestype.AAP) &&
-          <div>
-              <Alert variant="info">
-                {parseHtml(tt("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
-              </Alert>
+      <Alert variant="info">
+        {parseHtml(tt("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
+      </Alert>
 
-              <Box padding="4" />
-          </div>
-      }
+      <Box padding="4" />
 
       <BodyLong size="large">
         {tt("meldekort.for")} {personInfo.fornavn} {personInfo.etternavn} ({personInfo.fodselsnr})
