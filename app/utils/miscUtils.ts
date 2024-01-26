@@ -4,16 +4,16 @@ import { getText } from "~/utils/intlUtils";
 export function formaterBelop(belop?: number): string {
   if (typeof belop === "number") {
     if (belop === 0) {
-      return "kr. 0";
+      return "kr. 0"
     }
-    const desimaler = 2;
-    const desimalSeparator = ",";
-    const tusenSeparator = " ";
+    const desimaler = 2
+    const desimalSeparator = ","
+    const tusenSeparator = " "
     const i = parseInt(
       Math.abs(Number(belop) || 0).toFixed(desimaler),
       10
-    ).toString();
-    const j = i.length > 3 ? i.length % 3 : 0;
+    ).toString()
+    const j = i.length > 3 ? i.length % 3 : 0
 
     return (
       "kr. " +
@@ -25,9 +25,9 @@ export function formaterBelop(belop?: number): string {
           .toFixed(desimaler)
           .slice(2)
         : "")
-    );
+    )
   } else {
-    return "kr. 0";
+    return "kr. 0"
   }
 }
 

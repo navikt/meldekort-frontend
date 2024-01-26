@@ -6,7 +6,7 @@ import { Ytelsestype } from "~/models/ytelsestype";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { getText } from "~/utils/intlUtils";
 
-export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "warning" | "error" => {
+export function finnRiktigTagVariant(status: KortStatus): "success" | "info" | "warning" | "error" {
   switch (status) {
     case KortStatus.KLAR:
       return "warning";
@@ -21,9 +21,9 @@ export const finnRiktigTagVariant = (status: KortStatus): "success" | "info" | "
     default:
       return "error";
   }
-};
+}
 
-export const mapKortStatusTilTekst = (status: KortStatus) => {
+export function mapKortStatusTilTekst(status: KortStatus) {
   switch (status) {
     case KortStatus.KLAR:
       return getText("meldekort.status.klar");
@@ -55,9 +55,9 @@ export const mapKortStatusTilTekst = (status: KortStatus) => {
     default:
       return "Feil i status";
   }
-};
+}
 
-export const mapKortTypeTilTekst = (type: KortType) => {
+export function mapKortTypeTilTekst(type: KortType) {
   switch (type) {
     case KortType.RETUR:
       return getText("meldekort.type.retur");
@@ -81,27 +81,27 @@ export const mapKortTypeTilTekst = (type: KortType) => {
     default:
       return "Feil i korttype";
   }
-};
+}
 
-export const finnYtelsestypePostfix = (meldegruppe: Meldegruppe): string => {
-  if (meldegruppe === Meldegruppe.ATTF) return Ytelsestype.AAP;
-  if (meldegruppe === Meldegruppe.INDIV) return Ytelsestype.TILTAKSPENGER;
-  return Ytelsestype.DAGPENGER;
-};
+export function finnYtelsestypePostfix(meldegruppe: Meldegruppe): string {
+  if (meldegruppe === Meldegruppe.ATTF) return Ytelsestype.AAP
+  if (meldegruppe === Meldegruppe.INDIV) return Ytelsestype.TILTAKSPENGER
+  return Ytelsestype.DAGPENGER
+}
 
-export const finnNesteSomKanSendes = (meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) => {
+export function finnNesteSomKanSendes(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) {
   return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId && meldekort.meldeperiode.kanKortSendes)
 }
 
-export const finnFoersteSomIkkeKanSendesEnna = (meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) => {
+export function finnFoersteSomIkkeKanSendesEnna(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) {
   return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => meldekort.kortStatus === KortStatus.OPPRE && !meldekort.meldeperiode.kanKortSendes)
 }
 
-export const meldekortEtterKanSendesFraKomparator = (a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number => {
+export function meldekortEtterKanSendesFraKomparator(a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number {
   return (
     new Date(a.meldeperiode.kortKanSendesFra).valueOf() -
     new Date(b.meldeperiode.kortKanSendesFra).valueOf()
-  );
+  )
 }

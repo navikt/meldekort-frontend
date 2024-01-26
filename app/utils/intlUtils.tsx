@@ -34,7 +34,7 @@ export function useExtendedTranslation<
 // Denne funksjonen trigger ikke oppdatering av komponenter når bruker bytter språk.
 // Så den må brukes kun i hjelpefunksjoner som er plassert i separate filer og hvor det ikker er mulig å bruke useExtendedTranslation/tt.
 // Komponenter må bruke useExtendedTranslation/tt
-export const getText = (key: string, values?: object): string => {
+export function getText(key: string, values?: object): string {
   // Prøv å finne tekst med den gitte nøkkelen
   // Hvis teksten ikke blir funnet, prøv nøkkelen uten postfix
   let text = i18next.t([key, key.split("-")[0]]) || ""
@@ -49,7 +49,7 @@ export const getText = (key: string, values?: object): string => {
   return text
 }
 
-export const parseHtml = (text: string, values?: Array<string>): ReactElement => {
+export function parseHtml(text: string, values?: Array<string>): ReactElement {
   if (values) {
     for (const key in values) {
       text = text.replace("{" + key + "}", values[key])
