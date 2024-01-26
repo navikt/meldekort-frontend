@@ -35,7 +35,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let valgtMeldekort: IMeldekort | undefined
   let nesteMeldekortId: Number | undefined
   let nesteEtterregistrerteMeldekortId: Number | undefined
-  let nesteMeldekortKanSendes: Date | undefined
+  let nesteMeldekortKanSendes: string | Date | undefined
 
   const meldekortId = params.meldekortId
 
