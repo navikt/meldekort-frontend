@@ -50,6 +50,11 @@ export interface ISporsmalsobjekt {
 }
 
 // Response
+export interface ISendInnMeldekortActionResponse {
+  baksystemFeil: boolean;
+  innsending: IValideringsResultat | null
+}
+
 export interface IValideringsResultat {
   meldekortId: number;
   status: string;
