@@ -49,7 +49,7 @@ export function getText(key: string, values?: object): string {
   return text
 }
 
-export function parseHtml(text: string, values?: Array<string>): ReactElement {
+export function parseHtml(text: string, values?: string[] | null): ReactElement {
   if (values) {
     for (const key in values) {
       text = text.replace("{" + key + "}", values[key])
