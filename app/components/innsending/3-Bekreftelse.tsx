@@ -3,8 +3,12 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
-import { useEffect, useState } from "react";
-import type { IFravaerInnsending, IMeldekortdetaljerInnsending } from "~/models/meldekortdetaljerInnsending";
+import { useState } from "react";
+import type {
+  ISendInnMeldekortActionResponse,
+  IFravaerInnsending,
+  IMeldekortdetaljerInnsending
+} from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
@@ -12,9 +16,8 @@ import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { RemixLink } from "~/components/RemixLink";
-import { useActionData, useSubmit } from "@remix-run/react";
-import type { action } from "~/routes/etterregistrering.$meldekortId";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
+import { useFetcherWithPromise } from "~/utils/fetchUtils";
 
 interface IProps {
   begrunnelse: string;
@@ -37,27 +40,15 @@ export default function Bekreftelse(props: IProps) {
     nesteMeldekortKanSendes
   } = props
 
-  const actionData = useActionData<typeof action>() // TODO: Action fra..?
-  const baksystemFeil = actionData?.baksystemFeil
-  const innsending = actionData?.innsending
-
-  // Vi bruker useEffect for å sjekke data etter at vi sender meldekort
-  // Hvis innsending er OK, kan vi vise Kvittering
-  // Hvis innsending ikke er OK, går vi tilbake til Utfylling
-  useEffect(() => {
-    if (innsending?.status === "OK") {
-      setActiveStep(activeStep + 1)
-    } else if (innsending?.status === "FEIL") {
-      setActiveStep(activeStep - 1)
-    }
-  }, [innsending, activeStep, setActiveStep]);
-
   const { tt } = useExtendedTranslation()
-  const submit = useSubmit()
+
+  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" })
+  // let baksystemFeil = false // fetcher.data?.baksystemFeil
 
   const [bekreftet, setBekreftet] = useState(false)
   const [loading, setLoading] = useState(false)
   const [visFeil, setVisFeil] = useState(false)
+  const [baksystemFeil, setBaksystemFeil] = useState(false)
 
   const fom = valgtMeldekort.meldeperiode.fra
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
@@ -131,7 +122,30 @@ export default function Bekreftelse(props: IProps) {
 
       const formData = new FormData()
       formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer))
-      submit(formData, { method: "post" })
+      fetcher.submit(formData, { method: "post" }).then((data) => {
+          setLoading(false)
+
+          // Vi skal være her på denne siden og vise en melding om feil i baksystemet hvis det finnes data.baksystemFeil eller ikke finnes data.innsending
+          if (data?.baksystemFeil || !data?.innsending) {
+            setBaksystemFeil(true)
+            return
+          }
+
+          // Skroll opp hvis det finnes data.innsending.status
+          // Gå videre til Kvittering hvis status er OK
+          // Gå tilbake til Utfylling (og vis feilmeldinger der) hvis status er FEIL
+          const status = data.innsending.status
+          if (status) {
+            document.documentElement.scrollTo(0, 0)
+
+            if (status === "OK") {
+              setActiveStep(activeStep + 1)
+            } else if (status === "FEIL") {
+              setActiveStep(activeStep - 1)
+            }
+          }
+        }
+      )
     }
   }
 

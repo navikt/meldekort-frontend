@@ -9,6 +9,8 @@ import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasj
 import { Meldegruppe } from "~/models/meldegruppe";
 import styles from "./Innsending.module.css";
 import { ukeDager } from "~/utils/miscUtils";
+import { useFetcherWithPromise } from "~/utils/fetchUtils";
+import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 
 interface IProps {
   sporsmal: ISporsmal;
@@ -24,6 +26,9 @@ export default function Utfylling(props: IProps) {
   const { fom, sporsmal, setSporsmal, ytelsestypePostfix, meldegruppe, activeStep, setActiveStep } = props
 
   const { tt } = useExtendedTranslation()
+
+  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" })
+  const innsending = fetcher.data?.innsending
 
   const [visFeil, setVisFeil] = useState(false)
   const [feilDager, setFeilDager] = useState<string[]>([])
@@ -246,7 +251,7 @@ export default function Utfylling(props: IProps) {
   return (
     <div>
       {
-        visFeil &&
+        (visFeil || innsending?.arsakskoder?.length) &&
           <Alert variant="error" className={styles.error}>
               <ul>
                 {
@@ -293,6 +298,18 @@ export default function Utfylling(props: IProps) {
                   feilKombinasjonFravaerSyk
                     ? <li>{parseHtml(tt("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
                     : null
+                }
+                {
+                  innsending?.arsakskoder?.map(arsakskode => {
+                    return <li key={arsakskode.kode}>
+                      {
+                        parseHtml(
+                          tt("meldekortkontroll.feilkode." + arsakskode.kode.toLowerCase()),
+                          arsakskode.params
+                        )
+                      }
+                    </li>
+                  })
                 }
               </ul>
           </Alert>
