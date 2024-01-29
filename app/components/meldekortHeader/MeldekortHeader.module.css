@@ -13,6 +13,13 @@
     padding: 0.5rem;
 }
 
+.mobileMenu {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    padding-top: 0.6rem;
+}
+
 .menu {
     background-color: #fff;
     border-bottom: 4px solid #e9e7e7;
@@ -29,6 +36,7 @@
     font-weight: 700;
     padding: 1rem;
     position: relative;
+    text-align: center;
     top: 4px;
     text-decoration: none;
     transition: .3s ease-in-out;
@@ -42,4 +50,35 @@
 .menuItem:hover {
     color: #262626;
     border-bottom: 4px solid #66a5f4;
+}
+
+@media only screen and (max-width: 600px) {
+    .mobileMenu {
+        display: block;
+    }
+
+    .menu {
+        display: none;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(auto, auto);
+    }
+
+    .open {
+        display: grid;
+    }
+
+    .menuItem {
+        text-align: center;
+    }
+
+    .menuItemActive {
+        color: #FFFFFF;
+        background-color: #0067c5;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .mobileMenu {
+        padding-top: 0.3rem;
+    }
 }
