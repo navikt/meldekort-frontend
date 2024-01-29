@@ -56,3 +56,37 @@
 .error {
     margin-bottom: 2rem;
 }
+
+/* Sette forskjellige størrelser iht skjermbredde */
+@media only screen and (max-width: 630px) {
+    .input {
+        width: 2rem;
+    }
+
+    .input input {
+        min-height: 2rem;
+        padding: var(--a-spacing-1);
+    }
+
+    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
+        font-size: var(--a-font-size-heading-xsmall);
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
+        font-size: var(--a-font-size-medium);
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
+        font-size: var(--a-font-size-small);
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
+        word-break: break-all;
+    }
+}
