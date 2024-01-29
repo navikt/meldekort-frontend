@@ -77,8 +77,20 @@
     }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 540px) {
     .mobileMenu {
         padding-top: 0.3rem;
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    .mobileMenu {
+        padding-top: 0.2rem;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    .mobileMenu {
+        padding-top: 0;
     }
 }

@@ -15,3 +15,10 @@
 .nb select {
     background-image: url('no.svg');
 }
+
+@media only screen and (max-width: 640px) {
+    .sprakvelger {
+        padding-left: 0;
+        width: 5rem;
+    }
+}
