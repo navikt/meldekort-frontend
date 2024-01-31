@@ -3,16 +3,13 @@ import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { Alert, BodyLong, Table, Tag } from "@navikt/ds-react";
+import { Alert, BodyLong } from "@navikt/ds-react";
 import type { ReactElement } from "react";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
-import { formaterBelop } from "~/utils/miscUtils";
-import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
-import { NavLink, useLoaderData } from "@remix-run/react";
+import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import { useLoaderData } from "@remix-run/react";
 import { getOboToken } from "~/utils/authUtils";
-import { KortType } from "~/models/kortType";
+import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
 
 export const meta: MetaFunction = () => {
   return [
@@ -61,48 +58,7 @@ export default function TidligereMeldekort() {
       <BodyLong spacing>
         {parseHtml(tt("tidligereMeldekort.forklaring.korrigering"))}
       </BodyLong>
-      <Table zebraStripes>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell scope="col">{tt("overskrift.periode")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.dato")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.mottatt")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.status")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.bruttoBelop")}</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {historiskeMeldekort.map((meldekort) => {
-            return (
-              <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
-                <Table.DataCell>
-                  <NavLink to={"/tidligere-meldekort/" + meldekort.meldekortId}>
-                    {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
-                  </NavLink>
-                </Table.DataCell>
-                <Table.DataCell>
-                  {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
-                </Table.DataCell>
-                <Table.DataCell>
-                  {formaterDato(meldekort.mottattDato)}
-                </Table.DataCell>
-                <Table.DataCell>
-                  <Tag variant={finnRiktigTagVariant(meldekort.kortStatus)}>
-                    {mapKortStatusTilTekst(meldekort.kortStatus)}
-                  </Tag>
-                </Table.DataCell>
-                <Table.DataCell>
-                  {
-                    (meldekort.kortStatus === KortStatus.FERDI && meldekort.kortType !== KortType.KORRIGERT_ELEKTRONISK)
-                      ? formaterBelop(meldekort.bruttoBelop)
-                      : ""
-                  }
-                </Table.DataCell>
-              </Table.Row>
-            )
-          })}
-        </Table.Body>
-      </Table>
+      <MeldekorTabell meldekortListe={historiskeMeldekort} />
     </div>
   }
 
