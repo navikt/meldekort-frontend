@@ -11,6 +11,7 @@ import styles from "./Innsending.module.css";
 import { ukeDager } from "~/utils/miscUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
+import classNames from "classnames";
 
 interface IProps {
   sporsmal: ISporsmal;
@@ -50,69 +51,87 @@ export default function Utfylling(props: IProps) {
     setSporsmal(tmpSporsmal)
   }
 
-  const opprettArbeidsrad = (plussDager: number) => {
-    return <>
-      <div className={styles.arbeid}>
-        <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
+  const opprettDag = (dag: string) => {
+    return (
+      <div className={styles.placeholder}>
+        <abbr key={"ukedager-" + dag} title={dag}>
+          {dag.toUpperCase()[0]}
+        </abbr>
       </div>
-      {
-        ukedager.map((dag, index) => {
-          return <div key={"arbeid" + index} className={styles.centered}>
-            <TextField label=""
-                       hideLabel
-                       className={styles.input}
-                       value={(sporsmal as any).meldekortDager[index + plussDager]["arbeidetTimerSum"] || ""}
-                       onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
-                       error={feilDager.includes("arbeid" + (index + plussDager + 1))}
-            />
-          </div>
-        })
-      }
-      <div className={styles.arbeid}>
+    )
+  }
+
+  const opprettArbeidsrad = (plussDager: number) => {
+    return <div className={styles.rad}>
+      <div className={classNames(styles.tittel, styles.arbeid)}>
+        <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
         <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
       </div>
-    </>
+      <div className={styles.grid}>
+        <div className={classNames(styles.placeholder, styles.arbeid)}></div>
+        {
+          ukedager.map((dag, index) => {
+            return <div key={"arbeid" + index} className={styles.centered}>
+              {opprettDag(dag)}
+              <TextField label=""
+                         hideLabel
+                         className={styles.input}
+                         value={(sporsmal as any).meldekortDager[index + plussDager]["arbeidetTimerSum"] || ""}
+                         onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
+                         error={feilDager.includes("arbeid" + (index + plussDager + 1))}
+              />
+            </div>
+          })
+        }
+      </div>
+    </div>
   }
 
   const opprettAktivitetsrad = (type: string, spObjKey: string, plussDager: number) => {
-    return <>
-      <div className={styles[type]}>
+    return <div className={styles.rad}>
+      <div className={classNames(styles.tittel, styles[type])}>
         <Heading level="4" size="small">{tt(`utfylling.${type}`)}</Heading>
-      </div>
-      {
-        ukedager.map((dag, index) => {
-          return <div key={type + index} className={styles.centered}>
-            <Checkbox hideLabel
-                      onChange={(event) => oppdaterSvar(event.target.checked, index + plussDager, spObjKey)}
-                      checked={(sporsmal as any).meldekortDager[index + plussDager][spObjKey] === true}
-                      error={feilDager.includes(spObjKey + (index + plussDager + 1))}>
-              _
-            </Checkbox>
-          </div>
-        })
-      }
-      <div className={styles[type]}>
         <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
       </div>
-    </>
+      <div className={styles.grid}>
+        <div className={classNames(styles.placeholder, styles[type])}></div>
+        {
+          ukedager.map((dag, index) => {
+            return <div key={type + index} className={styles.centered}>
+              {opprettDag(dag)}
+              <Checkbox hideLabel
+                        onChange={(event) => oppdaterSvar(event.target.checked, index + plussDager, spObjKey)}
+                        checked={(sporsmal as any).meldekortDager[index + plussDager][spObjKey] === true}
+                        error={feilDager.includes(spObjKey + (index + plussDager + 1))}>
+                _
+              </Checkbox>
+            </div>
+          })
+        }
+      </div>
+    </div>
   }
 
   const opprettUke = (plussDager: number) => {
     return <Accordion.Item defaultOpen className={styles.uke}>
       <Accordion.Header>{tt("overskrift.uke")} {ukeFormatert(fom, plussDager)}</Accordion.Header>
       <Accordion.Content>
-        <div className={styles.grid}>
-          <div></div>
-          {
-            ukedager.map((dag) => {
-              return <div key={dag} className={styles.centered}>
-                <abbr key={"ukedager-" + dag} title={dag}>
-                  {dag.toUpperCase()[0]}
-                </abbr>
-              </div>
-            })
-          }
-          <div></div>
+        <div>
+          <div className={classNames(styles.rad, styles.desktop)}>
+            <div className={styles.tittel}></div>
+            <div className={styles.grid}>
+              <div className={styles.placeholder}></div>
+              {
+                ukedager.map((dag) => {
+                  return <div key={dag} className={styles.centered}>
+                    <abbr key={"ukedager-" + dag} title={dag}>
+                      {dag.toUpperCase()[0]}
+                    </abbr>
+                  </div>
+                })
+              }
+            </div>
+          </div>
           {
             sporsmal.arbeidet && opprettArbeidsrad(plussDager)
           }

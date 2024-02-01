@@ -4,23 +4,24 @@
     margin-bottom: 2rem;
 }
 
-/* "Tabell" med rader (arbeid, kurs, syk, ferie) og kolonner (dager) */
+.rad {
+    display: flex;
+    flex-flow: row wrap;
+}
+
 .grid {
+    flex-grow: 100;
     display: grid;
-    grid-template: auto / 6fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template: auto / 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-/* Radtittel */
-.grid > *:nth-child(9n+1) {
-    padding-top: 1.1rem;
-    padding-left: 0.5rem;
+.tittel {
+    width: 20rem;
+    padding: 0.5rem;
 }
 
-/* "Les mer" */
-.grid > *:nth-child(9n) {
-    grid-column: auto / span 8;
-    padding-left: 0.5rem;
-    border-bottom: 1px solid #D3D3D3FF;
+.placeholder {
+    display: none;
 }
 
 .arbeid {
@@ -37,6 +38,11 @@
 
 .ferieFravar {
     border-left: 9px solid #C1B5D0FF;
+}
+
+.centered {
+    width: 3rem;
+    padding-bottom: 0.5rem;
 }
 
 .centered div {
@@ -57,8 +63,29 @@
     margin-bottom: 2rem;
 }
 
-/* Sette forskjellige størrelser iht skjermbredde */
-@media only screen and (max-width: 630px) {
+@media only screen and (max-width: 740px) {
+    .tittel {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template: auto / 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .placeholder {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .centered {
+        width: 2rem;
+    }
+
     .input {
         width: 2rem;
     }
@@ -66,27 +93,5 @@
     .input input {
         min-height: 2rem;
         padding: var(--a-spacing-1);
-    }
-
-    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
-        font-size: var(--a-font-size-heading-xsmall);
-    }
-}
-
-@media only screen and (max-width: 480px) {
-    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
-        font-size: var(--a-font-size-medium);
-    }
-}
-
-@media only screen and (max-width: 460px) {
-    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
-        font-size: var(--a-font-size-small);
-    }
-}
-
-@media only screen and (max-width: 450px) {
-    .arbeid h4, .syk h4, .tiltak h4, .ferieFravar h4 {
-        word-break: break-all;
     }
 }
