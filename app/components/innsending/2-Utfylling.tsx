@@ -65,6 +65,8 @@ export default function Utfylling(props: IProps) {
     return <div className={styles.rad}>
       <div className={classNames(styles.tittel, styles.arbeid)}>
         <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
+      </div>
+      <div className={classNames(styles.info, styles.arbeid)}>
         <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
       </div>
       <div className={styles.grid}>
@@ -91,6 +93,8 @@ export default function Utfylling(props: IProps) {
     return <div className={styles.rad}>
       <div className={classNames(styles.tittel, styles[type])}>
         <Heading level="4" size="small">{tt(`utfylling.${type}`)}</Heading>
+      </div>
+      <div className={classNames(styles.info, styles[type])}>
         <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
       </div>
       <div className={styles.grid}>
@@ -118,9 +122,7 @@ export default function Utfylling(props: IProps) {
       <Accordion.Content>
         <div>
           <div className={classNames(styles.rad, styles.desktop)}>
-            <div className={styles.tittel}></div>
             <div className={styles.grid}>
-              <div className={styles.placeholder}></div>
               {
                 ukedager.map((dag) => {
                   return <div key={dag} className={styles.centered}>

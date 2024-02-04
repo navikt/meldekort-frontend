@@ -5,19 +5,32 @@
 }
 
 .rad {
-    display: flex;
-    flex-flow: row wrap;
+    display: grid;
+    grid-template-columns: [tittelOgInfo] 20rem [dager];
+    grid-template-rows: [tittelOgDager] auto [info];
+}
+
+.tittel {
+    width: 20rem;
+    padding-left: 0.5rem;
+    padding-top: 1.2rem;
+    grid-column-start: tittelOgInfo;
+    grid-row-start: tittelOgDager;
+}
+
+.info {
+    padding-left: 0.5rem;
+    grid-column-start: span 2;
+    grid-row-start: info;
 }
 
 .grid {
     flex-grow: 100;
     display: grid;
     grid-template: auto / 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-}
 
-.tittel {
-    width: 20rem;
-    padding: 0.5rem;
+    grid-column-start: dager;
+    grid-row-start: tittelOgDager;
 }
 
 .placeholder {
@@ -64,11 +77,26 @@
 }
 
 @media only screen and (max-width: 740px) {
+    .rad {
+        display: grid;
+        grid-template-columns: [alt] 1fr;
+        grid-template-rows: [tittel] auto [info] auto [dager];
+    }
+
     .tittel {
         width: 100%;
+        grid-column-start: alt;
+        grid-row-start: tittel;
+    }
+
+    .info {
+        grid-column-start: alt;
+        grid-row-start: info;
     }
 
     .grid {
+        grid-column-start: alt;
+        grid-row-start: dager;
         grid-template: auto / 0.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     }
 
