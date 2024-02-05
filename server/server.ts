@@ -86,11 +86,11 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
     let token = req.headers.authorization || ""
     token = token.substring(7) // Take everything after "Bearer "
 
-    let onBehalfOfToken = ""
+    let onBehalfOfToken: string | null = ""
     // There is no point in fetching OBO Token when the given token is empty
     if (token) {
       try {
-        onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE)
+        onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE || "")
       } catch (error) {
         console.log(error)
       }
