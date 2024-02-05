@@ -4,7 +4,7 @@ import { loader } from "~/routes/_index";
 import { TEST_URL } from "../helpers/setup";
 
 
-describe("Hovedside", () => {
+describe("Root", () => {
   test("Skal få redirect til Send meldekort", async () => {
     const response = await catchErrorResponse(() =>
       loader({
