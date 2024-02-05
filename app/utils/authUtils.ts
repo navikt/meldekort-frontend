@@ -23,14 +23,14 @@ if (process.env.IS_LOCALHOST === "true") {
 }
 
 export async function getOboToken(request: Request) {
+  if (process.env.IS_LOCALHOST === "true") {
+    return process.env.MELDEKORT_API_TOKEN || fallbackToken
+  }
+
   const session = await getSession(request)
 
   if (!session) {
     throw new Response(null, { status: 500, statusText: "Feil ved henting av sesjon" })
-  }
-
-  if (process.env.IS_LOCALHOST === "true") {
-    return process.env.MELDEKORT_API_TOKEN || fallbackToken
   }
 
   return session.apiToken(getEnv("MELDEKORT_API_AUDIENCE"))
