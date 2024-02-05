@@ -46,7 +46,9 @@ export default function Kvittering(props: IProps) {
   const mottattDato = new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
 
   const createButton = (to: string, text: string) => {
-    return <Button variant="primary" onClick={() => {location.href=to}}>{text}</Button>
+    return <Button variant="primary" onClick={() => {
+      location.href = to
+    }}>{text}</Button>
   }
 
   let nesteLink = <NavLink to={minSideUrl}>{tt("tilbake.minSide")}</NavLink>
@@ -107,7 +109,8 @@ export default function Kvittering(props: IProps) {
       <Box padding="6" />
 
       {
-        innsendingstype === Innsendingstype.KORRIGERING && <Begrunnelse begrunnelse={begrunnelse} />
+        innsendingstype === Innsendingstype.KORRIGERING &&
+          <Begrunnelse begrunnelse={begrunnelse} ytelsestypePostfix={ytelsestypePostfix} />
       }
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />

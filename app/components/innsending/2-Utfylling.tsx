@@ -67,7 +67,7 @@ export default function Utfylling(props: IProps) {
         <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
       </div>
       <div className={classNames(styles.info, styles.arbeid)}>
-        <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.arbeid${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon innhold={parseHtml(tt("forklaring.utfylling.arbeid" + ytelsestypePostfix))} />
       </div>
       <div className={styles.grid}>
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>

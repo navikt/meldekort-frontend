@@ -29,8 +29,8 @@ export function opprettSporsmalsobjekter(
   const sporsmalsobjekter = new Array<ISporsmalsobjekt>()
 
   sporsmalsobjekter.push(header(korrigering, valgtMeldekort, mottattDato, nesteMeldekortKanSendes))
-  sporsmalsobjekter.push(veiledning(ytelsestypePostfix))
-  sporsmalsobjekter.push(ansvar(ytelsestypePostfix))
+  sporsmalsobjekter.push(veiledning())
+  sporsmalsobjekter.push(ansvar())
 
   if (korrigering) {
     sporsmalsobjekter.push(
@@ -40,8 +40,8 @@ export function opprettSporsmalsobjekter(
 
   sporsmalsobjekter.push(...sporsmalOgSvar(sporsmal, valgtMeldekort.meldeperiode.fra, ytelsestypePostfix))
 
-  sporsmalsobjekter.push(uke(fra, 0, 7, sporsmal.meldekortDager, ytelsestypePostfix))
-  sporsmalsobjekter.push(uke(fra, 7, 7, sporsmal.meldekortDager, ytelsestypePostfix))
+  sporsmalsobjekter.push(uke(fra, 0, 7, sporsmal.meldekortDager))
+  sporsmalsobjekter.push(uke(fra, 7, 7, sporsmal.meldekortDager))
 
   sporsmalsobjekter.push(utfylling("utfylling.arbeid", ytelsestypePostfix, true))
   sporsmalsobjekter.push(utfylling("utfylling.tiltak", ytelsestypePostfix))
@@ -80,15 +80,15 @@ function header(
   }
 }
 
-function veiledning(ytelsestypePostfix: string): ISporsmalsobjekt {
+function veiledning(): ISporsmalsobjekt {
   return {
-    sporsmal: getText("sporsmal.lesVeiledning" + ytelsestypePostfix)
+    sporsmal: getText("sporsmal.lesVeiledning")
   }
 }
 
-function ansvar(ytelsestypePostfix: string): ISporsmalsobjekt {
+function ansvar(): ISporsmalsobjekt {
   return {
-    sporsmal: getText("sporsmal.ansvarForRiktigUtfylling" + ytelsestypePostfix)
+    sporsmal: getText("sporsmal.ansvarForRiktigUtfylling")
   }
 }
 
@@ -97,7 +97,7 @@ function korrigeringsBegrunnelse(
   ytelsestypePostfix: string
 ): ISporsmalsobjekt {
   return {
-    sporsmal: getText("korrigering.sporsmal.begrunnelse" + ytelsestypePostfix),
+    sporsmal: getText("korrigering.sporsmal.begrunnelse"),
     forklaring: getText("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix),
     svar: begrunnelse,
   }
@@ -126,26 +126,25 @@ function uke(
   fra: string,
   plussDager: number,
   periodelengde: number,
-  meldekortDager: IMeldekortDag[],
-  ytelsestypePostfix: string
+  meldekortDager: IMeldekortDag[]
 ): ISporsmalsobjekt {
   return {
     sporsmal: getText("overskrift.uke") + formaterPeriode(fra, plussDager, periodelengde),
-    svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde, ytelsestypePostfix)
+    svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde)
   }
 }
 
-function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string) {
+function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined) {
   const ukedager = ukeDager()
 
   return dager.slice(fraDag, tilDag).map((dag) => {
     const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk
     const ukedag = dag.dag <= 7 ? ukedager[dag.dag - 1] : ukedager[dag.dag - 8]
     const aktiviteter = [
-      dag.arbeidetTimerSum ? `${getText("utfylling.arbeid" + ytelsestypePostfix)} ${dag.arbeidetTimerSum} ${getText("overskrift.timer" + ytelsestypePostfix).trim()}` : "",
-      dag.kurs ? getText("utfylling.tiltak" + ytelsestypePostfix).trim() : "",
-      dag.syk ? getText("utfylling.syk" + ytelsestypePostfix).trim() : "",
-      dag.annetFravaer ? getText("utfylling.ferieFravar" + ytelsestypePostfix).trim() : ""
+      dag.arbeidetTimerSum ? `${getText("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${getText("overskrift.timer").trim()}` : "",
+      dag.kurs ? getText("utfylling.tiltak").trim() : "",
+      dag.syk ? getText("utfylling.syk").trim() : "",
+      dag.annetFravaer ? getText("utfylling.ferieFravar").trim() : ""
     ].filter(Boolean).join(", ")
 
     if (harAktivitet) {
@@ -163,7 +162,7 @@ function utfylling(
 ): ISporsmalsobjekt {
   return {
     advarsel: medAdvarsel
-      ? getText("sendt.advarsel" + ytelsestypePostfix)
+      ? getText("sendt.advarsel")
       : "",
     sporsmal: "",
     forklaring:
@@ -179,6 +178,6 @@ function bekreftelse(ytelsestypePostfix: string): ISporsmalsobjekt {
     sporsmal:
       getText("utfylling.bekreft" + ytelsestypePostfix) +
       "<br><br>X " +
-      getText("utfylling.bekreftAnsvar" + ytelsestypePostfix)
+      getText("utfylling.bekreftAnsvar")
   }
 }

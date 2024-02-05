@@ -159,7 +159,8 @@ export default function Bekreftelse(props: IProps) {
       <Box padding="4" />
 
       {
-        innsendingstype === Innsendingstype.KORRIGERING && <Begrunnelse begrunnelse={begrunnelse} />
+        innsendingstype === Innsendingstype.KORRIGERING &&
+          <Begrunnelse begrunnelse={begrunnelse} ytelsestypePostfix={ytelsestypePostfix} />
       }
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />
@@ -176,7 +177,7 @@ export default function Bekreftelse(props: IProps) {
         onChange={() => setBekreftet((bekreftet) => !bekreftet)}
         error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
       >
-        {parseHtml(tt("utfylling.bekreft"))}
+        {parseHtml(tt("utfylling.bekreft" + ytelsestypePostfix))}
       </ConfirmationPanel>
 
       {baksystemFeil &&

@@ -112,7 +112,10 @@ export default function Sporsmal(props: IProps) {
               <Box padding="4" />
 
               <Select label={parseHtml(tt("korrigering.sporsmal.begrunnelse"))}
-                      description={<UtvidetInformasjon innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse"))} />}
+                      description={
+                        <UtvidetInformasjon
+                          innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))} />
+                      }
                       value={begrunnelse}
                       onChange={setValgtBegrunnelse}
                       error={!begrunnelse && visFeil && tt("begrunnelse.required")}>
@@ -162,7 +165,7 @@ export default function Sporsmal(props: IProps) {
                 value={value}
                 onChange={(value: any) => oppdaterSvar(item.id, value)}
                 disabled={disabled}
-                error={visFeil && hentSvar(sporsmal, item.id) === null && tt(item.feilmeldingId)}
+                error={visFeil && hentSvar(sporsmal, item.id) === null && tt(item.feilmeldingId + ytelsestypePostfix)}
               >
                 <Radio value={true}>{parseHtml(tt(item.ja + ytelsestypePostfix))}</Radio>
                 <Radio value={false}>{parseHtml(tt(item.nei + ytelsestypePostfix))}</Radio>
