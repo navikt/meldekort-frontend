@@ -16,6 +16,12 @@ export const jsonify = (data: Object) => {
 }
 
 // For å opprette testdata
+export const opprettTestPerson = () => {
+  return {
+    something: "bla-bla"
+  }
+}
+
 export const opprettTestMeldekort = (meldekortId: number): IMeldekort => {
   return {
     meldekortId: meldekortId,
