@@ -1,9 +1,10 @@
 import type { SetupServerApi } from "msw/node";
 import { setupServer } from "msw/node";
+import { handlers } from "./handlers";
 
-export const server = setupServer();
+export const server = setupServer(...handlers);
 
-export const setup = () => setupServer() as SetupServerApi;
+export const setup = () => setupServer(...handlers) as SetupServerApi;
 
 export const start = (server: SetupServerApi) => {
   server.listen({ onUnhandledRequest: "bypass" });
