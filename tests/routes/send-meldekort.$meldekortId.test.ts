@@ -2,19 +2,19 @@ import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vite
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
-import { loader } from "~/routes/etterregistrering.$meldekortId";
+import { loader } from "~/routes/send-meldekort.$meldekortId";
 import { jsonify, opprettTestMeldekort, TEST_PERSON_INFO } from "../mocks/data";
 
 
-describe("Etterregistrer meldekort", () => {
+describe("Send meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
 
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
   afterEach(() => server.resetHandlers())
 
-  const meldekortId = "1707156947"
-  const request = new Request(TEST_URL + "/etteregistrering")
+  const meldekortId = "1707156945"
+  const request = new Request(TEST_URL + "/send-meldekort")
 
   test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
     const response = await loader({
@@ -31,6 +31,7 @@ describe("Etterregistrer meldekort", () => {
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
+      nesteMeldekortKanSendes: undefined,
       personInfo: null,
       minSideUrl: TEST_MIN_SIDE_URL
     })
@@ -59,6 +60,7 @@ describe("Etterregistrer meldekort", () => {
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
+      nesteMeldekortKanSendes: undefined,
       personInfo: null,
       minSideUrl: TEST_MIN_SIDE_URL
     })
@@ -87,6 +89,7 @@ describe("Etterregistrer meldekort", () => {
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
+      nesteMeldekortKanSendes: undefined,
       personInfo: null,
       minSideUrl: TEST_MIN_SIDE_URL
     })
@@ -108,8 +111,9 @@ describe("Etterregistrer meldekort", () => {
     expect(data).toEqual({
       feil: false,
       valgtMeldekort: expectedValgtMeldekort,
-      nesteMeldekortId: 1707156945,
-      nesteEtterregistrerteMeldekortId: 1707156948,
+      nesteMeldekortId: 1707156946,
+      nesteEtterregistrerteMeldekortId: 1707156947,
+      nesteMeldekortKanSendes: new Date(Number(1707156946)).toISOString(), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       minSideUrl: TEST_MIN_SIDE_URL
     })

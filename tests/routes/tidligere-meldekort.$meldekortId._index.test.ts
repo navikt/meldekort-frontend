@@ -14,10 +14,11 @@ describe("Tidligere meldekort detaljer", () => {
   afterEach(() => server.resetHandlers())
 
   const meldekortId = "1707156949"
+  const request = new Request(TEST_URL + "/tidligere-meldekort")
 
   test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: {},
       context: {}
     })
@@ -38,7 +39,7 @@ describe("Tidligere meldekort detaljer", () => {
     )
 
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: { meldekortId },
       context: {}
     })
@@ -59,7 +60,7 @@ describe("Tidligere meldekort detaljer", () => {
     )
 
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: { meldekortId },
       context: {}
     })
@@ -79,7 +80,7 @@ describe("Tidligere meldekort detaljer", () => {
 
 
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: { meldekortId: meldekortId },
       context: {}
     })

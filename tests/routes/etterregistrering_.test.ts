@@ -12,6 +12,8 @@ describe("Etterregistrering", () => {
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
 
+  const request = new Request(TEST_URL + "/etteregistrering")
+
   test("Skal få feil = true og person = null når feil på backend", async () => {
     server.use(
       http.get(
@@ -22,7 +24,7 @@ describe("Etterregistrering", () => {
     )
 
     const response = await loader({
-      request: new Request(TEST_URL + "/etteregistrering"),
+      request,
       params: {},
       context: {}
     })
@@ -38,7 +40,7 @@ describe("Etterregistrering", () => {
     jsonify(expectedPersondata)
 
     const response = await loader({
-      request: new Request(TEST_URL + "/etteregistrering"),
+      request,
       params: {},
       context: {}
     })

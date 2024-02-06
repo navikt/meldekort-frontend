@@ -12,6 +12,8 @@ describe("Tidligere meldekort", () => {
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
 
+  const request = new Request(TEST_URL + "/tidligere-meldekort")
+
   test("Skal få feil = true og historiskeMeldekort = null når feil på backend", async () => {
     server.use(
       http.get(
@@ -22,7 +24,7 @@ describe("Tidligere meldekort", () => {
     )
 
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: {},
       context: {}
     })
@@ -40,7 +42,7 @@ describe("Tidligere meldekort", () => {
     jsonify(historiskemeldekortData)
 
     const response = await loader({
-      request: new Request(TEST_URL + "/tidligere-meldekort"),
+      request,
       params: {},
       context: {}
     })
