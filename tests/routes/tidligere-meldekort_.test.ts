@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import { loader } from "~/routes/tidligere-meldekort_";
 import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
@@ -15,7 +15,7 @@ describe("Tidligere meldekort", () => {
   test("Skal få feil = true og historiskeMeldekort = null når feil på backend", async () => {
     server.use(
       http.get(
-        `${MELDEKORT_API_URL}/person/historiskemeldekort`,
+        `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )

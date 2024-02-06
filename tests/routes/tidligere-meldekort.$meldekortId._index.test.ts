@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import { loader } from "~/routes/tidligere-meldekort.$meldekortId._index";
 import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer } from "../mocks/data";
 
@@ -31,15 +31,7 @@ describe("Tidligere meldekort detaljer", () => {
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort", async () => {
     server.use(
       http.get(
-        `${MELDEKORT_API_URL}/person/historiskemeldekort`,
-        () => new HttpResponse(null, { status: 500 }),
-        { once: true }
-      )
-    )
-
-    server.use(
-      http.get(
-        `${MELDEKORT_API_URL}/meldekort/${meldekortId}`,
+        `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
@@ -60,7 +52,7 @@ describe("Tidligere meldekort detaljer", () => {
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer", async () => {
     server.use(
       http.get(
-        `${MELDEKORT_API_URL}/meldekort/${meldekortId}`,
+        `${TEST_MELDEKORT_API_URL}/meldekort/${meldekortId}`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
