@@ -11,6 +11,7 @@ import type { IPersonInfo } from "~/models/person";
 import { NavLink } from "@remix-run/react";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { format } from "date-fns";
+import { Ytelsestype } from "~/models/ytelsestype";
 
 interface IProps {
   minSideUrl: string;
@@ -69,6 +70,20 @@ export default function Kvittering(props: IProps) {
     }
   }
 
+  if (
+    ytelsestypePostfix === Ytelsestype.AAP &&
+    nesteMeldekortId == undefined &&
+    (window as any)["hj"]
+  ) {
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
+    window.hj("trigger", "meldekortAAP");
+  } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && (window as any)["hj"]) {
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
+    // @ts-ignore
+    window.hj("trigger", "meldekortTP");
+  }
+
   return (
     <div>
       <Alert variant="success">
@@ -117,7 +132,8 @@ export default function Kvittering(props: IProps) {
 
       <hr />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
+      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0}
+                tilDag={7} />
 
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
