@@ -39,7 +39,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const meldekortId = params.meldekortId
 
   // Hvis det ikke finnes meldekortId, er det bare feil og det er ingen vits i å gjøre noe viedere
-  // Ellers sjekker vi at skrivemodus er OK (true) og at vi kan hente meldekortdetaljer og finne historisk meldekort med gitt meldekortId
   if (!meldekortId) {
     feil = true
   } else {
