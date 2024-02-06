@@ -16,10 +16,10 @@ describe("Tidligere meldekort detaljer", () => {
   const meldekortId = "1707156949"
   const request = new Request(TEST_URL + "/tidligere-meldekort")
 
-  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+  const check = async (meldekortId?: string) => {
     const response = await loader({
       request,
-      params: {},
+      params: { meldekortId },
       context: {}
     })
 
@@ -27,6 +27,10 @@ describe("Tidligere meldekort detaljer", () => {
 
     expect(response.status).toBe(200)
     expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null })
+  }
+
+  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+    await check()
   })
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort", async () => {
@@ -38,16 +42,7 @@ describe("Tidligere meldekort detaljer", () => {
       )
     )
 
-    const response = await loader({
-      request,
-      params: { meldekortId },
-      context: {}
-    })
-
-    const data = await response.json()
-
-    expect(response.status).toBe(200)
-    expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null })
+    await check(meldekortId)
   })
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer", async () => {
@@ -59,16 +54,7 @@ describe("Tidligere meldekort detaljer", () => {
       )
     )
 
-    const response = await loader({
-      request,
-      params: { meldekortId },
-      context: {}
-    })
-
-    const data = await response.json()
-
-    expect(response.status).toBe(200)
-    expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null })
+    await check(meldekortId)
   })
 
   test("Skal få feil = false og data fra backend", async () => {

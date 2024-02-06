@@ -2,19 +2,19 @@ import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vite
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
-import { loader } from "~/routes/etterregistrering.$meldekortId";
-import { jsonify, opprettTestMeldekort, TEST_PERSON_INFO } from "../mocks/data";
+import { loader } from "~/routes/tidligere-meldekort.$meldekortId.korriger";
+import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
 
 
-describe("Etterregistrer meldekort", () => {
+describe("Korriger tidligere meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
 
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
   afterEach(() => server.resetHandlers())
 
-  const meldekortId = "1707156947"
-  const request = new Request(TEST_URL + "/etteregistrering")
+  const meldekortId = "1707156949"
+  const request = new Request(TEST_URL + "/tidligere-meldekort/korriger")
 
   const check = async (meldekortId?: string) => {
     const response = await loader({
@@ -29,8 +29,7 @@ describe("Etterregistrer meldekort", () => {
     expect(data).toEqual({
       feil: true,
       valgtMeldekort: undefined,
-      nesteMeldekortId: undefined,
-      nesteEtterregistrerteMeldekortId: undefined,
+      meldekortdetaljer: null,
       personInfo: null,
       minSideUrl: TEST_MIN_SIDE_URL
     })
@@ -40,10 +39,22 @@ describe("Etterregistrer meldekort", () => {
     await check()
   })
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med person", async () => {
+  test("Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort", async () => {
     server.use(
       http.get(
-        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    await check(meldekortId)
+  })
+
+  test("Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/meldekort/${meldekortId}`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
@@ -65,12 +76,15 @@ describe("Etterregistrer meldekort", () => {
   })
 
   test("Skal få feil = false og data fra backend", async () => {
-    const expectedValgtMeldekort = opprettTestMeldekort(Number(meldekortId))
-    jsonify(expectedValgtMeldekort)
+    const meldekort = opprettTestMeldekort(Number(meldekortId))
+    jsonify(meldekort)
+
+    const meldekortdetaljerData = opprettTestMeldekortdetaljer(Number(meldekortId))
+    jsonify(meldekortdetaljerData)
 
     const response = await loader({
       request,
-      params: { meldekortId },
+      params: { meldekortId: meldekortId },
       context: {}
     })
 
@@ -79,9 +93,8 @@ describe("Etterregistrer meldekort", () => {
     expect(response.status).toBe(200)
     expect(data).toEqual({
       feil: false,
-      valgtMeldekort: expectedValgtMeldekort,
-      nesteMeldekortId: 1707156945,
-      nesteEtterregistrerteMeldekortId: 1707156948,
+      valgtMeldekort: meldekort,
+      meldekortdetaljer: meldekortdetaljerData,
       personInfo: TEST_PERSON_INFO,
       minSideUrl: TEST_MIN_SIDE_URL
     })

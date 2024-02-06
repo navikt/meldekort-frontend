@@ -16,10 +16,10 @@ describe("Send meldekort", () => {
   const meldekortId = "1707156945"
   const request = new Request(TEST_URL + "/send-meldekort")
 
-  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+  const check = async (meldekortId?: string) => {
     const response = await loader({
       request,
-      params: {},
+      params: { meldekortId },
       context: {}
     })
 
@@ -35,6 +35,10 @@ describe("Send meldekort", () => {
       personInfo: null,
       minSideUrl: TEST_MIN_SIDE_URL
     })
+  }
+
+  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+    await check()
   })
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med person", async () => {
@@ -46,24 +50,7 @@ describe("Send meldekort", () => {
       )
     )
 
-    const response = await loader({
-      request,
-      params: { meldekortId },
-      context: {}
-    })
-
-    const data = await response.json()
-
-    expect(response.status).toBe(200)
-    expect(data).toEqual({
-      feil: true,
-      valgtMeldekort: undefined,
-      nesteMeldekortId: undefined,
-      nesteEtterregistrerteMeldekortId: undefined,
-      nesteMeldekortKanSendes: undefined,
-      personInfo: null,
-      minSideUrl: TEST_MIN_SIDE_URL
-    })
+    await check(meldekortId)
   })
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo", async () => {
@@ -75,24 +62,7 @@ describe("Send meldekort", () => {
       )
     )
 
-    const response = await loader({
-      request,
-      params: { meldekortId },
-      context: {}
-    })
-
-    const data = await response.json()
-
-    expect(response.status).toBe(200)
-    expect(data).toEqual({
-      feil: true,
-      valgtMeldekort: undefined,
-      nesteMeldekortId: undefined,
-      nesteEtterregistrerteMeldekortId: undefined,
-      nesteMeldekortKanSendes: undefined,
-      personInfo: null,
-      minSideUrl: TEST_MIN_SIDE_URL
-    })
+    await check(meldekortId)
   })
 
   test("Skal få feil = false og data fra backend", async () => {
