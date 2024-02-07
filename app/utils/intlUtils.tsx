@@ -37,7 +37,7 @@ export function useExtendedTranslation<
 export function getText(key: string, values?: object): string {
   // Prøv å finne tekst med den gitte nøkkelen
   // Hvis teksten ikke blir funnet, prøv nøkkelen uten postfix
-  let text = i18next.t([key, key.split("-")[0]]) || ""
+  let text = i18next.t([key, key.split("-")[0]]) || key
   text = text.trim()
 
   if (values) {
