@@ -51,7 +51,6 @@ export function mapKortStatusTilTekst(status: KortStatus) {
     case KortStatus.VENTE:
       return getText("meldekort.status.vente");
 
-
     default:
       return "Feil i status";
   }

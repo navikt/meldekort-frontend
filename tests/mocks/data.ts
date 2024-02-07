@@ -43,7 +43,7 @@ export const opprettPersonInfo = (personId: number, fodselsnr: string, fornavn: 
   }
 }
 
-export const opprettTestMeldekort = (meldekortId: number): IMeldekort => {
+export const opprettTestMeldekort = (meldekortId: number, kanKortSendes: boolean = true): IMeldekort => {
   return {
     meldekortId: meldekortId,
     kortType: KortType.ELEKTRONISK,
@@ -51,11 +51,11 @@ export const opprettTestMeldekort = (meldekortId: number): IMeldekort => {
       fra: new Date(meldekortId),
       til: new Date(meldekortId),
       kortKanSendesFra: new Date(meldekortId),
-      kanKortSendes: true,
+      kanKortSendes: kanKortSendes,
       periodeKode: ""
     },
     meldegruppe: Meldegruppe.DAGP,
-    kortStatus: KortStatus.FERDI,
+    kortStatus: KortStatus.OPPRE,
     bruttoBelop: 100,
     erForskuddsPeriode: false,
     mottattDato: new Date(meldekortId),
