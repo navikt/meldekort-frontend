@@ -4,7 +4,7 @@ import type { Meldegruppe } from "~/models/meldegruppe";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldeperiode } from "~/models/meldeperiode";
 import { getHeaders } from "~/utils/fetchUtils";
-import type { ActionFunctionArgs} from "@remix-run/node";
+import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
@@ -52,14 +52,14 @@ export interface ISporsmalsobjekt {
 // Response
 export interface ISendInnMeldekortActionResponse {
   baksystemFeil: boolean;
-  innsending: IValideringsResultat | null
+  innsending: IValideringsResultat | null;
 }
 
 export interface IValideringsResultat {
   meldekortId: number;
   status: string;
-  arsakskoder: IArsakskode[] | null,
-  meldekortdager: IMeldekortDag[] | null
+  arsakskoder: IArsakskode[] | null;
+  meldekortdager: IMeldekortDag[] | null;
 }
 
 export interface IArsakskode {
@@ -77,7 +77,7 @@ export interface IMeldekortDag {
   meldegruppe: string | null;
 }
 
-async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
+async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<TypedResponse<IValideringsResultat>> {
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
   try {
     return await fetch(url, {
@@ -92,7 +92,7 @@ async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string,
   }
 }
 
-export async function sendInnMeldekortAction({ request }: ActionFunctionArgs) {
+export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): Promise<TypedResponse<ISendInnMeldekortActionResponse>> {
   let baksystemFeil = false
   let innsending: IValideringsResultat | null = null
 
