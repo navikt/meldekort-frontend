@@ -30,11 +30,11 @@ Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekor
 Appen er basert på [Remix](https://remix.run/docs)
 
 For å starte appen lokalt:
-0. Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt
-1. Kopier `.env.example` og rename til `.env`.
-1. `npm install`
-3. `npm run dev`
-4. Åpen http://localhost:8080/send-meldekort i nettlseren
+- Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt 
+- Kopier `.env.example` og rename til `.env`.
+- `npm install`
+- `npm run dev`
+- Åpen http://localhost:8080/send-meldekort i nettlseren
 
 OBS! `npm run dev` starter serveren i [manual mode](https://remix.run/docs/en/main/guides/manual-mode), dvs. man må
 restarte serveren hver gang man gjør endringer i server.ts (men dette skjer ikke veldig ofte)
