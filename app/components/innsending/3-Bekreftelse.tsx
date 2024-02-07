@@ -43,7 +43,6 @@ export default function Bekreftelse(props: IProps) {
   const { tt } = useExtendedTranslation()
 
   const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" })
-  // let baksystemFeil = false // fetcher.data?.baksystemFeil
 
   const [bekreftet, setBekreftet] = useState(false)
   const [loading, setLoading] = useState(false)
