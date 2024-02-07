@@ -1,8 +1,19 @@
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
-import { TEST_HISTORISKEMELDEKORT, TEST_MELDEKORTDETALJER, TEST_PERSON, TEST_PERSON_INFO } from "./data";
+import {
+  TEST_HISTORISKEMELDEKORT,
+  TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
+  TEST_MELDEKORTDETALJER,
+  TEST_PERSON,
+  TEST_PERSON_INFO
+} from "./data";
 
 export const handlers = [
+
+  http.post(
+    `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+    () => HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, { status: 200 })
+  ),
 
   http.get(
     `${TEST_MELDEKORT_API_URL}/person/meldekort`,

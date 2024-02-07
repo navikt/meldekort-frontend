@@ -5,6 +5,7 @@ import { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IFravaer, IPerson, IPersonInfo } from "~/models/person";
 import { MeldeForm } from "~/models/person";
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
@@ -97,3 +98,26 @@ export const TEST_PERSON = opprettTestPerson([meldekortId1, meldekortId2], [meld
 export const TEST_PERSON_INFO = opprettPersonInfo(1, "01020312345", "Test", "Testesen")
 export const TEST_HISTORISKEMELDEKORT = [opprettTestMeldekort(meldekortId5), opprettTestMeldekort(meldekortId6)]
 export const TEST_MELDEKORTDETALJER = opprettTestMeldekortdetaljer(meldekortId5)
+export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK: IValideringsResultat = {
+  meldekortId: 1,
+  status: "OK",
+  arsakskoder: null,
+  meldekortdager: null
+}
+export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
+  meldekortId: 1,
+  status: "FEIL",
+  arsakskoder: [
+    {
+      kode: "00",
+      tekst: "Tekst 00",
+      params: null
+    },
+    {
+      kode: "h01",
+      tekst: "Tekst h01",
+      params: null
+    }
+  ],
+  meldekortdager: null
+}
