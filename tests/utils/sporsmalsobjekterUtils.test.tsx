@@ -61,6 +61,20 @@ describe("Sporsmalsobjekter utils", () => {
         syk: false,
         annetFravaer: false,
         kurs: false
+      },
+      {
+        dag: 7,
+        arbeidetTimerSum: 0,
+        syk: false,
+        annetFravaer: false,
+        kurs: false
+      },
+      {
+        dag: 8,
+        arbeidetTimerSum: 0,
+        syk: false,
+        annetFravaer: false,
+        kurs: false
       }
     ]
   }
