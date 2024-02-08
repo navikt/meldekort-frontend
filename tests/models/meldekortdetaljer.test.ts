@@ -51,4 +51,6 @@ describe("Meldekortdetaljer", () => {
     expect(response.status).toBe(500)
     expect(response.statusText).toBe("fetch failed")
   })
+
+  // OBS! Ikke skriv andre tester her videre hvis du trenger fungerende server, den er allerede stoppet
 })

@@ -85,4 +85,6 @@ describe("Meldekortdetaljer Innsending", () => {
       innsending: null
     })
   })
+
+  // OBS! Ikke skriv andre tester her videre hvis du trenger fungerende server, den er allerede stoppet
 })
