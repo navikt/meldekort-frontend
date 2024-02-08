@@ -27,8 +27,12 @@ body {
     margin-top: 2rem;
 }
 
+.navds-text-field--error {
+    forced-color-adjust: none;
+}
 .navds-checkbox--error .navds-checkbox__label {
     --ac-radio-checkbox-action: var(--a-red-500);
+    forced-color-adjust: none;
 }
 
 /* Sette forskjellige størrelser for overskrifter iht skjermbredde */
