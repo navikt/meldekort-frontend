@@ -5,7 +5,8 @@ import {
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_MELDEKORTDETALJER,
   TEST_PERSON,
-  TEST_PERSON_INFO
+  TEST_PERSON_INFO,
+  TEST_SKRIVEMODUS
 } from "./data";
 
 export const handlers = [
@@ -33,5 +34,10 @@ export const handlers = [
   http.get(
     `${TEST_MELDEKORT_API_URL}/meldekort/1707156949`,
     () => HttpResponse.json(TEST_MELDEKORTDETALJER, { status: 200 })
-  )
+  ),
+
+  http.get(
+    `${TEST_MELDEKORT_API_URL}/skrivemodus`,
+    () => HttpResponse.json(TEST_SKRIVEMODUS, { status: 200 })
+  ),
 ];

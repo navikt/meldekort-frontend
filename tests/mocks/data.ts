@@ -6,6 +6,7 @@ import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IFravaer, IPerson, IPersonInfo } from "~/models/person";
 import { MeldeForm } from "~/models/person";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import type { ISkrivemodus } from "~/models/skrivemodus";
 
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
@@ -120,4 +121,11 @@ export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
     }
   ],
   meldekortdager: null
+}
+export const TEST_SKRIVEMODUS: ISkrivemodus = {
+  skrivemodus: true,
+  melding: {
+    norsk: "Norsk",
+    engelsk: "English"
+  }
 }
