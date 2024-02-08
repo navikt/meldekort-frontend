@@ -21,31 +21,31 @@ describe("Meldekort", () => {
       )
     )
 
-    const historiskeMeldekortResponse = await catchErrorResponse(() => hentHistoriskeMeldekort(""))
+    const response = await catchErrorResponse(() => hentHistoriskeMeldekort(""))
 
-    expect(historiskeMeldekortResponse.status).toBe(500)
-    expect(historiskeMeldekortResponse.statusText).toBe("Internal Server Error")
+    expect(response.status).toBe(500)
+    expect(response.statusText).toBe("Internal Server Error")
   })
 
   test("hentHistoriskeMeldekort skal få data", async () => {
     const expectedData = [...TEST_HISTORISKEMELDEKORT] // Clone
     jsonify(expectedData)
 
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort("")
+    const response = await hentHistoriskeMeldekort("")
 
-    const historiskeMeldekort = await historiskeMeldekortResponse.json()
+    const json = await response.json()
 
-    expect(historiskeMeldekortResponse.status).toBe(200)
-    expect(historiskeMeldekort).toStrictEqual(expectedData)
+    expect(response.status).toBe(200)
+    expect(json).toStrictEqual(expectedData)
   })
 
   test("hentHistoriskeMeldekort skal få status 500 når feil i fetch", async () => {
     // Stopper server slik at fetch kaster exception
     server.close()
 
-    const historiskeMeldekortResponse = await catchErrorResponse(() => hentHistoriskeMeldekort(""))
+    const response = await catchErrorResponse(() => hentHistoriskeMeldekort(""))
 
-    expect(historiskeMeldekortResponse.status).toBe(500)
-    expect(historiskeMeldekortResponse.statusText).toBe("fetch failed")
+    expect(response.status).toBe(500)
+    expect(response.statusText).toBe("fetch failed")
   })
 })
