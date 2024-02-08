@@ -89,13 +89,16 @@ export function finnYtelsestypePostfix(meldegruppe: Meldegruppe): string {
 }
 
 export function finnNesteSomKanSendes(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) {
-  return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
-    .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId && meldekort.meldeperiode.kanKortSendes)
+  return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
+    .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
+    .sort(meldekortEtterKanSendesFraKomparator)
+    .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId)
 }
 
 export function finnFoersteSomIkkeKanSendesEnna(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) {
-  return meldekort?.sort(meldekortEtterKanSendesFraKomparator)
-    .find(meldekort => meldekort.kortStatus === KortStatus.OPPRE && !meldekort.meldeperiode.kanKortSendes)
+  return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
+    .sort(meldekortEtterKanSendesFraKomparator)
+    .find(meldekort => !meldekort.meldeperiode.kanKortSendes)
 }
 
 export function meldekortEtterKanSendesFraKomparator(a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number {

@@ -12,6 +12,8 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 import { RemixLink } from "~/components/RemixLink";
 import { getOboToken } from "~/utils/authUtils";
 import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
+import { Navigate } from "react-router";
+import { KortStatus } from "~/models/meldekort";
 
 export const meta: MetaFunction = () => {
   return [
@@ -43,15 +45,23 @@ export default function Etterregistrering() {
 
   let innhold: ReactElement
 
+  const meldekortListe = person?.etterregistrerteMeldekort
+      .filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
+      .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
+      .sort(meldekortEtterKanSendesFraKomparator)
+    || []
+
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
-  } else if (person.etterregistrerteMeldekort.length === 0) {
+  } else if (meldekortListe.length === 0) {
     innhold = <GuidePanel>
       <div>&nbsp;</div>
       <div>{tt("sporsmal.ingenMeldekortASende")}</div>
     </GuidePanel>
+  } else if (meldekortListe.length === 1) {
+    // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
+    innhold = <Navigate to={`/etterregistrering/${meldekortListe[0].meldekortId}`} replace={true} />
   } else {
-    const meldekortListe = person.etterregistrerteMeldekort.sort(meldekortEtterKanSendesFraKomparator)
     const nesteMeldekortId = meldekortListe[0].meldekortId
 
     innhold = <div>

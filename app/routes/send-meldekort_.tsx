@@ -17,6 +17,7 @@ import {
   meldekortEtterKanSendesFraKomparator
 } from "~/utils/meldekortUtils";
 import { Navigate } from "react-router";
+import { KortStatus } from "~/models/meldekort";
 
 export const meta: MetaFunction = () => {
   return [
@@ -80,7 +81,11 @@ export default function SendMeldekort() {
       </GuidePanel>
     }
   } else {
-    const meldekortListe = person?.meldekort.sort(meldekortEtterKanSendesFraKomparator)
+    const meldekortListe = person?.meldekort
+        .filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
+        .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
+        .sort(meldekortEtterKanSendesFraKomparator)
+      || []
 
     // Det finnes meldekort som kan sendes nå
     // Men er det ikke for mange?
