@@ -129,7 +129,7 @@ function uke(
   meldekortDager: IMeldekortDag[]
 ): ISporsmalsobjekt {
   return {
-    sporsmal: getText("overskrift.uke") + formaterPeriode(fra, plussDager, periodelengde),
+    sporsmal: getText("overskrift.uke") + " " + formaterPeriode(fra, plussDager, periodelengde),
     svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde)
   }
 }

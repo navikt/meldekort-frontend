@@ -4,7 +4,7 @@ import { getText, parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import i18next from "i18next";
 import { render } from "@testing-library/react";
 
-describe("Env utils", () => {
+describe("Intl utils", () => {
   test("useExtendedTranslation skal returnere tt-funksjonen", async () => {
     const TestComponent = () => {
       const { tt } = useExtendedTranslation()
