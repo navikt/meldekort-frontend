@@ -10,10 +10,7 @@ describe("Ofte stilte spørsmål", () => {
     const testRouter = createBrowserRouter([
       {
         path: "/",
-        element: <OfteStilteSporsmal />,
-        action: async (args: any) => {
-          return args
-        }
+        element: <OfteStilteSporsmal />
       }
     ]);
 
@@ -37,7 +34,7 @@ describe("Ofte stilte spørsmål", () => {
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
-      { name: "description", content: "Ofte stilte spørsmål" },
+      { name: "description", content: "Ofte stilte spørsmål" }
     ])
   })
 })

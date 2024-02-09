@@ -10,10 +10,7 @@ describe("Om mmldekort", () => {
     const testRouter = createBrowserRouter([
       {
         path: "/",
-        element: <OmMeldekort />,
-        action: async (args: any) => {
-          return args
-        }
+        element: <OmMeldekort />
       }
     ]);
 
@@ -33,7 +30,7 @@ describe("Om mmldekort", () => {
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
-      { name: "description", content: "Generelt om meldekort" },
+      { name: "description", content: "Generelt om meldekort" }
     ])
   })
 })
