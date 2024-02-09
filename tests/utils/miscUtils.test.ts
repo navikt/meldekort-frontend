@@ -37,6 +37,12 @@ describe("Misc utils", () => {
     }
   })
 
+  test("formaterBelop skal fungere med desimaler", () => {
+    const result = formaterBelop(123.451)
+
+      expect(result).toBe(`kr. 123,45`)
+  })
+
   test("byggBegrunnelseObjekt skal fungere med dårlig JSON", () => {
     const result = byggBegrunnelseObjekt("TEST")
 
