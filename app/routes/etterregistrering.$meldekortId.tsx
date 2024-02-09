@@ -73,7 +73,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   })
 }
 
-export default function Etterregistrering() {
+export default function EtterregistreringMeldekort() {
   const {
     feil,
     valgtMeldekort,
