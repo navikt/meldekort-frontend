@@ -79,4 +79,10 @@ describe("Dato utils", () => {
 
     expect(result).toBe("9 (26.02.2024 - 03.03.2024)")
   })
+
+  test("ukeFormatert skal fungere med Date", () => {
+    const result = ukeFormatert(new Date(2024, 1, 19), 7)
+
+    expect(result).toBe("9 (26.02.2024 - 03.03.2024)")
+  })
 })

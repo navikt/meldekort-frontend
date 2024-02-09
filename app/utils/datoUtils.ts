@@ -31,7 +31,7 @@ export function formaterPeriode(fom: Date | string, plussDager: number, periodel
   return formaterPeriodeTilUkenummer(nestePeriodeFom, nestePeriodeTom) + " (" + formaterPeriodeDato(nestePeriodeFom, nestePeriodeTom) + ")"
 }
 
-export function ukeFormatert(fom: string, plussDager = 14): string {
+export function ukeFormatert(fom: Date | string, plussDager = 14): string {
   const ukeFom = new Date(fom)
   ukeFom.setDate(ukeFom.getDate() + plussDager)
   const ukeTom = new Date(ukeFom)
