@@ -2,7 +2,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vite
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
-import { action, loader } from "~/routes/send-meldekort.$meldekortId";
+import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/send-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -11,14 +11,40 @@ import {
   TEST_PERSON_INFO
 } from "../mocks/data";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import { createRemixStub } from "@remix-run/testing";
+import { json } from "@remix-run/node";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
 describe("Send meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
+  vi.mock('react-i18next', () => ({
+    useTranslation: () => {
+      return {
+        t: (args: string[]) => args[1],
+        i18n: {
+          changeLanguage: () => new Promise(() => {
+          }),
+          setDefaultNamespace: (ns: string) => {
+          }
+        },
+        ready: true
+      }
+    },
+    initReactI18next: {
+      type: '3rdParty',
+      init: () => {
+      }
+    }
+  }))
 
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
-  afterEach(() => server.resetHandlers())
+  afterEach(() => {
+    server.resetHandlers()
+    cleanup()
+  })
 
   const meldekortId = "1707156945"
   const request = new Request(TEST_URL + "/send-meldekort")
@@ -143,5 +169,91 @@ describe("Send meldekort", () => {
 
   test("Skal få OK resultat ved innsending av meldekort", async () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK)
+  })
+
+  test("Skal vise feilmelding hvis feil = true", async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        Component: SendMeldekort,
+        loader() {
+          return json({
+            feil: true,
+            valgtMeldekort: undefined,
+            nesteMeldekortId: undefined,
+            nesteEtterregistrerteMeldekortId: undefined,
+            personInfo: null,
+            minSideUrl: ""
+          })
+        }
+      }
+    ])
+
+    render(<RemixStub />)
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        Component: SendMeldekort,
+        loader() {
+          return json({
+            feil: false,
+            valgtMeldekort: undefined,
+            nesteMeldekortId: undefined,
+            nesteEtterregistrerteMeldekortId: undefined,
+            personInfo: null,
+            minSideUrl: ""
+          })
+        }
+      }
+    ])
+
+    render(<RemixStub />)
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis personInfo = null", async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        Component: SendMeldekort,
+        loader() {
+          return json({
+            feil: false,
+            valgtMeldekort: {
+              meldeperiode: {
+                fra: ""
+              }
+            },
+            nesteMeldekortId: undefined,
+            nesteEtterregistrerteMeldekortId: undefined,
+            personInfo: null,
+            minSideUrl: ""
+          })
+        }
+      }
+    ])
+
+    render(<RemixStub />)
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal returnere metainformasjon", async () => {
+    const args = {} as ServerRuntimeMetaArgs
+
+    expect(meta(args)).toStrictEqual([
+      { title: "Meldekort" },
+      { name: "description", content: "Send meldekort" }
+    ])
+  })
+
+  test("shouldRevalidate skal returnere false", async () => {
+    expect(shouldRevalidate()).toBe(false)
   })
 })
