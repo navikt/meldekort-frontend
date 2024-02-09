@@ -28,6 +28,11 @@ export async function action(args: ActionFunctionArgs) {
   return await sendInnMeldekortAction(args)
 }
 
+// Vi må ikke prøve å laste ned data igjen etter action
+export function shouldRevalidate() {
+  return false
+}
+
 export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false
   let historiskeMeldekort: IMeldekort[] | null = null
