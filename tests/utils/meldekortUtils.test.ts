@@ -124,7 +124,7 @@ describe("Meldekort utils", () => {
   })
 
   test("finnNesteSomKanSendes skal returnere riktig meldekort", () => {
-    const meldekort1: IMeldekort = opprettTestMeldekort(1707156950)
+    const meldekort1: IMeldekort = opprettTestMeldekort(1707156950, true, KortStatus.SENDT)
     const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false)
     const meldekort3: IMeldekort = opprettTestMeldekort(1707156952)
     const meldekort4: IMeldekort = opprettTestMeldekort(1707156953)
@@ -153,7 +153,7 @@ describe("Meldekort utils", () => {
 
   test("finnFoersteSomIkkeKanSendesEnna skal returnere riktig meldekort", () => {
     const meldekort1: IMeldekort = opprettTestMeldekort(1707156950)
-    const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false)
+    const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false, KortStatus.SENDT)
     const meldekort3: IMeldekort = opprettTestMeldekort(1707156952, false)
     const meldekort4: IMeldekort = opprettTestMeldekort(1707156953)
 
