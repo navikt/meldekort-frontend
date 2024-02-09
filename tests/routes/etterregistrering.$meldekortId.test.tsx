@@ -20,8 +20,6 @@ import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/route
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { json } from "@remix-run/node";
 import { createRemixStub } from "@remix-run/testing";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import OmMeldekort from "~/routes/om-meldekort";
 
 
 describe("Etterregistrer meldekort", () => {
@@ -48,7 +46,10 @@ describe("Etterregistrer meldekort", () => {
 
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
-  afterEach(() => { server.resetHandlers(); cleanup() })
+  afterEach(() => {
+    server.resetHandlers()
+    cleanup()
+  })
 
   const meldekortId = "1707156947"
   const request = new Request(TEST_URL + "/etteregistrering")

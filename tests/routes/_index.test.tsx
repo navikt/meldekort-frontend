@@ -28,7 +28,7 @@ describe("Root", () => {
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
-      { name: "description", content: "Meldekort" },
+      { name: "description", content: "Meldekort" }
     ])
   })
 })
