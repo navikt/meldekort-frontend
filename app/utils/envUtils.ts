@@ -13,6 +13,7 @@ interface IEnv {
   MIN_SIDE_URL: string;
   IS_LOCALHOST: string;
   MELDEKORT_API_TOKEN: string;
+  AMPLITUDE_API_KEY: string;
 }
 
 export function getEnv(value: keyof IEnv) {

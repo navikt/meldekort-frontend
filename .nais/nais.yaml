@@ -41,6 +41,8 @@ spec:
       value: "{{ meldekortApiUrl }}"
     - name: MIN_SIDE_URL
       value: "{{ minSideUrl }}"
+    - name: AMPLITUDE_API_KEY
+      value: "{{ amplitudeApiKey }}"
   accessPolicy:
     outbound:
       rules:
