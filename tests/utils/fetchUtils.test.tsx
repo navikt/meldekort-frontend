@@ -33,7 +33,10 @@ describe("Fetch utils", () => {
     const testRouter = createBrowserRouter([
       {
         path: "/",
-        element: <TestComponent />
+        element: <TestComponent />,
+        action: async (args: any) => {
+          return args
+        }
       }
     ]);
 
