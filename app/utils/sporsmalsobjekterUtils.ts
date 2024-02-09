@@ -4,7 +4,7 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
-import { formaterDato, formaterTid, formaterPeriode } from "~/utils/datoUtils";
+import { formaterDato, formaterTid, formaterPeriode, ukeFormatert } from "~/utils/datoUtils";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { getText } from "~/utils/intlUtils";
 import { ukeDager } from "~/utils/miscUtils";
@@ -70,7 +70,7 @@ function header(
         type: korrigering
           ? getText("meldekort.type.korrigert").trim()
           : getText("overskrift.meldekort").trim(),
-        period: formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 14),
+        period: getText("overskrift.uke").trim() + " " + formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 14),
         mottatt: meldekortMottatt,
         kortKanSendesFra: nesteDato
           ? getText("sendt.mottatt.meldekortKanSendes", { 0: formaterDato(nesteDato) }) + "<br/>"
@@ -129,7 +129,7 @@ function uke(
   meldekortDager: IMeldekortDag[]
 ): ISporsmalsobjekt {
   return {
-    sporsmal: getText("overskrift.uke") + " " + formaterPeriode(fra, plussDager, periodelengde),
+    sporsmal: getText("overskrift.uke").trim() + " " + ukeFormatert(fra, plussDager),
     svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde)
   }
 }

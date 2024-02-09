@@ -6,7 +6,7 @@ import type { ISporsmal } from "~/models/sporsmal";
 import { opprettTestMeldekort } from "../mocks/data";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
-import { formaterDato, formaterPeriode, formaterTid } from "~/utils/datoUtils";
+import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
 import i18next from "i18next";
 
 describe("Sporsmalsobjekter utils", () => {
@@ -104,7 +104,7 @@ describe("Sporsmalsobjekter utils", () => {
     // Header
     expect(result[0]).toStrictEqual({
       sporsmal: "",
-      svar: "overskrift.meldekort "
+      svar: "overskrift.meldekort overskrift.uke "
         + formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 14)
         + " "
         + formaterDato(mottattDato)
@@ -154,7 +154,7 @@ describe("Sporsmalsobjekter utils", () => {
 
     // Aktiviteter
     expect(result[8]).toStrictEqual({
-      sporsmal: "overskrift.uke " + formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 7),
+      sporsmal: "overskrift.uke " + ukeFormatert(valgtMeldekort.meldeperiode.fra, 0),
       svar: "<div><b>ukedag.mandag:</b><span> </span>utfylling.arbeid 5 overskrift.timer</div>" +
         "<div><b>ukedag.tirsdag:</b><span> </span>utfylling.syk</div>" +
         "<div><b>ukedag.onsdag:</b><span> </span>utfylling.ferieFravar</div" +
@@ -162,7 +162,7 @@ describe("Sporsmalsobjekter utils", () => {
         "<div><b>ukedag.fredag:</b><span> </span>utfylling.tiltak, utfylling.syk</div>"
     })
     expect(result[9]).toStrictEqual({
-      sporsmal: "overskrift.uke " + formaterPeriode(valgtMeldekort.meldeperiode.fra, 7, 7),
+      sporsmal: "overskrift.uke " + ukeFormatert(valgtMeldekort.meldeperiode.fra, 7),
       svar: ""
     })
 
