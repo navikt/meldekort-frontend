@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { BodyLong, GuidePanel } from "@navikt/ds-react";
+import { Box, GuidePanel } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 export const meta: MetaFunction = () => {
@@ -15,10 +15,10 @@ export default function OmMeldekort() {
   const { tt } = useExtendedTranslation()
 
   const innhold = <GuidePanel poster>
-    <BodyLong>
+    <Box>
       {tt("genereltOmMeldekort.velkommen")}
-    </BodyLong>
-    <BodyLong>
+    </Box>
+    <Box>
       {tt("genereltOmMeldekort.velge")}
       <ul>
         <li>
@@ -28,18 +28,18 @@ export default function OmMeldekort() {
           {tt("genereltOmMeldekort.valg.tidligere")}
         </li>
       </ul>
-    </BodyLong>
-    <BodyLong>
+    </Box>
+    <Box>
       {parseHtml(tt("genereltOmMeldekort.om.meldekort"),
         [
           "https://www.nav.no",
           tt("genereltOmMeldekort.informasjonOmMeldekortLink").trim()
         ]
       )}
-    </BodyLong>
-    <BodyLong>
+    </Box>
+    <Box>
       {tt("genereltOmMeldekort.oss")}
-    </BodyLong>
+    </Box>
   </GuidePanel>
 
   return (
