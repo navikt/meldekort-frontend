@@ -12,6 +12,6 @@ export const loader: LoaderFunction = async () => {
   return redirect("/", 301)
 };
 
-export default function Index() {
+export default function Meldekort() {
   return (<div></div>)
 }
