@@ -4,7 +4,7 @@ import {redirect} from "@remix-run/node";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Meldekort" },
+    { name: "description", content: "Meldekort" }
   ];
 };
 

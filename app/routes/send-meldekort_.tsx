@@ -22,7 +22,7 @@ import { KortStatus } from "~/models/meldekort";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Send meldekort" },
+    { name: "description", content: "Send meldekort" }
   ]
 }
 

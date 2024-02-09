@@ -20,7 +20,7 @@ import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Send meldekort" },
+    { name: "description", content: "Send meldekort" }
   ]
 }
 

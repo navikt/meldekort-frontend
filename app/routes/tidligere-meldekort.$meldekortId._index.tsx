@@ -30,7 +30,7 @@ import { KortType } from "~/models/kortType";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Tidligere meldekort detaljer" },
+    { name: "description", content: "Tidligere meldekort detaljer" }
   ]
 }
 

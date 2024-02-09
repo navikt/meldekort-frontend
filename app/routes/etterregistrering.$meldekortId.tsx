@@ -20,7 +20,7 @@ import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Etterregistrer meldekort" },
+    { name: "description", content: "Etterregistrer meldekort" }
   ]
 }
 

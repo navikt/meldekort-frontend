@@ -14,7 +14,7 @@ import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Tidligere meldekort" },
+    { name: "description", content: "Tidligere meldekort" }
   ]
 }
 

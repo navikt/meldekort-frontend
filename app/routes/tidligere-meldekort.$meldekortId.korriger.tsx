@@ -20,7 +20,7 @@ import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Korriger tidligere meldekort" },
+    { name: "description", content: "Korriger tidligere meldekort" }
   ]
 }
 

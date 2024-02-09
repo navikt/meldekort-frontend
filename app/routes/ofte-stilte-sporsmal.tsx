@@ -8,7 +8,7 @@ import sporrende from "~/img/sporrende.svg";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Ofte stilte spørsmål" },
+    { name: "description", content: "Ofte stilte spørsmål" }
   ]
 }
 

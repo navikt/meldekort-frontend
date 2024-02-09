@@ -7,7 +7,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Generelt om meldekort" },
+    { name: "description", content: "Generelt om meldekort" }
   ]
 }
 
