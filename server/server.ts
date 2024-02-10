@@ -7,6 +7,7 @@ import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
 import { tokenX } from "@navikt/dp-auth/obo-providers";
+import { TEST_DECORATOR_RESPONSE } from "../tests/mocks/data";
 
 // Patch in Remix runtime globals
 installGlobals();
@@ -62,18 +63,7 @@ app.use(morgan("tiny"));
 app.get("/api/tekst/hentAlle", (_, res) => res.send("{}"))
 app.get("/dekorator/css/client.css", (_, res) => res.sendStatus(200))
 app.get("/dekorator/client.js", (_, res) => res.send(""))
-app.get("/dekorator", (_, res) => res.send("" +
-  "{" +
-  "  window: {" +
-  "    document: '" +
-  "      <div id=\"styles\"> </div>" +
-  "      <div id=\"scripts\"> </div>" +
-  "      <div id=\"header-withmenu\"><div style=\"height: 80px; border-bottom: 1px solid #e9e7e7;\">HEADER</div></div>" +
-  "      <div id=\"footer-withmenu\"><div style=\"height: 400px; background: #003453; color: #ffffff;\">FOOTER</div></div>" +
-  "    '" +
-  "  }" +
-  "}"
-))
+app.get("/dekorator", (_, res) => res.send(TEST_DECORATOR_RESPONSE))
 
 // i18next tries to load texts from files, but we don't have these texts in files, we have them in meldekort-api
 // So we check what i18next wants to get, fetch data from meldekort-api and return to i18next

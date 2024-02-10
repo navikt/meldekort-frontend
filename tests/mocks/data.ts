@@ -134,3 +134,20 @@ export const TEST_SKRIVEMODUS: ISkrivemodus = {
     engelsk: "English"
   }
 }
+export const TEST_DECORATOR_RESPONSE = "" +
+  "{" +
+  "  window: {" +
+  "    document: '" +
+  "      <div id=\"styles\"> </div>" +
+  "      <div id=\"scripts\"> </div>" +
+  "      <div id=\"header-withmenu\"><div style=\"height: 80px; border-bottom: 1px solid #e9e7e7;\">HEADER</div></div>" +
+  "      <div id=\"footer-withmenu\"><div style=\"height: 400px; background: #003453; color: #ffffff;\">FOOTER</div></div>" +
+  "    '" +
+  "  }" +
+  "}"
+export const TEST_DECORATOR_FRAGMENTS = {
+  DECORATOR_STYLES: "",
+  DECORATOR_SCRIPTS: "",
+  DECORATOR_HEADER: "<div>DECORATOR HEADER</div>",
+  DECORATOR_FOOTER: "<div>DECORATOR FOOTER</div>",
+}
