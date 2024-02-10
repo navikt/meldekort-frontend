@@ -2,9 +2,12 @@ import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { loader } from "~/routes/tidligere-meldekort_";
-import { jsonify, opprettTestMeldekort } from "../mocks/data";
-import { beforeAndAfterSetup } from "../helpers/test-helpers";
+import TidligereMeldekort, { loader, meta } from "~/routes/tidligere-meldekort_";
+import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT } from "../mocks/data";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { json } from "@remix-run/node";
+import { screen, waitFor } from "@testing-library/react";
 
 
 describe("Tidligere meldekort", () => {
@@ -51,5 +54,71 @@ describe("Tidligere meldekort", () => {
 
     expect(response.status).toBe(200)
     expect(data).toEqual({ feil: false, historiskeMeldekort: historiskemeldekortData })
+  })
+
+  test("Skal vise feilmelding hvis feil = true", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: true,
+          historiskeMeldekort: null
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise melding om det ikke finnes meldekort hvis historiskeMeldekort = null", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          historiskeMeldekort: null
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.harIngen"))
+  })
+
+  test("Skal vise melding om det ikke finnes meldekort hvis historiskeMeldekort er tom", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          historiskeMeldekort: []
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.harIngen"))
+  })
+
+  test("Skal vise innhold hvis det finne historiske meldekort", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          historiskeMeldekort: TEST_HISTORISKEMELDEKORT
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"))
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"))
+  })
+
+  test("Skal returnere metainformasjon", async () => {
+    const args = {} as ServerRuntimeMetaArgs
+
+    expect(meta(args)).toStrictEqual([
+      { title: "Meldekort" },
+      { name: "description", content: "Tidligere meldekort" }
+    ])
   })
 })
