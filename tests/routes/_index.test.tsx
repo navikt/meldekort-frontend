@@ -5,7 +5,7 @@ import { TEST_URL } from "../helpers/setup";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
-describe("Root", () => {
+describe("Index", () => {
   test("Skal få redirect til Send meldekort", async () => {
     const response = await catchErrorResponse(() =>
       loader({

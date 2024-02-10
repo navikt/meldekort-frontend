@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import {
+  TEST_DECORATOR_RESPONSE,
   TEST_HISTORISKEMELDEKORT,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_MELDEKORTDETALJER,
@@ -39,5 +40,10 @@ export const handlers = [
   http.get(
     `${TEST_MELDEKORT_API_URL}/skrivemodus`,
     () => HttpResponse.json(TEST_SKRIVEMODUS, { status: 200 })
+  ),
+
+  http.get(
+    `http://localhost:8080/dekorator`,
+    () => new HttpResponse(TEST_DECORATOR_RESPONSE, { status: 200 })
   ),
 ];
