@@ -1,7 +1,6 @@
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import {
-  TEST_DECORATOR_RESPONSE,
   TEST_HISTORISKEMELDEKORT,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_MELDEKORTDETALJER,
@@ -9,6 +8,7 @@ import {
   TEST_PERSON_INFO,
   TEST_SKRIVEMODUS
 } from "./data";
+import { LOCAL_DECORATOR_RESPONSE } from "../../server/localData";
 
 export const handlers = [
 
@@ -44,6 +44,6 @@ export const handlers = [
 
   http.get(
     `http://localhost:8080/dekorator`,
-    () => new HttpResponse(TEST_DECORATOR_RESPONSE, { status: 200 })
+    () => new HttpResponse(LOCAL_DECORATOR_RESPONSE, { status: 200 })
   ),
 ];
