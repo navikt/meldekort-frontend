@@ -14,6 +14,7 @@ import {
   opprettTestMeldekortdetaljer,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
+  TEST_MELDEKORTDETALJER,
   TEST_PERSON_INFO
 } from "../mocks/data";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
@@ -21,6 +22,10 @@ import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { IPersonInfo } from "~/models/person";
 
 
 describe("Korriger tidligere meldekort", () => {
@@ -50,7 +55,12 @@ describe("Korriger tidligere meldekort", () => {
   const meldekortId = "1707156949"
   const request = new Request(TEST_URL + "/tidligere-meldekort/korriger")
 
-  const checkLoader = async (meldekortId?: string) => {
+  const checkLoader = async (
+    meldekortId?: string,
+    valgtMeldekort?: IMeldekort,
+    meldekortdetaljer: IMeldekortdetaljer | null = null,
+    personInfo: IPersonInfo | null = null
+  ) => {
     const response = await loader({
       request,
       params: { meldekortId },
@@ -62,9 +72,9 @@ describe("Korriger tidligere meldekort", () => {
     expect(response.status).toBe(200)
     expect(data).toEqual({
       feil: true,
-      valgtMeldekort: undefined,
-      meldekortdetaljer: null,
-      personInfo: null,
+      valgtMeldekort: valgtMeldekort,
+      meldekortdetaljer: meldekortdetaljer,
+      personInfo: personInfo,
       minSideUrl: TEST_MIN_SIDE_URL
     })
   }
@@ -130,6 +140,27 @@ describe("Korriger tidligere meldekort", () => {
     )
 
     await checkLoader(meldekortId)
+  })
+
+  test("Skal få feil = true hvis meldekort ikke er korrigerbart", async () => {
+    const meldekort = opprettTestMeldekort(Number(meldekortId), true, KortStatus.OPPRE, false)
+    jsonify(meldekort)
+
+    const expectedMeldekortdetaljer = { ...TEST_MELDEKORTDETALJER } // Clone
+    jsonify(expectedMeldekortdetaljer)
+
+    const expectedPersonInfo = { ...TEST_PERSON_INFO } // Clone
+    jsonify(expectedPersonInfo)
+
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
+        () => HttpResponse.json([meldekort], { status: 200 }),
+        { once: true }
+      )
+    )
+
+    await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo)
   })
 
   test("Skal få feil = false og data fra backend", async () => {
