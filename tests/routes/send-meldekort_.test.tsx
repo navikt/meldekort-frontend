@@ -10,6 +10,7 @@ import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
+import * as React from "react";
 
 
 describe("Send meldekort", () => {
@@ -91,18 +92,7 @@ describe("Send meldekort", () => {
         return json({
           feil: false,
           person: {
-            meldekort: [
-              {
-                meldekortId: 1,
-                kortStatus: KortStatus.OPPRE,
-                meldeperiode: {
-                  fra: new Date(),
-                  til: new Date(),
-                  kanKortSendes: false,
-                  kortKanSendesFra: new Date()
-                }
-              }
-            ]
+            meldekort: [opprettTestMeldekort(1, false)]
           }
         })
       }
@@ -149,9 +139,12 @@ describe("Send meldekort", () => {
     await waitFor(() => screen.findByText("sendMeldekort.info.forMangeMeldekort.feilmelding"))
   })
 
-  test("Skal vise meldekort som kan sendes", async () => {
-    const meldekort: IMeldekort[] = []
-    for (let i = 1; i <= 3; i++) meldekort.push(opprettTestMeldekort(i))
+  test("Skal sende brukere videre når det fines kun 1 meldekort som kan sendes", async () => {
+    const NextComponent = () => {
+      return (
+        <div>NAVIGATED</div>
+      );
+    }
 
     renderRemixStub(
       SendMeldekort,
@@ -159,7 +152,25 @@ describe("Send meldekort", () => {
         return json({
           feil: false,
           person: {
-            meldekort: meldekort
+            meldekort: [opprettTestMeldekort(1, true, KortStatus.SENDT)]
+          }
+        })
+      },
+      "/send-meldekort/1",
+      NextComponent
+    )
+
+    await waitFor(() => screen.findByText("NAVIGATED"))
+  })
+
+  test("Skal vise meldekort som kan sendes", async () => {
+    renderRemixStub(
+      SendMeldekort,
+      () => {
+        return json({
+          feil: false,
+          person: {
+            meldekort: [opprettTestMeldekort(1), opprettTestMeldekort(2), opprettTestMeldekort(3)]
           }
         })
       }

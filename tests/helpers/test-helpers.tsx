@@ -14,12 +14,21 @@ export const beforeAndAfterSetup = () => {
   })
 }
 
-export const renderRemixStub = (component: React.ComponentType, loader?: LoaderFunction) => {
+export const renderRemixStub = (
+  component: React.ComponentType,
+  loader?: LoaderFunction,
+  nextPath?: string,
+  nextComponent?: React.ComponentType
+) => {
   const RemixStub = createRemixStub([
     {
       path: "/",
       Component: component,
       loader
+    },
+    {
+      path: nextPath,
+      Component: nextComponent
     }
   ])
 

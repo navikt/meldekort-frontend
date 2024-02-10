@@ -3,12 +3,13 @@ import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import Etterregistrering, { loader, meta } from "~/routes/etterregistrering_";
-import { jsonify, TEST_PERSON } from "../mocks/data";
+import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { KortStatus } from "~/models/meldekort";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import * as React from "react";
+import { KortStatus } from "~/models/meldekort";
 
 
 describe("Etterregistrering", () => {
@@ -83,7 +84,7 @@ describe("Etterregistrering", () => {
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
-  test("Skal vise melding når ingen meldekort å sende", async () => {
+  test("Skal vise melding når det ikke finnes meldekort som kan sendes", async () => {
     renderRemixStub(
       Etterregistrering,
       () => {
@@ -99,6 +100,30 @@ describe("Etterregistrering", () => {
     await waitFor(() => screen.findByText("sporsmal.ingenMeldekortASende"))
   })
 
+  test("Skal sende brukere videre når det fines kun 1 meldekort som kan sendes", async () => {
+    const NextComponent = () => {
+      return (
+        <div>NAVIGATED</div>
+      );
+    }
+
+    renderRemixStub(
+      Etterregistrering,
+      () => {
+        return json({
+          feil: false,
+          person: {
+            etterregistrerteMeldekort: [opprettTestMeldekort(1, true, KortStatus.SENDT)]
+          }
+        })
+      },
+      "/etterregistrering/1",
+      NextComponent
+    )
+
+    await waitFor(() => screen.findByText("NAVIGATED"))
+  })
+
   test("Skal vise melding innhold når det fines meldekort å sende", async () => {
     renderRemixStub(
       Etterregistrering,
@@ -106,28 +131,7 @@ describe("Etterregistrering", () => {
         return json({
           feil: false,
           person: {
-            etterregistrerteMeldekort: [
-              {
-                meldekortId: 1,
-                kortStatus: KortStatus.OPPRE,
-                meldeperiode: {
-                  fra: new Date(),
-                  til: new Date(),
-                  kanKortSendes: true,
-                  kortKanSendesFra: new Date()
-                }
-              },
-              {
-                meldekortId: 2,
-                kortStatus: KortStatus.OPPRE,
-                meldeperiode: {
-                  fra: new Date(),
-                  til: new Date(),
-                  kanKortSendes: true,
-                  kortKanSendesFra: new Date()
-                }
-              }
-            ]
+            etterregistrerteMeldekort: [opprettTestMeldekort(1), opprettTestMeldekort(2)]
           }
         })
       }
