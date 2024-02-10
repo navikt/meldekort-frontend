@@ -19,7 +19,7 @@ import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending"
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { json } from "@remix-run/node";
-import { beforeAndAfterSetup, renderRemixStub, setVi } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 
 
 describe("Etterregistrer meldekort", () => {
