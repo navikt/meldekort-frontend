@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
@@ -11,10 +11,10 @@ import {
   TEST_PERSON_INFO
 } from "../mocks/data";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { createRemixStub } from "@remix-run/testing";
 import { json } from "@remix-run/node";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 
 
 describe("Send meldekort", () => {
@@ -39,12 +39,7 @@ describe("Send meldekort", () => {
     }
   }))
 
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
-  afterAll(() => server.close())
-  afterEach(() => {
-    server.resetHandlers()
-    cleanup()
-  })
+  beforeAndAfterSetup()
 
   const meldekortId = "1707156945"
   const request = new Request(TEST_URL + "/send-meldekort")
@@ -172,74 +167,59 @@ describe("Send meldekort", () => {
   })
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "/",
-        Component: SendMeldekort,
-        loader() {
-          return json({
-            feil: true,
-            valgtMeldekort: undefined,
-            nesteMeldekortId: undefined,
-            nesteEtterregistrerteMeldekortId: undefined,
-            personInfo: null,
-            minSideUrl: ""
-          })
-        }
+    renderRemixStub(
+      SendMeldekort,
+      () => {
+        return json({
+          feil: true,
+          valgtMeldekort: undefined,
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: null,
+          minSideUrl: ""
+        })
       }
-    ])
-
-    render(<RemixStub />)
+    )
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "/",
-        Component: SendMeldekort,
-        loader() {
-          return json({
-            feil: false,
-            valgtMeldekort: undefined,
-            nesteMeldekortId: undefined,
-            nesteEtterregistrerteMeldekortId: undefined,
-            personInfo: null,
-            minSideUrl: ""
-          })
-        }
+    renderRemixStub(
+      SendMeldekort,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: undefined,
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: null,
+          minSideUrl: ""
+        })
       }
-    ])
-
-    render(<RemixStub />)
+    )
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
   test("Skal vise feilmelding hvis personInfo = null", async () => {
-    const RemixStub = createRemixStub([
-      {
-        path: "/",
-        Component: SendMeldekort,
-        loader() {
-          return json({
-            feil: false,
-            valgtMeldekort: {
-              meldeperiode: {
-                fra: ""
-              }
-            },
-            nesteMeldekortId: undefined,
-            nesteEtterregistrerteMeldekortId: undefined,
-            personInfo: null,
-            minSideUrl: ""
-          })
-        }
+    renderRemixStub(
+      SendMeldekort,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: {
+            meldeperiode: {
+              fra: ""
+            }
+          },
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: null,
+          minSideUrl: ""
+        })
       }
-    ])
-
-    render(<RemixStub />)
+    )
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })

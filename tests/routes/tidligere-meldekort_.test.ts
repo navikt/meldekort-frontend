@@ -1,16 +1,16 @@
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import { loader } from "~/routes/tidligere-meldekort_";
 import { jsonify, opprettTestMeldekort } from "../mocks/data";
+import { beforeAndAfterSetup } from "../helpers/test-helpers";
 
 
 describe("Tidligere meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
 
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
-  afterAll(() => server.close())
+  beforeAndAfterSetup()
 
   const request = new Request(TEST_URL + "/tidligere-meldekort")
 
