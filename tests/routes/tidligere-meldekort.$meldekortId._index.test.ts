@@ -2,13 +2,35 @@ import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { loader } from "~/routes/tidligere-meldekort.$meldekortId._index";
+import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
 import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer } from "../mocks/data";
-import { beforeAndAfterSetup } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { json } from "@remix-run/node";
+import { screen, waitFor } from "@testing-library/react";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
 describe("Tidligere meldekort detaljer", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
+  vi.mock('react-i18next', () => ({
+    useTranslation: () => {
+      return {
+        t: (args: string[]) => args[1],
+        i18n: {
+          changeLanguage: () => new Promise(() => {
+          }),
+          setDefaultNamespace: (ns: string) => {
+          }
+        },
+        ready: true
+      }
+    },
+    initReactI18next: {
+      type: '3rdParty',
+      init: () => {
+      }
+    }
+  }))
 
   beforeAndAfterSetup()
 
@@ -74,5 +96,79 @@ describe("Tidligere meldekort detaljer", () => {
 
     expect(response.status).toBe(200)
     expect(data).toEqual({ feil: false, valgtMeldekort: meldekort, meldekortdetaljer: meldekortdetaljerData })
+  })
+
+  test("Skal vise feilmelding hvis feil = true", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: true,
+          valgtMeldekort: undefined,
+          meldekortdetaljer: undefined
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: undefined,
+          meldekortdetaljer: undefined
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis meldekortdetaljer = undefined", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: opprettTestMeldekort(1),
+          meldekortdetaljer: undefined
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise meldekortdetaljer", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: opprettTestMeldekort(1),
+          meldekortdetaljer: opprettTestMeldekortdetaljer(1)
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("meldekort.for.perioden"))
+    await waitFor(() => screen.findByText("overskrift.mottatt"))
+    await waitFor(() => screen.findByText("overskrift.status"))
+    await waitFor(() => screen.findByText("overskrift.bruttoBelop"))
+    await waitFor(() => screen.findByText("overskrift.meldekorttype"))
+    await waitFor(() => screen.findByText("overskrift.skrivUt"))
+  })
+
+  test("Skal returnere metainformasjon", async () => {
+    const args = {} as ServerRuntimeMetaArgs
+
+    expect(meta(args)).toStrictEqual([
+      { title: "Meldekort" },
+      { name: "description", content: "Tidligere meldekort detaljer" }
+    ])
   })
 })
