@@ -29,11 +29,11 @@ export default function MeldekortHeader() {
         <div className={styles.title}>
           <h1 className="navds-heading navds-heading--xlarge">{tt("overskrift.meldekort")}</h1>
         </div>
-        <div className={styles.mobileMenu} onClick={() => togleMobileMenu()}>
+        <div className={styles.mobileMenu} data-testid="mobileMenu" onClick={() => togleMobileMenu()}>
           <MenuHamburgerIcon title="a11y-title" fontSize="3rem" />
         </div>
       </div>
-      <div className={styles.menu} id="menu">
+      <div className={styles.menu} id="menu" data-testid="menu">
         <NavLink to="/send-meldekort" className={setClassName}>
           {tt("sekundarmeny.send")}
         </NavLink>
