@@ -2,8 +2,7 @@ import type { MockInstance } from "vitest";
 import { describe, expect, test, vi } from "vitest";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 import { Innsendingstype } from "~/models/innsendingstype";
-import type { ISporsmal } from "~/models/sporsmal";
-import { opprettTestMeldekort } from "../mocks/data";
+import { opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
@@ -12,72 +11,6 @@ import i18next from "i18next";
 describe("Sporsmalsobjekter utils", () => {
   const valgtMeldekort = opprettTestMeldekort(1707156945)
   const begrunnelse = "Begrunnelse"
-  const sporsmal: ISporsmal = {
-    arbeidssoker: true,
-    arbeidet: true,
-    syk: true,
-    annetFravaer: false,
-    kurs: true,
-    signatur: true,
-    meldekortDager: [
-      {
-        dag: 1,
-        arbeidetTimerSum: 5,
-        syk: false,
-        annetFravaer: false,
-        kurs: false
-      },
-      {
-        dag: 2,
-        arbeidetTimerSum: 0,
-        syk: true,
-        annetFravaer: false,
-        kurs: false
-      },
-      {
-        dag: 3,
-        arbeidetTimerSum: 0,
-        syk: false,
-        annetFravaer: true,
-        kurs: false
-      },
-      {
-        dag: 4,
-        arbeidetTimerSum: 0,
-        syk: false,
-        annetFravaer: false,
-        kurs: true
-      },
-      {
-        dag: 5,
-        arbeidetTimerSum: 0,
-        syk: true,
-        annetFravaer: false,
-        kurs: true
-      },
-      {
-        dag: 6,
-        arbeidetTimerSum: 0,
-        syk: false,
-        annetFravaer: false,
-        kurs: false
-      },
-      {
-        dag: 7,
-        arbeidetTimerSum: 0,
-        syk: false,
-        annetFravaer: false,
-        kurs: false
-      },
-      {
-        dag: 8,
-        arbeidetTimerSum: 0,
-        syk: false,
-        annetFravaer: false,
-        kurs: false
-      }
-    ]
-  }
   const mottattDato = new Date()
   const nesteMeldekortKanSendes = "09.02.2024"
 
@@ -94,7 +27,7 @@ describe("Sporsmalsobjekter utils", () => {
       (valgtMeldekort as unknown) as Jsonify<IMeldekort>,
       Innsendingstype.INNSENDING,
       begrunnelse,
-      sporsmal,
+      TEST_SPORSMAL,
       mottattDato,
       nesteMeldekortKanSendes
     )
@@ -199,7 +132,7 @@ describe("Sporsmalsobjekter utils", () => {
       (valgtMeldekort as unknown) as Jsonify<IMeldekort>,
       Innsendingstype.KORRIGERING,
       begrunnelse,
-      sporsmal,
+      TEST_SPORSMAL,
       mottattDato,
       undefined
     )

@@ -7,6 +7,7 @@ import type { IFravaer, IPerson, IPersonInfo } from "~/models/person";
 import { MeldeForm } from "~/models/person";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import type { ISkrivemodus } from "~/models/skrivemodus";
+import type { ISporsmal } from "~/models/sporsmal";
 
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
@@ -139,4 +140,70 @@ export const TEST_DECORATOR_FRAGMENTS = {
   DECORATOR_SCRIPTS: "",
   DECORATOR_HEADER: "<div>DECORATOR HEADER</div>",
   DECORATOR_FOOTER: "<div>DECORATOR FOOTER</div>",
+}
+export const TEST_SPORSMAL: ISporsmal = {
+  arbeidssoker: true,
+  arbeidet: true,
+  syk: true,
+  annetFravaer: false,
+  kurs: true,
+  signatur: true,
+  meldekortDager: [
+    {
+      dag: 1,
+      arbeidetTimerSum: 5,
+      syk: false,
+      annetFravaer: false,
+      kurs: false
+    },
+    {
+      dag: 2,
+      arbeidetTimerSum: 0,
+      syk: true,
+      annetFravaer: false,
+      kurs: false
+    },
+    {
+      dag: 3,
+      arbeidetTimerSum: 0,
+      syk: false,
+      annetFravaer: true,
+      kurs: false
+    },
+    {
+      dag: 4,
+      arbeidetTimerSum: 0,
+      syk: false,
+      annetFravaer: false,
+      kurs: true
+    },
+    {
+      dag: 5,
+      arbeidetTimerSum: 0,
+      syk: true,
+      annetFravaer: false,
+      kurs: true
+    },
+    {
+      dag: 6,
+      arbeidetTimerSum: 0,
+      syk: false,
+      annetFravaer: false,
+      kurs: false
+    },
+    {
+      dag: 7,
+      arbeidetTimerSum: 0,
+      syk: false,
+      annetFravaer: false,
+      kurs: false
+    },
+    {
+      dag: 8,
+      arbeidetTimerSum: 0,
+      syk: false,
+      annetFravaer: false,
+      kurs: false
+    }
+  ]
 }

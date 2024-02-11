@@ -33,12 +33,12 @@ export default function SporsmalOgSvar(props: IProps) {
   return sporsmalOgSvar.map((item) => {
     return (
       <div key={item.sporsmal} className={styles.sporsmalOgSvar}>
-        <Label>
+        <Label data-testid={item.sporsmal}>
           {parseHtml(tt(item.sporsmal))}
           {item.formatertDato ? <span> {item.formatertDato}?</span> : null}
         </Label>
         <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring))} />
-        <Box paddingBlock="1">
+        <Box paddingBlock="1" data-testid={item.sporsmal + ".svar"}>
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />
           &nbsp;
           {
