@@ -3,7 +3,7 @@ import { getHeaders, useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import type { FetcherWithComponents, SubmitFunction } from "@remix-run/react";
 import { render } from "@testing-library/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { SerializeFrom } from "@remix-run/node";
 
 describe("Fetch utils", () => {
@@ -30,7 +30,7 @@ describe("Fetch utils", () => {
       );
     };
 
-    const testRouter = createBrowserRouter([
+    const testRouter = createMemoryRouter([
       {
         path: "/",
         element: <TestComponent />,

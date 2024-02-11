@@ -1,13 +1,13 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import OmMeldekort, { meta } from "~/routes/om-meldekort";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
 describe("Om mmldekort", () => {
   test("Skal vise informasjon", async () => {
-    const testRouter = createBrowserRouter([
+    const testRouter = createMemoryRouter([
       {
         path: "/",
         element: <OmMeldekort />

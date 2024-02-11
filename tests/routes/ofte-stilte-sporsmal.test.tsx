@@ -1,13 +1,13 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import OfteStilteSporsmal, { meta } from "~/routes/ofte-stilte-sporsmal";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
 describe("Ofte stilte spørsmål", () => {
   test("Skal vise informasjon", async () => {
-    const testRouter = createBrowserRouter([
+    const testRouter = createMemoryRouter([
       {
         path: "/",
         element: <OfteStilteSporsmal />
