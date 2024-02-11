@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 
 describe("UtvidetInformasjon", () => {
-  test("Skal vide innhold og åpnes og lukkes", async () => {
+  test("Skal vise innhold og åpnes og lukkes", async () => {
     render(<UtvidetInformasjon innhold={<div>INNHOLD</div>} />)
 
     // Sjekk at det vises en lenke som brukes til å åpne info
