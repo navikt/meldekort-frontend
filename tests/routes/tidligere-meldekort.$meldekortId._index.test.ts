@@ -8,6 +8,8 @@ import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { KortStatus } from "~/models/meldekort";
+import { KortType } from "~/models/kortType";
 
 
 describe("Tidligere meldekort detaljer", () => {
@@ -143,7 +145,7 @@ describe("Tidligere meldekort detaljer", () => {
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
-  test("Skal vise meldekortdetaljer", async () => {
+  test("Skal vise meldekortdetaljer uten bruttoBelop", async () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
@@ -160,7 +162,27 @@ describe("Tidligere meldekort detaljer", () => {
     await waitFor(() => screen.findByText("overskrift.status"))
     await waitFor(() => screen.findByText("overskrift.bruttoBelop"))
     await waitFor(() => screen.findByText("overskrift.meldekorttype"))
-    await waitFor(() => screen.findByText("overskrift.skrivUt"))
+
+    // Sjekke Skriv ut
+    const spy = vi.spyOn(window, 'print');
+    const button = await waitFor(() => screen.findByText("overskrift.skrivUt"))
+    button.click()
+    expect(spy).toBeCalled()
+  })
+
+  test("Skal vise meldekortdetaljer med bruttoBelop", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: opprettTestMeldekort(1, true, KortStatus.FERDI, true, KortType.ELEKTRONISK),
+          meldekortdetaljer: opprettTestMeldekortdetaljer(1)
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("kr. 100,00"))
   })
 
   test("Skal returnere metainformasjon", async () => {
