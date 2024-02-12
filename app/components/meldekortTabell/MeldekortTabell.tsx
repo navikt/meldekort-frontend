@@ -31,7 +31,7 @@ export default function MeldekorTabell(props: IProps) {
       </div>
       {meldekortListe.map((meldekort) => {
         return (
-          <div className={styles.row} key={meldekort.meldekortId}>
+          <div className={styles.row} key={meldekort.meldekortId} data-testid={meldekort.meldekortId}>
             <div className={styles.header}><Heading size="xsmall" level="4">{tt("overskrift.periode")}</Heading></div>
             <div className={styles.header}><Heading size="xsmall" level="4">{tt("overskrift.dato")}</Heading></div>
             <div className={styles.header}><Heading size="xsmall" level="4">{tt("overskrift.mottatt")}</Heading></div>

@@ -49,14 +49,15 @@ export const opprettTestMeldekort = (
   meldekortId: number,
   kanKortSendes: boolean = true,
   kortStatus: KortStatus = KortStatus.OPPRE,
-  korrigerbart: boolean = true
+  korrigerbart: boolean = true,
+  kortType: KortType = KortType.ELEKTRONISK
 ): IMeldekort => {
   return {
     meldekortId: meldekortId,
-    kortType: KortType.ELEKTRONISK,
+    kortType: kortType,
     meldeperiode: {
       fra: new Date(meldekortId),
-      til: new Date(meldekortId),
+      til: new Date(meldekortId + 7*24*60*60),
       kortKanSendesFra: new Date(meldekortId),
       kanKortSendes: kanKortSendes,
       periodeKode: ""
