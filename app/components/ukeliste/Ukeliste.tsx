@@ -40,16 +40,18 @@ function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, til
     if (harAktivitet) {
       return (
         <div key={"dag" + dag.dag} className={styles.dag}>
-          <Label>{ukedag}:</Label>
+          <Label data-testid={"label" + dag.dag}>{ukedag}:</Label>
           <span> </span>
-          {
-            [
-              dag.arbeidetTimerSum ? `${tt("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${tt("overskrift.timer").trim()}` : "",
-              dag.kurs ? tt("utfylling.tiltak").trim() : "",
-              dag.syk ? tt("utfylling.syk").trim() : "",
-              dag.annetFravaer ? tt("utfylling.ferieFravar").trim() : ""
-            ].filter(Boolean).join(", ")
-          }
+          <span data-testid={"aktivitet" + dag.dag}>
+            {
+              [
+                dag.arbeidetTimerSum ? `${tt("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${tt("overskrift.timer").trim()}` : "",
+                dag.kurs ? tt("utfylling.tiltak").trim() : "",
+                dag.syk ? tt("utfylling.syk").trim() : "",
+                dag.annetFravaer ? tt("utfylling.ferieFravar").trim() : ""
+              ].filter(Boolean).join(", ")
+            }
+          </span>
           <UtvidetInformasjon innhold={hentDagsdata(tt, dag, ytelsestypePostfix)} />
         </div>
       )

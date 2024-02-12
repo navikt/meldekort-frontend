@@ -96,7 +96,7 @@ describe("Sporsmalsobjekter utils", () => {
     })
     expect(result[9]).toStrictEqual({
       sporsmal: "overskrift.uke " + ukeFormatert(valgtMeldekort.meldeperiode.fra, 7),
-      svar: ""
+      svar: "<div><b>ukedag.mandag:</b><span> </span>utfylling.arbeid 7.5 overskrift.timer</div>"
     })
 
     // Forklaring

@@ -141,6 +141,64 @@ export const TEST_DECORATOR_FRAGMENTS = {
   DECORATOR_HEADER: "<div>DECORATOR HEADER</div>",
   DECORATOR_FOOTER: "<div>DECORATOR FOOTER</div>",
 }
+export const TEST_MELDEKORT_DAGER = [
+  {
+    dag: 1,
+    arbeidetTimerSum: 5,
+    syk: false,
+    annetFravaer: false,
+    kurs: false
+  },
+  {
+    dag: 2,
+    arbeidetTimerSum: 0,
+    syk: true,
+    annetFravaer: false,
+    kurs: false
+  },
+  {
+    dag: 3,
+    arbeidetTimerSum: 0,
+    syk: false,
+    annetFravaer: true,
+    kurs: false
+  },
+  {
+    dag: 4,
+    arbeidetTimerSum: 0,
+    syk: false,
+    annetFravaer: false,
+    kurs: true
+  },
+  {
+    dag: 5,
+    arbeidetTimerSum: 0,
+    syk: true,
+    annetFravaer: false,
+    kurs: true
+  },
+  {
+    dag: 6,
+    arbeidetTimerSum: 0,
+    syk: false,
+    annetFravaer: false,
+    kurs: false
+  },
+  {
+    dag: 7,
+    arbeidetTimerSum: 0,
+    syk: false,
+    annetFravaer: false,
+    kurs: false
+  },
+  {
+    dag: 8,
+    arbeidetTimerSum: 7.5,
+    syk: false,
+    annetFravaer: false,
+    kurs: false
+  }
+]
 export const TEST_SPORSMAL: ISporsmal = {
   arbeidssoker: true,
   arbeidet: true,
@@ -148,62 +206,5 @@ export const TEST_SPORSMAL: ISporsmal = {
   annetFravaer: false,
   kurs: true,
   signatur: true,
-  meldekortDager: [
-    {
-      dag: 1,
-      arbeidetTimerSum: 5,
-      syk: false,
-      annetFravaer: false,
-      kurs: false
-    },
-    {
-      dag: 2,
-      arbeidetTimerSum: 0,
-      syk: true,
-      annetFravaer: false,
-      kurs: false
-    },
-    {
-      dag: 3,
-      arbeidetTimerSum: 0,
-      syk: false,
-      annetFravaer: true,
-      kurs: false
-    },
-    {
-      dag: 4,
-      arbeidetTimerSum: 0,
-      syk: false,
-      annetFravaer: false,
-      kurs: true
-    },
-    {
-      dag: 5,
-      arbeidetTimerSum: 0,
-      syk: true,
-      annetFravaer: false,
-      kurs: true
-    },
-    {
-      dag: 6,
-      arbeidetTimerSum: 0,
-      syk: false,
-      annetFravaer: false,
-      kurs: false
-    },
-    {
-      dag: 7,
-      arbeidetTimerSum: 0,
-      syk: false,
-      annetFravaer: false,
-      kurs: false
-    },
-    {
-      dag: 8,
-      arbeidetTimerSum: 0,
-      syk: false,
-      annetFravaer: false,
-      kurs: false
-    }
-  ]
+  meldekortDager: TEST_MELDEKORT_DAGER
 }
