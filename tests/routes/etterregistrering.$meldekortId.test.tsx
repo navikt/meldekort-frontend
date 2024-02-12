@@ -227,6 +227,34 @@ describe("Etterregistrer meldekort", () => {
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
+  test("Skal vise Innsending", async () => {
+    renderRemixStub(
+      EtterregistreringMeldekort,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: {
+            meldeperiode: {
+              fra: "2024-02-12",
+              til: "2024-02-25"
+            }
+          },
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: {
+            personId: 1,
+            fodselsnr: "01020312345",
+            etternavn: "Etternavn",
+            fornavn: "Fornavn"
+          },
+          minSideUrl: ""
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("meldekort.for.perioden"))
+  })
+
   test("Skal returnere metainformasjon", async () => {
     const args = {} as ServerRuntimeMetaArgs
 

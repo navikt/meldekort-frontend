@@ -221,8 +221,7 @@ describe("Korriger tidligere meldekort", () => {
         return json({
           feil: true,
           valgtMeldekort: undefined,
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
+          meldekortdetaljer: null,
           personInfo: null,
           minSideUrl: ""
         })
@@ -239,8 +238,28 @@ describe("Korriger tidligere meldekort", () => {
         return json({
           feil: false,
           valgtMeldekort: undefined,
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
+          meldekortdetaljer: null,
+          personInfo: null,
+          minSideUrl: ""
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis meldekortdetaljer = null", async () => {
+    renderRemixStub(
+      TidligereMeldekortKorrigering,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: {
+            meldeperiode: {
+              fra: ""
+            }
+          },
+          meldekortdetaljer: null,
           personInfo: null,
           minSideUrl: ""
         })
@@ -261,8 +280,9 @@ describe("Korriger tidligere meldekort", () => {
               fra: ""
             }
           },
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
+          meldekortdetaljer: {
+            sporsmal: {}
+          },
           personInfo: null,
           minSideUrl: ""
         })
@@ -270,6 +290,35 @@ describe("Korriger tidligere meldekort", () => {
     )
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise Innsending", async () => {
+    renderRemixStub(
+      TidligereMeldekortKorrigering,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: {
+            meldeperiode: {
+              fra: "2024-02-12",
+              til: "2024-02-25"
+            }
+          },
+          meldekortdetaljer: {
+            sporsmal: {}
+          },
+          personInfo: {
+            personId: 1,
+            fodselsnr: "01020312345",
+            etternavn: "Etternavn",
+            fornavn: "Fornavn"
+          },
+          minSideUrl: ""
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("meldekort.for.perioden"))
   })
 
   test("Skal returnere metainformasjon", async () => {
