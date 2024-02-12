@@ -164,7 +164,7 @@ describe("Tidligere meldekort detaljer", () => {
     await waitFor(() => screen.findByText("overskrift.meldekorttype"))
 
     // Sjekke Skriv ut
-    const spy = vi.spyOn(window, 'print');
+    const spy = vi.spyOn(window, "print");
     const button = await waitFor(() => screen.findByText("overskrift.skrivUt"))
     button.click()
     expect(spy).toBeCalled()

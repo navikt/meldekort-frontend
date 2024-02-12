@@ -24,8 +24,7 @@ describe("Intl utils", () => {
   })
 
   test("getText skal returnere tekst hvis den finnes", async () => {
-    let tSpy: MockInstance
-    tSpy = vi.spyOn(i18next, "t");
+    const tSpy: MockInstance = vi.spyOn(i18next, "t");
     tSpy.mockReturnValue("verdi")
 
     const result = getText("nøkkel")
@@ -33,8 +32,7 @@ describe("Intl utils", () => {
   })
 
   test("getText skal returnere tekst og sette inn verdier", async () => {
-    let tSpy: MockInstance
-    tSpy = vi.spyOn(i18next, "t");
+    const tSpy: MockInstance = vi.spyOn(i18next, "t");
     tSpy.mockReturnValue("a {verdi1} c {verdi2} e")
 
     const result = getText("nøkkel", { "verdi1": "b", "verdi2": "d" })

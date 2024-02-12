@@ -15,8 +15,7 @@ describe("Sporsmalsobjekter utils", () => {
   const nesteMeldekortKanSendes = "09.02.2024"
 
   test("opprettSporsmalsobjekter skal returnere riktige objekter for INNSENDING", async () => {
-    let tSpy: MockInstance
-    tSpy = vi.spyOn(i18next, "t");
+    const tSpy: MockInstance = vi.spyOn(i18next, "t");
     tSpy.mockImplementation((keys: string[]) => {
       if (keys[0] === "sendt.mottatt.pdfheader") return "{type} {period} {mottatt} {kortKanSendesFra}"
       if (keys[0] === "sendt.mottatt.meldekortKanSendes") return "{0}"
