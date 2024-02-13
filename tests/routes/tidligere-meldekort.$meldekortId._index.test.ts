@@ -14,7 +14,7 @@ import { KortType } from "~/models/kortType";
 
 describe("Tidligere meldekort detaljer", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
-  vi.mock('react-i18next', () => ({
+  vi.mock("react-i18next", () => ({
     useTranslation: () => {
       return {
         t: (args: string[]) => args[1],
@@ -28,7 +28,7 @@ describe("Tidligere meldekort detaljer", () => {
       }
     },
     initReactI18next: {
-      type: '3rdParty',
+      type: "3rdParty",
       init: () => {
       }
     }

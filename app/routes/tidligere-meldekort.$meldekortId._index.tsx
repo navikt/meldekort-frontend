@@ -11,7 +11,7 @@ import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import utklippstavle from "~/img/utklippstavle.svg"
 import { formaterBelop } from "~/utils/miscUtils";
-import { PrinterSmallFillIcon } from '@navikt/aksel-icons';
+import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
 import { RemixLink } from "~/components/RemixLink";
@@ -66,7 +66,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export default function Meldekortdetaljer() {
   const { feil, valgtMeldekort, meldekortdetaljer } = useLoaderData<typeof loader>()
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
+  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
   const { i18n, tt } = useExtendedTranslation(fraDato)
   i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 

@@ -3,13 +3,13 @@ name: Build and deploy
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Miljø'
+        description: "Miljø"
         required: true
-        default: 'q2'
+        default: "q2"
         type: choice
         options:
           - q1
@@ -30,17 +30,17 @@ jobs:
         id: node_modules
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          key: modules-${{ hashFiles("package-lock.json") }}
 
       - uses: actions/setup-node@v4
-        if: steps.node_modules.outputs.cache-hit != 'true'
+        if: steps.node_modules.outputs.cache-hit != "true"
         with:
           node-version: "18.x"
           cache: "npm"
           registry-url: "https://npm.pkg.github.com"
 
       - run: npm ci --ignore-scripts
-        if: steps.node_modules.outputs.cache-hit != 'true'
+        if: steps.node_modules.outputs.cache-hit != "true"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
   test:
@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          key: modules-${{ hashFiles("package-lock.json") }}
 
       - run: npm run test
 
@@ -77,7 +77,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
+          key: modules-${{ hashFiles("package-lock.json") }}
       - run: npm run build
 
       # Bygg docker image
@@ -130,7 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set default environment for push to main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == "push" && github.ref == "refs/heads/main"
         run: echo "ENVIRONMENT=q2" >> $GITHUB_ENV
       - uses: actions/checkout@v4
       - uses: nais/deploy/actions/deploy@v2

@@ -19,7 +19,7 @@ import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 
 describe("Send meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
-  vi.mock('react-i18next', () => ({
+  vi.mock("react-i18next", () => ({
     useTranslation: () => {
       return {
         t: (args: string[]) => args[1],
@@ -33,7 +33,7 @@ describe("Send meldekort", () => {
       }
     },
     initReactI18next: {
-      type: '3rdParty',
+      type: "3rdParty",
       init: () => {
       }
     }

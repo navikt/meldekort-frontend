@@ -84,7 +84,7 @@ export default function TidligereMeldekortKorrigering() {
     minSideUrl
   } = useLoaderData<typeof loader>()
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01'
+  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
   const { i18n, tt } = useExtendedTranslation(fraDato)
   i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 

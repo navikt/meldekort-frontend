@@ -30,7 +30,7 @@ import type { IPersonInfo } from "~/models/person";
 
 describe("Korriger tidligere meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
-  vi.mock('react-i18next', () => ({
+  vi.mock("react-i18next", () => ({
     useTranslation: () => {
       return {
         t: (args: string[]) => args[1],
@@ -44,7 +44,7 @@ describe("Korriger tidligere meldekort", () => {
       }
     },
     initReactI18next: {
-      type: '3rdParty',
+      type: "3rdParty",
       init: () => {
       }
     }

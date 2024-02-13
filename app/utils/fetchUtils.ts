@@ -38,7 +38,7 @@ export function useFetcherWithPromise<T>(opts?: Parameters<typeof useFetcherRR>[
   );
 
   useEffect(() => {
-    if (fetcher.data && fetcher.state === 'idle') {
+    if (fetcher.data && fetcher.state === "idle") {
       resolveRef.current(fetcher.data);
       resetResolver();
     }
