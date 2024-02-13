@@ -30,6 +30,35 @@ describe("Innsending", () => {
     expect(tittel.innerHTML).toBe("overskrift.steg4")
   })
 
+  test("Skal gå fra 1 til 3 hvis aktivitetsspørsmålene er Nei", async () => {
+    await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK)
+
+    // Svar Nei på alle spørsmålene
+    sporsmalConfig.forEach((item) => {
+      fireEvent.click(screen.getByTestId(item.sporsmal + ".false"))
+    })
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser modal
+    await waitFor(() => screen.findByText("sporsmal.bekreftelse"))
+
+    // Klikk i modal
+    fireEvent.click(screen.getByText("overskrift.bekreftOgFortsett"))
+
+    // Sjekk at vi viser 3-Kvittering
+    let tittel = await waitFor(() => screen.findByTestId("sideTittel"))
+    expect(tittel.innerHTML).toBe("overskrift.steg3")
+
+    // Klikk Forrige
+    fireEvent.click(screen.getByText("naviger.forrige"))
+
+    // Sjekk at vi viser 1-Sporsmal
+    tittel = await waitFor(() => screen.findByTestId("sideTittel"))
+    expect(tittel.innerHTML).toBe("overskrift.steg1")
+  })
+
   test("Skal vise feilmeldinger hvis innsending er feil", async () => {
     await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL)
 
@@ -53,7 +82,7 @@ describe("Innsending", () => {
   })
 })
 
-const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideringsResultat | undefined, baksystemFeil: boolean = false) => {
+const createRouteAndRender = async (valideringsResultat: IValideringsResultat | undefined, baksystemFeil: boolean = false) => {
   const valgtMeldekort = opprettTestMeldekort(1707696000)
   jsonify(valgtMeldekort)
   const periode = valgtMeldekort.meldeperiode
@@ -86,6 +115,10 @@ const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideri
   await waitFor(() => screen.findByText("overskrift.uke " + formaterPeriodeTilUkenummer(periode.fra, periode.til)))
   let tittel = await waitFor(() => screen.findByTestId("sideTittel"))
   expect(tittel.innerHTML).toBe("overskrift.steg1")
+}
+
+const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideringsResultat | undefined, baksystemFeil: boolean = false) => {
+  createRouteAndRender(valideringsResultat, baksystemFeil)
 
   // Klikk Neste
   fireEvent.click(screen.getByText("naviger.neste"))
@@ -106,7 +139,7 @@ const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideri
   fireEvent.click(screen.getByText("naviger.neste"))
 
   // Sjekk at vi viser 2-Utfylling
-  tittel = await waitFor(() => screen.findByTestId("sideTittel"))
+  let tittel = await waitFor(() => screen.findByTestId("sideTittel"))
   expect(tittel.innerHTML).toContain("overskrift.steg2")
 
   // Klikk Neste
