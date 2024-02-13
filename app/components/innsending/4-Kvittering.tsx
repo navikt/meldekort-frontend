@@ -48,7 +48,7 @@ export default function Kvittering(props: IProps) {
 
   const createButton = (to: string, text: string) => {
     return <Button variant="primary" onClick={() => {
-      location.href = to
+      window.location.replace(to)
     }}>{text}</Button>
   }
 
