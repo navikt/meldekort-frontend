@@ -124,24 +124,21 @@ export default function Bekreftelse(props: IProps) {
       fetcher.submit(formData, { method: "post" }).then((data) => {
           setLoading(false)
 
-          // Vi skal være her på denne siden og vise en melding om feil i baksystemet hvis det finnes data.baksystemFeil eller ikke finnes data.innsending
-          if (data?.baksystemFeil || !data?.innsending) {
+          // Vi skal være her på denne siden og vise en feilmelding hvis data.baksystemFeil = true eller hvis det ikke finnes data.innsending.status
+          if (data?.baksystemFeil || !data?.innsending || !data.innsending.status) {
             setBaksystemFeil(true)
             return
           }
 
-          // Skroll opp hvis det finnes data.innsending.status
+          // Skroll opp
           // Gå videre til Kvittering hvis status er OK
           // Gå tilbake til Utfylling (og vis feilmeldinger der) hvis status er FEIL
+          window.scrollTo(0, 0)
           const status = data.innsending.status
-          if (status) {
-            window.scrollTo(0, 0)
-
-            if (status === "OK") {
-              setActiveStep(activeStep + 1)
-            } else if (status === "FEIL") {
-              setActiveStep(activeStep - 1)
-            }
+          if (status === "OK") {
+            setActiveStep(activeStep + 1)
+          } else if (status === "FEIL") {
+            setActiveStep(activeStep - 1)
           }
         }
       )
@@ -166,7 +163,8 @@ export default function Bekreftelse(props: IProps) {
 
       <hr />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
+      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0}
+                tilDag={7} />
 
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
