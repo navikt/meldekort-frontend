@@ -15,10 +15,10 @@
     "test-coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@navikt/dp-auth": "^0.3.17",
     "@navikt/ds-css": "^5.17.1",
     "@navikt/ds-react": "^5.17.1",
     "@navikt/nav-dekoratoren-moduler": "^2.1.4",
+    "@navikt/oasis": "^1.0.2",
     "@remix-run/css-bundle": "^2.6.0",
     "@remix-run/express": "^2.6.0",
     "@remix-run/node": "^2.6.0",
