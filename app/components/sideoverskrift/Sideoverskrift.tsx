@@ -9,7 +9,7 @@ export default function Sideoverskrift(props: IProps) {
   return (
     <div className={styles.sideHeader}>
       <div>
-        <h2 className="navds-heading navds-heading--large">{props.tittel}</h2>
+        <h2 className="navds-heading navds-heading--large" data-testid="sideTittel">{props.tittel}</h2>
       </div>
       <Sprakvelger />
     </div>
