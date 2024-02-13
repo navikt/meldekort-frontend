@@ -4,19 +4,14 @@ import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
-import {
-  jsonify,
-  opprettTestMeldekort,
-  TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
-  TEST_PERSON_INFO,
-  TEST_SPORSMAL
-} from "../mocks/data";
+import { jsonify, opprettTestMeldekort, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, TEST_PERSON_INFO } from "../mocks/data";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { opprettSporsmal } from "~/utils/miscUtils";
 
 describe("Innsending", () => {
-  test("Skal vise innhold", async () => {
+  test("Det skal vare mulig å gå fram og tilbake og sende meldekort", async () => {
     const valgtMeldekort = opprettTestMeldekort(1707696000)
     jsonify(valgtMeldekort)
     const periode = valgtMeldekort.meldeperiode
@@ -29,7 +24,7 @@ describe("Innsending", () => {
                              nesteMeldekortId={2}
                              nesteEtterregistrerteMeldekortId={3}
                              nesteMeldekortKanSendes={"2024-02-01"}
-                             sporsmal={TEST_SPORSMAL}
+                             sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, false)}
                              personInfo={TEST_PERSON_INFO}
                              minSideUrl={""}
         />,
@@ -50,6 +45,16 @@ describe("Innsending", () => {
     let tittel = await waitFor(() => screen.findByTestId("sideTittel"))
     expect(tittel.innerHTML).toBe("overskrift.steg1")
 
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser feilmeldinger
+    await waitFor(() => screen.findByText("arbeidet.required"))
+    await waitFor(() => screen.findByText("kurs.required"))
+    await waitFor(() => screen.findByText("syk.required"))
+    await waitFor(() => screen.findByText("annetFravar.required"))
+    await waitFor(() => screen.findByText("fortsetteRegistrert.required"))
+
     // Svar Ja på alle spørsmålene
     sporsmalConfig.forEach((item) => {
       fireEvent.click(screen.getByTestId(item.sporsmal + ".true"))
@@ -61,6 +66,15 @@ describe("Innsending", () => {
     // Sjekk at vi viser 2-Utfylling
     tittel = await waitFor(() => screen.findByTestId("sideTittel"))
     expect(tittel.innerHTML).toContain("overskrift.steg2")
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser feilmeldinger
+    await waitFor(() => screen.findByText("utfylling.mangler.arbeid"))
+    await waitFor(() => screen.findByText("utfylling.mangler.tiltak"))
+    await waitFor(() => screen.findByText("utfylling.mangler.syk"))
+    await waitFor(() => screen.findByText("utfylling.mangler.ferieFravar"))
 
     // Skriv inn 5 i første input og huk av alle andre aktiviteter
     fireEvent.change(screen.getByTestId("arbeid1"), { target: { value: "5" } })
@@ -89,6 +103,12 @@ describe("Innsending", () => {
     fireEvent.click(screen.getByText("naviger.neste"))
     tittel = await waitFor(() => screen.findByTestId("sideTittel"))
     expect(tittel.innerHTML).toBe("overskrift.steg3")
+
+    // Klikk Send
+    fireEvent.click(screen.getByText("naviger.send"))
+
+    // Sjekk at vi viser feilmelding
+    await waitFor(() => screen.findByText("utfylling.bekreft.feil"))
 
     // Klikk Bekreft
     fireEvent.click(screen.getByLabelText("utfylling.bekreftAnsvar"))
