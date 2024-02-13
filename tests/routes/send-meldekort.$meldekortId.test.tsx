@@ -134,7 +134,7 @@ describe("Send meldekort", () => {
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
-      nesteMeldekortKanSendes: new Date(Number(1707156946)).toISOString(), // Dato fra nesteMeldekortId
+      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       minSideUrl: TEST_MIN_SIDE_URL
     })

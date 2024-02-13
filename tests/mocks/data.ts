@@ -56,9 +56,9 @@ export const opprettTestMeldekort = (
     meldekortId: meldekortId,
     kortType: kortType,
     meldeperiode: {
-      fra: new Date(meldekortId),
-      til: new Date(meldekortId + 7*24*60*60),
-      kortKanSendesFra: new Date(meldekortId),
+      fra: new Date(meldekortId * 1000),
+      til: new Date(meldekortId * 1000 + 7*24*60*60),
+      kortKanSendesFra: new Date(meldekortId * 1000),
       kanKortSendes: kanKortSendes,
       periodeKode: ""
     },
@@ -66,7 +66,7 @@ export const opprettTestMeldekort = (
     kortStatus: kortStatus,
     bruttoBelop: 100,
     erForskuddsPeriode: false,
-    mottattDato: new Date(meldekortId),
+    mottattDato: new Date(meldekortId * 1000),
     korrigerbart: korrigerbart
   }
 }
@@ -78,8 +78,8 @@ export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdet
     meldeperiode: "",
     arkivnokkel: "",
     kortType: KortType.ELEKTRONISK,
-    meldeDato: new Date(meldekortId),
-    lestDato: new Date(meldekortId),
+    meldeDato: new Date(meldekortId * 1000),
+    lestDato: new Date(meldekortId * 1000),
     sporsmal: {
       arbeidssoker: true,
       arbeidet: true,
