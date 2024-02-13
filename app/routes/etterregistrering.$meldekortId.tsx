@@ -11,11 +11,10 @@ import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
 import { getEnv } from "~/utils/envUtils";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getOboToken } from "~/utils/authUtils";
 import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
+import { opprettSporsmal } from "~/utils/miscUtils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -98,31 +97,11 @@ export default function EtterregistreringMeldekort() {
     )
   }
 
-  const dager = new Array<IMeldekortDag>()
-  for (let i = 1; i <= 14; i++) dager.push({
-    "dag": i,
-    "arbeidetTimerSum": 0,
-    "syk": false,
-    "annetFravaer": false,
-    "kurs": false,
-    "meldegruppe": valgtMeldekort.meldegruppe
-  })
-
-  const sporsmal: Jsonify<ISporsmal> = {
-    arbeidet: null,
-    kurs: null,
-    syk: null,
-    annetFravaer: null,
-    arbeidssoker: true, // Dette spørsmålet må besvares Ja når brukeren etterregistrerer meldekort
-    signatur: true, // Vi sender ikke uten brukerens samtykke uansett
-    meldekortDager: dager
-  }
-
   return <Innsending innsendingstype={Innsendingstype.ETTERREGISTRERING}
                      valgtMeldekort={valgtMeldekort}
                      nesteMeldekortId={nesteMeldekortId}
                      nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
-                     sporsmal={sporsmal}
+                     sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, true)}
                      personInfo={personInfo}
                      minSideUrl={minSideUrl} />
 }
