@@ -75,7 +75,7 @@ export default function Sporsmal(props: IProps) {
 
     if (feil) {
       setVisFeil(true)
-      document.documentElement.scrollTo(0, 600);
+      window.scrollTo(0, 600)
     } else {
       // Slett info hvis brukeren har svart Nei på det tilsvarende spørsmålet
       if (!sporsmal.arbeidet) for (let i = 0; i < 14; i++) oppdaterMeldekortDager("", i, "arbeidetTimerSum")
@@ -88,7 +88,7 @@ export default function Sporsmal(props: IProps) {
         return;
       }
 
-      document.documentElement.scrollTo(0, 0)
+      window.scrollTo(0, 0)
 
       // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
       if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
@@ -167,8 +167,12 @@ export default function Sporsmal(props: IProps) {
                 disabled={disabled}
                 error={visFeil && hentSvar(sporsmal, item.id) === null && tt(item.feilmeldingId + ytelsestypePostfix)}
               >
-                <Radio value={true}>{parseHtml(tt(item.ja + ytelsestypePostfix))}</Radio>
-                <Radio value={false}>{parseHtml(tt(item.nei + ytelsestypePostfix))}</Radio>
+                <Radio value={true} data-testid={item.sporsmal + ".true"}>
+                  {parseHtml(tt(item.ja + ytelsestypePostfix))}
+                </Radio>
+                <Radio value={false} data-testid={item.sporsmal + ".false"}>
+                  {parseHtml(tt(item.nei + ytelsestypePostfix))}
+                </Radio>
               </RadioGroup>
             </div>
           )

@@ -88,7 +88,7 @@ export default function Bekreftelse(props: IProps) {
   }
 
   const tilbake = () => {
-    document.documentElement.scrollTo(0, 0)
+    window.scrollTo(0, 0)
 
     if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep - 2)
     else setActiveStep(activeStep - 1)
@@ -135,7 +135,7 @@ export default function Bekreftelse(props: IProps) {
           // Gå tilbake til Utfylling (og vis feilmeldinger der) hvis status er FEIL
           const status = data.innsending.status
           if (status) {
-            document.documentElement.scrollTo(0, 0)
+            window.scrollTo(0, 0)
 
             if (status === "OK") {
               setActiveStep(activeStep + 1)

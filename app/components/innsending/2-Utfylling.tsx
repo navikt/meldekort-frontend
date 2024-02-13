@@ -78,9 +78,10 @@ export default function Utfylling(props: IProps) {
               <TextField label=""
                          hideLabel
                          className={styles.input}
-                         value={(sporsmal as any).meldekortDager[index + plussDager]["arbeidetTimerSum"] || ""}
+                         value={((sporsmal as any).meldekortDager[index + plussDager] || {})["arbeidetTimerSum"] || ""}
                          onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
                          error={feilDager.includes("arbeid" + (index + plussDager + 1))}
+                         data-testid={"arbeid" + (index + plussDager + 1)}
               />
             </div>
           })
@@ -105,8 +106,10 @@ export default function Utfylling(props: IProps) {
               {opprettDag(dag)}
               <Checkbox hideLabel
                         onChange={(event) => oppdaterSvar(event.target.checked, index + plussDager, spObjKey)}
-                        checked={(sporsmal as any).meldekortDager[index + plussDager][spObjKey] === true}
-                        error={feilDager.includes(spObjKey + (index + plussDager + 1))}>
+                        checked={((sporsmal as any).meldekortDager[index + plussDager] || {})[spObjKey] === true}
+                        error={feilDager.includes(spObjKey + (index + plussDager + 1))}
+                        data-testid={spObjKey + (index + plussDager + 1)}
+              >
                 _
               </Checkbox>
             </div>
@@ -152,7 +155,7 @@ export default function Utfylling(props: IProps) {
   }
 
   const tilbake = () => {
-    document.documentElement.scrollTo(0, 0)
+    window.scrollTo(0, 0)
     setActiveStep(activeStep - 1)
   }
 
@@ -257,7 +260,7 @@ export default function Utfylling(props: IProps) {
       for (let i = 1; i <= 14; i++) feilDager.push("annetFravaer" + i)
     }
 
-    document.documentElement.scrollTo(0, 0)
+    window.scrollTo(0, 0)
 
     // Hvis det finnes noen dager med feil, vis disse dagene
     // Ellers fortsett
