@@ -15,6 +15,7 @@ import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { MeldeForm } from "~/models/person";
 
 
 describe("Send meldekort", () => {
@@ -134,6 +135,49 @@ describe("Send meldekort", () => {
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
+      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
+      personInfo: TEST_PERSON_INFO,
+      minSideUrl: TEST_MIN_SIDE_URL
+    })
+  })
+
+  test("nesteMeldekortKanSendes kan tas fra foersteMeldekortSomIkkeKanSendesEnna", async () => {
+    const meldekort1 = opprettTestMeldekort(Number(meldekortId))
+    const meldekort2 = opprettTestMeldekort(1707156946, false)
+
+    // Svarer med valgt meldekort og et meldekort som ikke kan sendes ennå
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        () => HttpResponse.json({
+          maalformkode: "maalformkode",
+          meldeform: MeldeForm.ELEKTRONISK,
+          meldekort: [meldekort1, meldekort2],
+          etterregistrerteMeldekort: [],
+          fravaer: [],
+          id: "1",
+          antallGjenstaaendeFeriedager: 5
+        }),
+        { once: true }
+      )
+    )
+
+    jsonify(meldekort1)
+
+    const response = await loader({
+      request,
+      params: { meldekortId },
+      context: {}
+    })
+
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data).toEqual({
+      feil: false,
+      valgtMeldekort: meldekort1,
+      nesteMeldekortId: undefined,
+      nesteEtterregistrerteMeldekortId: undefined,
       nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       minSideUrl: TEST_MIN_SIDE_URL
