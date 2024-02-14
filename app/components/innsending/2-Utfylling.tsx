@@ -79,7 +79,7 @@ export default function Utfylling(props: IProps) {
               <TextField label=""
                          hideLabel
                          className={styles.input}
-                         value={((sporsmal as any).meldekortDager[index + plussDager] || {})["arbeidetTimerSum"] || ""}
+                         value={((sporsmal as any).meldekortDager[index + plussDager])["arbeidetTimerSum"] || ""}
                          onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
                          error={feilDager.includes("arbeid" + (index + plussDager + 1))}
                          data-testid={"arbeid" + (index + plussDager + 1)}
@@ -107,7 +107,7 @@ export default function Utfylling(props: IProps) {
               {opprettDag(dag)}
               <Checkbox hideLabel
                         onChange={(event) => oppdaterSvar(event.target.checked, index + plussDager, spObjKey)}
-                        checked={((sporsmal as any).meldekortDager[index + plussDager] || {})[spObjKey] === true}
+                        checked={((sporsmal as any).meldekortDager[index + plussDager])[spObjKey] === true}
                         error={feilDager.includes(spObjKey + (index + plussDager + 1))}
                         data-testid={spObjKey + (index + plussDager + 1)}
               >
