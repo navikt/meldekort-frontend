@@ -13,6 +13,7 @@ import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import classNames from "classnames";
 
+
 interface IProps {
   sporsmal: ISporsmal;
   setSporsmal: Dispatch<SetStateAction<ISporsmal>>;

@@ -4,6 +4,7 @@ import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasj
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 import styles from "./Begrunnelse.module.css";
 
+
 interface IProps {
   begrunnelse: string;
   ytelsestypePostfix: string;

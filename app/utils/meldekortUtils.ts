@@ -6,6 +6,7 @@ import { Ytelsestype } from "~/models/ytelsestype";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { getText } from "~/utils/intlUtils";
 
+
 export function finnRiktigTagVariant(status: KortStatus): "success" | "info" | "warning" | "error" {
   switch (status) {
     case KortStatus.KLAR:

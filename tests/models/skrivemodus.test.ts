@@ -6,6 +6,7 @@ import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_SKRIVEMODUS } from "../mocks/data";
 import { hentSkrivemodus } from "~/models/skrivemodus";
 
+
 // Kan ikke kjøres parallelt!
 describe("Skrivemodus", () => {
 

@@ -5,6 +5,7 @@ import { Link } from "@navikt/ds-react";
 import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
 import styles from "./UtvidetInformasjon.module.css";
 
+
 interface IProps {
   innhold: ReactElement;
 }

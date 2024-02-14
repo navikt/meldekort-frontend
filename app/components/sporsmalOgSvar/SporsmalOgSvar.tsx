@@ -8,6 +8,7 @@ import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 import { hentSvar } from "~/utils/miscUtils";
 import styles from "./SporsmalOgSvar.module.css";
 
+
 interface IProps {
   sporsmal: ISporsmal;
   fom: string;

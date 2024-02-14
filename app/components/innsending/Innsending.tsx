@@ -16,6 +16,7 @@ import Bekreftelse from "~/components/innsending/3-Bekreftelse";
 import Kvittering from "~/components/innsending/4-Kvittering";
 import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 
+
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;

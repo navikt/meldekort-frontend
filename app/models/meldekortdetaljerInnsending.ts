@@ -9,6 +9,7 @@ import { json } from "@remix-run/node";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
 
+
 // Request
 export interface IMeldekortdetaljerInnsending {
   meldekortId: number;

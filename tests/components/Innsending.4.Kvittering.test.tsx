@@ -8,6 +8,7 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 import { Ytelsestype } from "~/models/ytelsestype";
 import * as React from "react";
 
+
 const personInfo = TEST_PERSON_INFO
 const fom = "2024-02-12"
 const tom = "2024-02-25"

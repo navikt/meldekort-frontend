@@ -1,5 +1,6 @@
 import { format, getISOWeek } from "date-fns";
 
+
 export function formaterDato(dato: Date | string): string {
   return format(new Date(dato), "dd.MM.yyyy")
 }

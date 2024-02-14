@@ -6,6 +6,7 @@ import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { jsonify, TEST_MELDEKORTDETALJER } from "../mocks/data";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 
+
 // Kan ikke kjøres parallelt!
 describe("Meldekortdetaljer", () => {
 

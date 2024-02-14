@@ -11,6 +11,7 @@ import { formaterBelop } from "~/utils/miscUtils";
 import classNames from "classnames";
 import styles from "./MeldekortTabell.module.css";
 
+
 interface IProps {
   meldekortListe: Jsonify<IMeldekort>[];
 }

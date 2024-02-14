@@ -1,6 +1,7 @@
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 
+
 export interface ISkrivemodus {
   skrivemodus: boolean;
   melding: IInfomelding | null;

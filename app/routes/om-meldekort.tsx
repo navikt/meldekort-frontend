@@ -4,6 +4,7 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { Box, GuidePanel } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },

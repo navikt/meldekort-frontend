@@ -6,6 +6,7 @@ import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { SerializeFrom } from "@remix-run/node";
 
+
 describe("Fetch utils", () => {
   test("getHeaders skal returnere riktige headerd", async () => {
     const token = "TOKEN"

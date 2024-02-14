@@ -8,6 +8,7 @@ import { TEST_DECORATOR_FRAGMENTS, TEST_SKRIVEMODUS } from "./mocks/data";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 
+
 describe("Root", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
   vi.mock("react-i18next", () => ({

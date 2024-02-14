@@ -4,6 +4,7 @@ import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { TEST_MELDEKORT_DAGER } from "../mocks/data";
 import { ukeFormatert } from "~/utils/datoUtils";
 
+
 describe("Ukeliste", () => {
   test("Skal vise innhold for første uke", async () => {
     const fom = "2024-02-12"

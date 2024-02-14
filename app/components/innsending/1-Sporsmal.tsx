@@ -10,6 +10,7 @@ import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriode } from "~/utils/datoUtils";
 import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 
+
 interface IProps {
   innsendingstype: Innsendingstype;
   fom: string;

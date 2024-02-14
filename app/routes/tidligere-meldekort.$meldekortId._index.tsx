@@ -27,6 +27,7 @@ import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import { getOboToken } from "~/utils/authUtils";
 import { KortType } from "~/models/kortType";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },

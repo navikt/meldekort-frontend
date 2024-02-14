@@ -5,6 +5,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import sporrende from "~/img/sporrende.svg";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },

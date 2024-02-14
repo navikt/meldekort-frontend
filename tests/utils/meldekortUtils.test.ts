@@ -14,6 +14,7 @@ import { Meldegruppe } from "~/models/meldegruppe";
 import { Ytelsestype } from "~/models/ytelsestype";
 import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
+
 describe("Meldekort utils", () => {
   test("finnRiktigTagVariant skal returnere riktig varinat", () => {
     let result = finnRiktigTagVariant(KortStatus.KLAR)

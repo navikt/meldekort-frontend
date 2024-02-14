@@ -2,6 +2,7 @@ import styles from "./Sideinnhold.module.css";
 import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
 import type { ReactElement } from "react";
 
+
 interface IProps {
   tittel?: string;
   innhold: ReactElement;

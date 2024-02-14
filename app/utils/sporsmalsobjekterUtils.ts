@@ -4,10 +4,11 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
-import { formaterDato, formaterTid, formaterPeriode, ukeFormatert } from "~/utils/datoUtils";
 import { sporsmalConfig } from "~/models/sporsmal";
+import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
 import { getText } from "~/utils/intlUtils";
 import { ukeDager } from "~/utils/miscUtils";
+
 
 // Vi må samle alt vi har vist til bruker og sende sammen med meldekort for å lagre dette i Dokarkiv
 // Dette brukes når vi mottar spørsmål eller klager på informasjon brukere kunne få på et eller annet tidspunkt

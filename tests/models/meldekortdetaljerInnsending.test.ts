@@ -8,6 +8,7 @@ import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 import type { ActionFunctionArgs, AppLoadContext } from "@remix-run/node";
 import type { Params } from "@remix-run/router/utils";
 
+
 // Kan ikke kjøres parallelt!
 describe("Meldekortdetaljer Innsending", () => {
   vi.stubEnv("IS_LOCALHOST", "true")

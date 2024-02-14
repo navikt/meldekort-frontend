@@ -16,6 +16,7 @@ import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/meldekortUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },

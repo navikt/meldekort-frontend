@@ -13,6 +13,7 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import { format } from "date-fns";
 import { Ytelsestype } from "~/models/ytelsestype";
 
+
 interface IProps {
   minSideUrl: string;
   innsendingstype: Innsendingstype;

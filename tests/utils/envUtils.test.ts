@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { getEnv } from "~/utils/envUtils";
 import { TEST_MIN_SIDE_URL } from "../helpers/setup";
 
+
 describe("Env utils", () => {
   test("getEnv skal returnere verdi fra window.env", async () => {
     // MIN_SIDE_URL settes i setup.ts

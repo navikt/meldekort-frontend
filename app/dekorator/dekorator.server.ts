@@ -1,6 +1,7 @@
 import { type DecoratorEnvProps, type DecoratorFetchProps } from "@navikt/nav-dekoratoren-moduler/ssr";
 import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr/index.js";
 
+
 export async function hentDekoratorHtml() {
 
   const config: DecoratorFetchProps = {

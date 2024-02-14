@@ -17,6 +17,7 @@ import { getOboToken } from "~/utils/authUtils";
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
 
+
 export const links: LinksFunction = () => {
   return [
     ...(cssBundleHref

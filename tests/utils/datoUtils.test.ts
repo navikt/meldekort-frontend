@@ -4,8 +4,10 @@ import {
   formaterPeriode,
   formaterPeriodeDato,
   formaterPeriodeTilUkenummer,
-  formaterTid, ukeFormatert
+  formaterTid,
+  ukeFormatert
 } from "~/utils/datoUtils";
+
 
 describe("Dato utils", () => {
   test("formaterDato skal fungere med Date", () => {

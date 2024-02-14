@@ -7,6 +7,7 @@ import { ukeFormatert } from "~/utils/datoUtils";
 import styles from "./Ukeliste.module.css";
 import { ukeDager } from "~/utils/miscUtils";
 
+
 interface IProps {
   dager: IMeldekortDag[];
   ytelsestypePostfix: string;

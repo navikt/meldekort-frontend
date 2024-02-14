@@ -4,6 +4,7 @@ import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import { TEST_SPORSMAL } from "../mocks/data";
 import { formaterPeriode } from "~/utils/datoUtils";
 
+
 describe("SporsmalOgSvar", () => {
   afterEach(() => {
     cleanup()

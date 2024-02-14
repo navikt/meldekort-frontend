@@ -3,6 +3,7 @@ import type { KortType } from "~/models/kortType";
 import type { ISporsmal } from "~/models/sporsmal";
 import { getHeaders } from "~/utils/fetchUtils";
 
+
 export interface IMeldekortdetaljer {
   id: string;
   meldekortId: number;

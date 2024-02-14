@@ -4,6 +4,7 @@ import type { Meldegruppe } from "~/models/meldegruppe";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 
+
 export interface IMeldekort {
   meldekortId: number;
   kortType: KortType;

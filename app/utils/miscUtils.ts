@@ -3,6 +3,7 @@ import { getText } from "~/utils/intlUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { Meldegruppe } from "~/models/meldegruppe";
 
+
 export function formaterBelop(belop?: number): string {
   if (!belop || belop === 0 || isNaN(belop)) {
     return "kr. 0"

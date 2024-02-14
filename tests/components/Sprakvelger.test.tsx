@@ -5,6 +5,7 @@ import type { TFunction } from "i18next";
 import i18next from "i18next";
 import * as reactI18next from "react-i18next";
 
+
 describe("Sprakvelger", () => {
   afterEach(() => {
     cleanup()

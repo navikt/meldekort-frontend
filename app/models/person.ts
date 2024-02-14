@@ -2,6 +2,7 @@ import { getEnv } from "~/utils/envUtils";
 import type { IMeldekort } from "~/models/meldekort";
 import { getHeaders } from "~/utils/fetchUtils";
 
+
 export interface IPerson {
   maalformkode: string;
   meldeform: MeldeForm;

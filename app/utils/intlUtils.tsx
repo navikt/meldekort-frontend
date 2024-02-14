@@ -1,9 +1,10 @@
 import type { FlatNamespace, KeyPrefix } from "i18next";
+import i18next from "i18next";
 import type { $Tuple } from "react-i18next/helpers";
 import type { FallbackNs, UseTranslationOptions } from "react-i18next";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 import type { ReactElement } from "react";
+
 
 export interface TTFunction {
   (

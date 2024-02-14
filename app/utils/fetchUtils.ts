@@ -3,6 +3,7 @@ import type { SubmitFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
 
+
 export function getHeaders(onBehalfOfToken: string) {
   return {
     "Accept": "application/json",

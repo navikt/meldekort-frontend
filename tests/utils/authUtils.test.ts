@@ -2,6 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { FALLBACK_TOKEN, getOboToken } from "~/utils/authUtils";
 import { catchErrorResponse } from "../helpers/response-helper";
 
+
 describe("Auth utils", () => {
   test("getOboToken skal returnere FALLBACK_TOKEN på localhost uten MELDEKORT_API_TOKEN", async () => {
     vi.stubEnv("IS_LOCALHOST", "true")

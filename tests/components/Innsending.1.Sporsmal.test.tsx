@@ -1,5 +1,5 @@
 import { afterEach, describe, test } from "vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { opprettTestMeldekort } from "../mocks/data";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";

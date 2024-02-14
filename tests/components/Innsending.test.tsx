@@ -17,6 +17,7 @@ import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
+
 describe("Innsending", () => {
   vi.mock("react-i18next", () => ({
     useTranslation: () => {

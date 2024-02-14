@@ -5,9 +5,9 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import { useState } from "react";
 import type {
-  ISendInnMeldekortActionResponse,
   IFravaerInnsending,
-  IMeldekortdetaljerInnsending
+  IMeldekortdetaljerInnsending,
+  ISendInnMeldekortActionResponse
 } from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
@@ -18,6 +18,7 @@ import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { RemixLink } from "~/components/RemixLink";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
+
 
 interface IProps {
   begrunnelse: string;

@@ -6,7 +6,8 @@ import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { jsonify, TEST_PERSON, TEST_PERSON_INFO } from "../mocks/data";
 import { hentPerson, hentPersonInfo } from "~/models/person";
 
-// OBS! Kan ikke kjøres parallelt!
+
+// Kan ikke kjøres parallelt!
 describe("Person", () => {
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())

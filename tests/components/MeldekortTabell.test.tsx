@@ -10,6 +10,7 @@ import { KortType } from "~/models/kortType";
 import { mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 
+
 describe("MeldekorTabell", () => {
   test("Skal vise innhold", async () => {
     const meldekort1 = opprettTestMeldekort(1, false, KortStatus.FERDI, true)

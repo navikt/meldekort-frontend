@@ -6,6 +6,7 @@ import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { jsonify, TEST_HISTORISKEMELDEKORT } from "../mocks/data";
 
+
 // Kan ikke kjøres parallelt!
 describe("Meldekort", () => {
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))

@@ -8,6 +8,7 @@ import type { IMeldekort } from "~/models/meldekort";
 import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
 import i18next from "i18next";
 
+
 describe("Sporsmalsobjekter utils", () => {
   const valgtMeldekort = opprettTestMeldekort(1707156945)
   const begrunnelse = "Begrunnelse"

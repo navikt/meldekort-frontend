@@ -2,6 +2,7 @@ import { describe, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 
+
 describe("UtvidetInformasjon", () => {
   test("Skal vise innhold og åpnes og lukkes", async () => {
     render(<UtvidetInformasjon innhold={<div>INNHOLD</div>} />)

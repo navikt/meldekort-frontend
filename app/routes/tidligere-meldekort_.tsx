@@ -1,4 +1,4 @@
-import type { MetaFunction , LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -10,6 +10,7 @@ import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { useLoaderData } from "@remix-run/react";
 import { getOboToken } from "~/utils/authUtils";
 import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
+
 
 export const meta: MetaFunction = () => {
   return [

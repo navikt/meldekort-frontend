@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { byggBegrunnelseObjekt, formaterBelop, hentSvar, ukeDager } from "~/utils/miscUtils";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 
+
 describe("Misc utils", () => {
   test("formaterBelop skal fungere uten arg", () => {
     const result = formaterBelop()

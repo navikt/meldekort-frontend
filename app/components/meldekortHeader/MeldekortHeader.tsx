@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { MenuHamburgerIcon } from "@navikt/aksel-icons";
 import styles from "./MeldekortHeader.module.css";
 
+
 type LinkState = {
   isActive: boolean,
   isPending: boolean

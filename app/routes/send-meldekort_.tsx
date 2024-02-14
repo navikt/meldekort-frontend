@@ -19,6 +19,7 @@ import {
 import { Navigate } from "react-router";
 import { KortStatus } from "~/models/meldekort";
 
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
