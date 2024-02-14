@@ -1,7 +1,7 @@
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getText } from "~/utils/intlUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import { Meldegruppe } from "~/models/meldegruppe";
+import type { Meldegruppe } from "~/models/meldegruppe";
 
 export function formaterBelop(belop?: number): string {
   if (!belop || belop === 0 || isNaN(belop)) {
@@ -56,7 +56,7 @@ export function ukeDager() {
   ]
 }
 
-export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean) {
+export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean | null) {
   const dager = new Array<IMeldekortDag>()
   for (let i = 1; i <= 14; i++) dager.push({
     "dag": i,
@@ -72,7 +72,7 @@ export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean)
     kurs: null,
     syk: null,
     annetFravaer: null,
-    arbeidssoker: null, // Dette spørsmålet må besvares Ja når brukeren etterregistrerer meldekort
+    arbeidssoker: arbeidssoker, // Dette spørsmålet må besvares Ja når brukeren etterregistrerer meldekort
     signatur: true, // Vi sender ikke uten brukerens samtykke uansett
     meldekortDager: dager
   }

@@ -15,7 +15,7 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
-import { IArsakskode, IMeldekortDag, IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
 describe("Innsending", () => {
   afterEach(() => {
@@ -107,7 +107,7 @@ const createRouteAndRender = async (valideringsResultat: IValideringsResultat | 
                            nesteMeldekortId={2}
                            nesteEtterregistrerteMeldekortId={3}
                            nesteMeldekortKanSendes={"2024-02-01"}
-                           sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, false)}
+                           sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
                            personInfo={TEST_PERSON_INFO}
                            minSideUrl={""}
       />,

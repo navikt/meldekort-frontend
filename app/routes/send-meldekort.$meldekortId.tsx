@@ -113,7 +113,7 @@ export default function SendMeldekort() {
                      nesteMeldekortId={nesteMeldekortId}
                      nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
                      nesteMeldekortKanSendes={nesteMeldekortKanSendes}
-                     sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, false)}
+                     sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
                      personInfo={personInfo}
                      minSideUrl={minSideUrl} />
 }
