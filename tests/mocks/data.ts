@@ -50,19 +50,20 @@ export const opprettTestMeldekort = (
   kanKortSendes: boolean = true,
   kortStatus: KortStatus = KortStatus.OPPRE,
   korrigerbart: boolean = true,
-  kortType: KortType = KortType.ELEKTRONISK
+  kortType: KortType = KortType.ELEKTRONISK,
+  meldegruppe: Meldegruppe = Meldegruppe.DAGP
 ): IMeldekort => {
   return {
     meldekortId: meldekortId,
     kortType: kortType,
     meldeperiode: {
       fra: new Date(meldekortId * 1000),
-      til: new Date(meldekortId * 1000 + 7*24*60*60),
+      til: new Date(meldekortId * 1000 + 7 * 24 * 60 * 60),
       kortKanSendesFra: new Date(meldekortId * 1000),
       kanKortSendes: kanKortSendes,
       periodeKode: ""
     },
-    meldegruppe: Meldegruppe.DAGP,
+    meldegruppe: meldegruppe,
     kortStatus: kortStatus,
     bruttoBelop: 100,
     erForskuddsPeriode: false,
