@@ -30,25 +30,9 @@ import type { IPersonInfo } from "~/models/person";
 
 describe("Korriger tidligere meldekort", () => {
   vi.stubEnv("IS_LOCALHOST", "true")
-  vi.mock("react-i18next", () => ({
-    useTranslation: () => {
-      return {
-        t: (args: string[]) => args[1],
-        i18n: {
-          changeLanguage: () => new Promise(() => {
-          }),
-          setDefaultNamespace: (ns: string) => {
-          }
-        },
-        ready: true
-      }
-    },
-    initReactI18next: {
-      type: "3rdParty",
-      init: () => {
-      }
-    }
-  }))
+  vi.mock("react-i18next", async () =>
+    (await vi.importActual("tests/mocks/react-i18next.ts")).mock
+  )
 
   beforeAndAfterSetup()
 

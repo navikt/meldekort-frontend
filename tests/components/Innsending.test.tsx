@@ -19,27 +19,9 @@ import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending"
 
 
 describe("Innsending", () => {
-  vi.mock("react-i18next", () => ({
-    useTranslation: () => {
-      return {
-        t: (args: string[]) => {
-          if (args[1] === "korriger.begrunnelse.valg") {
-            return "{\"1\": \"Op1\", \"2\": \"Op2\"}"
-          }
-
-          return args[1]
-        },
-        i18n: {
-        },
-        ready: true
-      }
-    },
-    initReactI18next: {
-      type: "3rdParty",
-      init: () => {
-      }
-    }
-  }))
+  vi.mock("react-i18next", async () =>
+    (await vi.importActual("tests/mocks/react-i18next.ts")).mock
+  )
 
   afterEach(() => {
     cleanup()
