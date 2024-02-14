@@ -92,9 +92,38 @@ describe("Innsending", () => {
     // Sjekk at vi viser feilmelding
     await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"))
   })
+
+  test("Spørsmål 5 skal vare Ja ved Etterregistrering", async () => {
+    await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, false, Innsendingstype.ETTERREGISTRERING)
+
+    const radioJa = screen.getByTestId("sporsmal.registrert.true")
+    expect(radioJa.attributes.getNamedItem("checked")).toBeTruthy()
+    expect(radioJa.attributes.getNamedItem("disabled")).toBeTruthy()
+
+    const radioNei = screen.getByTestId("sporsmal.registrert.false")
+    expect(radioNei.attributes.getNamedItem("checked")).toBeFalsy()
+    expect(radioNei.attributes.getNamedItem("disabled")).toBeTruthy()
+  })
+
+  test("Spørsmål 5 skal vare disabled ved Korrigering", async () => {
+    await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, false, Innsendingstype.KORRIGERING, false)
+
+    const radioJa = screen.getByTestId("sporsmal.registrert.true")
+    expect(radioJa.attributes.getNamedItem("checked")).toBeFalsy()
+    expect(radioJa.attributes.getNamedItem("disabled")).toBeTruthy()
+
+    const radioNei = screen.getByTestId("sporsmal.registrert.false")
+    expect(radioNei.attributes.getNamedItem("checked")).toBeTruthy()
+    expect(radioNei.attributes.getNamedItem("disabled")).toBeTruthy()
+  })
 })
 
-const createRouteAndRender = async (valideringsResultat: IValideringsResultat | undefined, baksystemFeil: boolean = false) => {
+const createRouteAndRender = async (
+  valideringsResultat: IValideringsResultat | undefined,
+  baksystemFeil: boolean = false,
+  innsendingstype: Innsendingstype = Innsendingstype.INNSENDING,
+  arbeidssoker: boolean | null = null
+) => {
   const valgtMeldekort = opprettTestMeldekort(1707696000)
   jsonify(valgtMeldekort)
   const periode = valgtMeldekort.meldeperiode
@@ -102,12 +131,12 @@ const createRouteAndRender = async (valideringsResultat: IValideringsResultat | 
   const testRouter = createMemoryRouter([
     {
       path: "/",
-      element: <Innsending innsendingstype={Innsendingstype.INNSENDING}
+      element: <Innsending innsendingstype={innsendingstype}
                            valgtMeldekort={(valgtMeldekort as unknown) as Jsonify<IMeldekort>}
                            nesteMeldekortId={2}
                            nesteEtterregistrerteMeldekortId={3}
                            nesteMeldekortKanSendes={"2024-02-01"}
-                           sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
+                           sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, arbeidssoker)}
                            personInfo={TEST_PERSON_INFO}
                            minSideUrl={""}
       />,
