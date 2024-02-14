@@ -139,6 +139,10 @@ export default function Bekreftelse(props: IProps) {
             setActiveStep(activeStep + 1)
           } else if (status === "FEIL") {
             setActiveStep(activeStep - 1)
+          } else {
+            // Uforventet status
+            setBaksystemFeil(true)
+            return
           }
         }
       )
