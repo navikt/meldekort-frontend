@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
@@ -18,6 +18,28 @@ import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
 describe("Innsending", () => {
+  vi.mock("react-i18next", () => ({
+    useTranslation: () => {
+      return {
+        t: (args: string[]) => {
+          if (args[1] === "korriger.begrunnelse.valg") {
+            return "{\"1\": \"Op1\", \"2\": \"Op2\"}"
+          }
+
+          return args[1]
+        },
+        i18n: {
+        },
+        ready: true
+      }
+    },
+    initReactI18next: {
+      type: "3rdParty",
+      init: () => {
+      }
+    }
+  }))
+
   afterEach(() => {
     cleanup()
   })
@@ -44,7 +66,16 @@ describe("Innsending", () => {
     // Sjekk at vi viser modal
     await waitFor(() => screen.findByText("sporsmal.bekreftelse"))
 
-    // Klikk i modal
+    // Klikk Endre i modal
+    fireEvent.click(screen.getByText("sporsmal.tilbakeEndre"))
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser modal igjen
+    await waitFor(() => screen.findByText("sporsmal.bekreftelse"))
+
+    // Klikk Bekreft i modal
     fireEvent.click(screen.getByText("overskrift.bekreftOgFortsett"))
 
     // Sjekk at vi viser 3-Kvittering
@@ -105,7 +136,7 @@ describe("Innsending", () => {
     expect(radioNei.attributes.getNamedItem("disabled")).toBeTruthy()
   })
 
-  test("Spørsmål 5 skal vare disabled ved Korrigering", async () => {
+  test("Spørsmål 5 skal vare disabled og begrunnelse skal vare påkrevd ved Korrigering", async () => {
     await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, false, Innsendingstype.KORRIGERING, false)
 
     const radioJa = screen.getByTestId("sporsmal.registrert.true")
@@ -115,6 +146,27 @@ describe("Innsending", () => {
     const radioNei = screen.getByTestId("sporsmal.registrert.false")
     expect(radioNei.attributes.getNamedItem("checked")).toBeTruthy()
     expect(radioNei.attributes.getNamedItem("disabled")).toBeTruthy()
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser feilmelding
+    await waitFor(() => screen.findByText("begrunnelse.required"))
+
+    // Velg begrunnelse
+    fireEvent.change(screen.getByLabelText("korrigering.sporsmal.begrunnelse"), { target: { value: "2" } })
+
+    // Svar Ja på alle spørsmålene
+    sporsmalConfig.forEach((item) => {
+      fireEvent.click(screen.getByTestId(item.sporsmal + ".true"))
+    })
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.neste"))
+
+    // Sjekk at vi viser 2-Utfylling
+    const tittel = await waitFor(() => screen.findByTestId("sideTittel"))
+    expect(tittel.innerHTML).toBe("overskrift.steg2")
   })
 })
 
