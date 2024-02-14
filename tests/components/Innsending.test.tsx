@@ -15,7 +15,7 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import { IArsakskode, IMeldekortDag, IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
 describe("Innsending", () => {
   afterEach(() => {
@@ -30,7 +30,7 @@ describe("Innsending", () => {
     expect(tittel.innerHTML).toBe("overskrift.steg4")
   })
 
-  test("Skal gå fra 1 til 3 hvis aktivitetsspørsmålene er Nei", async () => {
+  test("Skal vise modal og gå fra steg 1 til 3 hvis alle aktivitetsspørsmålene er Nei", async () => {
     await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK)
 
     // Svar Nei på alle spørsmålene
@@ -69,6 +69,18 @@ describe("Innsending", () => {
 
   test("Skal vise feilmeldinger hvis innsending = undefined", async () => {
     await createRouteAndRenderAndCheckCommon(undefined)
+
+    // Sjekk at vi viser feilmelding
+    await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"))
+  })
+
+  test("Skal vise feilmeldinger hvis status er uforventet", async () => {
+    await createRouteAndRenderAndCheckCommon({
+      meldekortId: 1,
+      status: "!",
+      arsakskoder: null,
+      meldekortdager: null
+    })
 
     // Sjekk at vi viser feilmelding
     await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"))
@@ -118,7 +130,7 @@ const createRouteAndRender = async (valideringsResultat: IValideringsResultat | 
 }
 
 const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideringsResultat | undefined, baksystemFeil: boolean = false) => {
-  createRouteAndRender(valideringsResultat, baksystemFeil)
+  await createRouteAndRender(valideringsResultat, baksystemFeil)
 
   // Klikk Neste
   fireEvent.click(screen.getByText("naviger.neste"))
@@ -151,7 +163,7 @@ const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideri
   await waitFor(() => screen.findByText("utfylling.mangler.syk"))
   await waitFor(() => screen.findByText("utfylling.mangler.ferieFravar"))
 
-  // Skriv inn 5 i første input og huk av alle andre aktiviteter
+  // Skriv inn 5 i første input (mandag) og huk av alle andre aktiviteter for tirsdag, onsdag og torsdag
   fireEvent.change(screen.getByTestId("arbeid1"), { target: { value: "5" } })
   fireEvent.click(screen.getByTestId("kurs2"))
   fireEvent.click(screen.getByTestId("syk3"))
