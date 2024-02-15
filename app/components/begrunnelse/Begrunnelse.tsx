@@ -1,4 +1,4 @@
-import { Label } from "@navikt/ds-react";
+import { Box, Label } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
@@ -18,7 +18,9 @@ export default function Begrunnelse(props: IProps) {
     <div key="begrunnelse" className={styles.begrunnelse}>
       <Label>{parseHtml(tt("korrigering.sporsmal.begrunnelse"))}</Label>
       <UtvidetInformasjon innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))} />
-      <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} /> {begrunnelse}
+      <Box paddingBlock="1">
+        <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />&nbsp;{begrunnelse}
+      </Box>
     </div>
   )
 }
