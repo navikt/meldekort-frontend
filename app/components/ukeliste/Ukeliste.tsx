@@ -27,8 +27,6 @@ export default function Ukeliste(props: IProps) {
     {
       formaterUke(tt, dager, fraDag, tilDag, ytelsestypePostfix)
     }
-
-    <hr />
   </div>
 }
 
