@@ -12,6 +12,7 @@ import { NavLink } from "@remix-run/react";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { format } from "date-fns";
 import { Ytelsestype } from "~/models/ytelsestype";
+import nav from "~/img/nav.svg";
 
 
 interface IProps {
@@ -87,7 +88,15 @@ export default function Kvittering(props: IProps) {
 
   return (
     <div>
-      <Alert variant="success">
+      <BodyLong as="div" align="center" spacing className="onlyForPrint">
+        <img src={nav} className="imgBig" alt="" />
+        <br /><br />
+        <h2 className="navds-heading navds-heading--medium">
+          {parseHtml(tt("overskrift.meldekort.sendt"))}
+        </h2>
+      </BodyLong>
+
+      <Alert variant="success" className="notForPrint">
         {parseHtml(tt("overskrift.meldekort.sendt"))}
       </Alert>
 
@@ -133,18 +142,19 @@ export default function Kvittering(props: IProps) {
 
       <hr />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0}
-                tilDag={7} />
+      <div className="ukelister">
+        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
+        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
+      </div>
 
-      <div className="buttons">
+      <div className="buttons notForPrint">
         <RemixLink as="Button" variant="secondary" to="/tidligere-meldekort">
           {tt("sendt.linkTilTidligereMeldekort")}
         </RemixLink>
         {nesteLink}
       </div>
-      <div className="centeredButtons">
+      <div className="centeredButtons notForPrint">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
           {tt("overskrift.skrivUt")}
         </Button>

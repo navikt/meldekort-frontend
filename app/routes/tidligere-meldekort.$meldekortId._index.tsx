@@ -9,6 +9,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import nav from "~/img/nav.svg"
 import utklippstavle from "~/img/utklippstavle.svg"
 import { formaterBelop } from "~/utils/miscUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
@@ -26,6 +27,8 @@ import Ukeliste from "~/components/ukeliste/Ukeliste";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import { getOboToken } from "~/utils/authUtils";
 import { KortType } from "~/models/kortType";
+import type { IPersonInfo } from "~/models/person";
+import { hentPersonInfo } from "~/models/person";
 
 
 export const meta: MetaFunction = () => {
@@ -39,6 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false
   let historiskeMeldekort: IMeldekort[] | null = null
   let meldekortdetaljer: IMeldekortdetaljer | null = null
+  let personInfo: IPersonInfo | null = null
   let valgtMeldekort: IMeldekort | undefined
 
   const meldekortId = params.meldekortId
@@ -50,22 +54,24 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     const onBehalfOfToken = await getOboToken(request)
     const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
     const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId)
+    const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
 
-    if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok) {
+    if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok) {
       feil = true
     } else {
       historiskeMeldekort = await historiskeMeldekortResponse.json()
       meldekortdetaljer = await meldekortdetaljerResponse.json()
+      personInfo = await personInfoResponse.json()
 
       valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId)
     }
   }
 
-  return json({ feil, valgtMeldekort, meldekortdetaljer })
+  return json({ feil, valgtMeldekort, meldekortdetaljer, personInfo })
 }
 
 export default function Meldekortdetaljer() {
-  const { feil, valgtMeldekort, meldekortdetaljer } = useLoaderData<typeof loader>()
+  const { feil, valgtMeldekort, meldekortdetaljer, personInfo } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
   const { i18n, tt } = useExtendedTranslation(fraDato)
@@ -73,7 +79,7 @@ export default function Meldekortdetaljer() {
 
   let innhold: ReactElement
 
-  if (feil || !valgtMeldekort || !meldekortdetaljer) {
+  if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else {
     const fom = valgtMeldekort.meldeperiode.fra
@@ -82,8 +88,17 @@ export default function Meldekortdetaljer() {
     const sporsmal = meldekortdetaljer.sporsmal
 
     innhold = <div>
+      <BodyLong as="div" align="center" spacing className="onlyForPrint">
+        <img src={nav} className="imgBig" alt="" />
+        <br /><br />
+        {tt("meldekort.for")}
+        <br />
+        <h2 className="navds-heading navds-heading--medium">
+          {personInfo.fornavn.toUpperCase()} {personInfo.etternavn.toUpperCase()} ({personInfo.fodselsnr})
+        </h2>
+      </BodyLong>
       <BodyLong as="div" align="center" spacing>
-        <img src={utklippstavle} className="imgSmall" alt="" />
+        <img src={utklippstavle} className="imgSmall notForPrint" alt="" />
         <div>{tt("meldekort.for.perioden")}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
@@ -134,11 +149,13 @@ export default function Meldekortdetaljer() {
 
       <hr />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
+      <div className="ukelister">
+        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
+        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
+      </div>
 
-      <div className="buttons">
+      <div className="buttons notForPrint">
         <RemixLink as="Button" variant="primary" to="/tidligere-meldekort">
           {tt("naviger.tilbake")}
         </RemixLink>
@@ -152,7 +169,7 @@ export default function Meldekortdetaljer() {
             </RemixLink>
         }
       </div>
-      <div className="centeredButtons">
+      <div className="centeredButtons notForPrint">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
           {tt("overskrift.skrivUt")}
         </Button>

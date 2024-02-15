@@ -103,7 +103,7 @@ export default function Innsending(props: IProps) {
 
   return (
     <div className={styles.sideInnhold}>
-      <BodyLong as="div" align="center" spacing>
+      <BodyLong as="div" align="center" spacing className="notForPrint">
         <div>{tt("meldekort.for.perioden")}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
@@ -118,13 +118,14 @@ export default function Innsending(props: IProps) {
         activeStep={activeStep}
         interactive={false}
         orientation="horizontal"
+        className="notForPrint"
       >
         {
           steps.map(step => <Stepper.Step key={step} href="#">{tt(step)}</Stepper.Step>)
         }
       </Stepper>
 
-      <Box padding="8" />
+      <Box padding="8" className="notForPrint" />
 
       <Sideoverskrift tittel={tt(steps[activeStep - 1])} />
       {innhold}

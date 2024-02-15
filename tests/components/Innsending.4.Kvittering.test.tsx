@@ -44,7 +44,7 @@ describe("Kvittering", () => {
     expect(hjMock).toBeCalledWith("trigger", "meldekortAAP")
     hjMock.mockClear()
 
-    await waitFor(() => screen.findByText("overskrift.meldekort.sendt"))
+    await waitFor(() => screen.findAllByText("overskrift.meldekort.sendt")) // overskrift.meldekort.sendt x 2
     await waitFor(() => screen.findByText("sendt.klagerettigheterInfo"))
     await waitFor(() => screen.findByText(`meldekort.for ${personInfo.fornavn} ${personInfo.etternavn} (${personInfo.fodselsnr})`))
     await waitFor(() => screen.findByText(`meldekort.for.perioden overskrift.uke ${formaterPeriodeTilUkenummer(fom, tom)} (${formaterPeriodeDato(fom, tom)})`))

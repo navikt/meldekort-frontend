@@ -13,6 +13,10 @@ body {
     height: 3rem;
 }
 
+.imgBig {
+    height: 5rem;
+}
+
 .buttons {
     width: 100%;
     display: flex;
@@ -30,9 +34,14 @@ body {
 .navds-text-field--error {
     forced-color-adjust: none;
 }
+
 .navds-checkbox--error .navds-checkbox__label {
     --ac-radio-checkbox-action: var(--a-red-500);
     forced-color-adjust: none;
+}
+
+.onlyForPrint {
+    display: none;
 }
 
 /* Sette forskjellige størrelser for overskrifter iht skjermbredde */
@@ -69,5 +78,33 @@ body {
         font-size: var(--a-font-size-heading-small);
         letter-spacing: -.002em;
         line-height: var(--a-font-line-height-heading-small);
+    }
+}
+
+@media print {
+    @page {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    html {
+        font-size: 11px;
+    }
+
+    .onlyForPrint {
+        display: block;
+    }
+
+    .notForPrint {
+        display: none;
+    }
+
+    #decorator-header, #decorator-footer {
+        display: none;
+    }
+
+    .ukelister {
+        display: grid;
+        grid-template: auto / 1fr 1fr;
     }
 }

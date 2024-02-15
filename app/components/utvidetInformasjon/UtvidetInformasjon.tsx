@@ -21,7 +21,7 @@ export default function UtvidetInformasjon(props: IProps) {
   }
 
   if (open) {
-    return <div>
+    return <div className="notForPrint">
       <div className={styles.innhold}>
         {props.innhold}
       </div>
@@ -32,7 +32,7 @@ export default function UtvidetInformasjon(props: IProps) {
     </div>
   } else {
     return (
-      <div>
+      <div className="notForPrint">
         <Link href="#" onClick={clickHandler}>
           {tt("veiledning.les")}
           <ChevronDownIcon />

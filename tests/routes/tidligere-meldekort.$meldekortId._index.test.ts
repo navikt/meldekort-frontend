@@ -3,7 +3,7 @@ import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
-import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer } from "../mocks/data";
+import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
@@ -33,7 +33,7 @@ describe("Tidligere meldekort detaljer", () => {
     const data = await response.json()
 
     expect(response.status).toBe(200)
-    expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null })
+    expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null, personInfo: null })
   }
 
   test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
@@ -64,6 +64,18 @@ describe("Tidligere meldekort detaljer", () => {
     await check(meldekortId)
   })
 
+  test("Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/info`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    await check(meldekortId)
+  })
+
   test("Skal få feil = false og data fra backend", async () => {
     const meldekort = opprettTestMeldekort(Number(meldekortId))
     jsonify(meldekort)
@@ -81,7 +93,12 @@ describe("Tidligere meldekort detaljer", () => {
     const data = await response.json()
 
     expect(response.status).toBe(200)
-    expect(data).toEqual({ feil: false, valgtMeldekort: meldekort, meldekortdetaljer: meldekortdetaljerData })
+    expect(data).toEqual({
+      feil: false,
+      valgtMeldekort: meldekort,
+      meldekortdetaljer: meldekortdetaljerData,
+      personInfo: TEST_PERSON_INFO
+    })
   })
 
   test("Skal vise feilmelding hvis feil = true", async () => {
@@ -136,7 +153,8 @@ describe("Tidligere meldekort detaljer", () => {
         return json({
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1),
-          meldekortdetaljer: opprettTestMeldekortdetaljer(1)
+          meldekortdetaljer: opprettTestMeldekortdetaljer(1),
+          personInfo: TEST_PERSON_INFO
         })
       }
     )
@@ -161,7 +179,8 @@ describe("Tidligere meldekort detaljer", () => {
         return json({
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1, true, KortStatus.FERDI, true, KortType.ELEKTRONISK),
-          meldekortdetaljer: opprettTestMeldekortdetaljer(1)
+          meldekortdetaljer: opprettTestMeldekortdetaljer(1),
+          personInfo: TEST_PERSON_INFO
         })
       }
     )

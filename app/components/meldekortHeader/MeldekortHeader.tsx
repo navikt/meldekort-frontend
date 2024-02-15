@@ -26,7 +26,7 @@ export default function MeldekortHeader() {
 
   return (
     <div>
-      <div className={styles.heading}>
+      <div className={classNames(styles.heading, "notForPrint")}>
         <div className={styles.title}>
           <h1 className="navds-heading navds-heading--xlarge">{tt("overskrift.meldekort")}</h1>
         </div>
@@ -34,7 +34,7 @@ export default function MeldekortHeader() {
           <MenuHamburgerIcon title="a11y-title" fontSize="3rem" />
         </div>
       </div>
-      <div className={styles.menu} id="menu" data-testid="menu">
+      <div className={classNames(styles.menu, "notForPrint")} id="menu" data-testid="menu">
         <NavLink to="/send-meldekort" className={setClassName}>
           {tt("sekundarmeny.send")}
         </NavLink>
