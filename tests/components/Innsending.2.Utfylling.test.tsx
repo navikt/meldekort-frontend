@@ -17,7 +17,7 @@ describe("Utfylling", () => {
     cleanup()
   })
 
-  test("Skal vise innhold og feilemldinger for Meldegruppe.DAGP", async () => {
+  test("Skal vise innhold og feilemldinger for Meldegruppe.DAGP og Avbryt skal fungere", async () => {
     const valgtMeldekort = opprettTestMeldekort(1707696000)
 
     createRouteAndRender(valgtMeldekort)
@@ -60,6 +60,12 @@ describe("Utfylling", () => {
     await waitFor(() => screen.findByText("arbeidTimer.rangeValidator.range"))
     await waitFor(() => screen.findByText("arbeidTimer.kombinasjonSykArbeidValidator"))
     await waitFor(() => screen.findByText("arbeidTimer.kombinasjonFravaerArbeidValidator"))
+
+    // Klikk Neste
+    fireEvent.click(screen.getByText("naviger.avbryt"))
+
+    // Sjekk at vi viser AVBRUTT
+    await waitFor(() => screen.findByText("AVBRUTT"))
   })
 
   test("Skal vise innhold og feilemldinger for Meldegruppe.ATTF", async () => {
@@ -178,6 +184,10 @@ const createRouteAndRender = (
         }}
 
       />
+    },
+    {
+      path: "/tidligere-meldekort",
+      element: <div>AVBRUTT</div>
     }
   ])
 

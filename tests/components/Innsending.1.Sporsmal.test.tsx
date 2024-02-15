@@ -14,7 +14,7 @@ describe("Sporsmal", () => {
     cleanup()
   })
 
-  test("Skal vise innhold for Korrigering", async () => {
+  test("Skal vise innhold for Korrigering og Avbryt skal fungere", async () => {
     const valgtMeldekort = opprettTestMeldekort(1707696000)
 
     createRouteAndRender(valgtMeldekort, Innsendingstype.KORRIGERING)
@@ -22,6 +22,13 @@ describe("Sporsmal", () => {
     await waitFor(() => screen.findByText("sporsmal.lesVeiledning"))
     await waitFor(() => screen.findByText("sporsmal.ansvarForRiktigUtfylling"))
     await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"))
+
+    // Klikk Neste
+    const avbryt = screen.getByText("naviger.avbryt")
+    avbryt.click()
+
+    // Sjekk at vi viser AVBRUTT
+    await waitFor(() => screen.findByText("AVBRUTT"))
   })
 })
 
@@ -45,6 +52,10 @@ const createRouteAndRender = (
                          setActiveStep={() => {
                          }}
       />
+    },
+    {
+      path: "/tidligere-meldekort",
+      element: <div>AVBRUTT</div>
     }
   ])
 
