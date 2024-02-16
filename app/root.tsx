@@ -67,13 +67,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
     fragments,
     locale,
     feil,
-    skrivemodus
+    skrivemodus,
+    env: {
+      MIN_SIDE_URL: process.env.MIN_SIDE_URL,
+      AMPLITUDE_API_KEY: process.env.AMPLITUDE_API_KEY
+    }
   });
 }
 
 export default function App() {
 
-  const { fragments, locale, feil, skrivemodus } = useLoaderData<typeof loader>();
+  const { fragments, locale, feil, skrivemodus, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
 
@@ -117,6 +121,8 @@ export default function App() {
         <Links />
       </head>
       <body>
+       <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}`}} />
+       <Scripts />
         {parse(fragments.DECORATOR_HEADER)}
         {innhold}
         <ScrollRestoration />
