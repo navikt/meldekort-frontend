@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/send-meldekort.$meldekortId";
 import {
   jsonify,
@@ -45,8 +45,7 @@ describe("Send meldekort", () => {
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
       nesteMeldekortKanSendes: undefined,
-      personInfo: null,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: null
     })
   }
 
@@ -120,8 +119,7 @@ describe("Send meldekort", () => {
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
       nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
-      personInfo: TEST_PERSON_INFO,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: TEST_PERSON_INFO
     })
   })
 
@@ -163,8 +161,7 @@ describe("Send meldekort", () => {
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
       nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
-      personInfo: TEST_PERSON_INFO,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: TEST_PERSON_INFO
     })
   })
 
@@ -203,8 +200,7 @@ describe("Send meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -221,8 +217,7 @@ describe("Send meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -243,8 +238,7 @@ describe("Send meldekort", () => {
           },
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -271,8 +265,7 @@ describe("Send meldekort", () => {
             fodselsnr: "01020312345",
             etternavn: "Etternavn",
             fornavn: "Fornavn"
-          },
-          minSideUrl: ""
+          }
         })
       }
     )

@@ -18,6 +18,7 @@ import {
 } from "~/utils/meldekortUtils";
 import { Navigate } from "react-router";
 import { KortStatus } from "~/models/meldekort";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -152,6 +153,9 @@ export default function SendMeldekort() {
       </div>
     }
   }
+
+  loggAktivitet("Viser send")
+  loggAktivitet("Testing Remix")
 
   return (
     <div>

@@ -9,7 +9,6 @@ import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import type { IPersonInfo } from "~/models/person";
 import { hentPersonInfo } from "~/models/person";
-import { getEnv } from "~/utils/envUtils";
 import { Innsendingstype } from "~/models/innsendingstype";
 import Innsending from "~/components/innsending/Innsending";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
@@ -71,8 +70,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     feil,
     valgtMeldekort,
     meldekortdetaljer,
-    personInfo,
-    minSideUrl: getEnv("MIN_SIDE_URL")
+    personInfo
   })
 }
 
@@ -81,8 +79,7 @@ export default function TidligereMeldekortKorrigering() {
     feil,
     valgtMeldekort,
     meldekortdetaljer,
-    personInfo,
-    minSideUrl
+    personInfo
   } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
@@ -103,6 +100,5 @@ export default function TidligereMeldekortKorrigering() {
   return <Innsending innsendingstype={Innsendingstype.KORRIGERING}
                      valgtMeldekort={valgtMeldekort}
                      sporsmal={meldekortdetaljer.sporsmal}
-                     personInfo={personInfo}
-                     minSideUrl={minSideUrl} />
+                     personInfo={personInfo} />
 }

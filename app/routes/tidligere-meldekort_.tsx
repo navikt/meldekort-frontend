@@ -10,6 +10,7 @@ import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import { useLoaderData } from "@remix-run/react";
 import { getOboToken } from "~/utils/authUtils";
 import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -62,6 +63,8 @@ export default function TidligereMeldekort() {
       <MeldekorTabell meldekortListe={historiskeMeldekort} />
     </div>
   }
+
+  loggAktivitet("Viser tidligere meldekort")
 
   return (
     <div>

@@ -3,6 +3,7 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { Box, GuidePanel } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -42,6 +43,8 @@ export default function OmMeldekort() {
       {tt("genereltOmMeldekort.oss")}
     </Box>
   </GuidePanel>
+
+  loggAktivitet("Viser om meldekort")
 
   return (
     <div>

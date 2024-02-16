@@ -7,6 +7,7 @@ import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { Ytelsestype } from "~/models/ytelsestype";
 import * as React from "react";
+import { Meldegruppe } from "~/models/meldegruppe";
 
 
 const personInfo = TEST_PERSON_INFO
@@ -133,9 +134,9 @@ const createRouteAndRender = (
   const testRouter = createMemoryRouter([
     {
       path: "/",
-      element: <Kvittering minSideUrl={""}
-                           innsendingstype={innsendingstype}
+      element: <Kvittering innsendingstype={innsendingstype}
                            ytelsestypePostfix={ytelsestypePostfix}
+                           meldegruppe={Meldegruppe.DAGP}
                            personInfo={personInfo}
                            fom={fom}
                            tom={tom}

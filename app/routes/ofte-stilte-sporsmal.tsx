@@ -4,6 +4,7 @@ import { Accordion } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import sporrende from "~/img/sporrende.svg";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -61,6 +62,8 @@ export default function OfteStilteSporsmal() {
       </Accordion.Item>
     </Accordion>
   </div>
+
+  loggAktivitet("Viser ofte stilte spørsmål")
 
   return (
     <div>

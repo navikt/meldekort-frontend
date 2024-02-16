@@ -14,6 +14,7 @@ import { getOboToken } from "~/utils/authUtils";
 import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
 import { Navigate } from "react-router";
 import { KortStatus } from "~/models/meldekort";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -101,6 +102,7 @@ export default function Etterregistrering() {
     </div>
   }
 
+  loggAktivitet("Viser etterregistrere meldekort")
 
   return (
     <div>

@@ -13,12 +13,15 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import { format } from "date-fns";
 import { Ytelsestype } from "~/models/ytelsestype";
 import nav from "~/img/nav.svg";
+import type { Meldegruppe } from "~/models/meldegruppe";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {
-  minSideUrl: string;
   innsendingstype: Innsendingstype;
   ytelsestypePostfix: string;
+  meldegruppe: Meldegruppe;
   personInfo: IPersonInfo;
   fom: string;
   tom: string;
@@ -31,9 +34,9 @@ interface IProps {
 
 export default function Kvittering(props: IProps) {
   const {
-    minSideUrl,
     innsendingstype,
     ytelsestypePostfix,
+    meldegruppe,
     personInfo,
     fom,
     tom,
@@ -54,7 +57,7 @@ export default function Kvittering(props: IProps) {
     }}>{text}</Button>
   }
 
-  let nesteLink = <NavLink to={minSideUrl}>{tt("tilbake.minSide")}</NavLink>
+  let nesteLink = <NavLink to={getEnv("MIN_SIDE_URL")}>{tt("tilbake.minSide")}</NavLink>
   const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"))
   const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
 
@@ -77,14 +80,25 @@ export default function Kvittering(props: IProps) {
     nesteMeldekortId == undefined &&
     (window as any)["hj"]
   ) {
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
     window.hj("trigger", "meldekortAAP");
   } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && (window as any)["hj"]) {
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    // @ts-ignore
     window.hj("trigger", "meldekortTP");
   }
+
+  loggAktivitet(
+    "Viser kvittering",
+    {
+      arbeidssoker: sporsmal.arbeidssoker ? "ja" : "nei",
+      meldegruppe: meldegruppe || "UKJENT",
+      innsendingstype: innsendingstype || "UKJENT",
+    }
+  )
+  loggAktivitet(
+    "skjema fullført",
+    {
+      meldegruppe: meldegruppe || "UKJENT",
+    }
+  )
 
   return (
     <div>

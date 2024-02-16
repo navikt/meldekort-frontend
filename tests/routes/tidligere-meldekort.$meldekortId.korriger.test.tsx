@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import TidligereMeldekortKorrigering, {
   action,
   loader,
@@ -58,8 +58,7 @@ describe("Korriger tidligere meldekort", () => {
       feil: true,
       valgtMeldekort: valgtMeldekort,
       meldekortdetaljer: meldekortdetaljer,
-      personInfo: personInfo,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: personInfo
     })
   }
 
@@ -167,8 +166,7 @@ describe("Korriger tidligere meldekort", () => {
       feil: false,
       valgtMeldekort: meldekort,
       meldekortdetaljer: meldekortdetaljerData,
-      personInfo: TEST_PERSON_INFO,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: TEST_PERSON_INFO
     })
   })
 
@@ -206,8 +204,7 @@ describe("Korriger tidligere meldekort", () => {
           feil: true,
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -223,8 +220,7 @@ describe("Korriger tidligere meldekort", () => {
           feil: false,
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -244,8 +240,7 @@ describe("Korriger tidligere meldekort", () => {
             }
           },
           meldekortdetaljer: null,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -267,8 +262,7 @@ describe("Korriger tidligere meldekort", () => {
           meldekortdetaljer: {
             sporsmal: {}
           },
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -296,8 +290,7 @@ describe("Korriger tidligere meldekort", () => {
             fodselsnr: "01020312345",
             etternavn: "Etternavn",
             fornavn: "Fornavn"
-          },
-          minSideUrl: ""
+          }
         })
       }
     )

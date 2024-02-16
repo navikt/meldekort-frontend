@@ -18,6 +18,7 @@ import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { RemixLink } from "~/components/RemixLink";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 interface IProps {
@@ -150,6 +151,8 @@ export default function Bekreftelse(props: IProps) {
     }
   }
 
+  loggAktivitet("Viser bekreftelse")
+
   return (
     <div>
       <Alert variant="warning">
@@ -168,8 +171,7 @@ export default function Bekreftelse(props: IProps) {
 
       <hr />
 
-      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0}
-                tilDag={7} />
+      <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
 
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 

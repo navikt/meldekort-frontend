@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_MIN_SIDE_URL, TEST_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import EtterregistreringMeldekort, {
   action,
   loader,
@@ -48,8 +48,7 @@ describe("Etterregistrer meldekort", () => {
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
-      personInfo: null,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: null
     })
   }
 
@@ -122,8 +121,7 @@ describe("Etterregistrer meldekort", () => {
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156945,
       nesteEtterregistrerteMeldekortId: 1707156948,
-      personInfo: TEST_PERSON_INFO,
-      minSideUrl: TEST_MIN_SIDE_URL
+      personInfo: TEST_PERSON_INFO
     })
   })
 
@@ -162,8 +160,7 @@ describe("Etterregistrer meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -180,8 +177,7 @@ describe("Etterregistrer meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -202,8 +198,7 @@ describe("Etterregistrer meldekort", () => {
           },
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          minSideUrl: ""
+          personInfo: null
         })
       }
     )
@@ -230,8 +225,7 @@ describe("Etterregistrer meldekort", () => {
             fodselsnr: "01020312345",
             etternavn: "Etternavn",
             fornavn: "Fornavn"
-          },
-          minSideUrl: ""
+          }
         })
       }
     )

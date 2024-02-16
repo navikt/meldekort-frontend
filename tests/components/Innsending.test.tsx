@@ -173,7 +173,6 @@ const createRouteAndRender = async (
                            nesteMeldekortKanSendes={"2024-02-01"}
                            sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, arbeidssoker)}
                            personInfo={TEST_PERSON_INFO}
-                           minSideUrl={""}
       />,
       action: () => {
         return {

@@ -12,6 +12,7 @@ import { ukeDager } from "~/utils/miscUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import classNames from "classnames";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 interface IProps {
@@ -272,6 +273,8 @@ export default function Utfylling(props: IProps) {
       setActiveStep(activeStep + 1)
     }
   }
+
+  loggAktivitet("Viser utfylling")
 
   return (
     <div>

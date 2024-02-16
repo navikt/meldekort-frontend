@@ -25,7 +25,6 @@ interface IProps {
   nesteMeldekortKanSendes?: string | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
-  minSideUrl: string;
 }
 
 export default function Innsending(props: IProps) {
@@ -35,7 +34,6 @@ export default function Innsending(props: IProps) {
     innsendingstype,
     valgtMeldekort,
     sporsmal,
-    minSideUrl,
     personInfo,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
@@ -88,9 +86,9 @@ export default function Innsending(props: IProps) {
                            setActiveStep={setActiveStep}
                            nesteMeldekortKanSendes={nesteMeldekortKanSendes} />
   } else {
-    innhold = <Kvittering minSideUrl={minSideUrl}
-                          innsendingstype={innsendingstype}
+    innhold = <Kvittering innsendingstype={innsendingstype}
                           ytelsestypePostfix={ytelsestypePostfix}
+                          meldegruppe={valgtMeldekort.meldegruppe}
                           personInfo={personInfo}
                           fom={fom}
                           tom={tom}

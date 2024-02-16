@@ -10,7 +10,6 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
-import { getEnv } from "~/utils/envUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
@@ -68,8 +67,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     valgtMeldekort,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
-    personInfo,
-    minSideUrl: getEnv("MIN_SIDE_URL")
+    personInfo
   })
 }
 
@@ -79,8 +77,7 @@ export default function EtterregistreringMeldekort() {
     valgtMeldekort,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
-    personInfo,
-    minSideUrl
+    personInfo
   } = useLoaderData<typeof loader>()
 
   const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
@@ -103,6 +100,5 @@ export default function EtterregistreringMeldekort() {
                      nesteMeldekortId={nesteMeldekortId}
                      nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
                      sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, true)}
-                     personInfo={personInfo}
-                     minSideUrl={minSideUrl} />
+                     personInfo={personInfo} />
 }
