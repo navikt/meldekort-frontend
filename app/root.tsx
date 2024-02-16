@@ -93,7 +93,7 @@ export default function App() {
   if (feil || skrivemodus?.skrivemodus !== true) {
     let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
 
-    if (skrivemodus && skrivemodus.skrivemodus !== true) {
+    if (skrivemodus && !skrivemodus.skrivemodus) {
       // Hvis skrivemodues ikke er true:
       // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
       // Ellers vis standard melding
