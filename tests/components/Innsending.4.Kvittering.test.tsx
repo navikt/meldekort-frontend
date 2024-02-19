@@ -8,6 +8,7 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 import { Ytelsestype } from "~/models/ytelsestype";
 import * as React from "react";
 import { Meldegruppe } from "~/models/meldegruppe";
+import amplitude from "@amplitude/analytics-browser";
 
 
 const personInfo = TEST_PERSON_INFO
@@ -39,11 +40,24 @@ describe("Kvittering", () => {
   /*
   * Innsending
   */
-  test("Skal vise innhold for Innsending uten neste meldekort", async () => {
+  test("Skal vise innhold for Innsending uten neste meldekort, kalle HJ og Amplitude og kunne skrive ut", async () => {
+    const trackSpy = vi.spyOn(amplitude, "track")
+
     createRouteAndRender(Innsendingstype.INNSENDING)
 
     expect(hjMock).toBeCalledWith("trigger", "meldekortAAP")
     hjMock.mockClear()
+
+    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
+      arbeidssoker: "ja",
+      meldegruppe: Meldegruppe.DAGP,
+      innsendingstype: Innsendingstype.INNSENDING,
+      aktivitet: "Viser kvittering"
+    })
+    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
+      meldegruppe: Meldegruppe.DAGP,
+      aktivitet: "skjema fullført"
+    })
 
     await waitFor(() => screen.findAllByText("overskrift.meldekort.sendt")) // overskrift.meldekort.sendt x 2
     await waitFor(() => screen.findByText("sendt.klagerettigheterInfo"))
