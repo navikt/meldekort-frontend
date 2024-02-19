@@ -13,6 +13,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
+import { getEnv } from "~/utils/envUtils";
 
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
@@ -69,8 +70,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     feil,
     skrivemodus,
     env: {
-      MIN_SIDE_URL: process.env.MIN_SIDE_URL,
-      AMPLITUDE_API_KEY: process.env.AMPLITUDE_API_KEY
+      MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
+      AMPLITUDE_API_KEY: getEnv("AMPLITUDE_API_KEY")
     }
   });
 }
