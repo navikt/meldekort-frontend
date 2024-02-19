@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
 import { catchErrorResponse } from "../helpers/response-helper";
 import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
@@ -11,8 +11,6 @@ import type { Params } from "@remix-run/router/utils";
 
 // Kan ikke kjøres parallelt!
 describe("Meldekortdetaljer Innsending", () => {
-  vi.stubEnv("IS_LOCALHOST", "true")
-
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
   afterAll(() => server.close())
   afterEach(() => server.resetHandlers())

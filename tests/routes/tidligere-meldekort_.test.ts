@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
@@ -11,8 +11,6 @@ import { screen, waitFor } from "@testing-library/react";
 
 
 describe("Tidligere meldekort", () => {
-  vi.stubEnv("IS_LOCALHOST", "true")
-
   beforeAndAfterSetup()
 
   const request = new Request(TEST_URL + "/tidligere-meldekort")

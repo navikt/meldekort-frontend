@@ -5,6 +5,9 @@ import { catchErrorResponse } from "../helpers/response-helper";
 
 describe("Auth utils", () => {
   vi.mock("@navikt/oasis", () => {
+    vi.stubGlobal("window", undefined)
+    vi.stubEnv("IS_LOCALHOST", "false")
+
     return {
       makeSession: () => {
         return (request: Request) => {

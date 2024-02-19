@@ -29,7 +29,6 @@ import type { IPersonInfo } from "~/models/person";
 
 
 describe("Korriger tidligere meldekort", () => {
-  vi.stubEnv("IS_LOCALHOST", "true")
   vi.mock("react-i18next", async () =>
     (await vi.importActual("tests/mocks/react-i18next.ts")).mock
   )
