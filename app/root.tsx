@@ -118,18 +118,21 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        {parse(fragments.DECORATOR_STYLES)}
+        {parse(fragments.DECORATOR_STYLES, { trim: true })}
+        {/* Ikke legg parsing av dekoratør-html i egne komponenter. Det trigger rehydrering,
+            som gjør at grensesnittet flimrer og alle assets lastes på nytt siden de har så mange side effects.
+            Løsningen enn så lenge er å inline parsingen av HTML her i root.
+         */}
         <Links />
       </head>
       <body>
-       <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}`}} />
-       <Scripts />
-        {parse(fragments.DECORATOR_HEADER)}
+        <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}`}} />
+        {parse(fragments.DECORATOR_HEADER, { trim: true })}
         {innhold}
         <ScrollRestoration />
-        {parse(fragments.DECORATOR_FOOTER)}
+        {parse(fragments.DECORATOR_FOOTER, { trim: true })}
         <Scripts />
-        {parse(fragments.DECORATOR_SCRIPTS)}
+        {parse(fragments.DECORATOR_SCRIPTS, { trim: true })}
         <LiveReload />
       </body>
     </html>
