@@ -9,7 +9,7 @@ export const FALLBACK_TOKEN =
 
 export let getSession: GetSessionWithOboProvider;
 
-if (process.env.IS_LOCALHOST !== "true") {
+if (getEnv("IS_LOCALHOST") !== "true") {
   getSession = makeSession({
     identityProvider: idporten,
     oboProvider: withInMemoryCache(tokenX),
@@ -17,8 +17,8 @@ if (process.env.IS_LOCALHOST !== "true") {
 }
 
 export async function getOboToken(request: Request) {
-  if (process.env.IS_LOCALHOST === "true") {
-    return process.env.MELDEKORT_API_TOKEN || FALLBACK_TOKEN;
+  if (getEnv("IS_LOCALHOST") === "true") {
+    return getEnv("MELDEKORT_API_TOKEN") || FALLBACK_TOKEN;
   }
 
   const session = await getSession(request);
