@@ -58,7 +58,7 @@ describe("Fetch utils", () => {
     formData.append("meldekortdetaljer", "{}")
     // @ts-ignore
     fetcher.submit(formData, { method: "post" }).then((data) => {
-      console.log(data)
+      console.trace(data)
     }).catch(() => {
     })
   })
