@@ -17,8 +17,9 @@ interface IEnv {
   AMPLITUDE_API_KEY: string;
 }
 
-export function getEnv(value: keyof IEnv) {
-  const env = typeof window !== "undefined" ? window.env : process.env
+export function getEnv(key: keyof IEnv) {
+  let value = typeof process !== "undefined" ? process.env[key] : ""
+  if (!value) value = typeof window !== "undefined" ? window.env[key] : ""
 
-  return env[value] || ""
+  return value
 }
