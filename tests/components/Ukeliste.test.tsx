@@ -13,11 +13,11 @@ describe("Ukeliste", () => {
 
     await waitFor(() => screen.findByText("overskrift.uke " + ukeFormatert(fom, 0)))
 
-    await sjekkDag(1, "ukedag.mandag", "utfylling.arbeid 5 overskrift.timer")
-    await sjekkDag(2, "ukedag.tirsdag", "utfylling.syk")
-    await sjekkDag(3, "ukedag.onsdag", "utfylling.ferieFravar")
-    await sjekkDag(4, "ukedag.torsdag", "utfylling.tiltak")
-    await sjekkDag(5, "ukedag.fredag", "utfylling.tiltak, utfylling.syk")
+    await sjekkDag(0, "ukedag.mandag", "utfylling.arbeid 5 overskrift.timer")
+    await sjekkDag(1, "ukedag.tirsdag", "utfylling.syk")
+    await sjekkDag(2, "ukedag.onsdag", "utfylling.ferieFravar")
+    await sjekkDag(3, "ukedag.torsdag", "utfylling.tiltak")
+    await sjekkDag(4, "ukedag.fredag", "utfylling.tiltak, utfylling.syk")
   })
 
   test("Skal vise innhold for andre uke", async () => {
@@ -27,7 +27,7 @@ describe("Ukeliste", () => {
 
     await waitFor(() => screen.findByText("overskrift.uke " + ukeFormatert(fom, 0)))
 
-    await sjekkDag(8, "ukedag.mandag", "utfylling.arbeid 7.5 overskrift.timer")
+    await sjekkDag(7, "ukedag.mandag", "utfylling.arbeid 7.5 overskrift.timer")
   })
 })
 
