@@ -20,6 +20,13 @@ export default function Ukeliste(props: IProps) {
   const { tt } = useExtendedTranslation();
   const { dager, fom, fraDag, tilDag, ytelsestypePostfix } = props
 
+  const harAktivitet = dager.slice(fraDag, tilDag)
+    .filter(dag => dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk).length > 0
+
+  if (!harAktivitet) {
+    return <div></div>
+  }
+
   return <div className={styles.ukeliste}>
     <h3 className={styles.ukeTittel}>{tt("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
     <hr className={styles.ukeTittelDelimiter} />
