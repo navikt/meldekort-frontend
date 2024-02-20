@@ -8,7 +8,7 @@ export async function hentDekoratorHtml() {
   const config: DecoratorFetchProps = {
     env: (getEnv("DEKORATOR_MILJO") ?? "localhost") as DecoratorEnvProps["env"],
     localUrl: "http://localhost:8080/dekorator",
-    serviceDiscovery: false,
+    serviceDiscovery: true,
     params: {
       simple: false,
       feedback: false,
