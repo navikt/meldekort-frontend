@@ -8,7 +8,6 @@ import {
   TEST_PERSON_INFO,
   TEST_SKRIVEMODUS
 } from "./data";
-import { LOCAL_DECORATOR_RESPONSE } from "../../server/localData";
 
 
 export const handlers = [
@@ -43,8 +42,4 @@ export const handlers = [
     () => HttpResponse.json(TEST_SKRIVEMODUS, { status: 200 })
   ),
 
-  http.get(
-    `http://localhost:8080/dekorator`,
-    () => new HttpResponse(LOCAL_DECORATOR_RESPONSE, { status: 200 })
-  ),
 ];
