@@ -1,12 +1,15 @@
-import { type DecoratorEnvProps, type DecoratorFetchProps } from "@navikt/nav-dekoratoren-moduler/ssr";
-import { fetchDecoratorHtml } from "@navikt/nav-dekoratoren-moduler/ssr/index.js";
+import {
+  type DecoratorEnvProps,
+  type DecoratorFetchProps,
+  fetchDecoratorHtml
+} from "@navikt/nav-dekoratoren-moduler/ssr";
 import { getEnv } from "~/utils/envUtils";
 
 
 export async function hentDekoratorHtml() {
 
   const config: DecoratorFetchProps = {
-    env: (getEnv("DEKORATOR_MILJO") ?? "localhost") as DecoratorEnvProps["env"],
+    env: (getEnv("DEKORATOR_MILJO") || "localhost") as DecoratorEnvProps["env"],
     localUrl: "http://localhost:8080/dekorator",
     serviceDiscovery: true,
     params: {
