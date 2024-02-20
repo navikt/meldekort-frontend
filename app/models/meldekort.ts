@@ -50,3 +50,18 @@ export async function hentHistoriskeMeldekort(onBehalfOfToken: string): Promise<
     return Promise.resolve(response)
   }
 }
+
+export async function hentMeldekortIdForKorrigering(onBehalfOfToken: string, meldekortId: string): Promise<Response> {
+  const url = `${getEnv("MELDEKORT_API_URL")}/meldekort/${meldekortId}/korrigering`;
+
+  try {
+    return await fetch(url, {
+      method: "GET",
+      headers: getHeaders(onBehalfOfToken)
+    });
+  } catch (err) {
+    const response = new Response(null, { status: 500, statusText: (err as Error).message });
+
+    return Promise.resolve(response)
+  }
+}

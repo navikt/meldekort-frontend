@@ -7,6 +7,7 @@ import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
 import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
 import type { ActionFunctionArgs, AppLoadContext } from "@remix-run/node";
 import type { Params } from "@remix-run/router/utils";
+import { Innsendingstype } from "~/models/innsendingstype";
 
 
 // Kan ikke kjøres parallelt!
@@ -15,9 +16,10 @@ describe("Meldekortdetaljer Innsending", () => {
   afterAll(() => server.close())
   afterEach(() => server.resetHandlers())
 
-  const opprettActionFunctionArgs = () => {
+  const opprettActionFunctionArgs = (innsendingstype: Innsendingstype = Innsendingstype.INNSENDING) => {
     const body = new FormData()
-    body.append("meldekortdetaljer", "{}")
+    body.append("meldekortdetaljer", "{ \"meldekortId\": \"1708156951\" }")
+    body.append("innsendingstype", innsendingstype.toString())
 
     const request = new Request(
       "http://localhost",
@@ -37,6 +39,26 @@ describe("Meldekortdetaljer Innsending", () => {
 
     return actionFunctionArgs
   }
+
+  test("sendInnMeldekortAction skal få baksystemFeil = true når feil ved henting en ny meldekortId ved Korrigering", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/meldekort/1708156951/korrigering`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING)))
+
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json).toEqual({
+      baksystemFeil: true,
+      innsending: null
+    })
+  })
 
   test("sendInnMeldekortAction skal få baksystemFeil = true når feil i backend", async () => {
     server.use(
@@ -60,6 +82,18 @@ describe("Meldekortdetaljer Innsending", () => {
 
   test("sendInnMeldekortAction skal få data", async () => {
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs())
+
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json).toStrictEqual({
+      baksystemFeil: false,
+      innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK
+    })
+  })
+
+  test("sendInnMeldekortAction skal få data ved Korrigering", async () => {
+    const response = await sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING))
 
     const json = await response.json()
 

@@ -123,6 +123,7 @@ export default function Bekreftelse(props: IProps) {
 
       const formData = new FormData()
       formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer))
+      formData.append("innsendingstype", innsendingstype.toString())
       fetcher.submit(formData, { method: "post" }).then((data) => {
           setLoading(false)
 

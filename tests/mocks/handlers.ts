@@ -33,6 +33,11 @@ export const handlers = [
   ),
 
   http.get(
+    `${TEST_MELDEKORT_API_URL}/meldekort/1708156951/korrigering`,
+    () => HttpResponse.json(1708156952, { status: 200 })
+  ),
+
+  http.get(
     `${TEST_MELDEKORT_API_URL}/meldekort/1707156949`,
     () => HttpResponse.json(TEST_MELDEKORTDETALJER, { status: 200 })
   ),

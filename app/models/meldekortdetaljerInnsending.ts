@@ -1,5 +1,6 @@
 import type { KortType } from "~/models/kortType";
 import type { KortStatus } from "~/models/meldekort";
+import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldeperiode } from "~/models/meldeperiode";
@@ -8,6 +9,7 @@ import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
+import { Innsendingstype } from "~/models/innsendingstype";
 
 
 // Request
@@ -100,16 +102,31 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
   const onBehalfOfToken = await getOboToken(request)
   const formdata = await request.formData();
   const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}")
-  // Send meldekort
-  // Hvis ikke OK, vis feil
-  // Hvis OK og uten arsakskoder, gå til Kvittering
-  // Hvis OK, men med arsakskoder, gå til Utfylling
-  const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
 
-  if (!innsendingResponse.ok) {
-    baksystemFeil = true
-  } else {
-    innsending = await innsendingResponse.json()
+  // Vi må opprette et nytt meldekort og få en ny meldekortId først hvis det er korrigering
+  if (formdata.get("innsendingstype") === Innsendingstype.KORRIGERING.toString()) {
+    const nyMeldekortIdResponse = await hentMeldekortIdForKorrigering(onBehalfOfToken, meldekortdetaljer.meldekortId)
+
+    if (nyMeldekortIdResponse.ok) {
+      meldekortdetaljer.meldekortId = await nyMeldekortIdResponse.json()
+    } else {
+      baksystemFeil = true
+    }
+  }
+
+  // Hvis vi ikke har baksystemFeil ennå, fortsett
+  if (!baksystemFeil) {
+    // Send meldekort
+    // Hvis ikke OK, vis feil
+    // Hvis OK og uten arsakskoder, gå til Kvittering
+    // Hvis OK, men med arsakskoder, gå til Utfylling
+    const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
+
+    if (!innsendingResponse.ok) {
+      baksystemFeil = true
+    } else {
+      innsending = await innsendingResponse.json()
+    }
   }
 
   return json({ baksystemFeil, innsending })
