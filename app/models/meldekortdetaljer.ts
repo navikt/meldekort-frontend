@@ -2,6 +2,7 @@ import { getEnv } from "~/utils/envUtils";
 import type { KortType } from "~/models/kortType";
 import type { ISporsmal } from "~/models/sporsmal";
 import { getHeaders } from "~/utils/fetchUtils";
+import type { TypedResponse } from "@remix-run/node";
 
 
 export interface IMeldekortdetaljer {
@@ -16,7 +17,7 @@ export interface IMeldekortdetaljer {
   begrunnelse: string;
 }
 
-export async function hentMeldekortdetaljer(onBehalfOfToken: string, meldekortId: string): Promise<Response> {
+export async function hentMeldekortdetaljer(onBehalfOfToken: string, meldekortId: string): Promise<TypedResponse<IMeldekortdetaljer>> {
   const url = `${getEnv("MELDEKORT_API_URL")}/meldekort/${meldekortId}`;
 
   try {
