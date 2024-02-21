@@ -155,7 +155,6 @@ export default function SendMeldekort() {
   }
 
   loggAktivitet("Viser send")
-  loggAktivitet("Testing Remix")
 
   return (
     <div>
