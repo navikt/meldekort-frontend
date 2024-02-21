@@ -6,7 +6,7 @@ import promBundle from "express-prom-bundle";
 import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
-import { tokenX } from "@navikt/oasis/obo-providers";
+import { requestTokenxOboToken } from "@navikt/oasis";
 
 // Patch in Remix runtime globals
 installGlobals();
@@ -73,7 +73,10 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
   // There is no point in fetching OBO Token when the given token is empty
   if (token) {
     try {
-      onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE || "");
+      const onBehalfOf = await requestTokenxOboToken(token, process.env.MELDEKORT_API_AUDIENCE || "");
+      if (onBehalfOf.ok) {
+        onBehalfOfToken = onBehalfOf.token;
+      }
     } catch (error) {
       console.log(error);
     }
