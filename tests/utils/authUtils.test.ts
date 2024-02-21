@@ -9,19 +9,35 @@ describe("Auth utils", () => {
     vi.stubEnv("IS_LOCALHOST", "false")
 
     return {
-      makeSession: () => {
-        return (request: Request) => {
-          if (request.url === "http://uten.session/") {
-            return null
-          }
-
-          return {
-            apiToken: () => {
-              return "API TOKEN"
-            }
-          }
+      getToken: (request: Request) => {
+        if (request.url === "http://uten.token/") {
+          return null
         }
-      }
+
+        if (request.url === "http://med.invalid.token/") {
+          return "INVALID_TOKEN"
+        }
+
+        if (request.url === "http://med.valid.token.uten.tokenx/") {
+          return "VALID_TOKEN_UTEN_TOKENX"
+        }
+
+        return "VALID_TOKEN_MED_TOKENX"
+      },
+      validateIdportenToken: (token: string) => {
+        if (token === "INVALID_TOKEN") {
+          return { ok: false }
+        }
+
+        return { ok: true }
+      },
+      requestTokenxOboToken: (token: string) => {
+        if (token === "VALID_TOKEN_UTEN_TOKENX") {
+          return { ok: false, token: "" }
+        }
+
+        return { ok: true, token: "API TOKEN" }
+      },
     }
   })
 
@@ -40,12 +56,34 @@ describe("Auth utils", () => {
     expect(result).toBe("testToken")
   })
 
-  test("getOboToken skal returnere feil uten session", async () => {
+  test("getOboToken skal returnere feil når ikke kan hente token fra Request", async () => {
     vi.stubEnv("IS_LOCALHOST", "false")
 
-    const result = await catchErrorResponse(() => getOboToken(new Request("http://uten.session/")))
+    const result = await catchErrorResponse(() =>
+      getOboToken(new Request("http://uten.token/"))
+    )
     expect(result.status).toBe(500)
-    expect(result.statusText).toBe("Feil ved henting av sesjon")
+    expect(result.statusText).toBe("Feil ved henting av token fra request")
+  })
+
+  test("getOboToken skal returnere feil når ikke kan validere token fra request", async () => {
+    vi.stubEnv("IS_LOCALHOST", "false")
+
+    const result = await catchErrorResponse(() =>
+      getOboToken(new Request("http://med.invalid.token/"))
+    )
+    expect(result.status).toBe(500)
+    expect(result.statusText).toBe("Feil ved validering av token")
+  })
+
+  test("getOboToken skal returnere feil når ikke kan hente TokenX OboToken", async () => {
+    vi.stubEnv("IS_LOCALHOST", "false")
+
+    const result = await catchErrorResponse(() =>
+      getOboToken(new Request("http://med.valid.token.uten.tokenx/"))
+    )
+    expect(result.status).toBe(500)
+    expect(result.statusText).toBe("Feil ved henting  av obo token")
   })
 
   test("getOboToken skal returnere API token", async () => {

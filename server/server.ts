@@ -6,7 +6,7 @@ import promBundle from "express-prom-bundle";
 import { createRequestHandler, type RequestHandler } from "@remix-run/express";
 import { broadcastDevReady, installGlobals } from "@remix-run/node";
 import sourceMapSupport from "source-map-support";
-import { tokenX } from "@navikt/oasis/obo-providers";
+import { requestTokenxOboToken } from "@navikt/oasis";
 
 // Patch in Remix runtime globals
 installGlobals();
@@ -26,7 +26,7 @@ const port = process.env.PORT || 8080;
  */
 let build = require(BUILD_PATH);
 
-// We"ll make chokidar a dev dependency so as it doesn"t get bundled in production
+// We'll make chokidar a dev dependency so as it doesn't get bundled in production
 const chokidar = process.env.NODE_ENV === "development" ? require("chokidar") : null;
 
 const app = express();
@@ -52,7 +52,7 @@ app.use(
 );
 
 // Morgan is an HTTP request logger middleware
-// We should use Morgan after isAlive|isReady and metrics so as Morgan doesn"t log these requests
+// We should use Morgan after isAlive|isReady and metrics so as Morgan doesn't log these requests
 app.use(morgan("tiny"));
 
 // This is used when we test the app locally
@@ -73,7 +73,10 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
   // There is no point in fetching OBO Token when the given token is empty
   if (token) {
     try {
-      onBehalfOfToken = await tokenX(token, process.env.MELDEKORT_API_AUDIENCE || "");
+      const onBehalfOf = await requestTokenxOboToken(token, process.env.MELDEKORT_API_AUDIENCE || "");
+      if (onBehalfOf.ok) {
+        onBehalfOfToken = onBehalfOf.token;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -109,9 +112,9 @@ app.all(
   process.env.NODE_ENV === "development"
     ? createDevRequestHandler()
     : createRequestHandler({
-        build,
-        mode: process.env.NODE_ENV,
-      })
+      build,
+      mode: process.env.NODE_ENV,
+    })
 );
 
 app.listen(port, async () => {
