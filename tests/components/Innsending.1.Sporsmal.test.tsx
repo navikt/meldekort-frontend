@@ -7,6 +7,7 @@ import * as React from "react";
 import type { IMeldekort } from "~/models/meldekort";
 import Sporsmal from "~/components/innsending/1-Sporsmal";
 import { opprettSporsmal } from "~/utils/miscUtils";
+import { Ytelsestype } from "~/models/ytelsestype";
 
 
 describe("Sporsmal", () => {
@@ -30,18 +31,27 @@ describe("Sporsmal", () => {
     // Sjekk at vi viser AVBRUTT
     await waitFor(() => screen.findByText("AVBRUTT"))
   })
+
+  test("Skal vise innhold for Etterregistrering", async () => {
+    const valgtMeldekort = opprettTestMeldekort(1707696000)
+
+    createRouteAndRender(valgtMeldekort, Innsendingstype.ETTERREGISTRERING, Ytelsestype.AAP)
+
+    await waitFor(() => screen.findByText("etterregistrering.sporsmal.omVedtak"))
+  })
 })
 
 const createRouteAndRender = (
   valgtMeldekort: IMeldekort,
-  innsendingstype: Innsendingstype
+  innsendingstype: Innsendingstype,
+  ytelsestypePostfix: string = ""
 ) => {
   const testRouter = createMemoryRouter([
     {
       path: "/",
       element: <Sporsmal innsendingstype={innsendingstype}
                          fom={valgtMeldekort.meldeperiode.fra.toISOString()}
-                         ytelsestypePostfix={""}
+                         ytelsestypePostfix={ytelsestypePostfix}
                          begrunnelse={""}
                          setBegrunnelse={() => {
                          }}

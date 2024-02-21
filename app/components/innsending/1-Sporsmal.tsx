@@ -9,6 +9,7 @@ import type { ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriode } from "~/utils/datoUtils";
 import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
+import { Ytelsestype } from "~/models/ytelsestype";
 
 
 interface IProps {
@@ -101,7 +102,18 @@ export default function Sporsmal(props: IProps) {
 
   return (
     <div>
-      <GuidePanel>
+      {
+        innsendingstype === Innsendingstype.ETTERREGISTRERING && ytelsestypePostfix === Ytelsestype.AAP &&
+          <div>
+              <Alert variant="info">
+                {parseHtml(tt("etterregistrering.sporsmal.omVedtak"))}
+              </Alert>
+
+              <Box padding="4" />
+          </div>
+      }
+
+      <GuidePanel poster>
         <Box>{parseHtml(tt("sporsmal.lesVeiledning"))}</Box>
         <Box padding="2" />
         <Box>{parseHtml(tt("sporsmal.ansvarForRiktigUtfylling"))}</Box>
