@@ -4,7 +4,7 @@ import { server } from "./mocks/server";
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
 import App, { links, loader } from "~/root";
-import { TEST_DECORATOR_FRAGMENTS, TEST_SKRIVEMODUS } from "./mocks/data";
+import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 
@@ -15,6 +15,28 @@ describe("Root", () => {
   )
 
   beforeAndAfterSetup()
+
+  test("Skal få feil = true når feil med personStatus", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/status`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {}
+    })
+
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data.feil).toEqual(true)
+    expect(data.personStatus).toEqual(null)
+  })
 
   test("Skal få feil = true når feil med skrivemodus", async () => {
     server.use(
@@ -39,7 +61,7 @@ describe("Root", () => {
     expect(data.skrivemodus).toEqual(null)
   })
 
-  test("Skal returnere skrivemodus", async () => {
+  test("Skal returnere personStatus og skrivemodus", async () => {
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
@@ -51,6 +73,7 @@ describe("Root", () => {
     expect(response.status).toBe(200)
     expect(data.locale).toEqual("nb")
     expect(data.feil).toEqual(false)
+    expect(data.personStatus).toEqual(TEST_PERSON_STATUS)
     expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS)
   })
 
@@ -60,6 +83,7 @@ describe("Root", () => {
       () => {
         return json({
           feil: true,
+          personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS
         })
@@ -69,12 +93,47 @@ describe("Root", () => {
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
+  test("Skal vise feilmelding hvis personStatus = null", async () => {
+    renderRemixStub(
+      App,
+      () => {
+        return json({
+          feil: false,
+          personStatus: null,
+          skrivemodus: null,
+          fragments: TEST_DECORATOR_FRAGMENTS
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"))
+    await waitFor(() => screen.findByText("ikke.tilgang.tekst"))
+  })
+
+  test("Skal vise feilmelding hvis personStatus ID er tom", async () => {
+    renderRemixStub(
+      App,
+      () => {
+        return json({
+          feil: false,
+          personStatus: { id: "" },
+          skrivemodus: null,
+          fragments: TEST_DECORATOR_FRAGMENTS
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"))
+    await waitFor(() => screen.findByText("ikke.tilgang.tekst"))
+  })
+
   test("Skal vise feilmelding hvis skrivemodus = null", async () => {
     renderRemixStub(
       App,
       () => {
         return json({
           feil: false,
+          personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS
         })
@@ -90,6 +149,7 @@ describe("Root", () => {
       () => {
         return json({
           feil: false,
+          personStatus: TEST_PERSON_STATUS,
           skrivemodus: {
             skrivemodus: false,
           },
@@ -107,6 +167,7 @@ describe("Root", () => {
       () => {
         return json({
           feil: false,
+          personStatus: TEST_PERSON_STATUS,
           skrivemodus: {
             skrivemodus: false,
             melding: {
@@ -128,6 +189,7 @@ describe("Root", () => {
       () => {
         return json({
           feil: false,
+          personStatus: TEST_PERSON_STATUS,
           skrivemodus: {
             skrivemodus: true
           },

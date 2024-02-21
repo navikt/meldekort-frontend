@@ -8,16 +8,18 @@ import i18next from "~/i18next.server";
 import { useChangeLanguage } from "remix-i18next";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
-import { Alert } from "@navikt/ds-react";
+import { Alert, Heading } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
+import { useEffect, useRef } from "react";
+import type { IPersonStatus } from "~/models/personStatus";
+import { hentPersonStatus } from "~/models/personStatus";
 
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
-import { useEffect, useRef } from "react";
 
 
 export const links: LinksFunction = () => {
@@ -51,17 +53,20 @@ export const links: LinksFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
+  let personStatus: IPersonStatus | null = null;
   let skrivemodus: ISkrivemodus | null = null;
 
   const onBehalfOfToken = await getOboToken(request);
 
   const fragments = await hentDekoratorHtml();
   const locale = await i18next.getLocale(request);
+  const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
   const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
-  if (!skrivemodusResponse.ok) {
+  if (!personStatusResponse.ok || !skrivemodusResponse.ok) {
     feil = true
   } else {
+    personStatus = await personStatusResponse.json();
     skrivemodus = await skrivemodusResponse.json();
   }
 
@@ -69,6 +74,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     fragments,
     locale,
     feil,
+    personStatus,
     skrivemodus,
     env: {
       MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
@@ -79,7 +85,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function App() {
 
-  const { fragments, locale, feil, skrivemodus, env } = useLoaderData<typeof loader>();
+  const { fragments, locale, feil, personStatus, skrivemodus, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
 
@@ -88,11 +94,18 @@ export default function App() {
 
   let innhold = <Outlet />
 
-  // Hent skrivemodus
-  // Hvis det er feil, vis feilmelding
-  // Hvis skrivemodus er hentet men ikke er true, vis infomelding
-  // Ellers vis Outlet
-  if (feil || skrivemodus?.skrivemodus !== true) {
+  if (!personStatus || personStatus.id === "") {
+    // Hvis personStatus ikke er hentet eller hentet men ID er tom, vis feilmelding
+    const alert = <Alert variant="error">
+      <Heading spacing size="small" level="3">{parseHtml(tt("ikke.tilgang.overskrift"))}</Heading>
+      {parseHtml(tt("ikke.tilgang.tekst"))}
+    </Alert>
+
+    innhold = <Sideinnhold utenSideoverskrift={true} innhold={alert} />
+  } else if (feil || skrivemodus?.skrivemodus !== true) {
+    // Hvis det er feil, vis feilmelding
+    // Hvis skrivemodus er hentet men ikke er true, vis infomelding
+    // Ellers vis Outlet
     let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
 
     if (skrivemodus && !skrivemodus.skrivemodus) {

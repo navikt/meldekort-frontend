@@ -8,6 +8,7 @@ import { MeldeForm } from "~/models/person";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
+import type { IPersonStatus } from "~/models/personStatus";
 
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
@@ -129,6 +130,11 @@ export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
     }
   ],
   meldekortdager: null
+}
+export const TEST_PERSON_STATUS: IPersonStatus = {
+  id: "ID",
+  statusArbeidsoker: null,
+  statusYtelse: null
 }
 export const TEST_SKRIVEMODUS: ISkrivemodus = {
   skrivemodus: true,
