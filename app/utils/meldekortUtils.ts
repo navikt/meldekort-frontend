@@ -7,7 +7,9 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { getText } from "~/utils/intlUtils";
 
 
-export function finnRiktigTagVariant(status: KortStatus): "success" | "info" | "warning" | "error" {
+export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): "success" | "info" | "warning" | "error" | "alt3" {
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return "alt3";
+
   switch (status) {
     case KortStatus.KLAR:
       return "warning";
@@ -24,7 +26,9 @@ export function finnRiktigTagVariant(status: KortStatus): "success" | "info" | "
   }
 }
 
-export function mapKortStatusTilTekst(status: KortStatus) {
+export function mapKortStatusTilTekst(status: KortStatus, kortType: KortType) {
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return getText("meldekort.type.korrigert");
+
   switch (status) {
     case KortStatus.KLAR:
       return getText("meldekort.status.klar");

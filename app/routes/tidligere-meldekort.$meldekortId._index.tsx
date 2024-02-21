@@ -26,7 +26,6 @@ import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import { getOboToken } from "~/utils/authUtils";
-import { KortType } from "~/models/kortType";
 import type { IPersonInfo } from "~/models/person";
 import { hentPersonInfo } from "~/models/person";
 
@@ -123,16 +122,12 @@ export default function Meldekortdetaljer() {
               {formaterDato(valgtMeldekort.mottattDato)}
             </Table.DataCell>
             <Table.DataCell>
-              <Tag variant={finnRiktigTagVariant(valgtMeldekort.kortStatus)}>
-                {mapKortStatusTilTekst(valgtMeldekort.kortStatus)}
+              <Tag variant={finnRiktigTagVariant(valgtMeldekort.kortStatus, valgtMeldekort.kortType)}>
+                {mapKortStatusTilTekst(valgtMeldekort.kortStatus, valgtMeldekort.kortType)}
               </Tag>
             </Table.DataCell>
             <Table.DataCell>
-              {
-                (valgtMeldekort.kortStatus === KortStatus.FERDI && valgtMeldekort.kortType !== KortType.KORRIGERT_ELEKTRONISK)
-                  ? formaterBelop(valgtMeldekort.bruttoBelop)
-                  : ""
-              }
+              {(valgtMeldekort.kortStatus === KortStatus.FERDI) ? formaterBelop(valgtMeldekort.bruttoBelop) : ""}
             </Table.DataCell>
             <Table.DataCell>
               {mapKortTypeTilTekst(valgtMeldekort.kortType)}

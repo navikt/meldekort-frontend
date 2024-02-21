@@ -6,7 +6,6 @@ import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUt
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
-import { KortType } from "~/models/kortType";
 import { formaterBelop } from "~/utils/miscUtils";
 import classNames from "classnames";
 import styles from "./MeldekortTabell.module.css";
@@ -50,16 +49,12 @@ export default function MeldekorTabell(props: IProps) {
               {formaterDato(meldekort.mottattDato)}
             </div>
             <div>
-              <Tag variant={finnRiktigTagVariant(meldekort.kortStatus)}>
-                {mapKortStatusTilTekst(meldekort.kortStatus)}
+              <Tag variant={finnRiktigTagVariant(meldekort.kortStatus, meldekort.kortType)}>
+                {mapKortStatusTilTekst(meldekort.kortStatus, meldekort.kortType)}
               </Tag>
             </div>
             <div>
-              {
-                (meldekort.kortStatus === KortStatus.FERDI && meldekort.kortType !== KortType.KORRIGERT_ELEKTRONISK)
-                  ? formaterBelop(meldekort.bruttoBelop)
-                  : ""
-              }
+              {(meldekort.kortStatus === KortStatus.FERDI) ? formaterBelop(meldekort.bruttoBelop) : ""}
             </div>
           </div>
         )
