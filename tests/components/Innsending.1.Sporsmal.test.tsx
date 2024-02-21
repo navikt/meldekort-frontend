@@ -1,7 +1,7 @@
 import { afterEach, describe, test } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { Innsendingstype } from "~/models/innsendingstype";
-import { opprettTestMeldekort } from "../mocks/data";
+import { opprettTestMeldekort, TEST_INFOMELDING } from "../mocks/data";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import * as React from "react";
 import type { IMeldekort } from "~/models/meldekort";
@@ -61,6 +61,7 @@ const createRouteAndRender = (
                          activeStep={1}
                          setActiveStep={() => {
                          }}
+                         infomelding={TEST_INFOMELDING}
       />
     },
     {

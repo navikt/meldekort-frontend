@@ -9,6 +9,7 @@ import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending"
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
 import type { IPersonStatus } from "~/models/personStatus";
+import type { IInfomelding } from "~/models/infomelding";
 
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
@@ -135,6 +136,10 @@ export const TEST_PERSON_STATUS: IPersonStatus = {
   id: "ID",
   statusArbeidsoker: null,
   statusYtelse: null
+}
+export const TEST_INFOMELDING: IInfomelding = {
+  norsk: "Norsk infomelding",
+  engelsk: "English infomessage"
 }
 export const TEST_SKRIVEMODUS: ISkrivemodus = {
   skrivemodus: true,

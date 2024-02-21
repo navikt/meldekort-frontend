@@ -12,6 +12,7 @@ import {
   jsonify,
   opprettTestMeldekort,
   opprettTestMeldekortdetaljer,
+  TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_MELDEKORTDETALJER,
@@ -26,6 +27,7 @@ import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IPersonInfo } from "~/models/person";
+import type { IInfomelding } from "~/models/infomelding";
 
 
 describe("Korriger tidligere meldekort", () => {
@@ -42,7 +44,8 @@ describe("Korriger tidligere meldekort", () => {
     meldekortId?: string,
     valgtMeldekort?: IMeldekort,
     meldekortdetaljer: IMeldekortdetaljer | null = null,
-    personInfo: IPersonInfo | null = null
+    personInfo: IPersonInfo | null = null,
+    infomelding: IInfomelding | null = null
   ) => {
     const response = await loader({
       request,
@@ -57,7 +60,8 @@ describe("Korriger tidligere meldekort", () => {
       feil: true,
       valgtMeldekort: valgtMeldekort,
       meldekortdetaljer: meldekortdetaljer,
-      personInfo: personInfo
+      personInfo: personInfo,
+      infomelding: infomelding
     })
   }
 
@@ -124,6 +128,18 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId)
   })
 
+  test("Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/meldekort/infomelding`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    await checkLoader(meldekortId)
+  })
+
   test("Skal få feil = true hvis meldekort ikke er korrigerbart", async () => {
     const meldekort = opprettTestMeldekort(Number(meldekortId), true, KortStatus.OPPRE, false)
     jsonify(meldekort)
@@ -142,7 +158,7 @@ describe("Korriger tidligere meldekort", () => {
       )
     )
 
-    await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo)
+    await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo, TEST_INFOMELDING)
   })
 
   test("Skal få feil = false og data fra backend", async () => {
@@ -165,7 +181,8 @@ describe("Korriger tidligere meldekort", () => {
       feil: false,
       valgtMeldekort: meldekort,
       meldekortdetaljer: meldekortdetaljerData,
-      personInfo: TEST_PERSON_INFO
+      personInfo: TEST_PERSON_INFO,
+      infomelding: TEST_INFOMELDING
     })
   })
 
@@ -289,7 +306,8 @@ describe("Korriger tidligere meldekort", () => {
             fodselsnr: "01020312345",
             etternavn: "Etternavn",
             fornavn: "Fornavn"
-          }
+          },
+          infomelding: TEST_INFOMELDING
         })
       }
     )

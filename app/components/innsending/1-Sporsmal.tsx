@@ -10,6 +10,7 @@ import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriode } from "~/utils/datoUtils";
 import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 import { Ytelsestype } from "~/models/ytelsestype";
+import type { IInfomelding } from "~/models/infomelding";
 
 
 interface IProps {
@@ -22,6 +23,7 @@ interface IProps {
   setSporsmal: Dispatch<SetStateAction<ISporsmal>>;
   activeStep: number;
   setActiveStep: Function;
+  infomelding: IInfomelding;
 }
 
 export default function Sporsmal(props: IProps) {
@@ -34,10 +36,11 @@ export default function Sporsmal(props: IProps) {
     sporsmal,
     setSporsmal,
     activeStep,
-    setActiveStep
+    setActiveStep,
+    infomelding
   } = props
 
-  const { tt } = useExtendedTranslation()
+  const { i18n, tt } = useExtendedTranslation()
 
   const [visFeil, setVisFeil] = useState(false)
 
@@ -100,8 +103,21 @@ export default function Sporsmal(props: IProps) {
 
   const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14)
 
+  const riktigInfomelding = i18n.language === "nb" ? infomelding.norsk : infomelding.engelsk;
+
   return (
     <div>
+      {
+        riktigInfomelding &&
+          <div>
+              <Alert variant="info">
+                {riktigInfomelding}
+              </Alert>
+
+              <Box padding="4" />
+          </div>
+      }
+
       {
         innsendingstype === Innsendingstype.ETTERREGISTRERING && ytelsestypePostfix === Ytelsestype.AAP &&
           <div>

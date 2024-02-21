@@ -9,6 +9,7 @@ import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import type { ISporsmal } from "~/models/sporsmal";
+import type { IInfomelding } from "~/models/infomelding";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import Sporsmal from "~/components/innsending/1-Sporsmal";
 import Utfylling from "~/components/innsending/2-Utfylling";
@@ -25,6 +26,7 @@ interface IProps {
   nesteMeldekortKanSendes?: string | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
+  infomelding: IInfomelding;
 }
 
 export default function Innsending(props: IProps) {
@@ -35,6 +37,7 @@ export default function Innsending(props: IProps) {
     valgtMeldekort,
     sporsmal,
     personInfo,
+    infomelding,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
     nesteMeldekortKanSendes
@@ -68,7 +71,8 @@ export default function Innsending(props: IProps) {
                         sporsmal={nyeSporsmal}
                         setSporsmal={setNyeSporsmal}
                         activeStep={activeStep}
-                        setActiveStep={setActiveStep} />
+                        setActiveStep={setActiveStep}
+                        infomelding={infomelding} />
   } else if (activeStep === 2) {
     innhold = <Utfylling sporsmal={nyeSporsmal}
                          setSporsmal={setNyeSporsmal}

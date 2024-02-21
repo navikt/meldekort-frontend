@@ -3,9 +3,9 @@ import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
 export interface IPersonStatus {
-  id: string,
-  statusArbeidsoker: string | null,
-  statusYtelse: string | null
+  id: string;
+  statusArbeidsoker: string | null;
+  statusYtelse: string | null;
 }
 
 export async function hentPersonStatus(onBehalfOfToken: string): Promise<TypedResponse<IPersonStatus>> {

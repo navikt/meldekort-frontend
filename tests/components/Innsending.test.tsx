@@ -6,7 +6,7 @@ import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import {
   jsonify,
-  opprettTestMeldekort,
+  opprettTestMeldekort, TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO
@@ -173,6 +173,7 @@ const createRouteAndRender = async (
                            nesteMeldekortKanSendes={"2024-02-01"}
                            sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, arbeidssoker)}
                            personInfo={TEST_PERSON_INFO}
+                           infomelding={TEST_INFOMELDING}
       />,
       action: () => {
         return {
@@ -186,6 +187,7 @@ const createRouteAndRender = async (
   render(<RouterProvider router={testRouter} />)
 
   // Sjekk at vi viser 1-Sporsmal
+  await waitFor(() => screen.findByText(TEST_INFOMELDING.engelsk))
   await waitFor(() => screen.findByText("meldekort.for.perioden"))
   await waitFor(() => screen.findByText("overskrift.uke " + formaterPeriodeTilUkenummer(periode.fra, periode.til)))
   let tittel = await waitFor(() => screen.findByTestId("sideTittel"))

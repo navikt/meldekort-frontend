@@ -5,7 +5,7 @@ import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/send-meldekort.$meldekortId";
 import {
   jsonify,
-  opprettTestMeldekort,
+  opprettTestMeldekort, TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO
@@ -44,7 +44,8 @@ describe("Send meldekort", () => {
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
       nesteMeldekortKanSendes: undefined,
-      personInfo: null
+      personInfo: null,
+      infomelding: null
     })
   }
 
@@ -99,6 +100,18 @@ describe("Send meldekort", () => {
     await checkLoader(meldekortId)
   })
 
+  test("Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/meldekort/infomelding`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    await checkLoader(meldekortId)
+  })
+
   test("Skal få feil = false og data fra backend", async () => {
     const expectedValgtMeldekort = opprettTestMeldekort(Number(meldekortId))
     jsonify(expectedValgtMeldekort)
@@ -118,7 +131,8 @@ describe("Send meldekort", () => {
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
       nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
-      personInfo: TEST_PERSON_INFO
+      personInfo: TEST_PERSON_INFO,
+      infomelding: TEST_INFOMELDING
     })
   })
 
@@ -160,7 +174,8 @@ describe("Send meldekort", () => {
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
       nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
-      personInfo: TEST_PERSON_INFO
+      personInfo: TEST_PERSON_INFO,
+      infomelding: TEST_INFOMELDING
     })
   })
 
@@ -199,7 +214,8 @@ describe("Send meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null
+          personInfo: null,
+          infomelding: null
         })
       }
     )
@@ -216,7 +232,8 @@ describe("Send meldekort", () => {
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null
+          personInfo: null,
+          infomelding: null
         })
       }
     )
@@ -237,7 +254,35 @@ describe("Send meldekort", () => {
           },
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null
+          personInfo: null,
+          infomelding: null
+        })
+      }
+    )
+
+    await waitFor(() => screen.findByText("feilmelding.baksystem"))
+  })
+
+  test("Skal vise feilmelding hvis infomelding = null", async () => {
+    renderRemixStub(
+      SendMeldekort,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: {
+            meldeperiode: {
+              fra: ""
+            }
+          },
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: {
+            personId: 1,
+            fodselsnr: "01020312345",
+            etternavn: "Etternavn",
+            fornavn: "Fornavn"
+          },
+          infomelding: null
         })
       }
     )
@@ -264,7 +309,8 @@ describe("Send meldekort", () => {
             fodselsnr: "01020312345",
             etternavn: "Etternavn",
             fornavn: "Fornavn"
-          }
+          },
+          infomelding: TEST_INFOMELDING
         })
       }
     )
