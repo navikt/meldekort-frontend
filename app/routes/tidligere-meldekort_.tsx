@@ -46,23 +46,26 @@ export default function TidligereMeldekort() {
 
   const { feil, historiskeMeldekort } = useLoaderData<typeof loader>()
 
-  let innhold: ReactElement
+  let forklaring = <div>
+    <BodyLong spacing>
+      {parseHtml(tt("tidligereMeldekort.forklaring"))}
+    </BodyLong>
+    <BodyLong spacing>
+      {parseHtml(tt("tidligereMeldekort.forklaring.korrigering"))}
+    </BodyLong>
+  </div>
+
+  let alertOrData: ReactElement
 
   if (feil) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    alertOrData = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
   } else if (!historiskeMeldekort || historiskeMeldekort.length === 0) {
-    innhold = <Alert variant="warning">{parseHtml(tt("tidligereMeldekort.harIngen"))}</Alert>
+    alertOrData = <Alert variant="warning">{parseHtml(tt("tidligereMeldekort.harIngen"))}</Alert>
   } else {
-    innhold = <div>
-      <BodyLong spacing>
-        {parseHtml(tt("tidligereMeldekort.forklaring"))}
-      </BodyLong>
-      <BodyLong spacing>
-        {parseHtml(tt("tidligereMeldekort.forklaring.korrigering"))}
-      </BodyLong>
-      <MeldekorTabell meldekortListe={historiskeMeldekort} />
-    </div>
+    alertOrData = <MeldekorTabell meldekortListe={historiskeMeldekort} />
   }
+
+  const innhold = <div>{forklaring}{alertOrData}</div>
 
   loggAktivitet("Viser tidligere meldekort")
 

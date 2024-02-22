@@ -65,6 +65,8 @@ describe("Tidligere meldekort", () => {
       }
     )
 
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"))
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"))
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
   })
 
@@ -79,6 +81,8 @@ describe("Tidligere meldekort", () => {
       }
     )
 
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"))
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"))
     await waitFor(() => screen.findByText("tidligereMeldekort.harIngen"))
   })
 
@@ -93,10 +97,12 @@ describe("Tidligere meldekort", () => {
       }
     )
 
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"))
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"))
     await waitFor(() => screen.findByText("tidligereMeldekort.harIngen"))
   })
 
-  test("Skal vise innhold hvis det finne historiske meldekort", async () => {
+  test("Skal vise innhold hvis det finnes historiske meldekort", async () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
@@ -109,6 +115,7 @@ describe("Tidligere meldekort", () => {
 
     await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"))
     await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"))
+    await waitFor(() => screen.findAllByText("overskrift.periode"))
   })
 
   test("Skal returnere metainformasjon", async () => {
