@@ -200,7 +200,7 @@ export default function Bekreftelse(props: IProps) {
         <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to="/tidligere-meldekort">
+        <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
           {tt("naviger.avbryt")}
         </RemixLink>
       </div>

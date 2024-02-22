@@ -186,7 +186,7 @@ const createRouteAndRender = (
       />
     },
     {
-      path: "/tidligere-meldekort",
+      path: "/om-meldekort",
       element: <div>AVBRUTT</div>
     }
   ])
