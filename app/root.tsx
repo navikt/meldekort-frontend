@@ -163,24 +163,17 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const locale = "nb"
-  const { i18n, tt } = useExtendedTranslation()
-  useChangeLanguage(locale)
-
-  const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+  const alert = <Alert variant="error">Feil i baksystem / System error</Alert>
 
   return (
-    <html lang={locale} dir={i18n.dir()}>
+    <html>
       <head>
-        <title>Oh no!</title>
+        <title>Meldekort</title>
         <Meta />
         <Links />
       </head>
       <body>
-        <div>
-          <MeldekortHeader />
-          <Sideinnhold utenSideoverskrift={true} innhold={alert} />
-        </div>
+        <Sideinnhold utenSideoverskrift={true} innhold={alert} />
         <Scripts />
       </body>
     </html>
