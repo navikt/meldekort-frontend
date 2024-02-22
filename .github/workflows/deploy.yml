@@ -14,6 +14,7 @@ on:
         options:
           - q1
           - q2
+          - p
 
 env:
   APPNAME: meldekort-frontend-new
@@ -126,6 +127,7 @@ jobs:
           destination: '/meldekort-frontend/'
 
   deploy-dev:
+    if: github.event.inputs.environment != 'p'
     needs: [build, test, upload-cdn]
     runs-on: ubuntu-latest
     steps:
@@ -137,6 +139,21 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
+          VAR: image=${{ needs.build.outputs.image }},appName=${{ env.APPNAME }}
+          VARS: .nais/vars-${{ env.ENVIRONMENT }}.yaml
+          RESOURCE: .nais/nais.yaml
+          PRINT_PAYLOAD: true
+
+  deploy-prod:
+    if: github.event.inputs.environment == 'p'
+    needs: [ build, test, upload-cdn ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/deploy/actions/deploy@v2
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
           VAR: image=${{ needs.build.outputs.image }},appName=${{ env.APPNAME }}
           VARS: .nais/vars-${{ env.ENVIRONMENT }}.yaml
           RESOURCE: .nais/nais.yaml
