@@ -10,6 +10,7 @@
     "start": "cross-env NODE_ENV=production ts-node ./server/server.js",
     "typecheck": "tsc --project tsconfig.json",
     "lint": "eslint . --ext .ts,.tsx",
+    "lint-fix": "eslint . --fix --ext .ts,.tsx",
     "validate": "npm run lint && tsc",
     "test": "vitest",
     "test-coverage": "vitest --coverage"
