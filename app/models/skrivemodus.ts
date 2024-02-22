@@ -6,7 +6,7 @@ import type { IInfomelding } from "~/models/infomelding";
 
 export interface ISkrivemodus {
   skrivemodus: boolean;
-  melding: IInfomelding | null;
+  melding?: IInfomelding;
 }
 
 export async function hentSkrivemodus(onBehalfOfToken: string): Promise<TypedResponse<ISkrivemodus>> {
