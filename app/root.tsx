@@ -14,10 +14,10 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
-import { useEffect, useRef } from "react";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
 import { hentErViggo } from "~/utils/viggoUtils";
+import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
@@ -66,22 +66,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect(getEnv("DP_URL"), 307)
   }
 
-  // Hvis vi ikke er allerede på ikke-tilgang
   const url = new URL(request.url);
-  // Sjekke at denne personen har tilgang (har meldeplikt)
+  // Sjekk at denne personen har tilgang (dvs. har meldeplikt)
   const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
   if (personStatusResponse.ok) {
     personStatus = await personStatusResponse.json();
   }
 
-  // Hvis vi er på ikke-tilgang og bruker har tilgang, send til send-meldekort
+  // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
   if (url.pathname === "/ikke-tilgang" && personStatus?.id !== "") {
     return redirect("/send-meldekort", 307)
   }
 
   // Hvis vi ikke er på ikke-tilgang
   if (url.pathname !== "/ikke-tilgang") {
-    // Hvis personStatus ikke er hentet eller hentet men ID er tom, send til ikke-tilgang
+    // Hvis personStatus ikke er hentet eller hentet men ID er tom, redirect til ikke-tilgang
     // Vi må ha redirect og kan ikke bare vise en feilmelding her fordi vi må hindre loaders fra andre routes å bli kalt
     if (!personStatus || personStatus.id === "") {
       return redirect("/ikke-tilgang", 307)
@@ -154,10 +153,6 @@ export default function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         {parse(fragments.DECORATOR_STYLES, { trim: true })}
-        {/* Ikke legg parsing av dekoratør-html i egne komponenter. Det trigger rehydrering,
-            som gjør at grensesnittet flimrer og alle assets lastes på nytt siden de har så mange side effects.
-            Løsningen enn så lenge er å inline parsingen av HTML her i root.
-         */}
         <Links />
       </head>
       <body>
@@ -189,44 +184,4 @@ export function ErrorBoundary() {
       </body>
     </html>
   )
-}
-
-/*
- * Injiser script-elementet til dekoratøren og en tilhørende div.
- * useEffect()-hooken sørger for at dette gjøres utelukkende client-side, ellers vil dekoratøren manipulere DOM-en og forstyrre hydreringen.
- */
-const useInjectDecoratorScript = (script?: string) => {
-  const isInjected = useRef(false);
-
-  useEffect(() => {
-    if (script && !isInjected.current) {
-      const parser = new DOMParser();
-      const parsedDocument = parser.parseFromString(script, "text/html");
-
-      const parsedElements = Array.from(parsedDocument.body.childNodes);
-      const parsedDivElement = parsedElements[0] as HTMLDivElement;
-      const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
-
-      const divElement = createElementWithAttributes("div", parsedDivElement.attributes);
-      const scriptElement = createElementWithAttributes(
-        "script",
-        parsedScriptElement.attributes
-      );
-
-      document.body.appendChild(divElement);
-      document.body.appendChild(scriptElement);
-
-      isInjected.current = true;
-    }
-  }, [script]);
-}
-
-const createElementWithAttributes = (tag: string, attributes: NamedNodeMap) => {
-  const element = document.createElement(tag);
-
-  for (let i = 0; i < attributes.length; i++) {
-    element.setAttribute(attributes[i].name, attributes[i].value);
-  }
-
-  return element;
 }
