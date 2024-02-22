@@ -3,10 +3,11 @@ import { beforeAndAfterSetup, renderRemixStub } from "./helpers/test-helpers";
 import { server } from "./mocks/server";
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
-import App, { links, loader } from "~/root";
+import App, { ErrorBoundary, links, loader } from "~/root";
 import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
 import { json } from "@remix-run/node";
-import { screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { createRemixStub } from "@remix-run/testing";
 
 
 describe("Root", () => {
@@ -53,6 +54,17 @@ describe("Root", () => {
     })
 
     expect(response.status).toBe(307)
+  })
+
+  test("Skal sende til send-meldekort fra ikke-tilgang når personStatus er OK", async () => {
+    const response = await loader({
+      request: new Request(TEST_URL + "/ikke-tilgang"),
+      params: {},
+      context: {}
+    })
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get("location")).toBe("/send-meldekort")
   })
 
   test("Skal sende til ikke-tilgang når feil med personStatus", async () => {
@@ -220,6 +232,23 @@ describe("Root", () => {
 
     await waitFor(() => screen.findByText("DECORATOR HEADER"))
     await waitFor(() => screen.findByText("DECORATOR FOOTER"))
+  })
+
+  test("Skal vise ErrorBoundary", async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: "/",
+        Component: App,
+        loader: () => {
+          throw new Error()
+        },
+        ErrorBoundary: ErrorBoundary
+      }
+    ])
+
+    render(<RemixStub />)
+
+    await waitFor(() => screen.findByText("Feil i baksystem / System error"))
   })
 
   test("Skal returnere links", async () => {
