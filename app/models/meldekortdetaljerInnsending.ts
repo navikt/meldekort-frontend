@@ -91,26 +91,26 @@ async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string,
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }
 
 export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): Promise<TypedResponse<ISendInnMeldekortActionResponse>> {
-  let baksystemFeil = false
-  let innsending: IValideringsResultat | null = null
+  let baksystemFeil = false;
+  let innsending: IValideringsResultat | null = null;
 
-  const onBehalfOfToken = await getOboToken(request)
+  const onBehalfOfToken = await getOboToken(request);
   const formdata = await request.formData();
-  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}")
+  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}");
 
   // Vi må opprette et nytt meldekort og få en ny meldekortId først hvis det er korrigering
   if (formdata.get("innsendingstype") === Innsendingstype.KORRIGERING.toString()) {
-    const nyMeldekortIdResponse = await hentMeldekortIdForKorrigering(onBehalfOfToken, meldekortdetaljer.meldekortId)
+    const nyMeldekortIdResponse = await hentMeldekortIdForKorrigering(onBehalfOfToken, meldekortdetaljer.meldekortId);
 
     if (nyMeldekortIdResponse.ok) {
-      meldekortdetaljer.meldekortId = await nyMeldekortIdResponse.json()
+      meldekortdetaljer.meldekortId = await nyMeldekortIdResponse.json();
     } else {
-      baksystemFeil = true
+      baksystemFeil = true;
     }
   }
 
@@ -120,14 +120,14 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
     // Hvis ikke OK, vis feil
     // Hvis OK og uten arsakskoder, gå til Kvittering
     // Hvis OK, men med arsakskoder, gå til Utfylling
-    const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer)
+    const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer);
 
     if (!innsendingResponse.ok) {
-      baksystemFeil = true
+      baksystemFeil = true;
     } else {
-      innsending = await innsendingResponse.json()
+      innsending = await innsendingResponse.json();
     }
   }
 
-  return json({ baksystemFeil, innsending })
+  return json({ baksystemFeil, innsending });
 }

@@ -13,9 +13,9 @@ import { createRemixStub } from "@remix-run/testing";
 describe("Root", () => {
   vi.mock("react-i18next", async () =>
     (await vi.importActual("tests/mocks/react-i18next.ts")).mock
-  )
+  );
 
-  beforeAndAfterSetup()
+  beforeAndAfterSetup();
 
   test("Skal få feil = true når feil med erViggo", async () => {
     server.use(
@@ -24,19 +24,19 @@ describe("Root", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(data.feil).toEqual(true)
-  })
+    expect(response.status).toBe(200);
+    expect(data.feil).toEqual(true);
+  });
 
   test("Skal sende til DP når erViggo = true", async () => {
     server.use(
@@ -45,27 +45,27 @@ describe("Root", () => {
         () => new HttpResponse(null, { status: 307 }),
         { once: true }
       )
-    )
+    );
 
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    expect(response.status).toBe(307)
-  })
+    expect(response.status).toBe(307);
+  });
 
   test("Skal sende til send-meldekort fra ikke-tilgang når personStatus er OK", async () => {
     const response = await loader({
       request: new Request(TEST_URL + "/ikke-tilgang"),
       params: {},
       context: {}
-    })
+    });
 
-    expect(response.status).toBe(307)
-    expect(response.headers.get("location")).toBe("/send-meldekort")
-  })
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe("/send-meldekort");
+  });
 
   test("Skal sende til ikke-tilgang når feil med personStatus", async () => {
     server.use(
@@ -74,17 +74,17 @@ describe("Root", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    expect(response.status).toBe(307)
-    expect(response.headers.get("location")).toBe("/ikke-tilgang")
-  })
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe("/ikke-tilgang");
+  });
 
   test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
     server.use(
@@ -93,17 +93,17 @@ describe("Root", () => {
         () => HttpResponse.json({ id: "" }, { status: 200 }),
         { once: true }
       )
-    )
+    );
 
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    expect(response.status).toBe(307)
-    expect(response.headers.get("location")).toBe("/ikke-tilgang")
-  })
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe("/ikke-tilgang");
+  });
 
   test("Skal få feil = true når feil med skrivemodus", async () => {
     server.use(
@@ -112,36 +112,36 @@ describe("Root", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(data.locale).toEqual("nb")
-    expect(data.feil).toEqual(true)
-    expect(data.skrivemodus).toEqual(null)
-  })
+    expect(response.status).toBe(200);
+    expect(data.locale).toEqual("nb");
+    expect(data.feil).toEqual(true);
+    expect(data.skrivemodus).toEqual(null);
+  });
 
   test("Skal returnere skrivemodus", async () => {
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(data.locale).toEqual("nb")
-    expect(data.feil).toEqual(false)
-    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS)
-  })
+    expect(response.status).toBe(200);
+    expect(data.locale).toEqual("nb");
+    expect(data.feil).toEqual(false);
+    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
+  });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(
@@ -152,12 +152,12 @@ describe("Root", () => {
           personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise feilmelding hvis skrivemodus = null", async () => {
     renderRemixStub(
@@ -168,12 +168,12 @@ describe("Root", () => {
           personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise feilmelding hvis skrivemodus = false", async () => {
     renderRemixStub(
@@ -186,12 +186,12 @@ describe("Root", () => {
             skrivemodus: false,
           },
           fragments: TEST_DECORATOR_FRAGMENTS
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("skrivemodusInfomelding"))
-  })
+    await waitFor(() => screen.findByText("skrivemodusInfomelding"));
+  });
 
   test("Skal vise feilmelding fra skrivemodus hvis den finnes", async () => {
     renderRemixStub(
@@ -208,12 +208,12 @@ describe("Root", () => {
             }
           },
           fragments: TEST_DECORATOR_FRAGMENTS
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("ENGLISH ERROR"))
-  })
+    await waitFor(() => screen.findByText("ENGLISH ERROR"));
+  });
 
   test("Skal vise innhold", async () => {
     renderRemixStub(
@@ -226,13 +226,13 @@ describe("Root", () => {
             skrivemodus: true
           },
           fragments: TEST_DECORATOR_FRAGMENTS
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("DECORATOR HEADER"))
-    await waitFor(() => screen.findByText("DECORATOR FOOTER"))
-  })
+    await waitFor(() => screen.findByText("DECORATOR HEADER"));
+    await waitFor(() => screen.findByText("DECORATOR FOOTER"));
+  });
 
   test("Skal vise ErrorBoundary", async () => {
     const RemixStub = createRemixStub([
@@ -240,18 +240,18 @@ describe("Root", () => {
         path: "/",
         Component: App,
         loader: () => {
-          throw new Error()
+          throw new Error();
         },
         ErrorBoundary: ErrorBoundary
       }
-    ])
+    ]);
 
-    render(<RemixStub />)
+    render(<RemixStub />);
 
-    await waitFor(() => screen.findByText("Feil i baksystem / System error"))
-  })
+    await waitFor(() => screen.findByText("Feil i baksystem / System error"));
+  });
 
   test("Skal returnere links", async () => {
-    expect(links().length).toBe(0) // Vi har ikke cssBundleHref i test
-  })
-})
+    expect(links().length).toBe(0); // Vi har ikke cssBundleHref i test
+  });
+});

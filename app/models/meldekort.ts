@@ -48,7 +48,7 @@ export async function hentHistoriskeMeldekort(onBehalfOfToken: string): Promise<
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }
 
@@ -63,6 +63,6 @@ export async function hentMeldekortIdForKorrigering(onBehalfOfToken: string, mel
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }

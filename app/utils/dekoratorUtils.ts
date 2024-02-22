@@ -28,7 +28,7 @@ export const useInjectDecoratorScript = (script?: string) => {
       isInjected.current = true;
     }
   }, [script]);
-}
+};
 
 const createElementWithAttributes = (tag: string, attributes: NamedNodeMap) => {
   const element = document.createElement(tag);
@@ -38,4 +38,4 @@ const createElementWithAttributes = (tag: string, attributes: NamedNodeMap) => {
   }
 
   return element;
-}
+};

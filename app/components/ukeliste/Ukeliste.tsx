@@ -18,31 +18,33 @@ interface IProps {
 
 export default function Ukeliste(props: IProps) {
   const { tt } = useExtendedTranslation();
-  const { dager, fom, fraDag, tilDag, ytelsestypePostfix } = props
+  const { dager, fom, fraDag, tilDag, ytelsestypePostfix } = props;
 
   const harAktivitet = dager.slice(fraDag, tilDag)
-    .filter(dag => dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk).length > 0
+    .filter(dag => dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk).length > 0;
 
   if (!harAktivitet) {
-    return <div></div>
+    return <div></div>;
   }
 
-  return <div className={styles.ukeliste}>
-    <h3 className={styles.ukeTittel}>{tt("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
-    <hr className={styles.ukeTittelDelimiter} />
+  return (
+    <div className={styles.ukeliste}>
+      <h3 className={styles.ukeTittel}>{tt("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
+      <hr className={styles.ukeTittelDelimiter} />
 
-    {
-      formaterUke(tt, dager, fraDag, tilDag, ytelsestypePostfix)
-    }
-  </div>
+      {
+        formaterUke(tt, dager, fraDag, tilDag, ytelsestypePostfix)
+      }
+    </div>
+  );
 }
 
 function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined, ytelsestypePostfix: string) {
-  const ukedager = ukeDager()
+  const ukedager = ukeDager();
 
   return dager.slice(fraDag, tilDag).map((dag) => {
-    const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk
-    const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7]
+    const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk;
+    const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7];
     if (harAktivitet) {
       return (
         <div key={"dag" + dag.dag} className={styles.dag}>
@@ -60,37 +62,41 @@ function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, til
           </span>
           <UtvidetInformasjon innhold={hentDagsdata(tt, dag, ytelsestypePostfix)} />
         </div>
-      )
+      );
     } else {
-      return null
+      return null;
     }
-  })
+  });
 }
 
 function hentDagsdata(tt: TTFunction, dag: IMeldekortDag, ytelsestypePostfix: string) {
-  const innhold = []
+  const innhold = [];
 
   if (dag.arbeidetTimerSum > 0) {
-    innhold.push(formaterDagsdata(tt, "utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix))
+    innhold.push(formaterDagsdata(tt, "utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix));
   }
 
   if (dag.kurs) {
-    innhold.push(formaterDagsdata(tt, "utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix))
+    innhold.push(formaterDagsdata(tt, "utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix));
   }
   if (dag.syk) {
-    innhold.push(formaterDagsdata(tt, "utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix))
+    innhold.push(formaterDagsdata(tt, "utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix));
   }
 
   if (dag.annetFravaer) {
-    innhold.push(formaterDagsdata(tt, "utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix))
+    innhold.push(formaterDagsdata(tt, "utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix));
   }
 
-  return <div key={"dagInfo" + dag.dag}>{innhold}</div>
+  return (
+    <div key={"dagInfo" + dag.dag}>{innhold}</div>
+  );
 }
 
 function formaterDagsdata(tt: TTFunction, utfyllingTekstid: string, forklaringTekstid: string) {
-  return <div key={utfyllingTekstid}>
-    <Label>{tt(utfyllingTekstid).toUpperCase()}</Label><br />
-    {parseHtml(tt(forklaringTekstid))}<br /><br />
-  </div>
+  return (
+    <div key={utfyllingTekstid}>
+      <Label>{tt(utfyllingTekstid).toUpperCase()}</Label><br />
+      {parseHtml(tt(forklaringTekstid))}<br /><br />
+    </div>
+  );
 }

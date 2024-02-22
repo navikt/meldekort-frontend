@@ -9,20 +9,20 @@ import type { SerializeFrom } from "@remix-run/node";
 
 describe("Fetch utils", () => {
   test("getHeaders skal returnere riktige headerd", async () => {
-    const token = "TOKEN"
-    const result = getHeaders(token)
+    const token = "TOKEN";
+    const result = getHeaders(token);
     expect(result).toStrictEqual({
       "Accept": "application/json",
       "Content-Type": "application/json",
       "TokenXAuthorization": `Bearer ${token}`
-    })
-  })
+    });
+  });
 
   test("useFetcherWithPromise skal returnere fetcher med promise", async () => {
-    let fetcher: FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>
+    let fetcher: FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>;
 
     const TestComponent = () => {
-      fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "TEST" })
+      fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "TEST" });
 
       return (
         <fetcher.Form>
@@ -36,30 +36,30 @@ describe("Fetch utils", () => {
         path: "/",
         element: <TestComponent />,
         action: async (args: any) => {
-          return args
+          return args;
         }
       }
     ]);
 
-    render(<RouterProvider router={testRouter} />)
+    render(<RouterProvider router={testRouter} />);
 
     // Sjekker typer
     // @ts-ignore
-    expectTypeOf(fetcher as FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>).toBeObject()
+    expectTypeOf(fetcher as FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>).toBeObject();
     // @ts-ignore
-    expectTypeOf(fetcher.submit).toBeFunction()
+    expectTypeOf(fetcher.submit).toBeFunction();
     // @ts-ignore
-    expectTypeOf(fetcher.submit).parameters.toMatchTypeOf<Parameters<SubmitFunction>>()
+    expectTypeOf(fetcher.submit).parameters.toMatchTypeOf<Parameters<SubmitFunction>>();
     // @ts-ignore
-    expectTypeOf(fetcher.submit).returns.toMatchTypeOf<Promise<ISendInnMeldekortActionResponse | undefined>>()
+    expectTypeOf(fetcher.submit).returns.toMatchTypeOf<Promise<ISendInnMeldekortActionResponse | undefined>>();
 
     // Prøver å bruke submit og Promise
-    const formData = new FormData()
-    formData.append("meldekortdetaljer", "{}")
+    const formData = new FormData();
+    formData.append("meldekortdetaljer", "{}");
     // @ts-ignore
     fetcher.submit(formData, { method: "post" }).then((data) => {
-      console.trace(data)
+      console.trace(data);
     }).catch(() => {
-    })
-  })
-})
+    });
+  });
+});

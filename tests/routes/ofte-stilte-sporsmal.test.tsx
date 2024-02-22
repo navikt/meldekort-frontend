@@ -14,27 +14,27 @@ describe("Ofte stilte spørsmål", () => {
       }
     ]);
 
-    render(<RouterProvider router={testRouter} />)
+    render(<RouterProvider router={testRouter} />);
 
-    expect(screen.getByText("oss.sende.overskrift")).toBeDefined()
-    expect(screen.getByText("oss.sende.tekst")).toBeDefined()
-    expect(screen.getByText("oss.frist.overskrift")).toBeDefined()
-    expect(screen.getByText("oss.frist.tekst")).toBeDefined()
-    expect(screen.getByText("oss.korrigere.overskrift")).toBeDefined()
-    expect(screen.getByText("oss.korrigere.tekst")).toBeDefined()
-    expect(screen.getByText("oss.pengene.overskrift")).toBeDefined()
-    expect(screen.getByText("oss.pengene.tekst")).toBeDefined()
-    expect(screen.getByText("oss.utbetalt.overskrift")).toBeDefined()
-    expect(screen.getByText("oss.utbetalt.tekst")).toBeDefined()
-    expect(screen.getByText("overskrift.ofteStilteSporsmal")).toBeDefined()
-  })
+    expect(screen.getByText("oss.sende.overskrift")).toBeDefined();
+    expect(screen.getByText("oss.sende.tekst")).toBeDefined();
+    expect(screen.getByText("oss.frist.overskrift")).toBeDefined();
+    expect(screen.getByText("oss.frist.tekst")).toBeDefined();
+    expect(screen.getByText("oss.korrigere.overskrift")).toBeDefined();
+    expect(screen.getByText("oss.korrigere.tekst")).toBeDefined();
+    expect(screen.getByText("oss.pengene.overskrift")).toBeDefined();
+    expect(screen.getByText("oss.pengene.tekst")).toBeDefined();
+    expect(screen.getByText("oss.utbetalt.overskrift")).toBeDefined();
+    expect(screen.getByText("oss.utbetalt.tekst")).toBeDefined();
+    expect(screen.getByText("overskrift.ofteStilteSporsmal")).toBeDefined();
+  });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs
+    const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
       { name: "description", content: "Ofte stilte spørsmål" }
-    ])
-  })
-})
+    ]);
+  });
+});

@@ -50,7 +50,7 @@ export const links: LinksFunction = () => {
       ]
       : []),
   ];
-}
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
@@ -61,9 +61,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   // Sjekk at denne personen skal sendes til den nye DP løsningen
   // Redirect til DP ellers fortsett
-  const erViggoResponse = await hentErViggo(onBehalfOfToken)
+  const erViggoResponse = await hentErViggo(onBehalfOfToken);
   if (erViggoResponse.status === 307) {
-    return redirect(getEnv("DP_URL"), 307)
+    return redirect(getEnv("DP_URL"), 307);
   }
 
   const url = new URL(request.url);
@@ -75,7 +75,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
   if (url.pathname === "/ikke-tilgang" && personStatus?.id !== "") {
-    return redirect("/send-meldekort", 307)
+    return redirect("/send-meldekort", 307);
   }
 
   // Hvis vi ikke er på ikke-tilgang
@@ -83,7 +83,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     // Hvis personStatus ikke er hentet eller hentet men ID er tom, redirect til ikke-tilgang
     // Vi må ha redirect og kan ikke bare vise en feilmelding her fordi vi må hindre loaders fra andre routes å bli kalt
     if (!personStatus || personStatus.id === "") {
-      return redirect("/ikke-tilgang", 307)
+      return redirect("/ikke-tilgang", 307);
     }
   }
 
@@ -92,7 +92,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
   if (!erViggoResponse.ok || !skrivemodusResponse.ok) {
-    feil = true
+    feil = true;
   } else {
     skrivemodus = await skrivemodusResponse.json();
   }
@@ -118,30 +118,30 @@ export default function App() {
   // This hook will change the i18n instance language to the current locale detected by the loader
   useChangeLanguage(locale);
 
-  let innhold = <Outlet />
+  let innhold = <Outlet />;
 
   if (feil || skrivemodus?.skrivemodus !== true) {
     // Hvis det er feil, vis feilmelding
     // Hvis skrivemodus er hentet men ikke er true, vis infomelding
     // Ellers vis Outlet
-    let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     if (skrivemodus && !skrivemodus.skrivemodus) {
       // Hvis skrivemodues ikke er true:
       // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
       // Ellers vis standard melding
-      let melding = tt("skrivemodusInfomelding")
+      let melding = tt("skrivemodusInfomelding");
       if (skrivemodus.melding) {
         melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
       }
 
-      alert = <Alert variant="info">{parseHtml(melding)}</Alert>
+      alert = <Alert variant="info">{parseHtml(melding)}</Alert>;
     }
 
     innhold = <div>
       <MeldekortHeader />
       <Sideinnhold utenSideoverskrift={true} innhold={alert} />
-    </div>
+    </div>;
   }
 
   useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
@@ -169,7 +169,7 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  const alert = <Alert variant="error">Feil i baksystem / System error</Alert>
+  const alert = <Alert variant="error">Feil i baksystem / System error</Alert>;
 
   return (
     <html>
@@ -183,5 +183,5 @@ export function ErrorBoundary() {
         <Scripts />
       </body>
     </html>
-  )
+  );
 }

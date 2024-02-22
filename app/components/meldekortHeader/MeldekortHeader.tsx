@@ -11,14 +11,14 @@ type LinkState = {
 }
 
 function togleMobileMenu() {
-  const element = document.getElementById("menu")
+  const element = document.getElementById("menu");
 
-  if (element?.classList.contains(styles.open)) element?.classList.remove(styles.open)
-  else element?.classList.add(styles.open)
+  if (element?.classList.contains(styles.open)) element?.classList.remove(styles.open);
+  else element?.classList.add(styles.open);
 }
 
 function setClassName(linkState: LinkState) {
-  return linkState.isPending || linkState.isActive ? classNames(styles.menuItem, styles.menuItemActive) : styles.menuItem
+  return linkState.isPending || linkState.isActive ? classNames(styles.menuItem, styles.menuItemActive) : styles.menuItem;
 }
 
 export default function MeldekortHeader() {
@@ -52,5 +52,5 @@ export default function MeldekortHeader() {
         </NavLink>
       </div>
     </div>
-  )
+  );
 }

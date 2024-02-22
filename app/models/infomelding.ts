@@ -19,6 +19,6 @@ export async function hentInfomelding(onBehalfOfToken: string): Promise<TypedRes
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }

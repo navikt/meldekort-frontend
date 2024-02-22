@@ -21,50 +21,50 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Etterregistrering" }
-  ]
-}
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let feil = false
-  let person: IPerson | null = null
+  let feil = false;
+  let person: IPerson | null = null;
 
-  const onBehalfOfToken = await getOboToken(request)
-  const personResponse = await hentPerson(onBehalfOfToken)
+  const onBehalfOfToken = await getOboToken(request);
+  const personResponse = await hentPerson(onBehalfOfToken);
 
   if (!personResponse.ok) {
-    feil = true
+    feil = true;
   } else {
-    person = await personResponse.json()
+    person = await personResponse.json();
   }
 
-  return json({ feil, person })
+  return json({ feil, person });
 }
 
 export default function Etterregistrering() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
-  const { feil, person } = useLoaderData<typeof loader>()
+  const { feil, person } = useLoaderData<typeof loader>();
 
-  let innhold: ReactElement
+  let innhold: ReactElement;
 
   const meldekortListe = person?.etterregistrerteMeldekort
       .filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
       .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
       .sort(meldekortEtterKanSendesFraKomparator)
-    || []
+    || [];
 
   if (feil || !person) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
   } else if (meldekortListe.length === 0) {
     innhold = <GuidePanel>
       <div>&nbsp;</div>
       <div>{tt("sporsmal.ingenMeldekortASende")}</div>
-    </GuidePanel>
+    </GuidePanel>;
   } else if (meldekortListe.length === 1) {
     // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
-    innhold = <Navigate to={`/etterregistrering/${meldekortListe[0].meldekortId}`} replace={true} />
+    innhold = <Navigate to={`/etterregistrering/${meldekortListe[0].meldekortId}`} replace={true} />;
   } else {
-    const nesteMeldekortId = meldekortListe[0].meldekortId
+    const nesteMeldekortId = meldekortListe[0].meldekortId;
 
     innhold = <div>
       <BodyLong spacing>
@@ -88,7 +88,7 @@ export default function Etterregistrering() {
                   {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
                 </Table.DataCell>
               </Table.Row>
-            )
+            );
           })}
         </Table.Body>
       </Table>
@@ -99,15 +99,15 @@ export default function Etterregistrering() {
           {tt("naviger.neste")}
         </RemixLink>
       </div>
-    </div>
+    </div>;
   }
 
-  loggAktivitet("Viser etterregistrere meldekort")
+  loggAktivitet("Viser etterregistrere meldekort");
 
   return (
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={tt("overskrift.etterregistrering.innsending")} innhold={innhold} />
     </div>
-  )
+  );
 }

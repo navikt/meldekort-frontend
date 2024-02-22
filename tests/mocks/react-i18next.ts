@@ -4,10 +4,10 @@ export const mock = {
     return {
       t: (args: string[]) => {
         if (args[1] === "korriger.begrunnelse.valg") {
-          return "{\"1\": \"Op1\", \"2\": \"Op2\"}"
+          return "{\"1\": \"Op1\", \"2\": \"Op2\"}";
         }
 
-        return args[1]
+        return args[1];
       },
       i18n: {
         changeLanguage: () => new Promise(() => {
@@ -18,6 +18,6 @@ export const mock = {
         }
       },
       ready: true
-    }
+    };
   }
-}
+};

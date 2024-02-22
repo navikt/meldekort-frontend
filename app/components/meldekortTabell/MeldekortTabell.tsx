@@ -57,8 +57,8 @@ export default function MeldekorTabell(props: IProps) {
               {(meldekort.kortStatus === KortStatus.FERDI) ? formaterBelop(meldekort.bruttoBelop) : ""}
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

@@ -20,38 +20,38 @@ export function opprettSporsmalsobjekter(
   mottattDato: Date,
   nesteMeldekortKanSendes: string | undefined
 ): ISporsmalsobjekt[] {
-  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
+  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
 
-  const fra = valgtMeldekort.meldeperiode.fra
+  const fra = valgtMeldekort.meldeperiode.fra;
 
-  const korrigering = innsendingstype === Innsendingstype.KORRIGERING
+  const korrigering = innsendingstype === Innsendingstype.KORRIGERING;
 
   // Oppretter et object for å samle alt vi trenger
-  const sporsmalsobjekter = new Array<ISporsmalsobjekt>()
+  const sporsmalsobjekter = new Array<ISporsmalsobjekt>();
 
-  sporsmalsobjekter.push(header(korrigering, valgtMeldekort, mottattDato, nesteMeldekortKanSendes))
-  sporsmalsobjekter.push(veiledning())
-  sporsmalsobjekter.push(ansvar())
+  sporsmalsobjekter.push(header(korrigering, valgtMeldekort, mottattDato, nesteMeldekortKanSendes));
+  sporsmalsobjekter.push(veiledning());
+  sporsmalsobjekter.push(ansvar());
 
   if (korrigering) {
     sporsmalsobjekter.push(
       korrigeringsBegrunnelse(begrunnelse, ytelsestypePostfix)
-    )
+    );
   }
 
-  sporsmalsobjekter.push(...sporsmalOgSvar(sporsmal, valgtMeldekort.meldeperiode.fra, ytelsestypePostfix))
+  sporsmalsobjekter.push(...sporsmalOgSvar(sporsmal, valgtMeldekort.meldeperiode.fra, ytelsestypePostfix));
 
-  sporsmalsobjekter.push(uke(fra, 0, 7, sporsmal.meldekortDager))
-  sporsmalsobjekter.push(uke(fra, 7, 7, sporsmal.meldekortDager))
+  sporsmalsobjekter.push(uke(fra, 0, 7, sporsmal.meldekortDager));
+  sporsmalsobjekter.push(uke(fra, 7, 7, sporsmal.meldekortDager));
 
-  sporsmalsobjekter.push(utfylling("utfylling.arbeid", ytelsestypePostfix, true))
-  sporsmalsobjekter.push(utfylling("utfylling.tiltak", ytelsestypePostfix))
-  sporsmalsobjekter.push(utfylling("utfylling.syk", ytelsestypePostfix))
-  sporsmalsobjekter.push(utfylling("utfylling.ferieFravar", ytelsestypePostfix))
+  sporsmalsobjekter.push(utfylling("utfylling.arbeid", ytelsestypePostfix, true));
+  sporsmalsobjekter.push(utfylling("utfylling.tiltak", ytelsestypePostfix));
+  sporsmalsobjekter.push(utfylling("utfylling.syk", ytelsestypePostfix));
+  sporsmalsobjekter.push(utfylling("utfylling.ferieFravar", ytelsestypePostfix));
 
-  sporsmalsobjekter.push(bekreftelse(ytelsestypePostfix))
+  sporsmalsobjekter.push(bekreftelse(ytelsestypePostfix));
 
-  return sporsmalsobjekter
+  return sporsmalsobjekter;
 }
 
 
@@ -61,7 +61,7 @@ function header(
   mottattDato: Date,
   nesteDato: string | undefined
 ): ISporsmalsobjekt {
-  const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato)
+  const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato);
 
   return {
     sporsmal: "",
@@ -78,19 +78,19 @@ function header(
           : "",
       }
     )
-  }
+  };
 }
 
 function veiledning(): ISporsmalsobjekt {
   return {
     sporsmal: getText("sporsmal.lesVeiledning")
-  }
+  };
 }
 
 function ansvar(): ISporsmalsobjekt {
   return {
     sporsmal: getText("sporsmal.ansvarForRiktigUtfylling")
-  }
+  };
 }
 
 function korrigeringsBegrunnelse(
@@ -101,7 +101,7 @@ function korrigeringsBegrunnelse(
     sporsmal: getText("korrigering.sporsmal.begrunnelse"),
     forklaring: getText("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix),
     svar: begrunnelse,
-  }
+  };
 }
 
 function sporsmalOgSvar(
@@ -110,7 +110,7 @@ function sporsmalOgSvar(
   ytelsestypePostfix: string
 ): ISporsmalsobjekt[] {
   return sporsmalConfig.map(spm => {
-    const nestePeriode = spm.kategori === "registrert" ? " " + formaterPeriode(fra, 14, 14) : ""
+    const nestePeriode = spm.kategori === "registrert" ? " " + formaterPeriode(fra, 14, 14) : "";
 
     return {
       sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
@@ -119,8 +119,8 @@ function sporsmalOgSvar(
         ((sporsmal as any)[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
         "<br>" +
         ((sporsmal as any)[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
-    }
-  })
+    };
+  });
 }
 
 function uke(
@@ -132,28 +132,28 @@ function uke(
   return {
     sporsmal: getText("overskrift.uke").trim() + " " + ukeFormatert(fra, plussDager),
     svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde)
-  }
+  };
 }
 
 function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | undefined) {
-  const ukedager = ukeDager()
+  const ukedager = ukeDager();
 
   return dager.slice(fraDag, tilDag).map((dag) => {
-    const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk
-    const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7]
+    const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk;
+    const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7];
     const aktiviteter = [
       dag.arbeidetTimerSum ? `${getText("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${getText("overskrift.timer").trim()}` : "",
       dag.kurs ? getText("utfylling.tiltak").trim() : "",
       dag.syk ? getText("utfylling.syk").trim() : "",
       dag.annetFravaer ? getText("utfylling.ferieFravar").trim() : ""
-    ].filter(Boolean).join(", ")
+    ].filter(Boolean).join(", ");
 
     if (harAktivitet) {
-      return `<div><b>${ukedag}:</b><span> </span>${aktiviteter}</div>`
+      return `<div><b>${ukedag}:</b><span> </span>${aktiviteter}</div>`;
     } else {
-      return ""
+      return "";
     }
-  }).join("")
+  }).join("");
 }
 
 function utfylling(
@@ -171,7 +171,7 @@ function utfylling(
       getText(id + ytelsestypePostfix) +
       "</b><br/>" +
       getText("forklaring." + id + ytelsestypePostfix)
-  }
+  };
 }
 
 function bekreftelse(ytelsestypePostfix: string): ISporsmalsobjekt {
@@ -180,5 +180,5 @@ function bekreftelse(ytelsestypePostfix: string): ISporsmalsobjekt {
       getText("utfylling.bekreft" + ytelsestypePostfix) +
       "<br><br>X " +
       getText("utfylling.bekreftAnsvar")
-  }
+  };
 }

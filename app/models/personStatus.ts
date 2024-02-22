@@ -19,6 +19,6 @@ export async function hentPersonStatus(onBehalfOfToken: string): Promise<TypedRe
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }

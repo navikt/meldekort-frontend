@@ -9,7 +9,7 @@ export function getHeaders(onBehalfOfToken: string) {
     "Accept": "application/json",
     "Content-Type": "application/json",
     "TokenXAuthorization": `Bearer ${onBehalfOfToken}`
-  }
+  };
 }
 
 // Bare "syntactic sugar" slik at vi kan få Promise fra fetcher.submit()

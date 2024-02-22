@@ -6,8 +6,8 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 
 describe("MeldekortHeader", () => {
   afterEach(() => {
-    cleanup()
-  })
+    cleanup();
+  });
 
   test("Skal vise overskrift og åpne meny når bruker klikker på mobileMenu", async () => {
     const testRouter = createMemoryRouter([
@@ -17,52 +17,52 @@ describe("MeldekortHeader", () => {
       },
     ]);
 
-    render(<RouterProvider router={testRouter} />)
+    render(<RouterProvider router={testRouter} />);
 
     // Sjekk at viser overskrift
-    await waitFor(() => screen.findByText("overskrift.meldekort"))
+    await waitFor(() => screen.findByText("overskrift.meldekort"));
 
     // Sjekk at meny ikke vises (har ikke open-klasse)
-    const menu = await waitFor(() => screen.findByTestId("menu"))
-    expect(menu.className).not.toContain("_open_")
+    const menu = await waitFor(() => screen.findByTestId("menu"));
+    expect(menu.className).not.toContain("_open_");
 
     // Klikk på mobileMenu
-    const mobileMenu = await waitFor(() => screen.findByTestId("mobileMenu"))
-    mobileMenu.click()
+    const mobileMenu = await waitFor(() => screen.findByTestId("mobileMenu"));
+    mobileMenu.click();
 
     // Sjekke at meny vises (har open-klasse)
-    expect(menu.className).toContain("_open_")
+    expect(menu.className).toContain("_open_");
 
     // Klikk på mobileMenu igjen
-    mobileMenu.click()
+    mobileMenu.click();
 
     // Sjekk at meny ikke vises (har ikke open-klasse)
-    expect(menu.className).not.toContain("_open_")
-  })
+    expect(menu.className).not.toContain("_open_");
+  });
 
   test("Skal vise Send meldekort", async () => {
-    await sjekkLenke("/send-meldekort", "sekundarmeny.send")
-  })
+    await sjekkLenke("/send-meldekort", "sekundarmeny.send");
+  });
 
   test("Skal vise Tidligere meldekort", async () => {
-    await sjekkLenke("/tidligere-meldekort", "sekundarmeny.tidligere")
-  })
+    await sjekkLenke("/tidligere-meldekort", "sekundarmeny.tidligere");
+  });
 
   test("Skal vise Etterregistrer", async () => {
-    await sjekkLenke("/etterregistrering", "sekundarmeny.etterregistrer")
-  })
+    await sjekkLenke("/etterregistrering", "sekundarmeny.etterregistrer");
+  });
 
   test("Skal vise Om meldekort", async () => {
-    await sjekkLenke("/om-meldekort", "sekundarmeny.omMeldekort")
-  })
+    await sjekkLenke("/om-meldekort", "sekundarmeny.omMeldekort");
+  });
 
   test("Skal vise Ofte stilte sporsmal", async () => {
-    await sjekkLenke("/ofte-stilte-sporsmal", "sekundarmeny.faq")
-  })
-})
+    await sjekkLenke("/ofte-stilte-sporsmal", "sekundarmeny.faq");
+  });
+});
 
 const sjekkLenke = async (url: string, tekst: string) => {
-  const innhold = tekst.toUpperCase()
+  const innhold = tekst.toUpperCase();
   const testRouter = createMemoryRouter([
     {
       path: "/",
@@ -74,18 +74,18 @@ const sjekkLenke = async (url: string, tekst: string) => {
     }
   ]);
 
-  render(<RouterProvider router={testRouter} />)
+  render(<RouterProvider router={testRouter} />);
 
   // Sjekk at det vises en lenke med denne teksten
-  const link = await waitFor(() => screen.findByText(tekst))
+  const link = await waitFor(() => screen.findByText(tekst));
 
   // Klikk på lenken
-  link.click()
+  link.click();
 
   // Sjekk at nå vi viser en ny side
-  await waitFor(() => screen.findByText(innhold))
+  await waitFor(() => screen.findByText(innhold));
 
   // Sjekk at lenken på den nye siden har menuItemActive-klasse
-  const nyLink = await waitFor(() => screen.findByText(tekst))
-  expect(nyLink.className).toContain("_menuItemActive_")
-}
+  const nyLink = await waitFor(() => screen.findByText(tekst));
+  expect(nyLink.className).toContain("_menuItemActive_");
+};

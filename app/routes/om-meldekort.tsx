@@ -10,11 +10,11 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Generelt om meldekort" }
-  ]
-}
+  ];
+};
 
 export default function OmMeldekort() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
   const innhold = <GuidePanel poster>
     <Box>
@@ -42,14 +42,14 @@ export default function OmMeldekort() {
     <Box>
       {tt("genereltOmMeldekort.oss")}
     </Box>
-  </GuidePanel>
+  </GuidePanel>;
 
-  loggAktivitet("Viser om meldekort")
+  loggAktivitet("Viser om meldekort");
 
   return (
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={tt("overskrift.genereltOmMeldekort")} innhold={innhold} />
     </div>
-  )
+  );
 }

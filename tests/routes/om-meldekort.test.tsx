@@ -14,23 +14,23 @@ describe("Om mmldekort", () => {
       }
     ]);
 
-    render(<RouterProvider router={testRouter} />)
+    render(<RouterProvider router={testRouter} />);
 
-    expect(screen.getByText("genereltOmMeldekort.velkommen")).toBeDefined()
-    expect(screen.getByText("genereltOmMeldekort.velge")).toBeDefined()
-    expect(screen.getByText("genereltOmMeldekort.valg.sende")).toBeDefined()
-    expect(screen.getByText("genereltOmMeldekort.valg.tidligere")).toBeDefined()
-    expect(screen.getByText("genereltOmMeldekort.om.meldekort")).toBeDefined()
-    expect(screen.getByText("genereltOmMeldekort.oss")).toBeDefined()
-    expect(screen.getByText("overskrift.genereltOmMeldekort")).toBeDefined()
-  })
+    expect(screen.getByText("genereltOmMeldekort.velkommen")).toBeDefined();
+    expect(screen.getByText("genereltOmMeldekort.velge")).toBeDefined();
+    expect(screen.getByText("genereltOmMeldekort.valg.sende")).toBeDefined();
+    expect(screen.getByText("genereltOmMeldekort.valg.tidligere")).toBeDefined();
+    expect(screen.getByText("genereltOmMeldekort.om.meldekort")).toBeDefined();
+    expect(screen.getByText("genereltOmMeldekort.oss")).toBeDefined();
+    expect(screen.getByText("overskrift.genereltOmMeldekort")).toBeDefined();
+  });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs
+    const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
       { name: "description", content: "Generelt om meldekort" }
-    ])
-  })
-})
+    ]);
+  });
+});

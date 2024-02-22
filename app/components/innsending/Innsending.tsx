@@ -30,7 +30,7 @@ interface IProps {
 }
 
 export default function Innsending(props: IProps) {
-  const [activeStep, setActiveStep] = useState(1)
+  const [activeStep, setActiveStep] = useState(1);
 
   const {
     innsendingstype,
@@ -41,26 +41,26 @@ export default function Innsending(props: IProps) {
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
     nesteMeldekortKanSendes
-  } = props
+  } = props;
 
-  const fom = valgtMeldekort.meldeperiode.fra
-  const tom = valgtMeldekort.meldeperiode.til
-  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
+  const fom = valgtMeldekort.meldeperiode.fra;
+  const tom = valgtMeldekort.meldeperiode.til;
+  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
 
-  const { tt } = useExtendedTranslation()
-  const [begrunnelse, setBegrunnelse] = useState("")
-  const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal)
+  const { tt } = useExtendedTranslation();
+  const [begrunnelse, setBegrunnelse] = useState("");
+  const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal);
 
   const steps = [
     "overskrift.steg1",
     "overskrift.steg2",
     "overskrift.steg3",
     "overskrift.steg4"
-  ]
+  ];
 
-  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"))
+  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"));
 
-  let innhold: JSX.Element
+  let innhold: JSX.Element;
 
   if (activeStep === 1) {
     innhold = <Sporsmal innsendingstype={innsendingstype}
@@ -72,7 +72,7 @@ export default function Innsending(props: IProps) {
                         setSporsmal={setNyeSporsmal}
                         activeStep={activeStep}
                         setActiveStep={setActiveStep}
-                        infomelding={infomelding} />
+                        infomelding={infomelding} />;
   } else if (activeStep === 2) {
     innhold = <Utfylling sporsmal={nyeSporsmal}
                          setSporsmal={setNyeSporsmal}
@@ -80,7 +80,7 @@ export default function Innsending(props: IProps) {
                          ytelsestypePostfix={ytelsestypePostfix}
                          meldegruppe={valgtMeldekort.meldegruppe}
                          activeStep={activeStep}
-                         setActiveStep={setActiveStep} />
+                         setActiveStep={setActiveStep} />;
   } else if (activeStep === 3) {
     innhold = <Bekreftelse begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
                            sporsmal={nyeSporsmal}
@@ -88,7 +88,7 @@ export default function Innsending(props: IProps) {
                            innsendingstype={innsendingstype}
                            activeStep={activeStep}
                            setActiveStep={setActiveStep}
-                           nesteMeldekortKanSendes={nesteMeldekortKanSendes} />
+                           nesteMeldekortKanSendes={nesteMeldekortKanSendes} />;
   } else {
     innhold = <Kvittering innsendingstype={innsendingstype}
                           ytelsestypePostfix={ytelsestypePostfix}
@@ -100,7 +100,7 @@ export default function Innsending(props: IProps) {
                           sporsmal={nyeSporsmal}
                           nesteMeldekortId={nesteMeldekortId}
                           nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
-                          nesteMeldekortKanSendes={nesteMeldekortKanSendes} />
+                          nesteMeldekortKanSendes={nesteMeldekortKanSendes} />;
   }
 
   return (
@@ -132,5 +132,5 @@ export default function Innsending(props: IProps) {
       <Sideoverskrift tittel={tt(steps[activeStep - 1])} />
       {innhold}
     </div>
-  )
+  );
 }

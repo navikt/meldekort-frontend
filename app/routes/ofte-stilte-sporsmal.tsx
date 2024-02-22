@@ -11,11 +11,11 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Ofte stilte spørsmål" }
-  ]
+  ];
 }
-
+;
 export default function OfteStilteSporsmal() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
   const innhold = <div>
     <img src={sporrende} className="img" alt="" />
@@ -61,14 +61,14 @@ export default function OfteStilteSporsmal() {
         </Accordion.Content>
       </Accordion.Item>
     </Accordion>
-  </div>
+  </div>;
 
-  loggAktivitet("Viser ofte stilte spørsmål")
+  loggAktivitet("Viser ofte stilte spørsmål");
 
   return (
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={tt("overskrift.ofteStilteSporsmal")} innhold={innhold} />
     </div>
-  )
+  );
 }

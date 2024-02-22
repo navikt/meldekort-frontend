@@ -13,22 +13,22 @@ describe("Index", () => {
         params: {},
         context: {}
       })
-    )
+    );
 
-    expect(response.status).toBe(301)
-    expect(response.headers.get("location")).toBe("/send-meldekort")
-  })
+    expect(response.status).toBe(301);
+    expect(response.headers.get("location")).toBe("/send-meldekort");
+  });
 
   test("Skal vise tom div", async () => {
-    expect(Index()).toStrictEqual(<div></div>)
-  })
+    expect(Index()).toStrictEqual(<div></div>);
+  });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs
+    const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
       { name: "description", content: "Meldekort" }
-    ])
-  })
-})
+    ]);
+  });
+});

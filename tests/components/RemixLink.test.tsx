@@ -9,120 +9,120 @@ import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 
 describe("RemixLink", () => {
   afterEach(() => {
-    cleanup()
-  })
+    cleanup();
+  });
 
   test("Skal vise som Link", async () => {
-    createRouteAndRender("Link")
+    createRouteAndRender("Link");
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
-    link.click()
+    const link = await waitFor(() => screen.findByText("FIRST"));
+    link.click();
 
-    await waitFor(() => screen.findByText("SECOND"))
-  })
+    await waitFor(() => screen.findByText("SECOND"));
+  });
 
   test("Skal vise som Link med icon left", async () => {
-    const spy = vi.fn()
+    const spy = vi.fn();
     createRouteAndRender(
       "Link",
       <PrinterSmallFillIcon aria-hidden />,
       "left",
       () => {
-        spy()
+        spy();
       }
-    )
+    );
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
+    const link = await waitFor(() => screen.findByText("FIRST"));
 
     // Sjekk at ikonet er på riktig side
-    expect(link.innerHTML.endsWith("FIRST")).toBeTruthy()
+    expect(link.innerHTML.endsWith("FIRST")).toBeTruthy();
 
-    link.click()
+    link.click();
 
-    expect(spy).toBeCalled()
-    await waitFor(() => screen.findByText("SECOND"))
-  })
+    expect(spy).toBeCalled();
+    await waitFor(() => screen.findByText("SECOND"));
+  });
 
   test("Skal vise som Link med icon right", async () => {
-    const spy = vi.fn()
+    const spy = vi.fn();
     createRouteAndRender(
       "Link",
       <PrinterSmallFillIcon aria-hidden />,
       "right",
       (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
-        spy()
+        event.preventDefault();
+        spy();
       }
-    )
+    );
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
+    const link = await waitFor(() => screen.findByText("FIRST"));
 
     // Sjekk at ikonet er på riktig side
-    expect(link.innerHTML.startsWith("FIRST")).toBeTruthy()
+    expect(link.innerHTML.startsWith("FIRST")).toBeTruthy();
 
-    link.click()
+    link.click();
 
-    expect(spy).toBeCalled()
-    await waitFor(() => screen.findByText("FIRST"))
-  })
+    expect(spy).toBeCalled();
+    await waitFor(() => screen.findByText("FIRST"));
+  });
 
   test("Skal vise som Button", async () => {
-    createRouteAndRender("Button")
+    createRouteAndRender("Button");
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
-    link.click()
+    const link = await waitFor(() => screen.findByText("FIRST"));
+    link.click();
 
-    await waitFor(() => screen.findByText("SECOND"))
-  })
+    await waitFor(() => screen.findByText("SECOND"));
+  });
 
   test("Skal vise som Button med icon left", async () => {
-    const spy = vi.fn()
+    const spy = vi.fn();
     createRouteAndRender(
       "Button",
       <PrinterSmallFillIcon aria-hidden />,
       "left",
       () => {
-        spy()
+        spy();
       }
-    )
+    );
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
+    const link = await waitFor(() => screen.findByText("FIRST"));
 
     // Sjekk at ikonet er på riktig side
-    const children = link?.parentElement?.children
-    expect(children?.length).toBe(2)
-    expect(children?.item(0)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon")
+    const children = link?.parentElement?.children;
+    expect(children?.length).toBe(2);
+    expect(children?.item(0)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon");
 
-    link.click()
+    link.click();
 
-    await waitFor(() => screen.findByText("SECOND"))
-  })
+    await waitFor(() => screen.findByText("SECOND"));
+  });
 
   test("Skal vise som Button med icon right", async () => {
-    const spy = vi.fn()
+    const spy = vi.fn();
     createRouteAndRender(
       "Button",
       <PrinterSmallFillIcon aria-hidden />,
       "right",
       (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault()
-        spy()
+        event.preventDefault();
+        spy();
       }
-    )
+    );
 
-    const link = await waitFor(() => screen.findByText("FIRST"))
+    const link = await waitFor(() => screen.findByText("FIRST"));
 
     // Sjekk at ikonet er på riktig side
-    const children = link?.parentElement?.children
-    expect(children?.length).toBe(2)
-    expect(children?.item(1)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon")
+    const children = link?.parentElement?.children;
+    expect(children?.length).toBe(2);
+    expect(children?.item(1)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon");
 
-    link.click()
+    link.click();
 
-    expect(spy).toBeCalled()
-    await waitFor(() => screen.findByText("FIRST"))
-  })
-})
+    expect(spy).toBeCalled();
+    await waitFor(() => screen.findByText("FIRST"));
+  });
+});
 
 const createRouteAndRender = (as: "Link" | "Button", icon?: ReactNode, iconPosition?: "left" | "right", onClick?: MouseEventHandler) => {
   const testRouter = createMemoryRouter([
@@ -135,7 +135,7 @@ const createRouteAndRender = (as: "Link" | "Button", icon?: ReactNode, iconPosit
       path: "/neste",
       element: <div>SECOND</div>
     }
-  ])
+  ]);
 
-  render(<RouterProvider router={testRouter} />)
-}
+  render(<RouterProvider router={testRouter} />);
+};

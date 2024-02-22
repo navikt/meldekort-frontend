@@ -40,19 +40,19 @@ export default function Bekreftelse(props: IProps) {
     activeStep,
     setActiveStep,
     nesteMeldekortKanSendes
-  } = props
+  } = props;
 
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
-  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" })
+  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" });
 
-  const [bekreftet, setBekreftet] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [visFeil, setVisFeil] = useState(false)
-  const [baksystemFeil, setBaksystemFeil] = useState(false)
+  const [bekreftet, setBekreftet] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [visFeil, setVisFeil] = useState(false);
+  const [baksystemFeil, setBaksystemFeil] = useState(false);
 
-  const fom = valgtMeldekort.meldeperiode.fra
-  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
+  const fom = valgtMeldekort.meldeperiode.fra;
+  const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
 
   const hentFravaersdager = () => {
     const fravar: IFravaerInnsending[] = [];
@@ -87,23 +87,23 @@ export default function Bekreftelse(props: IProps) {
       }
     });
     return fravar;
-  }
+  };
 
   const tilbake = () => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
 
-    if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep - 2)
-    else setActiveStep(activeStep - 1)
-  }
+    if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep - 2);
+    else setActiveStep(activeStep - 1);
+  };
 
   const validerOgVidere = () => {
     if (!bekreftet) {
-      setVisFeil(true)
+      setVisFeil(true);
     } else {
       // Send
-      setLoading(true)
+      setLoading(true);
 
-      const mottattDato = new Date()
+      const mottattDato = new Date();
 
       const meldekortdetaljer: IMeldekortdetaljerInnsending = {
         begrunnelse: begrunnelse,
@@ -119,40 +119,40 @@ export default function Bekreftelse(props: IProps) {
         sesjonsId: "IKKE I BRUK",
         signatur: true, // Vi sender ikke uten brukerens samtykke
         sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato, nesteMeldekortKanSendes) // Her samler vi alt bruker har sett for å lagre i Dokarkiv
-      }
+      };
 
-      const formData = new FormData()
-      formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer))
-      formData.append("innsendingstype", innsendingstype.toString())
+      const formData = new FormData();
+      formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer));
+      formData.append("innsendingstype", innsendingstype.toString());
       fetcher.submit(formData, { method: "post" }).then((data) => {
-          setLoading(false)
+          setLoading(false);
 
           // Vi skal være her på denne siden og vise en feilmelding hvis data.baksystemFeil = true eller hvis det ikke finnes data.innsending.status
           if (data?.baksystemFeil || !data?.innsending || !data.innsending.status) {
-            setBaksystemFeil(true)
-            return
+            setBaksystemFeil(true);
+            return;
           }
 
           // Skroll opp
           // Gå videre til Kvittering hvis status er OK
           // Gå tilbake til Utfylling (og vis feilmeldinger der) hvis status er FEIL
-          window.scrollTo(0, 0)
-          const status = data.innsending.status
+          window.scrollTo(0, 0);
+          const status = data.innsending.status;
           if (status === "OK") {
-            setActiveStep(activeStep + 1)
+            setActiveStep(activeStep + 1);
           } else if (status === "FEIL") {
-            setActiveStep(activeStep - 1)
+            setActiveStep(activeStep - 1);
           } else {
             // Uforventet status
-            setBaksystemFeil(true)
-            return
+            setBaksystemFeil(true);
+            return;
           }
         }
-      )
+      );
     }
-  }
+  };
 
-  loggAktivitet("Viser bekreftelse")
+  loggAktivitet("Viser bekreftelse");
 
   return (
     <div>
@@ -205,5 +205,5 @@ export default function Bekreftelse(props: IProps) {
         </RemixLink>
       </div>
     </div>
-  )
+  );
 }

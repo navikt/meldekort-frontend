@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
       serverUrl: "https://amplitude.nav.no/collect",
       defaultTracking: false
     }
-  )
+  );
 }
 
 type AmplitudeAktivitetsData = {
@@ -21,10 +21,10 @@ type AmplitudeAktivitetsData = {
 export function loggAktivitet(aktivitet: string, data?: AmplitudeAktivitetsData) {
   try {
     if (typeof window !== 'undefined') {
-      const eventData = { ...data, aktivitet: aktivitet }
-      amplitude.track("meldekort.aktivitet", eventData)
+      const eventData = { ...data, aktivitet: aktivitet };
+      amplitude.track("meldekort.aktivitet", eventData);
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }

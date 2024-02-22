@@ -88,27 +88,27 @@ export function mapKortTypeTilTekst(type: KortType) {
 }
 
 export function finnYtelsestypePostfix(meldegruppe: Meldegruppe): string {
-  if (meldegruppe === Meldegruppe.ATTF) return Ytelsestype.AAP
-  if (meldegruppe === Meldegruppe.INDIV) return Ytelsestype.TILTAKSPENGER
-  return Ytelsestype.DAGPENGER
+  if (meldegruppe === Meldegruppe.ATTF) return Ytelsestype.AAP;
+  if (meldegruppe === Meldegruppe.INDIV) return Ytelsestype.TILTAKSPENGER;
+  return Ytelsestype.DAGPENGER;
 }
 
 export function finnNesteSomKanSendes(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) {
   return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
     .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
     .sort(meldekortEtterKanSendesFraKomparator)
-    .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId)
+    .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId);
 }
 
 export function finnFoersteSomIkkeKanSendesEnna(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) {
   return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
     .sort(meldekortEtterKanSendesFraKomparator)
-    .find(meldekort => !meldekort.meldeperiode.kanKortSendes)
+    .find(meldekort => !meldekort.meldeperiode.kanKortSendes);
 }
 
 export function meldekortEtterKanSendesFraKomparator(a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number {
   return (
     new Date(a.meldeperiode.kortKanSendesFra).valueOf() -
     new Date(b.meldeperiode.kortKanSendesFra).valueOf()
-  )
+  );
 }

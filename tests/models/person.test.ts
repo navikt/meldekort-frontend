@@ -9,9 +9,9 @@ import { hentPerson, hentPersonInfo } from "~/models/person";
 
 // Kan ikke kjøres parallelt!
 describe("Person", () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
-  afterAll(() => server.close())
-  afterEach(() => server.resetHandlers())
+  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+  afterAll(() => server.close());
+  afterEach(() => server.resetHandlers());
 
   test("hentPerson skal få status 500 når feil i backend", async () => {
     server.use(
@@ -20,13 +20,13 @@ describe("Person", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    const response = await catchErrorResponse(() => hentPerson(""))
+    const response = await catchErrorResponse(() => hentPerson(""));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("Internal Server Error")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("Internal Server Error");
+  });
 
   test("hentPersonInfo skal få status 500 når feil i backend", async () => {
     server.use(
@@ -35,53 +35,53 @@ describe("Person", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    const response = await catchErrorResponse(() => hentPersonInfo(""))
+    const response = await catchErrorResponse(() => hentPersonInfo(""));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("Internal Server Error")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("Internal Server Error");
+  });
 
   test("hentPerson skal få data", async () => {
-    const expectedData = { ...TEST_PERSON } // Clone
-    jsonify(expectedData)
+    const expectedData = { ...TEST_PERSON }; // Clone
+    jsonify(expectedData);
 
-    const response = await hentPerson("")
+    const response = await hentPerson("");
 
-    const json = await response.json()
+    const json = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(json).toStrictEqual(expectedData)
-  })
+    expect(response.status).toBe(200);
+    expect(json).toStrictEqual(expectedData);
+  });
 
   test("hentPersonInfo skal få data", async () => {
-    const response = await hentPersonInfo("")
+    const response = await hentPersonInfo("");
 
-    const json = await response.json()
+    const json = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(json).toStrictEqual(TEST_PERSON_INFO)
-  })
+    expect(response.status).toBe(200);
+    expect(json).toStrictEqual(TEST_PERSON_INFO);
+  });
 
   test("hentPerson skal få status 500 når feil i fetch", async () => {
     // Stopper server slik at fetch kaster exception
-    server.close()
+    server.close();
 
-    const response = await catchErrorResponse(() => hentPerson(""))
+    const response = await catchErrorResponse(() => hentPerson(""));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("fetch failed")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("fetch failed");
+  });
 
   test("hentPersonInfo skal få status 500 når feil i fetch", async () => {
     // Server har blitt allerede stoppet
 
-    const response = await catchErrorResponse(() => hentPersonInfo(""))
+    const response = await catchErrorResponse(() => hentPersonInfo(""));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("fetch failed")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("fetch failed");
+  });
 
   // OBS! Ikke skriv andre tester her videre hvis du trenger fungerende server, den er allerede stoppet
-})
+});

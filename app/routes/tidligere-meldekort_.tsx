@@ -17,34 +17,34 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Tidligere meldekort" }
-  ]
-}
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let feil = false
-  let historiskeMeldekort: IMeldekort[] | null = null
+  let feil = false;
+  let historiskeMeldekort: IMeldekort[] | null = null;
 
-  const onBehalfOfToken = await getOboToken(request)
-  const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
+  const onBehalfOfToken = await getOboToken(request);
+  const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
 
   if (!historiskeMeldekortResponse.ok) {
-    feil = true
+    feil = true;
   } else {
-    historiskeMeldekort = await historiskeMeldekortResponse.json()
+    historiskeMeldekort = await historiskeMeldekortResponse.json();
   }
 
-  return json({ feil, historiskeMeldekort })
+  return json({ feil, historiskeMeldekort });
 }
 
 export default function TidligereMeldekort() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
   // Hent historiske meldekort
   // Hvis det er feil, vis feilmelding
   // Hvis det ikke finnes historiske meldekort, vis advarselsmelding
   // Hvis historiske meldekort er hentet, vis data
 
-  const { feil, historiskeMeldekort } = useLoaderData<typeof loader>()
+  const { feil, historiskeMeldekort } = useLoaderData<typeof loader>();
 
   let forklaring = <div>
     <BodyLong spacing>
@@ -53,26 +53,26 @@ export default function TidligereMeldekort() {
     <BodyLong spacing>
       {parseHtml(tt("tidligereMeldekort.forklaring.korrigering"))}
     </BodyLong>
-  </div>
+  </div>;
 
-  let alertOrData: ReactElement
+  let alertOrData: ReactElement;
 
   if (feil) {
-    alertOrData = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    alertOrData = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
   } else if (!historiskeMeldekort || historiskeMeldekort.length === 0) {
-    alertOrData = <Alert variant="warning">{parseHtml(tt("tidligereMeldekort.harIngen"))}</Alert>
+    alertOrData = <Alert variant="warning">{parseHtml(tt("tidligereMeldekort.harIngen"))}</Alert>;
   } else {
-    alertOrData = <MeldekorTabell meldekortListe={historiskeMeldekort} />
+    alertOrData = <MeldekorTabell meldekortListe={historiskeMeldekort} />;
   }
 
-  const innhold = <div>{forklaring}{alertOrData}</div>
+  const innhold = <div>{forklaring}{alertOrData}</div>;
 
-  loggAktivitet("Viser tidligere meldekort")
+  loggAktivitet("Viser tidligere meldekort");
 
   return (
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={tt("overskrift.tidligereMeldekort")} innhold={innhold} />
     </div>
-  )
+  );
 }

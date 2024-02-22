@@ -7,13 +7,13 @@ import * as React from "react";
 
 
 export const beforeAndAfterSetup = () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
-  afterAll(() => server.close())
+  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+  afterAll(() => server.close());
   afterEach(() => {
-    server.resetHandlers()
-    cleanup()
-  })
-}
+    server.resetHandlers();
+    cleanup();
+  });
+};
 
 export const renderRemixStub = (
   component: React.ComponentType,
@@ -31,7 +31,7 @@ export const renderRemixStub = (
       path: nextPath,
       Component: nextComponent
     }
-  ])
+  ]);
 
-  render(<RemixStub />)
-}
+  render(<RemixStub />);
+};

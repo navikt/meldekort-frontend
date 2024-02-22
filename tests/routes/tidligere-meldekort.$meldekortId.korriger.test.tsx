@@ -33,12 +33,12 @@ import type { IInfomelding } from "~/models/infomelding";
 describe("Korriger tidligere meldekort", () => {
   vi.mock("react-i18next", async () =>
     (await vi.importActual("tests/mocks/react-i18next.ts")).mock
-  )
+  );
 
-  beforeAndAfterSetup()
+  beforeAndAfterSetup();
 
-  const meldekortId = "1707156949"
-  const request = new Request(TEST_URL + "/tidligere-meldekort/korriger")
+  const meldekortId = "1707156949";
+  const request = new Request(TEST_URL + "/tidligere-meldekort/korriger");
 
   const checkLoader = async (
     meldekortId?: string,
@@ -51,19 +51,19 @@ describe("Korriger tidligere meldekort", () => {
       request,
       params: { meldekortId },
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(data).toEqual({
       feil: true,
       valgtMeldekort: valgtMeldekort,
       meldekortdetaljer: meldekortdetaljer,
       personInfo: personInfo,
       infomelding: infomelding
-    })
-  }
+    });
+  };
 
   const checkAction = async (baksystemFeil: boolean, innsending: IValideringsResultat | null) => {
     const body = new URLSearchParams({});
@@ -77,20 +77,20 @@ describe("Korriger tidligere meldekort", () => {
       request,
       params: {},
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(data).toEqual({
       baksystemFeil,
       innsending
-    })
-  }
+    });
+  };
 
   test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
-    await checkLoader()
-  })
+    await checkLoader();
+  });
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort", async () => {
     server.use(
@@ -99,10 +99,10 @@ describe("Korriger tidligere meldekort", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    await checkLoader(meldekortId)
-  })
+    await checkLoader(meldekortId);
+  });
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer", async () => {
     server.use(
@@ -111,10 +111,10 @@ describe("Korriger tidligere meldekort", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    await checkLoader(meldekortId)
-  })
+    await checkLoader(meldekortId);
+  });
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo", async () => {
     server.use(
@@ -123,10 +123,10 @@ describe("Korriger tidligere meldekort", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    await checkLoader(meldekortId)
-  })
+    await checkLoader(meldekortId);
+  });
 
   test("Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding", async () => {
     server.use(
@@ -135,20 +135,20 @@ describe("Korriger tidligere meldekort", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    await checkLoader(meldekortId)
-  })
+    await checkLoader(meldekortId);
+  });
 
   test("Skal få feil = true hvis meldekort ikke er korrigerbart", async () => {
-    const meldekort = opprettTestMeldekort(Number(meldekortId), true, KortStatus.OPPRE, false)
-    jsonify(meldekort)
+    const meldekort = opprettTestMeldekort(Number(meldekortId), true, KortStatus.OPPRE, false);
+    jsonify(meldekort);
 
-    const expectedMeldekortdetaljer = { ...TEST_MELDEKORTDETALJER } // Clone
-    jsonify(expectedMeldekortdetaljer)
+    const expectedMeldekortdetaljer = { ...TEST_MELDEKORTDETALJER }; // Clone
+    jsonify(expectedMeldekortdetaljer);
 
-    const expectedPersonInfo = { ...TEST_PERSON_INFO } // Clone
-    jsonify(expectedPersonInfo)
+    const expectedPersonInfo = { ...TEST_PERSON_INFO }; // Clone
+    jsonify(expectedPersonInfo);
 
     server.use(
       http.get(
@@ -156,35 +156,35 @@ describe("Korriger tidligere meldekort", () => {
         () => HttpResponse.json([meldekort], { status: 200 }),
         { once: true }
       )
-    )
+    );
 
-    await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo, TEST_INFOMELDING)
-  })
+    await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo, TEST_INFOMELDING);
+  });
 
   test("Skal få feil = false og data fra backend", async () => {
-    const meldekort = opprettTestMeldekort(Number(meldekortId))
-    jsonify(meldekort)
+    const meldekort = opprettTestMeldekort(Number(meldekortId));
+    jsonify(meldekort);
 
-    const meldekortdetaljerData = opprettTestMeldekortdetaljer(Number(meldekortId))
-    jsonify(meldekortdetaljerData)
+    const meldekortdetaljerData = opprettTestMeldekortdetaljer(Number(meldekortId));
+    jsonify(meldekortdetaljerData);
 
     const response = await loader({
       request,
       params: { meldekortId: meldekortId },
       context: {}
-    })
+    });
 
-    const data = await response.json()
+    const data = await response.json();
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(data).toEqual({
       feil: false,
       valgtMeldekort: meldekort,
       meldekortdetaljer: meldekortdetaljerData,
       personInfo: TEST_PERSON_INFO,
       infomelding: TEST_INFOMELDING
-    })
-  })
+    });
+  });
 
   test("Skal få baksystemFeil = true når feil ved innsending av meldekort", async () => {
     server.use(
@@ -192,10 +192,10 @@ describe("Korriger tidligere meldekort", () => {
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () => new HttpResponse(null, { status: 500 })
       )
-    )
+    );
 
-    await checkAction(true, null)
-  })
+    await checkAction(true, null);
+  });
 
   test("Skal få FEIL resultat ved innsending av meldekort", async () => {
     server.use(
@@ -203,14 +203,14 @@ describe("Korriger tidligere meldekort", () => {
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () => HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL, { status: 200 })
       )
-    )
+    );
 
-    await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL)
-  })
+    await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
+  });
 
   test("Skal få OK resultat ved innsending av meldekort", async () => {
-    await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK)
-  })
+    await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
+  });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(
@@ -221,12 +221,12 @@ describe("Korriger tidligere meldekort", () => {
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
           personInfo: null
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
     renderRemixStub(
@@ -237,12 +237,12 @@ describe("Korriger tidligere meldekort", () => {
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
           personInfo: null
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise feilmelding hvis meldekortdetaljer = null", async () => {
     renderRemixStub(
@@ -257,12 +257,12 @@ describe("Korriger tidligere meldekort", () => {
           },
           meldekortdetaljer: null,
           personInfo: null
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise feilmelding hvis personInfo = null", async () => {
     renderRemixStub(
@@ -279,12 +279,12 @@ describe("Korriger tidligere meldekort", () => {
             sporsmal: {}
           },
           personInfo: null
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
 
   test("Skal vise Innsending", async () => {
     renderRemixStub(
@@ -308,23 +308,23 @@ describe("Korriger tidligere meldekort", () => {
             fornavn: "Fornavn"
           },
           infomelding: TEST_INFOMELDING
-        })
+        });
       }
-    )
+    );
 
-    await waitFor(() => screen.findByText("meldekort.for.perioden"))
-  })
+    await waitFor(() => screen.findByText("meldekort.for.perioden"));
+  });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs
+    const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
       { name: "description", content: "Korriger tidligere meldekort" }
-    ])
-  })
+    ]);
+  });
 
   test("shouldRevalidate skal returnere false", async () => {
-    expect(shouldRevalidate()).toBe(false)
-  })
-})
+    expect(shouldRevalidate()).toBe(false);
+  });
+});

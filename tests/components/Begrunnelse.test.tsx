@@ -5,9 +5,9 @@ import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 
 describe("Begrunnelse", () => {
   test("Skal vise innhold", async () => {
-    render(<Begrunnelse begrunnelse={"BEGRUNNELSE"} ytelsestypePostfix={""} />)
+    render(<Begrunnelse begrunnelse={"BEGRUNNELSE"} ytelsestypePostfix={""} />);
 
-    await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"))
-    await waitFor(() => screen.findByText("BEGRUNNELSE"))
-  })
-})
+    await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"));
+    await waitFor(() => screen.findByText("BEGRUNNELSE"));
+  });
+});

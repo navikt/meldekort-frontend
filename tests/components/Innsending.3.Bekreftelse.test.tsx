@@ -11,27 +11,27 @@ import type { IMeldekort } from "~/models/meldekort";
 
 describe("Bekreftelse", () => {
   afterEach(() => {
-    cleanup()
-  })
+    cleanup();
+  });
 
   test("Skal vise innhold for Korrigering og Avbryt skal fungere", async () => {
-    const valgtMeldekort = opprettTestMeldekort(1707696000)
-    jsonify(valgtMeldekort)
+    const valgtMeldekort = opprettTestMeldekort(1707696000);
+    jsonify(valgtMeldekort);
 
-    createRouteAndRender((valgtMeldekort as unknown) as Jsonify<IMeldekort>, Innsendingstype.KORRIGERING)
+    createRouteAndRender((valgtMeldekort as unknown) as Jsonify<IMeldekort>, Innsendingstype.KORRIGERING);
 
-    await waitFor(() => screen.findByText("overskrift.steg3.info.ikkeSendt"))
-    await waitFor(() => screen.findByText("overskrift.steg3.info.bekreftVerdier"))
-    await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"))
+    await waitFor(() => screen.findByText("overskrift.steg3.info.ikkeSendt"));
+    await waitFor(() => screen.findByText("overskrift.steg3.info.bekreftVerdier"));
+    await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"));
 
     // Klikk Neste
-    const avbryt = screen.getByText("naviger.avbryt")
-    avbryt.click()
+    const avbryt = screen.getByText("naviger.avbryt");
+    avbryt.click();
 
     // Sjekk at vi viser AVBRUTT
-    await waitFor(() => screen.findByText("AVBRUTT"))
-  })
-})
+    await waitFor(() => screen.findByText("AVBRUTT"));
+  });
+});
 
 const createRouteAndRender = (
   valgtMeldekort: Jsonify<IMeldekort>,
@@ -55,7 +55,7 @@ const createRouteAndRender = (
       path: "/om-meldekort",
       element: <div>AVBRUTT</div>
     }
-  ])
+  ]);
 
-  render(<RouterProvider router={testRouter} />)
-}
+  render(<RouterProvider router={testRouter} />);
+};

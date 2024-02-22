@@ -17,12 +17,12 @@ import type { IInfomelding } from "~/models/infomelding";
 export const jsonify = (data: Object) => {
   for (const key in data) {
     if ((data as any)[key] instanceof Date) {
-      (data as any)[key] = (data as any)[key].toISOString()
+      (data as any)[key] = (data as any)[key].toISOString();
     } else if (typeof (data as any)[key] === "object") {
-      jsonify((data as any)[key])
+      jsonify((data as any)[key]);
     }
   }
-}
+};
 
 
 // For å opprette testdata
@@ -35,8 +35,8 @@ export const opprettTestPerson = (meldekortId: number[], etterregistrerteMeldeko
     fravaer: new Array<IFravaer>(),
     id: "1",
     antallGjenstaaendeFeriedager: 5
-  }
-}
+  };
+};
 
 export const opprettPersonInfo = (personId: number, fodselsnr: string, fornavn: string, etternavn: string): IPersonInfo => {
   return {
@@ -44,8 +44,8 @@ export const opprettPersonInfo = (personId: number, fodselsnr: string, fornavn: 
     fodselsnr,
     etternavn,
     fornavn
-  }
-}
+  };
+};
 
 export const opprettTestMeldekort = (
   meldekortId: number,
@@ -71,8 +71,8 @@ export const opprettTestMeldekort = (
     erForskuddsPeriode: false,
     mottattDato: new Date(meldekortId * 1000),
     korrigerbart: korrigerbart
-  }
-}
+  };
+};
 
 export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdetaljer => {
   return {
@@ -93,28 +93,28 @@ export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdet
       meldekortDager: []
     },
     begrunnelse: ""
-  }
-}
+  };
+};
 
 
 // Data
-const meldekortId1 = 1707156945
-const meldekortId2 = 1707156946
-const meldekortId3 = 1707156947
-const meldekortId4 = 1707156948
-const meldekortId5 = 1707156949
-const meldekortId6 = 1707156950
+const meldekortId1 = 1707156945;
+const meldekortId2 = 1707156946;
+const meldekortId3 = 1707156947;
+const meldekortId4 = 1707156948;
+const meldekortId5 = 1707156949;
+const meldekortId6 = 1707156950;
 
-export const TEST_PERSON = opprettTestPerson([meldekortId1, meldekortId2], [meldekortId3, meldekortId4])
-export const TEST_PERSON_INFO = opprettPersonInfo(1, "01020312345", "Test", "Testesen")
-export const TEST_HISTORISKEMELDEKORT = [opprettTestMeldekort(meldekortId5), opprettTestMeldekort(meldekortId6)]
-export const TEST_MELDEKORTDETALJER = opprettTestMeldekortdetaljer(meldekortId5)
+export const TEST_PERSON = opprettTestPerson([meldekortId1, meldekortId2], [meldekortId3, meldekortId4]);
+export const TEST_PERSON_INFO = opprettPersonInfo(1, "01020312345", "Test", "Testesen");
+export const TEST_HISTORISKEMELDEKORT = [opprettTestMeldekort(meldekortId5), opprettTestMeldekort(meldekortId6)];
+export const TEST_MELDEKORTDETALJER = opprettTestMeldekortdetaljer(meldekortId5);
 export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK: IValideringsResultat = {
   meldekortId: 1,
   status: "OK",
   arsakskoder: null,
   meldekortdager: null
-}
+};
 export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
   meldekortId: 1,
   status: "FEIL",
@@ -131,29 +131,29 @@ export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
     }
   ],
   meldekortdager: null
-}
+};
 export const TEST_PERSON_STATUS: IPersonStatus = {
   id: "ID",
   statusArbeidsoker: null,
   statusYtelse: null
-}
+};
 export const TEST_INFOMELDING: IInfomelding = {
   norsk: "Norsk infomelding",
   engelsk: "English infomessage"
-}
+};
 export const TEST_SKRIVEMODUS: ISkrivemodus = {
   skrivemodus: true,
   melding: {
     norsk: "Norsk",
     engelsk: "English"
   }
-}
+};
 export const TEST_DECORATOR_FRAGMENTS = {
   DECORATOR_STYLES: "",
   DECORATOR_SCRIPTS: "",
   DECORATOR_HEADER: "<div>DECORATOR HEADER</div>",
   DECORATOR_FOOTER: "<div>DECORATOR FOOTER</div>",
-}
+};
 export const TEST_MELDEKORT_DAGER = [
   {
     dag: 0,
@@ -211,7 +211,7 @@ export const TEST_MELDEKORT_DAGER = [
     annetFravaer: false,
     kurs: false
   }
-]
+];
 export const TEST_SPORSMAL: ISporsmal = {
   arbeidssoker: true,
   arbeidet: true,
@@ -220,4 +220,4 @@ export const TEST_SPORSMAL: ISporsmal = {
   kurs: true,
   signatur: true,
   meldekortDager: TEST_MELDEKORT_DAGER
-}
+};

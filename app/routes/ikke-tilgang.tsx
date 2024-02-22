@@ -8,18 +8,18 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Du har ikke tilgang" }
-  ]
-}
+  ];
+};
 
 export default function IkkeTilgang() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
   const alert = <Alert variant="error">
     <Heading spacing size="small" level="3">{parseHtml(tt("ikke.tilgang.overskrift"))}</Heading>
     {parseHtml(tt("ikke.tilgang.tekst"))}
-  </Alert>
+  </Alert>;
 
   return (
     <Sideinnhold utenSideoverskrift={true} innhold={alert} />
-  )
+  );
 }

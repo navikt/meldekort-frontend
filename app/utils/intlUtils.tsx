@@ -23,13 +23,13 @@ export function useExtendedTranslation<
   ns?: Ns,
   options?: UseTranslationOptions<KPrefix>,
 ) {
-  const { i18n, t } = useTranslation(ns, options)
+  const { i18n, t } = useTranslation(ns, options);
 
   const tt: TTFunction = (key: string) => {
-    return t([key, key.split("-")[0]])
-  }
+    return t([key, key.split("-")[0]]);
+  };
 
-  return { i18n, tt }
+  return { i18n, tt };
 }
 
 // Denne funksjonen trigger ikke oppdatering av komponenter når bruker bytter språk.
@@ -38,26 +38,26 @@ export function useExtendedTranslation<
 export function getText(key: string, values?: object): string {
   // Prøv å finne tekst med den gitte nøkkelen
   // Hvis teksten ikke blir funnet, prøv nøkkelen uten postfix
-  let text = i18next.t([key, key.split("-")[0]]) || key
-  text = text.trim()
+  let text = i18next.t([key, key.split("-")[0]]) || key;
+  text = text.trim();
 
   if (values) {
     for (const key in values) {
-      text = text.replace("{" + key + "}", (values as any)[key])
+      text = text.replace("{" + key + "}", (values as any)[key]);
     }
   }
 
-  return text
+  return text;
 }
 
 export function parseHtml(text: string, values?: string[] | null): ReactElement {
   if (values) {
     for (const key in values) {
-      text = text.replace("{" + key + "}", values[key])
+      text = text.replace("{" + key + "}", values[key]);
     }
   }
 
   return (
     <span dangerouslySetInnerHTML={{ __html: text }} />
-  )
+  );
 }

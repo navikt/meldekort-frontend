@@ -18,18 +18,20 @@ export default function UtvidetInformasjon(props: IProps) {
     event.stopPropagation();
     event.preventDefault();
     setOpen(!open);
-  }
+  };
 
   if (open) {
-    return <div className="notForPrint">
-      <div className={styles.innhold}>
-        {props.innhold}
+    return (
+      <div className="notForPrint">
+        <div className={styles.innhold}>
+          {props.innhold}
+        </div>
+        <Link href="#" onClick={clickHandler}>
+          {tt("veiledning.lukk")}
+          <ChevronUpIcon />
+        </Link>
       </div>
-      <Link href="#" onClick={clickHandler}>
-        {tt("veiledning.lukk")}
-        <ChevronUpIcon />
-      </Link>
-    </div>
+    );
   } else {
     return (
       <div className="notForPrint">
@@ -38,6 +40,6 @@ export default function UtvidetInformasjon(props: IProps) {
           <ChevronDownIcon />
         </Link>
       </div>
-    )
+    );
   }
 }

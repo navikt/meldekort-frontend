@@ -11,8 +11,8 @@ interface IProps {
 }
 
 export default function Begrunnelse(props: IProps) {
-  const { begrunnelse, ytelsestypePostfix } = props
-  const { tt } = useExtendedTranslation()
+  const { begrunnelse, ytelsestypePostfix } = props;
+  const { tt } = useExtendedTranslation();
 
   return (
     <div key="begrunnelse" className={styles.begrunnelse}>
@@ -22,5 +22,5 @@ export default function Begrunnelse(props: IProps) {
         <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />&nbsp;{begrunnelse}
       </Box>
     </div>
-  )
+  );
 }

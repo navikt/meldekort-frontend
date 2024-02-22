@@ -25,37 +25,37 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Send meldekort" }
-  ]
-}
+  ];
+};
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let feil = false
-  let person: IPerson | null = null
+  let feil = false;
+  let person: IPerson | null = null;
 
-  const onBehalfOfToken = await getOboToken(request)
-  const personResponse = await hentPerson(onBehalfOfToken)
+  const onBehalfOfToken = await getOboToken(request);
+  const personResponse = await hentPerson(onBehalfOfToken);
 
   if (!personResponse.ok) {
-    feil = true
+    feil = true;
   } else {
-    person = await personResponse.json()
+    person = await personResponse.json();
   }
 
-  return json({ feil, person })
+  return json({ feil, person });
 }
 
 export default function SendMeldekort() {
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
-  const { feil, person } = useLoaderData<typeof loader>()
+  const { feil, person } = useLoaderData<typeof loader>();
 
-  let innhold: ReactElement
+  let innhold: ReactElement;
 
-  const nesteMeldekort = finnNesteSomKanSendes(person?.meldekort, "")
-  const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort)
+  const nesteMeldekort = finnNesteSomKanSendes(person?.meldekort, "");
+  const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort);
 
   if (feil || !person) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
   } else if (!nesteMeldekort) {
     // Det finnes ikke meldekort som kan sendes nå
     // Finnes det meldekort som kan sendes senere?
@@ -74,20 +74,20 @@ export default function SendMeldekort() {
         <BodyLong>
           {parseHtml(tt("sendMeldekort.info.ingenKlare"))}
         </BodyLong>
-      </GuidePanel>
+      </GuidePanel>;
     } else {
       // Nei, det finnes ingen meldekort å sende
       innhold = <GuidePanel>
         <div>&nbsp;</div>
         <div>{tt("sporsmal.ingenMeldekortASende")}</div>
-      </GuidePanel>
+      </GuidePanel>;
     }
   } else {
     const meldekortListe = person?.meldekort
         .filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
         .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
         .sort(meldekortEtterKanSendesFraKomparator)
-      || []
+      || [];
 
     // Det finnes meldekort som kan sendes nå
     // Men er det ikke for mange?
@@ -101,13 +101,13 @@ export default function SendMeldekort() {
         <BodyLong>
           {parseHtml(tt("sendMeldekort.info.forMangeMeldekort.feilmelding"))}
         </BodyLong>
-      </GuidePanel>
+      </GuidePanel>;
     } else if (meldekortListe.length === 1) {
       // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
-      innhold = <Navigate to={`/send-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />
+      innhold = <Navigate to={`/send-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />;
     } else {
       // Det finnes flere meldekort. Viser dem
-      const nesteMeldekortId = nesteMeldekort.meldekortId
+      const nesteMeldekortId = nesteMeldekort.meldekortId;
 
       innhold = <div>
         <BodyLong spacing>
@@ -131,7 +131,7 @@ export default function SendMeldekort() {
                     {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
                   </Table.DataCell>
                 </Table.Row>
-              )
+              );
             })}
           </Table.Body>
         </Table>
@@ -150,16 +150,16 @@ export default function SendMeldekort() {
             {tt("naviger.neste")}
           </RemixLink>
         </div>
-      </div>
+      </div>;
     }
   }
 
-  loggAktivitet("Viser send")
+  loggAktivitet("Viser send");
 
   return (
     <div>
       <MeldekortHeader />
       <Sideinnhold tittel={tt("overskrift.innsending")} innhold={innhold} />
     </div>
-  )
+  );
 }

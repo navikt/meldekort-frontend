@@ -7,27 +7,27 @@ import { formaterPeriode } from "~/utils/datoUtils";
 
 describe("SporsmalOgSvar", () => {
   afterEach(() => {
-    cleanup()
-  })
+    cleanup();
+  });
 
-  const fom = new Date()
+  const fom = new Date();
 
   test("Skal vise innhold med tittel", async () => {
-    render(<SporsmalOgSvar sporsmal={TEST_SPORSMAL} fom={fom.toISOString()} ytelsestypePostfix={""} />)
+    render(<SporsmalOgSvar sporsmal={TEST_SPORSMAL} fom={fom.toISOString()} ytelsestypePostfix={""} />);
 
-    await sjekkeSporsmalOgSvar("sporsmal.arbeid", "diverse.ja")
-    await sjekkeSporsmalOgSvar("sporsmal.aktivitetArbeid", "diverse.ja")
-    await sjekkeSporsmalOgSvar("sporsmal.forhindret", "diverse.ja")
-    await sjekkeSporsmalOgSvar("sporsmal.ferieFravar", "diverse.nei")
-    await sjekkeSporsmalOgSvar("sporsmal.registrert", "diverse.ja", fom)
-  })
-})
+    await sjekkeSporsmalOgSvar("sporsmal.arbeid", "diverse.ja");
+    await sjekkeSporsmalOgSvar("sporsmal.aktivitetArbeid", "diverse.ja");
+    await sjekkeSporsmalOgSvar("sporsmal.forhindret", "diverse.ja");
+    await sjekkeSporsmalOgSvar("sporsmal.ferieFravar", "diverse.nei");
+    await sjekkeSporsmalOgSvar("sporsmal.registrert", "diverse.ja", fom);
+  });
+});
 
 const sjekkeSporsmalOgSvar = async (sporsmal: string, svar: string, skalHaDato?: Date) => {
-  const sporsmalElement = await waitFor(() => screen.queryByTestId(sporsmal))
-  expect(sporsmalElement?.innerHTML).include(sporsmal)
-  if (skalHaDato) expect(sporsmalElement?.innerHTML).include(formaterPeriode(skalHaDato, 14, 14))
+  const sporsmalElement = await waitFor(() => screen.queryByTestId(sporsmal));
+  expect(sporsmalElement?.innerHTML).include(sporsmal);
+  if (skalHaDato) expect(sporsmalElement?.innerHTML).include(formaterPeriode(skalHaDato, 14, 14));
 
-  const svarElement = await waitFor(() => screen.queryByTestId(sporsmal + ".svar"))
-  expect(svarElement?.innerHTML).include(svar)
-}
+  const svarElement = await waitFor(() => screen.queryByTestId(sporsmal + ".svar"));
+  expect(svarElement?.innerHTML).include(svar);
+};

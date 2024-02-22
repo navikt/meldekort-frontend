@@ -23,50 +23,50 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Korriger tidligere meldekort" }
-  ]
-}
+  ];
+};
 
 export async function action(args: ActionFunctionArgs) {
-  return await sendInnMeldekortAction(args)
+  return await sendInnMeldekortAction(args);
 }
 
 // Vi må ikke prøve å laste ned data igjen etter action
 export function shouldRevalidate() {
-  return false
+  return false;
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
-  let feil = false
-  let historiskeMeldekort: IMeldekort[] | null = null
-  let meldekortdetaljer: IMeldekortdetaljer | null = null
-  let personInfo: IPersonInfo | null = null
-  let infomelding: IInfomelding | null = null
-  let valgtMeldekort: IMeldekort | undefined
+  let feil = false;
+  let historiskeMeldekort: IMeldekort[] | null = null;
+  let meldekortdetaljer: IMeldekortdetaljer | null = null;
+  let personInfo: IPersonInfo | null = null;
+  let infomelding: IInfomelding | null = null;
+  let valgtMeldekort: IMeldekort | undefined;
 
-  const meldekortId = params.meldekortId
+  const meldekortId = params.meldekortId;
 
   // Hvis det ikke finnes meldekortId, er det bare feil og det er ingen vits i å gjøre noe viedere
   if (!meldekortId) {
-    feil = true
+    feil = true;
   } else {
-    const onBehalfOfToken = await getOboToken(request)
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
-    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId)
-    const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
-    const infomeldingResponse = await hentInfomelding(onBehalfOfToken)
+    const onBehalfOfToken = await getOboToken(request);
+    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
+    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId);
+    const personInfoResponse = await hentPersonInfo(onBehalfOfToken);
+    const infomeldingResponse = await hentInfomelding(onBehalfOfToken);
 
     if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok || !infomeldingResponse.ok) {
-      feil = true
+      feil = true;
     } else {
-      historiskeMeldekort = await historiskeMeldekortResponse.json()
-      meldekortdetaljer = await meldekortdetaljerResponse.json()
-      personInfo = await personInfoResponse.json()
-      infomelding = await infomeldingResponse.json()
+      historiskeMeldekort = await historiskeMeldekortResponse.json();
+      meldekortdetaljer = await meldekortdetaljerResponse.json();
+      personInfo = await personInfoResponse.json();
+      infomelding = await infomeldingResponse.json();
 
-      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId)
+      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
 
       if (valgtMeldekort?.korrigerbart !== true) {
-        feil = true
+        feil = true;
       }
     }
   }
@@ -77,7 +77,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     meldekortdetaljer,
     personInfo,
     infomelding
-  })
+  });
 }
 
 export default function TidligereMeldekortKorrigering() {
@@ -87,27 +87,29 @@ export default function TidligereMeldekortKorrigering() {
     meldekortdetaljer,
     personInfo,
     infomelding
-  } = useLoaderData<typeof loader>()
+  } = useLoaderData<typeof loader>();
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
-  const { i18n, tt } = useExtendedTranslation(fraDato)
-  i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
+  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01";
+  const { i18n, tt } = useExtendedTranslation(fraDato);
+  i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo || !infomelding) {
-    const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     return (
       <div>
         <MeldekortHeader />
         <Sideinnhold utenSideoverskrift={true} innhold={innhold} />
       </div>
-    )
+    );
   }
 
-  return <Innsending innsendingstype={Innsendingstype.KORRIGERING}
-                     valgtMeldekort={valgtMeldekort}
-                     sporsmal={meldekortdetaljer.sporsmal}
-                     personInfo={personInfo}
-                     infomelding={infomelding}
-  />
+  return (
+    <Innsending innsendingstype={Innsendingstype.KORRIGERING}
+                valgtMeldekort={valgtMeldekort}
+                sporsmal={meldekortdetaljer.sporsmal}
+                personInfo={personInfo}
+                infomelding={infomelding}
+    />
+  );
 }

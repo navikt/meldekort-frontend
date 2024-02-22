@@ -10,11 +10,11 @@ import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 // Kan ikke kjøres parallelt!
 describe("Meldekortdetaljer", () => {
 
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }))
-  afterAll(() => server.close())
-  afterEach(() => server.resetHandlers())
+  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+  afterAll(() => server.close());
+  afterEach(() => server.resetHandlers());
 
-  const meldekortId = "1707156949"
+  const meldekortId = "1707156949";
 
   test("hentMeldekortdetaljer skal få status 500 når feil i backend", async () => {
     server.use(
@@ -23,35 +23,35 @@ describe("Meldekortdetaljer", () => {
         () => new HttpResponse(null, { status: 500 }),
         { once: true }
       )
-    )
+    );
 
-    const response = await catchErrorResponse(() => hentMeldekortdetaljer("", meldekortId))
+    const response = await catchErrorResponse(() => hentMeldekortdetaljer("", meldekortId));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("Internal Server Error")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("Internal Server Error");
+  });
 
   test("hentMeldekortdetaljer skal få data", async () => {
-    const expectedData = { ...TEST_MELDEKORTDETALJER } // Clone
-    jsonify(expectedData)
+    const expectedData = { ...TEST_MELDEKORTDETALJER }; // Clone
+    jsonify(expectedData);
 
-    const response = await hentMeldekortdetaljer("", meldekortId)
+    const response = await hentMeldekortdetaljer("", meldekortId);
 
-    const json = await response.json()
+    const json = await response.json();
 
-    expect(response.status).toBe(200)
-    expect(json).toStrictEqual(expectedData)
-  })
+    expect(response.status).toBe(200);
+    expect(json).toStrictEqual(expectedData);
+  });
 
   test("hentMeldekortdetaljer skal få status 500 når feil i fetch", async () => {
     // Stopper server slik at fetch kaster exception
-    server.close()
+    server.close();
 
-    const response = await catchErrorResponse(() => hentMeldekortdetaljer("", meldekortId))
+    const response = await catchErrorResponse(() => hentMeldekortdetaljer("", meldekortId));
 
-    expect(response.status).toBe(500)
-    expect(response.statusText).toBe("fetch failed")
-  })
+    expect(response.status).toBe(500);
+    expect(response.statusText).toBe("fetch failed");
+  });
 
   // OBS! Ikke skriv andre tester her videre hvis du trenger fungerende server, den er allerede stoppet
-})
+});

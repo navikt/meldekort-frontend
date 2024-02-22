@@ -11,9 +11,9 @@ export default function Sprakvelger() {
   const [currentLocale, setCurrentLocale] = useState(i18n.language);
 
   const setLocale = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCurrentLocale(event.target.value)
-    i18n.changeLanguage(event.target.value).catch((error) => console.log(error))
-  }
+    setCurrentLocale(event.target.value);
+    i18n.changeLanguage(event.target.value).catch((error) => console.log(error));
+  };
 
   return (
     <div className={classNames(styles.sprakvelger, styles[currentLocale])}>

@@ -38,70 +38,70 @@ export default function Sporsmal(props: IProps) {
     activeStep,
     setActiveStep,
     infomelding
-  } = props
+  } = props;
 
-  const { i18n, tt } = useExtendedTranslation()
+  const { i18n, tt } = useExtendedTranslation();
 
-  const [visFeil, setVisFeil] = useState(false)
+  const [visFeil, setVisFeil] = useState(false);
 
-  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"))
+  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"));
   const ref = useRef<HTMLDialogElement>(null);
 
   const setValgtBegrunnelse = (event: ChangeEvent<HTMLSelectElement>) => {
-    setBegrunnelse(event.target.value)
-  }
+    setBegrunnelse(event.target.value);
+  };
 
   const oppdaterSvar = (id: string, value: boolean) => {
-    const tmpSporsmal: any = { ...sporsmal }
-    tmpSporsmal[id] = value
-    setSporsmal(tmpSporsmal)
-  }
+    const tmpSporsmal: any = { ...sporsmal };
+    tmpSporsmal[id] = value;
+    setSporsmal(tmpSporsmal);
+  };
 
   const oppdaterMeldekortDager = (value: string | boolean, index: number, spObjKey: string) => {
-    const tmpSporsmal: any = { ...sporsmal }
-    tmpSporsmal.meldekortDager[index][spObjKey] = value
-    setSporsmal(tmpSporsmal)
-  }
+    const tmpSporsmal: any = { ...sporsmal };
+    tmpSporsmal.meldekortDager[index][spObjKey] = value;
+    setSporsmal(tmpSporsmal);
+  };
 
   const validerOgVidere = (modalBekreftet: boolean = false) => {
-    let feil = false
+    let feil = false;
 
     // Begrunnelse må velges kun ved korrigering
     if (innsendingstype === Innsendingstype.KORRIGERING && !begrunnelse) {
-      feil = true
+      feil = true;
     }
 
     // Sjekker at alle spørsmålene er besvart
     for (const sporsmalKey in sporsmal) {
       if ((sporsmal as any)[sporsmalKey] === null) {
-        feil = true
+        feil = true;
       }
     }
 
     if (feil) {
-      setVisFeil(true)
-      window.scrollTo(0, 600)
+      setVisFeil(true);
+      window.scrollTo(0, 600);
     } else {
       // Slett info hvis brukeren har svart Nei på det tilsvarende spørsmålet
-      if (!sporsmal.arbeidet) for (let i = 0; i < 14; i++) oppdaterMeldekortDager("", i, "arbeidetTimerSum")
-      if (!sporsmal.kurs) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "kurs")
-      if (!sporsmal.syk) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "syk")
-      if (!sporsmal.annetFravaer) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "annetFravaer")
+      if (!sporsmal.arbeidet) for (let i = 0; i < 14; i++) oppdaterMeldekortDager("", i, "arbeidetTimerSum");
+      if (!sporsmal.kurs) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "kurs");
+      if (!sporsmal.syk) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "syk");
+      if (!sporsmal.annetFravaer) for (let i = 0; i < 14; i++) oppdaterMeldekortDager(false, i, "annetFravaer");
 
       if (innsendingstype === Innsendingstype.INNSENDING && sporsmal.arbeidssoker === false && !modalBekreftet) {
-        ref.current?.showModal()
+        ref.current?.showModal();
         return;
       }
 
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
 
       // Hvis brukeren ikke hadde noen aktivitet, hopper vi over utfylling
-      if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2)
-      else setActiveStep(activeStep + 1)
+      if (!sporsmal.arbeidet && !sporsmal.kurs && !sporsmal.syk && !sporsmal.annetFravaer) setActiveStep(activeStep + 2);
+      else setActiveStep(activeStep + 1);
     }
-  }
+  };
 
-  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14)
+  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14);
 
   const riktigInfomelding = i18n.language === "nb" ? infomelding.norsk : infomelding.engelsk;
 
@@ -169,19 +169,19 @@ export default function Sporsmal(props: IProps) {
             {
               item.id === "arbeidssoker" ? <span> {nestePeriodeFormatertDato}?</span> : null
             }
-          </div>
+          </div>;
 
-          const desc = <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring + ytelsestypePostfix))} />
+          const desc = <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring + ytelsestypePostfix))} />;
 
-          let value = hentSvar(sporsmal, item.id)
-          let disabled = false
+          let value = hentSvar(sporsmal, item.id);
+          let disabled = false;
 
           // Sporsmålet om å bli arbeidssøker neste periode:
           // Svaret må vare JA hvis det er ETTERREGISTRERING
           // Sporsmålet må være disabled hvis det er ETTERREGISTRERING eller KORRIGERING
           if (item.id === "arbeidssoker") {
-            value = innsendingstype === Innsendingstype.ETTERREGISTRERING ? true : value
-            disabled = innsendingstype === Innsendingstype.ETTERREGISTRERING || innsendingstype === Innsendingstype.KORRIGERING
+            value = innsendingstype === Innsendingstype.ETTERREGISTRERING ? true : value;
+            disabled = innsendingstype === Innsendingstype.ETTERREGISTRERING || innsendingstype === Innsendingstype.KORRIGERING;
           }
 
           return (
@@ -204,7 +204,7 @@ export default function Sporsmal(props: IProps) {
                 </Radio>
               </RadioGroup>
             </div>
-          )
+          );
         })
       }
 
@@ -246,5 +246,5 @@ export default function Sporsmal(props: IProps) {
         </RemixLink>
       </div>
     </div>
-  )
+  );
 }

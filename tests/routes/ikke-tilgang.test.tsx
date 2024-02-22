@@ -14,18 +14,18 @@ describe("Ikke tilgang", () => {
       }
     ]);
 
-    render(<RouterProvider router={testRouter} />)
+    render(<RouterProvider router={testRouter} />);
 
-    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"))
-    await waitFor(() => screen.findByText("ikke.tilgang.tekst"))
-  })
+    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"));
+    await waitFor(() => screen.findByText("ikke.tilgang.tekst"));
+  });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs
+    const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
       { name: "description", content: "Du har ikke tilgang" }
-    ])
-  })
-})
+    ]);
+  });
+});

@@ -17,9 +17,9 @@ interface IProps {
 
 export default function SporsmalOgSvar(props: IProps) {
   const { tt } = useExtendedTranslation();
-  const { sporsmal, fom, ytelsestypePostfix } = props
+  const { sporsmal, fom, ytelsestypePostfix } = props;
 
-  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14)
+  const nestePeriodeFormatertDato = formaterPeriode(fom, 14, 14);
 
   const sporsmalOgSvar: ISporsmalOgSvar[] = sporsmalConfig.map(sporsmalsObj => {
     return {
@@ -28,8 +28,8 @@ export default function SporsmalOgSvar(props: IProps) {
       forklaring: sporsmalsObj.forklaring + ytelsestypePostfix,
       svar: hentSvar(sporsmal, sporsmalsObj.id),
       formatertDato: sporsmalsObj.kategori === "registrert" ? nestePeriodeFormatertDato : undefined,
-    }
-  })
+    };
+  });
 
   return sporsmalOgSvar.map((item) => {
     return (
@@ -47,6 +47,6 @@ export default function SporsmalOgSvar(props: IProps) {
           }
         </Box>
       </div>
-    )
-  })
+    );
+  });
 }

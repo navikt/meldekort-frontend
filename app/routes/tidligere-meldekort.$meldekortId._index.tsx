@@ -9,8 +9,8 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import nav from "~/img/nav.svg"
-import utklippstavle from "~/img/utklippstavle.svg"
+import nav from "~/img/nav.svg";
+import utklippstavle from "~/img/utklippstavle.svg";
 import { formaterBelop } from "~/utils/miscUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import type { IMeldekort } from "~/models/meldekort";
@@ -34,57 +34,57 @@ export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
     { name: "description", content: "Tidligere meldekort detaljer" }
-  ]
-}
+  ];
+};
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
-  let feil = false
-  let historiskeMeldekort: IMeldekort[] | null = null
-  let meldekortdetaljer: IMeldekortdetaljer | null = null
-  let personInfo: IPersonInfo | null = null
-  let valgtMeldekort: IMeldekort | undefined
+  let feil = false;
+  let historiskeMeldekort: IMeldekort[] | null = null;
+  let meldekortdetaljer: IMeldekortdetaljer | null = null;
+  let personInfo: IPersonInfo | null = null;
+  let valgtMeldekort: IMeldekort | undefined;
 
-  const meldekortId = params.meldekortId
+  const meldekortId = params.meldekortId;
 
   // Hvis det ikke finnes meldekortId, er det bare feil og det er ingen vits i å gjøre noe viedere
   if (!meldekortId) {
-    feil = true
+    feil = true;
   } else {
-    const onBehalfOfToken = await getOboToken(request)
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken)
-    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId)
-    const personInfoResponse = await hentPersonInfo(onBehalfOfToken)
+    const onBehalfOfToken = await getOboToken(request);
+    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
+    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId);
+    const personInfoResponse = await hentPersonInfo(onBehalfOfToken);
 
     if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok) {
-      feil = true
+      feil = true;
     } else {
-      historiskeMeldekort = await historiskeMeldekortResponse.json()
-      meldekortdetaljer = await meldekortdetaljerResponse.json()
-      personInfo = await personInfoResponse.json()
+      historiskeMeldekort = await historiskeMeldekortResponse.json();
+      meldekortdetaljer = await meldekortdetaljerResponse.json();
+      personInfo = await personInfoResponse.json();
 
-      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId)
+      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
     }
   }
 
-  return json({ feil, valgtMeldekort, meldekortdetaljer, personInfo })
+  return json({ feil, valgtMeldekort, meldekortdetaljer, personInfo });
 }
 
 export default function Meldekortdetaljer() {
-  const { feil, valgtMeldekort, meldekortdetaljer, personInfo } = useLoaderData<typeof loader>()
+  const { feil, valgtMeldekort, meldekortdetaljer, personInfo } = useLoaderData<typeof loader>();
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01"
-  const { i18n, tt } = useExtendedTranslation(fraDato)
-  i18n.setDefaultNamespace(fraDato) // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
+  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01";
+  const { i18n, tt } = useExtendedTranslation(fraDato);
+  i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
-  let innhold: ReactElement
+  let innhold: ReactElement;
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
   } else {
-    const fom = valgtMeldekort.meldeperiode.fra
-    const tom = valgtMeldekort.meldeperiode.til
-    const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe)
-    const sporsmal = meldekortdetaljer.sporsmal
+    const fom = valgtMeldekort.meldeperiode.fra;
+    const tom = valgtMeldekort.meldeperiode.til;
+    const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
+    const sporsmal = meldekortdetaljer.sporsmal;
 
     innhold = <div>
       <BodyLong as="div" align="center" spacing className="onlyForPrint">
@@ -169,7 +169,7 @@ export default function Meldekortdetaljer() {
           {tt("overskrift.skrivUt")}
         </Button>
       </div>
-    </div>
+    </div>;
   }
 
   return (
@@ -177,5 +177,5 @@ export default function Meldekortdetaljer() {
       <MeldekortHeader />
       <Sideinnhold utenSideoverskrift={true} innhold={innhold} />
     </div>
-  )
+  );
 }

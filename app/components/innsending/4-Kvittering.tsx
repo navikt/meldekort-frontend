@@ -45,33 +45,35 @@ export default function Kvittering(props: IProps) {
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
     nesteMeldekortKanSendes
-  } = props
+  } = props;
 
-  const { tt } = useExtendedTranslation()
+  const { tt } = useExtendedTranslation();
 
-  const mottattDato = new Date() // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
+  const mottattDato = new Date(); // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
 
   const createButton = (to: string, text: string) => {
-    return <Button variant="primary" onClick={() => {
-      window.location.replace(to)
-    }}>{text}</Button>
-  }
+    return (
+      <Button variant="primary" onClick={() => {
+        window.location.replace(to);
+      }}>{text}</Button>
+    );
+  };
 
-  let nesteLink = <NavLink to={getEnv("MIN_SIDE_URL")}>{tt("tilbake.minSide")}</NavLink>
-  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"))
-  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"))
+  let nesteLink = <NavLink to={getEnv("MIN_SIDE_URL")}>{tt("tilbake.minSide")}</NavLink>;
+  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"));
+  const eLink = createButton(`/etterregistrering/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"));
 
   if (innsendingstype === Innsendingstype.INNSENDING) {
     if (nesteMeldekortId) {
-      nesteLink = mLink
+      nesteLink = mLink;
     } else if (nesteEtterregistrerteMeldekortId) {
-      nesteLink = eLink
+      nesteLink = eLink;
     }
   } else if (innsendingstype === Innsendingstype.ETTERREGISTRERING) {
     if (nesteEtterregistrerteMeldekortId) {
-      nesteLink = eLink
+      nesteLink = eLink;
     } else if (nesteMeldekortId) {
-      nesteLink = mLink
+      nesteLink = mLink;
     }
   }
 
@@ -92,13 +94,13 @@ export default function Kvittering(props: IProps) {
       meldegruppe: meldegruppe || "UKJENT",
       innsendingstype: innsendingstype || "UKJENT",
     }
-  )
+  );
   loggAktivitet(
     "skjema fullført",
     {
       meldegruppe: meldegruppe || "UKJENT",
     }
-  )
+  );
 
   return (
     <div>
@@ -157,7 +159,8 @@ export default function Kvittering(props: IProps) {
       <hr />
 
       <div className="ukelister">
-        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0} tilDag={7} />
+        <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={0}
+                  tilDag={7} />
 
         <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
       </div>
@@ -174,5 +177,5 @@ export default function Kvittering(props: IProps) {
         </Button>
       </div>
     </div>
-  )
+  );
 }

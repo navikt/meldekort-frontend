@@ -6,14 +6,14 @@ import type { Meldegruppe } from "~/models/meldegruppe";
 
 export function formaterBelop(belop?: number): string {
   if (!belop || belop === 0 || isNaN(belop)) {
-    return "kr. 0"
+    return "kr. 0";
   }
 
-  const desimaler = 2
-  const desimalSeparator = ","
-  const tusenSeparator = " "
-  const i = parseInt(Math.abs(belop).toFixed(desimaler), 10).toString()
-  const j = i.length > 3 ? i.length % 3 : 0
+  const desimaler = 2;
+  const desimalSeparator = ",";
+  const tusenSeparator = " ";
+  const i = parseInt(Math.abs(belop).toFixed(desimaler), 10).toString();
+  const j = i.length > 3 ? i.length % 3 : 0;
 
   return (
     "kr. " +
@@ -21,28 +21,28 @@ export function formaterBelop(belop?: number): string {
     i.substring(j).replace(/(\d{3})(?=\d)/g, "$1" + tusenSeparator) +
     desimalSeparator +
     Math.abs(belop! - Number(i)).toFixed(desimaler).slice(2)
-  )
+  );
 }
 
 export function byggBegrunnelseObjekt(str: string) {
-  let obj = {}
+  let obj = {};
   try {
-    obj = JSON.parse(str)
+    obj = JSON.parse(str);
   } catch (e) {
 
   }
 
-  return obj
+  return obj;
 }
 
 export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
   for (const sporsmalKey in sporsmal) {
     if (sporsmalKey === spmid) {
-      return (sporsmal as any)[sporsmalKey]
+      return (sporsmal as any)[sporsmalKey];
     }
   }
 
-  return null
+  return null;
 }
 
 export function ukeDager() {
@@ -54,11 +54,11 @@ export function ukeDager() {
     getText("ukedag.fredag").trim(),
     getText("ukedag.lordag").trim(),
     getText("ukedag.sondag").trim(),
-  ]
+  ];
 }
 
 export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean | null) {
-  const dager = new Array<IMeldekortDag>()
+  const dager = new Array<IMeldekortDag>();
   for (let i = 0; i <= 13; i++) dager.push({
     "dag": i,
     "arbeidetTimerSum": 0,
@@ -66,7 +66,7 @@ export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean 
     "annetFravaer": false,
     "kurs": false,
     "meldegruppe": meldegruppe
-  })
+  });
 
   const sporsmal: Jsonify<ISporsmal> = {
     arbeidet: null,
@@ -76,7 +76,7 @@ export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean 
     arbeidssoker: arbeidssoker, // Dette spørsmålet må besvares Ja når brukeren etterregistrerer meldekort
     signatur: true, // Vi sender ikke uten brukerens samtykke uansett
     meldekortDager: dager
-  }
+  };
 
-  return sporsmal
+  return sporsmal;
 }

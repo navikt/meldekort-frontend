@@ -19,8 +19,8 @@ interface IEnv {
 }
 
 export function getEnv(key: keyof IEnv) {
-  let value = typeof process !== "undefined" ? process.env[key] : ""
-  if (!value) value = typeof window !== "undefined" ? window.env[key] : ""
+  let value = typeof process !== "undefined" ? process.env[key] : "";
+  if (!value) value = typeof window !== "undefined" ? window.env[key] : "";
 
-  return value
+  return value;
 }

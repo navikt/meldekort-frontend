@@ -2,41 +2,41 @@ import { format, getISOWeek } from "date-fns";
 
 
 export function formaterDato(dato: Date | string): string {
-  return format(new Date(dato), "dd.MM.yyyy")
+  return format(new Date(dato), "dd.MM.yyyy");
 }
 
 export function formaterTid(dato: Date | string): string {
-  return format(new Date(dato), "HH:mm")
+  return format(new Date(dato), "HH:mm");
 }
 
 export function formaterPeriodeDato(fraOgMed: Date | string, tilOgMed: Date | string) {
-  const fom = formaterDato(fraOgMed)
-  const tom = formaterDato(tilOgMed)
+  const fom = formaterDato(fraOgMed);
+  const tom = formaterDato(tilOgMed);
 
-  return `${fom} - ${tom}`
+  return `${fom} - ${tom}`;
 }
 
 export function formaterPeriodeTilUkenummer(fraOgMed: Date | string, tilOgMed: Date | string) {
-  const startUkenummer = getISOWeek(new Date(fraOgMed))
-  const sluttUkenummer = getISOWeek(new Date(tilOgMed))
+  const startUkenummer = getISOWeek(new Date(fraOgMed));
+  const sluttUkenummer = getISOWeek(new Date(tilOgMed));
 
-  return `${startUkenummer} - ${sluttUkenummer}`
+  return `${startUkenummer} - ${sluttUkenummer}`;
 }
 
 export function formaterPeriode(fom: Date | string, plussDager: number, periodelengde: number): string {
-  const nestePeriodeFom = new Date(fom)
-  nestePeriodeFom.setDate(nestePeriodeFom.getDate() + plussDager)
-  const nestePeriodeTom = new Date(nestePeriodeFom)
-  nestePeriodeTom.setDate(nestePeriodeTom.getDate() + periodelengde - 1)
+  const nestePeriodeFom = new Date(fom);
+  nestePeriodeFom.setDate(nestePeriodeFom.getDate() + plussDager);
+  const nestePeriodeTom = new Date(nestePeriodeFom);
+  nestePeriodeTom.setDate(nestePeriodeTom.getDate() + periodelengde - 1);
 
-  return formaterPeriodeTilUkenummer(nestePeriodeFom, nestePeriodeTom) + " (" + formaterPeriodeDato(nestePeriodeFom, nestePeriodeTom) + ")"
+  return formaterPeriodeTilUkenummer(nestePeriodeFom, nestePeriodeTom) + " (" + formaterPeriodeDato(nestePeriodeFom, nestePeriodeTom) + ")";
 }
 
 export function ukeFormatert(fom: Date | string, plussDager = 14): string {
-  const ukeFom = new Date(fom)
-  ukeFom.setDate(ukeFom.getDate() + plussDager)
-  const ukeTom = new Date(ukeFom)
-  ukeTom.setDate(ukeTom.getDate() + 6)
+  const ukeFom = new Date(fom);
+  ukeFom.setDate(ukeFom.getDate() + plussDager);
+  const ukeTom = new Date(ukeFom);
+  ukeTom.setDate(ukeTom.getDate() + 6);
 
-  return getISOWeek(ukeFom) + " (" + formaterPeriodeDato(ukeFom, ukeTom) + ")"
+  return getISOWeek(ukeFom) + " (" + formaterPeriodeDato(ukeFom, ukeTom) + ")";
 }

@@ -5,8 +5,8 @@ import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
 
 describe("Sideoverskrift", () => {
   test("Skal vise innhold", async () => {
-    render(<Sideoverskrift tittel={"TITTEL"} />)
+    render(<Sideoverskrift tittel={"TITTEL"} />);
 
-    await waitFor(() => screen.findByText("TITTEL"))
-  })
-})
+    await waitFor(() => screen.findByText("TITTEL"));
+  });
+});

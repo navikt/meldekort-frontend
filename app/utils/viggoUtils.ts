@@ -13,6 +13,6 @@ export async function hentErViggo(onBehalfOfToken: string): Promise<Response> {
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });
 
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   }
 }
