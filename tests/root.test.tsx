@@ -35,7 +35,6 @@ describe("Root", () => {
 
     expect(response.status).toBe(200)
     expect(data.feil).toEqual(true)
-    expect(data.personStatus).toEqual(null)
   })
 
   test("Skal sende til DP når erViggo = true", async () => {
@@ -56,7 +55,7 @@ describe("Root", () => {
     expect(response.status).toBe(307)
   })
 
-  test("Skal få feil = true når feil med personStatus", async () => {
+  test("Skal sende til ikke-tilgang når feil med personStatus", async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/status`,
@@ -71,11 +70,27 @@ describe("Root", () => {
       context: {}
     })
 
-    const data = await response.json()
+    expect(response.status).toBe(307)
+    expect(response.headers.get("location")).toBe("/ikke-tilgang")
+  })
 
-    expect(response.status).toBe(200)
-    expect(data.feil).toEqual(true)
-    expect(data.personStatus).toEqual(null)
+  test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/status`,
+        () => HttpResponse.json({ id: "" }, { status: 200 }),
+        { once: true }
+      )
+    )
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {}
+    })
+
+    expect(response.status).toBe(307)
+    expect(response.headers.get("location")).toBe("/ikke-tilgang")
   })
 
   test("Skal få feil = true når feil med skrivemodus", async () => {
@@ -101,7 +116,7 @@ describe("Root", () => {
     expect(data.skrivemodus).toEqual(null)
   })
 
-  test("Skal returnere personStatus og skrivemodus", async () => {
+  test("Skal returnere skrivemodus", async () => {
     const response = await loader({
       request: new Request(TEST_URL),
       params: {},
@@ -113,7 +128,6 @@ describe("Root", () => {
     expect(response.status).toBe(200)
     expect(data.locale).toEqual("nb")
     expect(data.feil).toEqual(false)
-    expect(data.personStatus).toEqual(TEST_PERSON_STATUS)
     expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS)
   })
 
@@ -131,40 +145,6 @@ describe("Root", () => {
     )
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"))
-  })
-
-  test("Skal vise feilmelding hvis personStatus = null", async () => {
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: null,
-          skrivemodus: null,
-          fragments: TEST_DECORATOR_FRAGMENTS
-        })
-      }
-    )
-
-    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"))
-    await waitFor(() => screen.findByText("ikke.tilgang.tekst"))
-  })
-
-  test("Skal vise feilmelding hvis personStatus ID er tom", async () => {
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: { id: "" },
-          skrivemodus: null,
-          fragments: TEST_DECORATOR_FRAGMENTS
-        })
-      }
-    )
-
-    await waitFor(() => screen.findByText("ikke.tilgang.overskrift"))
-    await waitFor(() => screen.findByText("ikke.tilgang.tekst"))
   })
 
   test("Skal vise feilmelding hvis skrivemodus = null", async () => {

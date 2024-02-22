@@ -8,7 +8,7 @@ import i18next from "~/i18next.server";
 import { useChangeLanguage } from "remix-i18next";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
-import { Alert, Heading } from "@navikt/ds-react";
+import { Alert } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -66,15 +66,35 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect(getEnv("DP_URL"), 307)
   }
 
+  // Hvis vi ikke er allerede på ikke-tilgang
+  const url = new URL(request.url);
+  // Sjekke at denne personen har tilgang (har meldeplikt)
+  const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
+  if (personStatusResponse.ok) {
+    personStatus = await personStatusResponse.json();
+  }
+
+  // Hvis vi er på ikke-tilgang og bruker har tilgang, send til send-meldekort
+  if (url.pathname === "/ikke-tilgang" && personStatus?.id !== "") {
+    return redirect("/send-meldekort", 307)
+  }
+
+  // Hvis vi ikke er på ikke-tilgang
+  if (url.pathname !== "/ikke-tilgang") {
+    // Hvis personStatus ikke er hentet eller hentet men ID er tom, send til ikke-tilgang
+    // Vi må ha redirect og kan ikke bare vise en feilmelding her fordi vi må hindre loaders fra andre routes å bli kalt
+    if (!personStatus || personStatus.id === "") {
+      return redirect("/ikke-tilgang", 307)
+    }
+  }
+
   const fragments = await hentDekoratorHtml();
   const locale = await i18next.getLocale(request);
-  const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
   const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
-  if (!erViggoResponse.ok || !personStatusResponse.ok || !skrivemodusResponse.ok) {
+  if (!erViggoResponse.ok || !skrivemodusResponse.ok) {
     feil = true
   } else {
-    personStatus = await personStatusResponse.json();
     skrivemodus = await skrivemodusResponse.json();
   }
 
@@ -82,7 +102,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     fragments,
     locale,
     feil,
-    personStatus,
     skrivemodus,
     env: {
       MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
@@ -93,7 +112,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function App() {
 
-  const { fragments, locale, feil, personStatus, skrivemodus, env } = useLoaderData<typeof loader>();
+  const { fragments, locale, feil, skrivemodus, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
 
@@ -102,15 +121,7 @@ export default function App() {
 
   let innhold = <Outlet />
 
-  if (!personStatus || personStatus.id === "") {
-    // Hvis personStatus ikke er hentet eller hentet men ID er tom, vis feilmelding
-    const alert = <Alert variant="error">
-      <Heading spacing size="small" level="3">{parseHtml(tt("ikke.tilgang.overskrift"))}</Heading>
-      {parseHtml(tt("ikke.tilgang.tekst"))}
-    </Alert>
-
-    innhold = <Sideinnhold utenSideoverskrift={true} innhold={alert} />
-  } else if (feil || skrivemodus?.skrivemodus !== true) {
+  if (feil || skrivemodus?.skrivemodus !== true) {
     // Hvis det er feil, vis feilmelding
     // Hvis skrivemodus er hentet men ikke er true, vis infomelding
     // Ellers vis Outlet
