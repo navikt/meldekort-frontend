@@ -16,6 +16,46 @@ describe("Root", () => {
 
   beforeAndAfterSetup()
 
+  test("Skal få feil = true når feil med erViggo", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/viggo/erViggo`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true }
+      )
+    )
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {}
+    })
+
+    const data = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(data.feil).toEqual(true)
+    expect(data.personStatus).toEqual(null)
+  })
+
+  test("Skal sende til DP når erViggo = true", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/viggo/erViggo`,
+        () => new HttpResponse(null, { status: 307 }),
+        { once: true }
+      )
+    )
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {}
+    })
+
+    expect(response.status).toBe(307)
+  })
+
   test("Skal få feil = true når feil med personStatus", async () => {
     server.use(
       http.get(

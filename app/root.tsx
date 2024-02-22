@@ -1,6 +1,6 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
@@ -17,6 +17,7 @@ import { getEnv } from "~/utils/envUtils";
 import { useEffect, useRef } from "react";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
+import { hentErViggo } from "~/utils/viggoUtils";
 
 import navStyles from "@navikt/ds-css/dist/index.css";
 import indexStyle from "~/index.css";
@@ -58,12 +59,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const onBehalfOfToken = await getOboToken(request);
 
+  // Sjekk at denne personen skal sendes til den nye DP løsningen
+  // Redirect til DP ellers fortsett
+  const erViggoResponse = await hentErViggo(onBehalfOfToken)
+  if (erViggoResponse.status === 307) {
+    return redirect(getEnv("DP_URL"), 307)
+  }
+
   const fragments = await hentDekoratorHtml();
   const locale = await i18next.getLocale(request);
   const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
   const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
-  if (!personStatusResponse.ok || !skrivemodusResponse.ok) {
+  if (!erViggoResponse.ok || !personStatusResponse.ok || !skrivemodusResponse.ok) {
     feil = true
   } else {
     personStatus = await personStatusResponse.json();
