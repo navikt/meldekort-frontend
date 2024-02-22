@@ -1,5 +1,5 @@
 import { PassThrough } from "node:stream";
-import type { EntryContext } from "@remix-run/node";
+import type { ActionFunctionArgs, EntryContext, LoaderFunctionArgs } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
@@ -74,4 +74,17 @@ export default async function handleRequest(
 
     setTimeout(abort, ABORT_DELAY);
   });
+}
+
+export function handleError(
+  error: unknown,
+  {
+    request,
+    params,
+    context,
+  }: LoaderFunctionArgs | ActionFunctionArgs
+) {
+  if (!request.signal.aborted) {
+    console.error(error);
+  }
 }
