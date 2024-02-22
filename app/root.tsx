@@ -162,6 +162,31 @@ export default function App() {
   );
 }
 
+export function ErrorBoundary() {
+  const locale = "nb"
+  const { i18n, tt } = useExtendedTranslation()
+  useChangeLanguage(locale)
+
+  const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>
+
+  return (
+    <html lang={locale} dir={i18n.dir()}>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div>
+          <MeldekortHeader />
+          <Sideinnhold utenSideoverskrift={true} innhold={alert} />
+        </div>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+
 /*
  * Injiser script-elementet til dekoratøren og en tilhørende div.
  * useEffect()-hooken sørger for at dette gjøres utelukkende client-side, ellers vil dekoratøren manipulere DOM-en og forstyrre hydreringen.
