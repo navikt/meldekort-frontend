@@ -49,7 +49,7 @@ export default function MeldekorTabell(props: IProps) {
               {formaterDato(meldekort.mottattDato)}
             </div>
             <div>
-              <Tag variant={finnRiktigTagVariant(meldekort.kortStatus, meldekort.kortType)}>
+              <Tag variant={finnRiktigTagVariant(meldekort.kortStatus, meldekort.kortType)} className={styles.tag}>
                 {mapKortStatusTilTekst(meldekort.kortStatus, meldekort.kortType)}
               </Tag>
             </div>

@@ -20,6 +20,10 @@
     background-color: var(--a-surface-subtle);
 }
 
+.tag {
+    margin-top: -0.5rem;
+}
+
 @media only screen and (max-width: 780px) {
     .header {
         display: none;
