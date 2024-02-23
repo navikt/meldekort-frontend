@@ -1,12 +1,12 @@
-import type { ISporsmal, ISporsmalOgSvar } from "~/models/sporsmal";
-import { sporsmalConfig } from "~/models/sporsmal";
-import { formaterPeriode } from "~/utils/datoUtils";
-import { Box, Label } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
-import { hentSvar } from "~/utils/miscUtils";
-import styles from "./SporsmalOgSvar.module.css";
+import type { ISporsmal, ISporsmalOgSvar } from '~/models/sporsmal';
+import { sporsmalConfig } from '~/models/sporsmal';
+import { formaterPeriode } from '~/utils/datoUtils';
+import { Box, Label } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import UtvidetInformasjon from '~/components/utvidetInformasjon/UtvidetInformasjon';
+import { CheckmarkCircleIcon } from '@navikt/aksel-icons';
+import { hentSvar } from '~/utils/miscUtils';
+import styles from './SporsmalOgSvar.module.css';
 
 
 interface IProps {
@@ -27,7 +27,7 @@ export default function SporsmalOgSvar(props: IProps) {
       sporsmal: sporsmalsObj.sporsmal + ytelsestypePostfix,
       forklaring: sporsmalsObj.forklaring + ytelsestypePostfix,
       svar: hentSvar(sporsmal, sporsmalsObj.id),
-      formatertDato: sporsmalsObj.kategori === "registrert" ? nestePeriodeFormatertDato : undefined,
+      formatertDato: sporsmalsObj.kategori === 'registrert' ? nestePeriodeFormatertDato : undefined,
     };
   });
 
@@ -39,11 +39,11 @@ export default function SporsmalOgSvar(props: IProps) {
           {item.formatertDato ? <span> {item.formatertDato}?</span> : null}
         </Label>
         <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring))} />
-        <Box paddingBlock="1" data-testid={item.sporsmal + ".svar"}>
+        <Box paddingBlock="1" data-testid={item.sporsmal + '.svar'}>
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />
           &nbsp;
           {
-            item.svar ? parseHtml(tt("diverse.ja")) : parseHtml(tt("diverse.nei"))
+            item.svar ? parseHtml(tt('diverse.ja')) : parseHtml(tt('diverse.nei'))
           }
         </Box>
       </div>

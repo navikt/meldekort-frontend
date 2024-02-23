@@ -2,6 +2,7 @@
 module.exports = {
   extends: ["@remix-run/eslint-config", "@remix-run/eslint-config/node"],
   "rules": {
-    "semi": [1, "always"]
+    "semi": [1, "always"],
+    "quotes": [1, "single", {"allowTemplateLiterals": false}]
   }
 };

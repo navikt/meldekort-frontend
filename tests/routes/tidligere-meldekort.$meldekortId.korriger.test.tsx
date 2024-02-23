@@ -1,13 +1,13 @@
-import { describe, expect, test, vi } from "vitest";
-import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { describe, expect, test, vi } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { server } from '../mocks/server';
+import { TEST_MELDEKORT_API_URL, TEST_URL } from '../helpers/setup';
 import TidligereMeldekortKorrigering, {
   action,
   loader,
   meta,
   shouldRevalidate
-} from "~/routes/tidligere-meldekort.$meldekortId.korriger";
+} from '~/routes/tidligere-meldekort.$meldekortId.korriger';
 import {
   jsonify,
   opprettTestMeldekort,
@@ -17,28 +17,28 @@ import {
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_MELDEKORTDETALJER,
   TEST_PERSON_INFO
-} from "../mocks/data";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { json } from "@remix-run/node";
-import { screen, waitFor } from "@testing-library/react";
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import type { IMeldekort } from "~/models/meldekort";
-import { KortStatus } from "~/models/meldekort";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IPersonInfo } from "~/models/person";
-import type { IInfomelding } from "~/models/infomelding";
+} from '../mocks/data';
+import type { IValideringsResultat } from '~/models/meldekortdetaljerInnsending';
+import { json } from '@remix-run/node';
+import { screen, waitFor } from '@testing-library/react';
+import type { ServerRuntimeMetaArgs } from '@remix-run/server-runtime/dist/routeModules';
+import { beforeAndAfterSetup, renderRemixStub } from '../helpers/test-helpers';
+import type { IMeldekort } from '~/models/meldekort';
+import { KortStatus } from '~/models/meldekort';
+import type { IMeldekortdetaljer } from '~/models/meldekortdetaljer';
+import type { IPersonInfo } from '~/models/person';
+import type { IInfomelding } from '~/models/infomelding';
 
 
-describe("Korriger tidligere meldekort", () => {
-  vi.mock("react-i18next", async () =>
-    (await vi.importActual("tests/mocks/react-i18next.ts")).mock
+describe('Korriger tidligere meldekort', () => {
+  vi.mock('react-i18next', async () =>
+    (await vi.importActual('tests/mocks/react-i18next.ts')).mock
   );
 
   beforeAndAfterSetup();
 
-  const meldekortId = "1707156949";
-  const request = new Request(TEST_URL + "/tidligere-meldekort/korriger");
+  const meldekortId = '1707156949';
+  const request = new Request(TEST_URL + '/tidligere-meldekort/korriger');
 
   const checkLoader = async (
     meldekortId?: string,
@@ -68,8 +68,8 @@ describe("Korriger tidligere meldekort", () => {
   const checkAction = async (baksystemFeil: boolean, innsending: IValideringsResultat | null) => {
     const body = new URLSearchParams({});
 
-    const request = new Request(TEST_URL + "/person/meldekort", {
-      method: "POST",
+    const request = new Request(TEST_URL + '/person/meldekort', {
+      method: 'POST',
       body,
     });
 
@@ -88,11 +88,11 @@ describe("Korriger tidligere meldekort", () => {
     });
   };
 
-  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+  test('Skal få feil = true hvis det ikke finnes meldekortId i params', async () => {
     await checkLoader();
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med historiskemeldekort', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
@@ -104,7 +104,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med meldekortdetaljer', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/meldekort/${meldekortId}`,
@@ -116,7 +116,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/info`,
@@ -128,7 +128,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/meldekort/infomelding`,
@@ -140,7 +140,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis meldekort ikke er korrigerbart", async () => {
+  test('Skal få feil = true hvis meldekort ikke er korrigerbart', async () => {
     const meldekort = opprettTestMeldekort(Number(meldekortId), true, KortStatus.OPPRE, false);
     jsonify(meldekort);
 
@@ -161,7 +161,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkLoader(meldekortId, meldekort, expectedMeldekortdetaljer, expectedPersonInfo, TEST_INFOMELDING);
   });
 
-  test("Skal få feil = false og data fra backend", async () => {
+  test('Skal få feil = false og data fra backend', async () => {
     const meldekort = opprettTestMeldekort(Number(meldekortId));
     jsonify(meldekort);
 
@@ -186,7 +186,7 @@ describe("Korriger tidligere meldekort", () => {
     });
   });
 
-  test("Skal få baksystemFeil = true når feil ved innsending av meldekort", async () => {
+  test('Skal få baksystemFeil = true når feil ved innsending av meldekort', async () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
@@ -197,7 +197,7 @@ describe("Korriger tidligere meldekort", () => {
     await checkAction(true, null);
   });
 
-  test("Skal få FEIL resultat ved innsending av meldekort", async () => {
+  test('Skal få FEIL resultat ved innsending av meldekort', async () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
@@ -208,11 +208,11 @@ describe("Korriger tidligere meldekort", () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
   });
 
-  test("Skal få OK resultat ved innsending av meldekort", async () => {
+  test('Skal få OK resultat ved innsending av meldekort', async () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
   });
 
-  test("Skal vise feilmelding hvis feil = true", async () => {
+  test('Skal vise feilmelding hvis feil = true', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
@@ -225,10 +225,10 @@ describe("Korriger tidligere meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
+  test('Skal vise feilmelding hvis valgtMeldekort = undefined', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
@@ -241,10 +241,10 @@ describe("Korriger tidligere meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis meldekortdetaljer = null", async () => {
+  test('Skal vise feilmelding hvis meldekortdetaljer = null', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
@@ -252,7 +252,7 @@ describe("Korriger tidligere meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: ""
+              fra: ''
             }
           },
           meldekortdetaljer: null,
@@ -261,10 +261,10 @@ describe("Korriger tidligere meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis personInfo = null", async () => {
+  test('Skal vise feilmelding hvis personInfo = null', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
@@ -272,7 +272,7 @@ describe("Korriger tidligere meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: ""
+              fra: ''
             }
           },
           meldekortdetaljer: {
@@ -283,10 +283,10 @@ describe("Korriger tidligere meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise Innsending", async () => {
+  test('Skal vise Innsending', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
@@ -294,8 +294,8 @@ describe("Korriger tidligere meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: "2024-02-12",
-              til: "2024-02-25"
+              fra: '2024-02-12',
+              til: '2024-02-25'
             }
           },
           meldekortdetaljer: {
@@ -303,28 +303,28 @@ describe("Korriger tidligere meldekort", () => {
           },
           personInfo: {
             personId: 1,
-            fodselsnr: "01020312345",
-            etternavn: "Etternavn",
-            fornavn: "Fornavn"
+            fodselsnr: '01020312345',
+            etternavn: 'Etternavn',
+            fornavn: 'Fornavn'
           },
           infomelding: TEST_INFOMELDING
         });
       }
     );
 
-    await waitFor(() => screen.findByText("meldekort.for.perioden"));
+    await waitFor(() => screen.findByText('meldekort.for.perioden'));
   });
 
-  test("Skal returnere metainformasjon", async () => {
+  test('Skal returnere metainformasjon', async () => {
     const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
-      { title: "Meldekort" },
-      { name: "description", content: "Korriger tidligere meldekort" }
+      { title: 'Meldekort' },
+      { name: 'description', content: 'Korriger tidligere meldekort' }
     ]);
   });
 
-  test("shouldRevalidate skal returnere false", async () => {
+  test('shouldRevalidate skal returnere false', async () => {
     expect(shouldRevalidate()).toBe(false);
   });
 });

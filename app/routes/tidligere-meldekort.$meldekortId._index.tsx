@@ -1,39 +1,39 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import type { ReactElement } from "react";
-import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import nav from "~/img/nav.svg";
-import utklippstavle from "~/img/utklippstavle.svg";
-import { formaterBelop } from "~/utils/miscUtils";
-import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
-import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
-import { RemixLink } from "~/components/RemixLink";
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import type { ReactElement } from 'react';
+import { Alert, BodyLong, Box, Button, Table, Tag } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import type { IMeldekortdetaljer } from '~/models/meldekortdetaljer';
+import { hentMeldekortdetaljer } from '~/models/meldekortdetaljer';
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from '~/utils/datoUtils';
+import nav from '~/img/nav.svg';
+import utklippstavle from '~/img/utklippstavle.svg';
+import { formaterBelop } from '~/utils/miscUtils';
+import { PrinterSmallFillIcon } from '@navikt/aksel-icons';
+import type { IMeldekort } from '~/models/meldekort';
+import { hentHistoriskeMeldekort, KortStatus } from '~/models/meldekort';
+import { RemixLink } from '~/components/RemixLink';
 import {
   finnRiktigTagVariant,
   finnYtelsestypePostfix,
   mapKortStatusTilTekst,
   mapKortTypeTilTekst
-} from "~/utils/meldekortUtils";
-import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
-import Ukeliste from "~/components/ukeliste/Ukeliste";
-import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import { getOboToken } from "~/utils/authUtils";
-import type { IPersonInfo } from "~/models/person";
-import { hentPersonInfo } from "~/models/person";
+} from '~/utils/meldekortUtils';
+import SporsmalOgSvar from '~/components/sporsmalOgSvar/SporsmalOgSvar';
+import Ukeliste from '~/components/ukeliste/Ukeliste';
+import Begrunnelse from '~/components/begrunnelse/Begrunnelse';
+import { getOboToken } from '~/utils/authUtils';
+import type { IPersonInfo } from '~/models/person';
+import { hentPersonInfo } from '~/models/person';
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Meldekort" },
-    { name: "description", content: "Tidligere meldekort detaljer" }
+    { title: 'Meldekort' },
+    { name: 'description', content: 'Tidligere meldekort detaljer' }
   ];
 };
 
@@ -72,14 +72,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export default function Meldekortdetaljer() {
   const { feil, valgtMeldekort, meldekortdetaljer, personInfo } = useLoaderData<typeof loader>();
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01";
+  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01';
   const { i18n, tt } = useExtendedTranslation(fraDato);
   i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   let innhold: ReactElement;
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
   } else {
     const fom = valgtMeldekort.meldeperiode.fra;
     const tom = valgtMeldekort.meldeperiode.til;
@@ -90,7 +90,7 @@ export default function Meldekortdetaljer() {
       <BodyLong as="div" align="center" spacing className="onlyForPrint">
         <img src={nav} className="imgBig" alt="" />
         <br /><br />
-        {tt("meldekort.for")}
+        {tt('meldekort.for')}
         <br />
         <h2 className="navds-heading navds-heading--medium">
           {personInfo.fornavn.toUpperCase()} {personInfo.etternavn.toUpperCase()} ({personInfo.fodselsnr})
@@ -98,10 +98,10 @@ export default function Meldekortdetaljer() {
       </BodyLong>
       <BodyLong as="div" align="center" spacing>
         <img src={utklippstavle} className="imgSmall notForPrint" alt="" />
-        <div>{tt("meldekort.for.perioden")}</div>
+        <div>{tt('meldekort.for.perioden')}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
-            {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
+            {tt('overskrift.uke')} {formaterPeriodeTilUkenummer(fom, tom)}
           </h2>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
@@ -110,10 +110,10 @@ export default function Meldekortdetaljer() {
       <Table zebraStripes>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell scope="col">{tt("overskrift.mottatt")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.status")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.bruttoBelop")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.meldekorttype")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.mottatt')}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.status')}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.bruttoBelop')}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.meldekorttype')}</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -127,7 +127,7 @@ export default function Meldekortdetaljer() {
               </Tag>
             </Table.DataCell>
             <Table.DataCell>
-              {(valgtMeldekort.kortStatus === KortStatus.FERDI) ? formaterBelop(valgtMeldekort.bruttoBelop) : ""}
+              {(valgtMeldekort.kortStatus === KortStatus.FERDI) ? formaterBelop(valgtMeldekort.bruttoBelop) : ''}
             </Table.DataCell>
             <Table.DataCell>
               {mapKortTypeTilTekst(valgtMeldekort.kortType)}
@@ -152,7 +152,7 @@ export default function Meldekortdetaljer() {
 
       <div className="buttons notForPrint">
         <RemixLink as="Button" variant="primary" to="/tidligere-meldekort">
-          {tt("naviger.tilbake")}
+          {tt('naviger.tilbake')}
         </RemixLink>
         {
           // Viser Korriger-knappen kun når valgt meldekort er korrigerbart
@@ -160,13 +160,13 @@ export default function Meldekortdetaljer() {
             <RemixLink as="Button"
                        variant="secondary"
                        to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
-              {tt("korriger.meldekort")}
+              {tt('korriger.meldekort')}
             </RemixLink>
         }
       </div>
       <div className="centeredButtons notForPrint">
         <Button variant="tertiary" icon={<PrinterSmallFillIcon aria-hidden />} onClick={() => window.print()}>
-          {tt("overskrift.skrivUt")}
+          {tt('overskrift.skrivUt')}
         </Button>
       </div>
     </div>;

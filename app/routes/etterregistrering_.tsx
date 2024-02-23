@@ -1,26 +1,26 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import type { IPerson } from "~/models/person";
-import { hentPerson } from "~/models/person";
-import { useLoaderData } from "@remix-run/react";
-import { Alert, BodyLong, GuidePanel, Table } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { ReactElement } from "react";
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { RemixLink } from "~/components/RemixLink";
-import { getOboToken } from "~/utils/authUtils";
-import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
-import { Navigate } from "react-router";
-import { KortStatus } from "~/models/meldekort";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import type { IPerson } from '~/models/person';
+import { hentPerson } from '~/models/person';
+import { useLoaderData } from '@remix-run/react';
+import { Alert, BodyLong, GuidePanel, Table } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import type { ReactElement } from 'react';
+import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from '~/utils/datoUtils';
+import { RemixLink } from '~/components/RemixLink';
+import { getOboToken } from '~/utils/authUtils';
+import { meldekortEtterKanSendesFraKomparator } from '~/utils/meldekortUtils';
+import { Navigate } from 'react-router';
+import { KortStatus } from '~/models/meldekort';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Meldekort" },
-    { name: "description", content: "Etterregistrering" }
+    { title: 'Meldekort' },
+    { name: 'description', content: 'Etterregistrering' }
   ];
 };
 
@@ -54,11 +54,11 @@ export default function Etterregistrering() {
     || [];
 
   if (feil || !person) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
   } else if (meldekortListe.length === 0) {
     innhold = <GuidePanel>
       <div>&nbsp;</div>
-      <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+      <div>{tt('sporsmal.ingenMeldekortASende')}</div>
     </GuidePanel>;
   } else if (meldekortListe.length === 1) {
     // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
@@ -68,13 +68,13 @@ export default function Etterregistrering() {
 
     innhold = <div>
       <BodyLong spacing>
-        {parseHtml(tt("sendMeldekort.info.kanSende"))}
+        {parseHtml(tt('sendMeldekort.info.kanSende'))}
       </BodyLong>
       <Table zebraStripes>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell scope="col">{tt("overskrift.periode")}</Table.HeaderCell>
-            <Table.HeaderCell scope="col">{tt("overskrift.dato")}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.periode')}</Table.HeaderCell>
+            <Table.HeaderCell scope="col">{tt('overskrift.dato')}</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -82,7 +82,7 @@ export default function Etterregistrering() {
             return (
               <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
                 <Table.DataCell>
-                  {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
+                  {tt('overskrift.uke')} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
                 </Table.DataCell>
                 <Table.DataCell>
                   {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
@@ -96,18 +96,18 @@ export default function Etterregistrering() {
       <div className="buttons">
         <div />
         <RemixLink as="Button" variant="primary" to={`/etterregistrering/${nesteMeldekortId}`}>
-          {tt("naviger.neste")}
+          {tt('naviger.neste')}
         </RemixLink>
       </div>
     </div>;
   }
 
-  loggAktivitet("Viser etterregistrere meldekort");
+  loggAktivitet('Viser etterregistrere meldekort');
 
   return (
     <div>
       <MeldekortHeader />
-      <Sideinnhold tittel={tt("overskrift.etterregistrering.innsending")} innhold={innhold} />
+      <Sideinnhold tittel={tt('overskrift.etterregistrering.innsending')} innhold={innhold} />
     </div>
   );
 }

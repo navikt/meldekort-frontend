@@ -1,22 +1,22 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { Alert, BodyLong } from "@navikt/ds-react";
-import type { ReactElement } from "react";
-import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort } from "~/models/meldekort";
-import { useLoaderData } from "@remix-run/react";
-import { getOboToken } from "~/utils/authUtils";
-import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import { Alert, BodyLong } from '@navikt/ds-react';
+import type { ReactElement } from 'react';
+import type { IMeldekort } from '~/models/meldekort';
+import { hentHistoriskeMeldekort } from '~/models/meldekort';
+import { useLoaderData } from '@remix-run/react';
+import { getOboToken } from '~/utils/authUtils';
+import MeldekorTabell from '~/components/meldekortTabell/MeldekortTabell';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Meldekort" },
-    { name: "description", content: "Tidligere meldekort" }
+    { title: 'Meldekort' },
+    { name: 'description', content: 'Tidligere meldekort' }
   ];
 };
 
@@ -48,31 +48,31 @@ export default function TidligereMeldekort() {
 
   let forklaring = <div>
     <BodyLong spacing>
-      {parseHtml(tt("tidligereMeldekort.forklaring"))}
+      {parseHtml(tt('tidligereMeldekort.forklaring'))}
     </BodyLong>
     <BodyLong spacing>
-      {parseHtml(tt("tidligereMeldekort.forklaring.korrigering"))}
+      {parseHtml(tt('tidligereMeldekort.forklaring.korrigering'))}
     </BodyLong>
   </div>;
 
   let alertOrData: ReactElement;
 
   if (feil) {
-    alertOrData = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    alertOrData = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
   } else if (!historiskeMeldekort || historiskeMeldekort.length === 0) {
-    alertOrData = <Alert variant="warning">{parseHtml(tt("tidligereMeldekort.harIngen"))}</Alert>;
+    alertOrData = <Alert variant="warning">{parseHtml(tt('tidligereMeldekort.harIngen'))}</Alert>;
   } else {
     alertOrData = <MeldekorTabell meldekortListe={historiskeMeldekort} />;
   }
 
   const innhold = <div>{forklaring}{alertOrData}</div>;
 
-  loggAktivitet("Viser tidligere meldekort");
+  loggAktivitet('Viser tidligere meldekort');
 
   return (
     <div>
       <MeldekortHeader />
-      <Sideinnhold tittel={tt("overskrift.tidligereMeldekort")} innhold={innhold} />
+      <Sideinnhold tittel={tt('overskrift.tidligereMeldekort')} innhold={innhold} />
     </div>
   );
 }

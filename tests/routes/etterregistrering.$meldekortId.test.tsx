@@ -1,36 +1,36 @@
-import { describe, expect, test, vi } from "vitest";
-import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { describe, expect, test, vi } from 'vitest';
+import { http, HttpResponse } from 'msw';
+import { server } from '../mocks/server';
+import { TEST_MELDEKORT_API_URL, TEST_URL } from '../helpers/setup';
 import EtterregistreringMeldekort, {
   action,
   loader,
   meta,
   shouldRevalidate
-} from "~/routes/etterregistrering.$meldekortId";
+} from '~/routes/etterregistrering.$meldekortId';
 import {
   jsonify,
   opprettTestMeldekort, TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO
-} from "../mocks/data";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { screen, waitFor } from "@testing-library/react";
-import { json } from "@remix-run/node";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+} from '../mocks/data';
+import type { IValideringsResultat } from '~/models/meldekortdetaljerInnsending';
+import type { ServerRuntimeMetaArgs } from '@remix-run/server-runtime/dist/routeModules';
+import { screen, waitFor } from '@testing-library/react';
+import { json } from '@remix-run/node';
+import { beforeAndAfterSetup, renderRemixStub } from '../helpers/test-helpers';
 
 
-describe("Etterregistrer meldekort", () => {
-  vi.mock("react-i18next", async () =>
-    (await vi.importActual("tests/mocks/react-i18next.ts")).mock
+describe('Etterregistrer meldekort', () => {
+  vi.mock('react-i18next', async () =>
+    (await vi.importActual('tests/mocks/react-i18next.ts')).mock
   );
 
   beforeAndAfterSetup();
 
-  const meldekortId = "1707156947";
-  const request = new Request(TEST_URL + "/etteregistrering");
+  const meldekortId = '1707156947';
+  const request = new Request(TEST_URL + '/etteregistrering');
 
   const checkLoader = async (meldekortId?: string) => {
     const response = await loader({
@@ -55,8 +55,8 @@ describe("Etterregistrer meldekort", () => {
   const checkAction = async (baksystemFeil: boolean, innsending: IValideringsResultat | null) => {
     const body = new URLSearchParams({});
 
-    const request = new Request(TEST_URL + "/person/meldekort", {
-      method: "POST",
+    const request = new Request(TEST_URL + '/person/meldekort', {
+      method: 'POST',
       body,
     });
 
@@ -75,11 +75,11 @@ describe("Etterregistrer meldekort", () => {
     });
   };
 
-  test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
+  test('Skal få feil = true hvis det ikke finnes meldekortId i params', async () => {
     await checkLoader();
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med person", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med person', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
@@ -91,7 +91,7 @@ describe("Etterregistrer meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med personInfo', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/info`,
@@ -103,7 +103,7 @@ describe("Etterregistrer meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding", async () => {
+  test('Skal få feil = true hvis det finnes meldekortId i params men feil med infomelding', async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/meldekort/infomelding`,
@@ -115,7 +115,7 @@ describe("Etterregistrer meldekort", () => {
     await checkLoader(meldekortId);
   });
 
-  test("Skal få feil = false og data fra backend", async () => {
+  test('Skal få feil = false og data fra backend', async () => {
     const expectedValgtMeldekort = opprettTestMeldekort(Number(meldekortId));
     jsonify(expectedValgtMeldekort);
 
@@ -138,7 +138,7 @@ describe("Etterregistrer meldekort", () => {
     });
   });
 
-  test("Skal få baksystemFeil = true når feil ved innsending av meldekort", async () => {
+  test('Skal få baksystemFeil = true når feil ved innsending av meldekort', async () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
@@ -149,7 +149,7 @@ describe("Etterregistrer meldekort", () => {
     await checkAction(true, null);
   });
 
-  test("Skal få FEIL resultat ved innsending av meldekort", async () => {
+  test('Skal få FEIL resultat ved innsending av meldekort', async () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
@@ -160,11 +160,11 @@ describe("Etterregistrer meldekort", () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
   });
 
-  test("Skal få OK resultat ved innsending av meldekort", async () => {
+  test('Skal få OK resultat ved innsending av meldekort', async () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
   });
 
-  test("Skal vise feilmelding hvis feil = true", async () => {
+  test('Skal vise feilmelding hvis feil = true', async () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
@@ -179,10 +179,10 @@ describe("Etterregistrer meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
+  test('Skal vise feilmelding hvis valgtMeldekort = undefined', async () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
@@ -197,10 +197,10 @@ describe("Etterregistrer meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis personInfo = null", async () => {
+  test('Skal vise feilmelding hvis personInfo = null', async () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
@@ -208,7 +208,7 @@ describe("Etterregistrer meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: ""
+              fra: ''
             }
           },
           nesteMeldekortId: undefined,
@@ -219,10 +219,10 @@ describe("Etterregistrer meldekort", () => {
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise feilmelding hvis infomelding = null", async () => {
+  test('Skal vise feilmelding hvis infomelding = null', async () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
@@ -230,26 +230,26 @@ describe("Etterregistrer meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: ""
+              fra: ''
             }
           },
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: {
             personId: 1,
-            fodselsnr: "01020312345",
-            etternavn: "Etternavn",
-            fornavn: "Fornavn"
+            fodselsnr: '01020312345',
+            etternavn: 'Etternavn',
+            fornavn: 'Fornavn'
           },
           infomelding: null
         });
       }
     );
 
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+    await waitFor(() => screen.findByText('feilmelding.baksystem'));
   });
 
-  test("Skal vise Innsending", async () => {
+  test('Skal vise Innsending', async () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
@@ -257,36 +257,36 @@ describe("Etterregistrer meldekort", () => {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
-              fra: "2024-02-12",
-              til: "2024-02-25"
+              fra: '2024-02-12',
+              til: '2024-02-25'
             }
           },
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: {
             personId: 1,
-            fodselsnr: "01020312345",
-            etternavn: "Etternavn",
-            fornavn: "Fornavn"
+            fodselsnr: '01020312345',
+            etternavn: 'Etternavn',
+            fornavn: 'Fornavn'
           },
           infomelding: TEST_INFOMELDING
         });
       }
     );
 
-    await waitFor(() => screen.findByText("meldekort.for.perioden"));
+    await waitFor(() => screen.findByText('meldekort.for.perioden'));
   });
 
-  test("Skal returnere metainformasjon", async () => {
+  test('Skal returnere metainformasjon', async () => {
     const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
-      { title: "Meldekort" },
-      { name: "description", content: "Etterregistrer meldekort" }
+      { title: 'Meldekort' },
+      { name: 'description', content: 'Etterregistrer meldekort' }
     ]);
   });
 
-  test("shouldRevalidate skal returnere false", async () => {
+  test('shouldRevalidate skal returnere false', async () => {
     expect(shouldRevalidate()).toBe(false);
   });
 });

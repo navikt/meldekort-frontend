@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
+import { http, HttpResponse } from 'msw';
+import { TEST_MELDEKORT_API_URL } from '../helpers/setup';
 import {
   TEST_HISTORISKEMELDEKORT, TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
@@ -7,7 +7,7 @@ import {
   TEST_PERSON,
   TEST_PERSON_INFO, TEST_PERSON_STATUS,
   TEST_SKRIVEMODUS
-} from "./data";
+} from './data';
 
 
 export const handlers = [

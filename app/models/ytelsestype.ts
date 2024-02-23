@@ -1,5 +1,5 @@
 export enum Ytelsestype {
-  AAP = "-AAP",
-  DAGPENGER = "",
-  TILTAKSPENGER = "-TP"
+  AAP = '-AAP',
+  DAGPENGER = '',
+  TILTAKSPENGER = '-TP'
 }

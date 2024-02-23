@@ -1,24 +1,24 @@
-import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
-import { getText } from "~/utils/intlUtils";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { Meldegruppe } from "~/models/meldegruppe";
+import type { IMeldekortDag, ISporsmal } from '~/models/sporsmal';
+import { getText } from '~/utils/intlUtils';
+import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
+import type { Meldegruppe } from '~/models/meldegruppe';
 
 
 export function formaterBelop(belop?: number): string {
   if (!belop || belop === 0 || isNaN(belop)) {
-    return "kr. 0";
+    return 'kr. 0';
   }
 
   const desimaler = 2;
-  const desimalSeparator = ",";
-  const tusenSeparator = " ";
+  const desimalSeparator = ',';
+  const tusenSeparator = ' ';
   const i = parseInt(Math.abs(belop).toFixed(desimaler), 10).toString();
   const j = i.length > 3 ? i.length % 3 : 0;
 
   return (
-    "kr. " +
-    (j ? i.substring(0, j) + tusenSeparator : "") +
-    i.substring(j).replace(/(\d{3})(?=\d)/g, "$1" + tusenSeparator) +
+    'kr. ' +
+    (j ? i.substring(0, j) + tusenSeparator : '') +
+    i.substring(j).replace(/(\d{3})(?=\d)/g, '$1' + tusenSeparator) +
     desimalSeparator +
     Math.abs(belop! - Number(i)).toFixed(desimaler).slice(2)
   );
@@ -47,25 +47,25 @@ export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
 
 export function ukeDager() {
   return [
-    getText("ukedag.mandag").trim(),
-    getText("ukedag.tirsdag").trim(),
-    getText("ukedag.onsdag").trim(),
-    getText("ukedag.torsdag").trim(),
-    getText("ukedag.fredag").trim(),
-    getText("ukedag.lordag").trim(),
-    getText("ukedag.sondag").trim(),
+    getText('ukedag.mandag').trim(),
+    getText('ukedag.tirsdag').trim(),
+    getText('ukedag.onsdag').trim(),
+    getText('ukedag.torsdag').trim(),
+    getText('ukedag.fredag').trim(),
+    getText('ukedag.lordag').trim(),
+    getText('ukedag.sondag').trim(),
   ];
 }
 
 export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean | null) {
   const dager = new Array<IMeldekortDag>();
   for (let i = 0; i <= 13; i++) dager.push({
-    "dag": i,
-    "arbeidetTimerSum": 0,
-    "syk": false,
-    "annetFravaer": false,
-    "kurs": false,
-    "meldegruppe": meldegruppe
+    'dag': i,
+    'arbeidetTimerSum': 0,
+    'syk': false,
+    'annetFravaer': false,
+    'kurs': false,
+    'meldegruppe': meldegruppe
   });
 
   const sporsmal: Jsonify<ISporsmal> = {

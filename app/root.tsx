@@ -1,51 +1,51 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
-import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
-import parse from "html-react-parser";
-import i18next from "~/i18next.server";
-import { useChangeLanguage } from "remix-i18next";
-import type { ISkrivemodus } from "~/models/skrivemodus";
-import { hentSkrivemodus } from "~/models/skrivemodus";
-import { Alert } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { getOboToken } from "~/utils/authUtils";
-import { getEnv } from "~/utils/envUtils";
-import type { IPersonStatus } from "~/models/personStatus";
-import { hentPersonStatus } from "~/models/personStatus";
-import { hentErViggo } from "~/utils/viggoUtils";
-import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
+import { cssBundleHref } from '@remix-run/css-bundle';
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
+import { hentDekoratorHtml } from '~/dekorator/dekorator.server';
+import parse from 'html-react-parser';
+import i18next from '~/i18next.server';
+import { useChangeLanguage } from 'remix-i18next';
+import type { ISkrivemodus } from '~/models/skrivemodus';
+import { hentSkrivemodus } from '~/models/skrivemodus';
+import { Alert } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import { getOboToken } from '~/utils/authUtils';
+import { getEnv } from '~/utils/envUtils';
+import type { IPersonStatus } from '~/models/personStatus';
+import { hentPersonStatus } from '~/models/personStatus';
+import { hentErViggo } from '~/utils/viggoUtils';
+import { useInjectDecoratorScript } from './utils/dekoratorUtils';
 
-import navStyles from "@navikt/ds-css/dist/index.css";
-import indexStyle from "~/index.css";
+import navStyles from '@navikt/ds-css/dist/index.css';
+import indexStyle from '~/index.css';
 
 
 export const links: LinksFunction = () => {
   return [
     ...(cssBundleHref
       ? [
-        { rel: "stylesheet", href: navStyles },
-        { rel: "stylesheet", href: cssBundleHref },
-        { rel: "stylesheet", href: indexStyle },
+        { rel: 'stylesheet', href: navStyles },
+        { rel: 'stylesheet', href: cssBundleHref },
+        { rel: 'stylesheet', href: indexStyle },
         {
-          rel: "icon",
-          type: "image/png",
-          sizes: "32x32",
-          href: "/favicon-32x32.png",
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '32x32',
+          href: '/favicon-32x32.png',
         },
         {
-          rel: "icon",
-          type: "image/png",
-          sizes: "16x16",
-          href: "/favicon-16x16.png",
+          rel: 'icon',
+          type: 'image/png',
+          sizes: '16x16',
+          href: '/favicon-16x16.png',
         },
         {
-          rel: "icon",
-          type: "image/x-icon",
-          href: "/favicon.ico",
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico',
         },
       ]
       : []),
@@ -63,7 +63,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // Redirect til DP ellers fortsett
   const erViggoResponse = await hentErViggo(onBehalfOfToken);
   if (erViggoResponse.status === 307) {
-    return redirect(getEnv("DP_URL"), 307);
+    return redirect(getEnv('DP_URL'), 307);
   }
 
   const url = new URL(request.url);
@@ -74,16 +74,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
-  if (url.pathname === "/ikke-tilgang" && personStatus?.id !== "") {
-    return redirect("/send-meldekort", 307);
+  if (url.pathname === '/ikke-tilgang' && personStatus?.id !== '') {
+    return redirect('/send-meldekort', 307);
   }
 
   // Hvis vi ikke er på ikke-tilgang
-  if (url.pathname !== "/ikke-tilgang") {
+  if (url.pathname !== '/ikke-tilgang') {
     // Hvis personStatus ikke er hentet eller hentet men ID er tom, redirect til ikke-tilgang
     // Vi må ha redirect og kan ikke bare vise en feilmelding her fordi vi må hindre loaders fra andre routes å bli kalt
-    if (!personStatus || personStatus.id === "") {
-      return redirect("/ikke-tilgang", 307);
+    if (!personStatus || personStatus.id === '') {
+      return redirect('/ikke-tilgang', 307);
     }
   }
 
@@ -103,8 +103,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     feil,
     skrivemodus,
     env: {
-      MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
-      AMPLITUDE_API_KEY: getEnv("AMPLITUDE_API_KEY")
+      MIN_SIDE_URL: getEnv('MIN_SIDE_URL'),
+      AMPLITUDE_API_KEY: getEnv('AMPLITUDE_API_KEY')
     }
   });
 }
@@ -124,15 +124,15 @@ export default function App() {
     // Hvis det er feil, vis feilmelding
     // Hvis skrivemodus er hentet men ikke er true, vis infomelding
     // Ellers vis Outlet
-    let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    let alert = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
 
     if (skrivemodus && !skrivemodus.skrivemodus) {
       // Hvis skrivemodues ikke er true:
       // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
       // Ellers vis standard melding
-      let melding = tt("skrivemodusInfomelding");
+      let melding = tt('skrivemodusInfomelding');
       if (skrivemodus.melding) {
-        melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
+        melding = i18n.language === 'nb' ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
       }
 
       alert = <Alert variant="info">{parseHtml(melding)}</Alert>;

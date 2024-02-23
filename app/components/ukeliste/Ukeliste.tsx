@@ -1,11 +1,11 @@
-import type { IMeldekortDag } from "~/models/sporsmal";
-import { Label } from "@navikt/ds-react";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import type { TTFunction } from "~/utils/intlUtils";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { ukeFormatert } from "~/utils/datoUtils";
-import styles from "./Ukeliste.module.css";
-import { ukeDager } from "~/utils/miscUtils";
+import type { IMeldekortDag } from '~/models/sporsmal';
+import { Label } from '@navikt/ds-react';
+import UtvidetInformasjon from '~/components/utvidetInformasjon/UtvidetInformasjon';
+import type { TTFunction } from '~/utils/intlUtils';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import { ukeFormatert } from '~/utils/datoUtils';
+import styles from './Ukeliste.module.css';
+import { ukeDager } from '~/utils/miscUtils';
 
 
 interface IProps {
@@ -29,7 +29,7 @@ export default function Ukeliste(props: IProps) {
 
   return (
     <div className={styles.ukeliste}>
-      <h3 className={styles.ukeTittel}>{tt("overskrift.uke")} {ukeFormatert(fom, fraDag)}</h3>
+      <h3 className={styles.ukeTittel}>{tt('overskrift.uke')} {ukeFormatert(fom, fraDag)}</h3>
       <hr className={styles.ukeTittelDelimiter} />
 
       {
@@ -47,17 +47,17 @@ function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, til
     const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7];
     if (harAktivitet) {
       return (
-        <div key={"dag" + dag.dag} className={styles.dag}>
-          <Label data-testid={"label" + dag.dag}>{ukedag}:</Label>
+        <div key={'dag' + dag.dag} className={styles.dag}>
+          <Label data-testid={'label' + dag.dag}>{ukedag}:</Label>
           <span> </span>
-          <span data-testid={"aktivitet" + dag.dag}>
+          <span data-testid={'aktivitet' + dag.dag}>
             {
               [
-                dag.arbeidetTimerSum ? `${tt("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${tt("overskrift.timer").trim()}` : "",
-                dag.kurs ? tt("utfylling.tiltak").trim() : "",
-                dag.syk ? tt("utfylling.syk").trim() : "",
-                dag.annetFravaer ? tt("utfylling.ferieFravar").trim() : ""
-              ].filter(Boolean).join(", ")
+                dag.arbeidetTimerSum ? `${tt('utfylling.arbeid')} ${dag.arbeidetTimerSum} ${tt('overskrift.timer').trim()}` : '',
+                dag.kurs ? tt('utfylling.tiltak').trim() : '',
+                dag.syk ? tt('utfylling.syk').trim() : '',
+                dag.annetFravaer ? tt('utfylling.ferieFravar').trim() : ''
+              ].filter(Boolean).join(', ')
             }
           </span>
           <UtvidetInformasjon innhold={hentDagsdata(tt, dag, ytelsestypePostfix)} />
@@ -73,22 +73,22 @@ function hentDagsdata(tt: TTFunction, dag: IMeldekortDag, ytelsestypePostfix: st
   const innhold = [];
 
   if (dag.arbeidetTimerSum > 0) {
-    innhold.push(formaterDagsdata(tt, "utfylling.arbeid", "forklaring.utfylling.arbeid" + ytelsestypePostfix));
+    innhold.push(formaterDagsdata(tt, 'utfylling.arbeid', 'forklaring.utfylling.arbeid' + ytelsestypePostfix));
   }
 
   if (dag.kurs) {
-    innhold.push(formaterDagsdata(tt, "utfylling.tiltak", "forklaring.utfylling.tiltak" + ytelsestypePostfix));
+    innhold.push(formaterDagsdata(tt, 'utfylling.tiltak', 'forklaring.utfylling.tiltak' + ytelsestypePostfix));
   }
   if (dag.syk) {
-    innhold.push(formaterDagsdata(tt, "utfylling.syk", "forklaring.utfylling.syk" + ytelsestypePostfix));
+    innhold.push(formaterDagsdata(tt, 'utfylling.syk', 'forklaring.utfylling.syk' + ytelsestypePostfix));
   }
 
   if (dag.annetFravaer) {
-    innhold.push(formaterDagsdata(tt, "utfylling.ferieFravar", "forklaring.utfylling.ferieFravar" + ytelsestypePostfix));
+    innhold.push(formaterDagsdata(tt, 'utfylling.ferieFravar', 'forklaring.utfylling.ferieFravar' + ytelsestypePostfix));
   }
 
   return (
-    <div key={"dagInfo" + dag.dag}>{innhold}</div>
+    <div key={'dagInfo' + dag.dag}>{innhold}</div>
   );
 }
 

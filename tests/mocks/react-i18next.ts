@@ -3,8 +3,8 @@ export const mock = {
   useTranslation: () => {
     return {
       t: (args: string[]) => {
-        if (args[1] === "korriger.begrunnelse.valg") {
-          return "{\"1\": \"Op1\", \"2\": \"Op2\"}";
+        if (args[1] === 'korriger.begrunnelse.valg') {
+          return '{"1": "Op1", "2": "Op2"}';
         }
 
         return args[1];

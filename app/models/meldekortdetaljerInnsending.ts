@@ -1,15 +1,15 @@
-import type { KortType } from "~/models/kortType";
-import type { KortStatus } from "~/models/meldekort";
-import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
-import type { Meldegruppe } from "~/models/meldegruppe";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldeperiode } from "~/models/meldeperiode";
-import { getHeaders } from "~/utils/fetchUtils";
-import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { getOboToken } from "~/utils/authUtils";
-import { getEnv } from "~/utils/envUtils";
-import { Innsendingstype } from "~/models/innsendingstype";
+import type { KortType } from '~/models/kortType';
+import type { KortStatus } from '~/models/meldekort';
+import { hentMeldekortIdForKorrigering } from '~/models/meldekort';
+import type { Meldegruppe } from '~/models/meldegruppe';
+import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
+import type { IMeldeperiode } from '~/models/meldeperiode';
+import { getHeaders } from '~/utils/fetchUtils';
+import type { ActionFunctionArgs, TypedResponse } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { getOboToken } from '~/utils/authUtils';
+import { getEnv } from '~/utils/envUtils';
+import { Innsendingstype } from '~/models/innsendingstype';
 
 
 // Request
@@ -39,10 +39,10 @@ export interface IFravaerInnsending {
 }
 
 export enum FravaerTypeInnsending {
-  KURS_UTDANNING = "K",
-  SYKDOM = "S",
-  ANNET_FRAVAER = "X",
-  ARBEIDS_FRAVAER = "A"
+  KURS_UTDANNING = 'K',
+  SYKDOM = 'S',
+  ANNET_FRAVAER = 'X',
+  ARBEIDS_FRAVAER = 'A'
 }
 
 export interface ISporsmalsobjekt {
@@ -84,7 +84,7 @@ async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string,
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
   try {
     return await fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: getHeaders(onBehalfOfToken),
       body: JSON.stringify(meldekortdetaljer)
     });
@@ -101,10 +101,10 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
 
   const onBehalfOfToken = await getOboToken(request);
   const formdata = await request.formData();
-  const meldekortdetaljer = JSON.parse(formdata.get("meldekortdetaljer")?.toString() || "{}");
+  const meldekortdetaljer = JSON.parse(formdata.get('meldekortdetaljer')?.toString() || '{}');
 
   // Vi må opprette et nytt meldekort og få en ny meldekortId først hvis det er korrigering
-  if (formdata.get("innsendingstype") === Innsendingstype.KORRIGERING.toString()) {
+  if (formdata.get('innsendingstype') === Innsendingstype.KORRIGERING.toString()) {
     const nyMeldekortIdResponse = await hentMeldekortIdForKorrigering(onBehalfOfToken, meldekortdetaljer.meldekortId);
 
     if (nyMeldekortIdResponse.ok) {
@@ -120,7 +120,7 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
     // Hvis ikke OK, vis feil
     // Hvis OK og uten arsakskoder, gå til Kvittering
     // Hvis OK, men med arsakskoder, gå til Utfylling
-    const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv("MELDEKORT_API_URL"), meldekortdetaljer);
+    const innsendingResponse = await sendInnMeldekort(onBehalfOfToken, getEnv('MELDEKORT_API_URL'), meldekortdetaljer);
 
     if (!innsendingResponse.ok) {
       baksystemFeil = true;

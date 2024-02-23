@@ -1,15 +1,15 @@
-import type { MetaFunction } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { Box, GuidePanel } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+import type { MetaFunction } from '@remix-run/node';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import { Box, GuidePanel } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Meldekort" },
-    { name: "description", content: "Generelt om meldekort" }
+    { title: 'Meldekort' },
+    { name: 'description', content: 'Generelt om meldekort' }
   ];
 };
 
@@ -18,38 +18,38 @@ export default function OmMeldekort() {
 
   const innhold = <GuidePanel poster>
     <Box>
-      {tt("genereltOmMeldekort.velkommen")}
+      {tt('genereltOmMeldekort.velkommen')}
     </Box>
     <Box>
-      {tt("genereltOmMeldekort.velge")}
+      {tt('genereltOmMeldekort.velge')}
       <ul>
         <li>
-          {tt("genereltOmMeldekort.valg.sende")}
+          {tt('genereltOmMeldekort.valg.sende')}
         </li>
         <li>
-          {tt("genereltOmMeldekort.valg.tidligere")}
+          {tt('genereltOmMeldekort.valg.tidligere')}
         </li>
       </ul>
     </Box>
     <Box>
-      {parseHtml(tt("genereltOmMeldekort.om.meldekort"),
+      {parseHtml(tt('genereltOmMeldekort.om.meldekort'),
         [
-          "https://www.nav.no",
-          tt("genereltOmMeldekort.informasjonOmMeldekortLink").trim()
+          'https://www.nav.no',
+          tt('genereltOmMeldekort.informasjonOmMeldekortLink').trim()
         ]
       )}
     </Box>
     <Box>
-      {tt("genereltOmMeldekort.oss")}
+      {tt('genereltOmMeldekort.oss')}
     </Box>
   </GuidePanel>;
 
-  loggAktivitet("Viser om meldekort");
+  loggAktivitet('Viser om meldekort');
 
   return (
     <div>
       <MeldekortHeader />
-      <Sideinnhold tittel={tt("overskrift.genereltOmMeldekort")} innhold={innhold} />
+      <Sideinnhold tittel={tt('overskrift.genereltOmMeldekort')} innhold={innhold} />
     </div>
   );
 }

@@ -1,13 +1,13 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekort } from "~/models/meldekort";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
-import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
-import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
-import { sporsmalConfig } from "~/models/sporsmal";
-import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
-import { getText } from "~/utils/intlUtils";
-import { ukeDager } from "~/utils/miscUtils";
+import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
+import type { IMeldekort } from '~/models/meldekort';
+import { Innsendingstype } from '~/models/innsendingstype';
+import { finnYtelsestypePostfix } from '~/utils/meldekortUtils';
+import type { ISporsmalsobjekt } from '~/models/meldekortdetaljerInnsending';
+import type { IMeldekortDag, ISporsmal } from '~/models/sporsmal';
+import { sporsmalConfig } from '~/models/sporsmal';
+import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from '~/utils/datoUtils';
+import { getText } from '~/utils/intlUtils';
+import { ukeDager } from '~/utils/miscUtils';
 
 
 // Vi må samle alt vi har vist til bruker og sende sammen med meldekort for å lagre dette i Dokarkiv
@@ -44,10 +44,10 @@ export function opprettSporsmalsobjekter(
   sporsmalsobjekter.push(uke(fra, 0, 7, sporsmal.meldekortDager));
   sporsmalsobjekter.push(uke(fra, 7, 7, sporsmal.meldekortDager));
 
-  sporsmalsobjekter.push(utfylling("utfylling.arbeid", ytelsestypePostfix, true));
-  sporsmalsobjekter.push(utfylling("utfylling.tiltak", ytelsestypePostfix));
-  sporsmalsobjekter.push(utfylling("utfylling.syk", ytelsestypePostfix));
-  sporsmalsobjekter.push(utfylling("utfylling.ferieFravar", ytelsestypePostfix));
+  sporsmalsobjekter.push(utfylling('utfylling.arbeid', ytelsestypePostfix, true));
+  sporsmalsobjekter.push(utfylling('utfylling.tiltak', ytelsestypePostfix));
+  sporsmalsobjekter.push(utfylling('utfylling.syk', ytelsestypePostfix));
+  sporsmalsobjekter.push(utfylling('utfylling.ferieFravar', ytelsestypePostfix));
 
   sporsmalsobjekter.push(bekreftelse(ytelsestypePostfix));
 
@@ -61,21 +61,21 @@ function header(
   mottattDato: Date,
   nesteDato: string | undefined
 ): ISporsmalsobjekt {
-  const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato);
+  const meldekortMottatt = formaterDato(mottattDato) + ' ' + formaterTid(mottattDato);
 
   return {
-    sporsmal: "",
+    sporsmal: '',
     svar: getText(
-      "sendt.mottatt.pdfheader",
+      'sendt.mottatt.pdfheader',
       {
         type: korrigering
-          ? getText("meldekort.type.korrigert").trim()
-          : getText("overskrift.meldekort").trim(),
-        period: getText("overskrift.uke").trim() + " " + formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 14),
+          ? getText('meldekort.type.korrigert').trim()
+          : getText('overskrift.meldekort').trim(),
+        period: getText('overskrift.uke').trim() + ' ' + formaterPeriode(valgtMeldekort.meldeperiode.fra, 0, 14),
         mottatt: meldekortMottatt,
         kortKanSendesFra: nesteDato
-          ? getText("sendt.mottatt.meldekortKanSendes", { 0: formaterDato(nesteDato) }) + "<br/>"
-          : "",
+          ? getText('sendt.mottatt.meldekortKanSendes', { 0: formaterDato(nesteDato) }) + '<br/>'
+          : '',
       }
     )
   };
@@ -83,13 +83,13 @@ function header(
 
 function veiledning(): ISporsmalsobjekt {
   return {
-    sporsmal: getText("sporsmal.lesVeiledning")
+    sporsmal: getText('sporsmal.lesVeiledning')
   };
 }
 
 function ansvar(): ISporsmalsobjekt {
   return {
-    sporsmal: getText("sporsmal.ansvarForRiktigUtfylling")
+    sporsmal: getText('sporsmal.ansvarForRiktigUtfylling')
   };
 }
 
@@ -98,8 +98,8 @@ function korrigeringsBegrunnelse(
   ytelsestypePostfix: string
 ): ISporsmalsobjekt {
   return {
-    sporsmal: getText("korrigering.sporsmal.begrunnelse"),
-    forklaring: getText("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix),
+    sporsmal: getText('korrigering.sporsmal.begrunnelse'),
+    forklaring: getText('forklaring.sporsmal.begrunnelse' + ytelsestypePostfix),
     svar: begrunnelse,
   };
 }
@@ -110,15 +110,15 @@ function sporsmalOgSvar(
   ytelsestypePostfix: string
 ): ISporsmalsobjekt[] {
   return sporsmalConfig.map(spm => {
-    const nestePeriode = spm.kategori === "registrert" ? " " + formaterPeriode(fra, 14, 14) : "";
+    const nestePeriode = spm.kategori === 'registrert' ? ' ' + formaterPeriode(fra, 14, 14) : '';
 
     return {
       sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
       forklaring: getText(spm.forklaring + ytelsestypePostfix),
       svar:
-        ((sporsmal as any)[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
-        "<br>" +
-        ((sporsmal as any)[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
+        ((sporsmal as any)[spm.id] === true ? 'X ' : '_ ') + getText(spm.ja + ytelsestypePostfix) +
+        '<br>' +
+        ((sporsmal as any)[spm.id] !== true ? 'X ' : '_ ') + getText(spm.nei + ytelsestypePostfix),
     };
   });
 }
@@ -130,7 +130,7 @@ function uke(
   meldekortDager: IMeldekortDag[]
 ): ISporsmalsobjekt {
   return {
-    sporsmal: getText("overskrift.uke").trim() + " " + ukeFormatert(fra, plussDager),
+    sporsmal: getText('overskrift.uke').trim() + ' ' + ukeFormatert(fra, plussDager),
     svar: formaterUke(meldekortDager, plussDager, plussDager + periodelengde)
   };
 }
@@ -142,18 +142,18 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
     const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk;
     const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7];
     const aktiviteter = [
-      dag.arbeidetTimerSum ? `${getText("utfylling.arbeid")} ${dag.arbeidetTimerSum} ${getText("overskrift.timer").trim()}` : "",
-      dag.kurs ? getText("utfylling.tiltak").trim() : "",
-      dag.syk ? getText("utfylling.syk").trim() : "",
-      dag.annetFravaer ? getText("utfylling.ferieFravar").trim() : ""
-    ].filter(Boolean).join(", ");
+      dag.arbeidetTimerSum ? `${getText('utfylling.arbeid')} ${dag.arbeidetTimerSum} ${getText('overskrift.timer').trim()}` : '',
+      dag.kurs ? getText('utfylling.tiltak').trim() : '',
+      dag.syk ? getText('utfylling.syk').trim() : '',
+      dag.annetFravaer ? getText('utfylling.ferieFravar').trim() : ''
+    ].filter(Boolean).join(', ');
 
     if (harAktivitet) {
       return `<div><b>${ukedag}:</b><span> </span>${aktiviteter}</div>`;
     } else {
-      return "";
+      return '';
     }
-  }).join("");
+  }).join('');
 }
 
 function utfylling(
@@ -163,22 +163,22 @@ function utfylling(
 ): ISporsmalsobjekt {
   return {
     advarsel: medAdvarsel
-      ? getText("sendt.advarsel")
-      : "",
-    sporsmal: "",
+      ? getText('sendt.advarsel')
+      : '',
+    sporsmal: '',
     forklaring:
-      "<b>" +
+      '<b>' +
       getText(id + ytelsestypePostfix) +
-      "</b><br/>" +
-      getText("forklaring." + id + ytelsestypePostfix)
+      '</b><br/>' +
+      getText('forklaring.' + id + ytelsestypePostfix)
   };
 }
 
 function bekreftelse(ytelsestypePostfix: string): ISporsmalsobjekt {
   return {
     sporsmal:
-      getText("utfylling.bekreft" + ytelsestypePostfix) +
-      "<br><br>X " +
-      getText("utfylling.bekreftAnsvar")
+      getText('utfylling.bekreft' + ytelsestypePostfix) +
+      '<br><br>X ' +
+      getText('utfylling.bekreftAnsvar')
   };
 }

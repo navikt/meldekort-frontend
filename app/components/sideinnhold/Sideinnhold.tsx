@@ -1,6 +1,6 @@
-import styles from "./Sideinnhold.module.css";
-import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
-import type { ReactElement } from "react";
+import styles from './Sideinnhold.module.css';
+import Sideoverskrift from '~/components/sideoverskrift/Sideoverskrift';
+import type { ReactElement } from 'react';
 
 
 interface IProps {
@@ -14,7 +14,7 @@ export default function Sideinnhold(props: IProps) {
 
   return (
     <div className={styles.sideInnhold}>
-      { utenSideoverskrift || <Sideoverskrift tittel={tittel || ""} /> }
+      { utenSideoverskrift || <Sideoverskrift tittel={tittel || ''} /> }
       {innhold}
     </div>
   );

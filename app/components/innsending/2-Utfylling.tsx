@@ -1,18 +1,18 @@
-import type { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
-import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
-import { RemixLink } from "~/components/RemixLink";
-import type { ISporsmal } from "~/models/sporsmal";
-import { ukeFormatert } from "~/utils/datoUtils";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import { Meldegruppe } from "~/models/meldegruppe";
-import styles from "./Innsending.module.css";
-import { ukeDager } from "~/utils/miscUtils";
-import { useFetcherWithPromise } from "~/utils/fetchUtils";
-import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
-import classNames from "classnames";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+import { Accordion, Alert, Button, Checkbox, Heading, TextField } from '@navikt/ds-react';
+import { RemixLink } from '~/components/RemixLink';
+import type { ISporsmal } from '~/models/sporsmal';
+import { ukeFormatert } from '~/utils/datoUtils';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import UtvidetInformasjon from '~/components/utvidetInformasjon/UtvidetInformasjon';
+import { Meldegruppe } from '~/models/meldegruppe';
+import styles from './Innsending.module.css';
+import { ukeDager } from '~/utils/miscUtils';
+import { useFetcherWithPromise } from '~/utils/fetchUtils';
+import type { ISendInnMeldekortActionResponse } from '~/models/meldekortdetaljerInnsending';
+import classNames from 'classnames';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 interface IProps {
@@ -30,7 +30,7 @@ export default function Utfylling(props: IProps) {
 
   const { tt } = useExtendedTranslation();
 
-  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" });
+  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: 'sendInnMeldekort' });
   const innsending = fetcher.data?.innsending;
 
   const [visFeil, setVisFeil] = useState(false);
@@ -56,7 +56,7 @@ export default function Utfylling(props: IProps) {
   const opprettDag = (dag: string) => {
     return (
       <div className={styles.placeholder}>
-        <abbr key={"ukedager-" + dag} title={dag}>
+        <abbr key={'ukedager-' + dag} title={dag}>
           {dag.toUpperCase()[0]}
         </abbr>
       </div>
@@ -66,24 +66,24 @@ export default function Utfylling(props: IProps) {
   const opprettArbeidsrad = (plussDager: number) => {
     return <div className={styles.rad}>
       <div className={classNames(styles.tittel, styles.arbeid)}>
-        <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
+        <Heading level="4" size="small">{tt('utfylling.arbeid')}</Heading>
       </div>
       <div className={classNames(styles.info, styles.arbeid)}>
-        <UtvidetInformasjon innhold={parseHtml(tt("forklaring.utfylling.arbeid" + ytelsestypePostfix))} />
+        <UtvidetInformasjon innhold={parseHtml(tt('forklaring.utfylling.arbeid' + ytelsestypePostfix))} />
       </div>
       <div className={styles.grid}>
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>
         {
           ukedager.map((dag, index) => {
-            return <div key={"arbeid" + index} className={styles.centered}>
+            return <div key={'arbeid' + index} className={styles.centered}>
               {opprettDag(dag)}
               <TextField label=""
                          hideLabel
                          className={styles.input}
-                         value={((sporsmal as any).meldekortDager[index + plussDager])["arbeidetTimerSum"] || ""}
-                         onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
-                         error={feilDager.includes("arbeid" + (index + plussDager + 1))}
-                         data-testid={"arbeid" + (index + plussDager + 1)}
+                         value={((sporsmal as any).meldekortDager[index + plussDager])['arbeidetTimerSum'] || ''}
+                         onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, 'arbeidetTimerSum')}
+                         error={feilDager.includes('arbeid' + (index + plussDager + 1))}
+                         data-testid={'arbeid' + (index + plussDager + 1)}
               />
             </div>;
           })
@@ -124,7 +124,7 @@ export default function Utfylling(props: IProps) {
   const opprettUke = (plussDager: number) => {
     return (
       <Accordion.Item defaultOpen className={styles.uke}>
-        <Accordion.Header>{tt("overskrift.uke")} {ukeFormatert(fom, plussDager)}</Accordion.Header>
+        <Accordion.Header>{tt('overskrift.uke')} {ukeFormatert(fom, plussDager)}</Accordion.Header>
         <Accordion.Content>
           <div>
             <div className={classNames(styles.rad, styles.desktop)}>
@@ -132,7 +132,7 @@ export default function Utfylling(props: IProps) {
                 {
                   ukedager.map((dag) => {
                     return <div key={dag} className={styles.centered}>
-                      <abbr key={"ukedager-" + dag} title={dag}>
+                      <abbr key={'ukedager-' + dag} title={dag}>
                         {dag.toUpperCase()[0]}
                       </abbr>
                     </div>;
@@ -144,13 +144,13 @@ export default function Utfylling(props: IProps) {
               sporsmal.arbeidet && opprettArbeidsrad(plussDager)
             }
             {
-              sporsmal.kurs && opprettAktivitetsrad("tiltak", "kurs", plussDager)
+              sporsmal.kurs && opprettAktivitetsrad('tiltak', 'kurs', plussDager)
             }
             {
-              sporsmal.syk && opprettAktivitetsrad("syk", "syk", plussDager)
+              sporsmal.syk && opprettAktivitetsrad('syk', 'syk', plussDager)
             }
             {
-              sporsmal.annetFravaer && opprettAktivitetsrad("ferieFravar", "annetFravaer", plussDager)
+              sporsmal.annetFravaer && opprettAktivitetsrad('ferieFravar', 'annetFravaer', plussDager)
             }
           </div>
         </Accordion.Content>
@@ -201,10 +201,10 @@ export default function Utfylling(props: IProps) {
       // Sjekk at brukeren har skrevet inn gyldige verdier for arbeidstid
       if (sporsmal.arbeidet && dag.arbeidetTimerSum) {
         if ((Number(dag.arbeidetTimerSum) * 2) % 1 !== 0) {
-          feilDager.push("arbeid" + dag.dag);
+          feilDager.push('arbeid' + dag.dag);
           setFeilIArbeidetTimerHeleHalve(true);
         } else if (Number(dag.arbeidetTimerSum) > 24 || Number(dag.arbeidetTimerSum) < 0) {
-          feilDager.push("arbeid" + dag.dag);
+          feilDager.push('arbeid' + dag.dag);
           setFeilIArbeidetTimer(true);
         }
       }
@@ -212,36 +212,36 @@ export default function Utfylling(props: IProps) {
       if (meldegruppe === Meldegruppe.DAGP) {
         // Sjekk at brukeren ikke jobbet og ikke var syk samme dag
         if (Number(dag.arbeidetTimerSum) > 0 && dag.syk) {
-          feilDager.push("arbeid" + dag.dag);
-          feilDager.push("syk" + dag.dag);
+          feilDager.push('arbeid' + dag.dag);
+          feilDager.push('syk' + dag.dag);
           setFeilKombinasjonSykArbeid(true);
         }
 
         // Sjekk at brukeren ikke jobbet og ikke hadde annet fravaer samme dag
         if (Number(dag.arbeidetTimerSum) > 0 && dag.annetFravaer) {
-          feilDager.push("arbeid" + dag.dag);
-          feilDager.push("annetFravaer" + dag.dag);
+          feilDager.push('arbeid' + dag.dag);
+          feilDager.push('annetFravaer' + dag.dag);
           setFeilKombinasjonFravaerArbeid(true);
         }
       } else if (meldegruppe === Meldegruppe.ATTF) {
         // Sjekk at brukeren ikke jobbet og ikke hadde annet fravaer samme dag
         if (Number(dag.arbeidetTimerSum) > 0 && dag.annetFravaer) {
-          feilDager.push("arbeid" + dag.dag);
-          feilDager.push("annetFravaer" + dag.dag);
+          feilDager.push('arbeid' + dag.dag);
+          feilDager.push('annetFravaer' + dag.dag);
           setFeilKombinasjonFravaerArbeid(true);
         }
 
         // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
         if (dag.syk && dag.annetFravaer) {
-          feilDager.push("syk" + dag.dag);
-          feilDager.push("annetFravaer" + dag.dag);
+          feilDager.push('syk' + dag.dag);
+          feilDager.push('annetFravaer' + dag.dag);
           setFeilKombinasjonFravaerSyk(true);
         }
       } else if (meldegruppe === Meldegruppe.INDIV) {
         // Sjekk at brukeren ikke var syk og ikke hadde annet fravaer samme dag
         if (dag.syk && dag.annetFravaer) {
-          feilDager.push("syk" + dag.dag);
-          feilDager.push("annetFravaer" + dag.dag);
+          feilDager.push('syk' + dag.dag);
+          feilDager.push('annetFravaer' + dag.dag);
           setFeilKombinasjonFravaerSyk(true);
         }
       }
@@ -249,19 +249,19 @@ export default function Utfylling(props: IProps) {
 
     if (sporsmal.arbeidet && !arbeid) {
       setFeilIArbeid(true);
-      for (let i = 1; i <= 14; i++) feilDager.push("arbeid" + i);
+      for (let i = 1; i <= 14; i++) feilDager.push('arbeid' + i);
     }
     if (sporsmal.kurs && !kurs) {
       setFeilIKurs(true);
-      for (let i = 1; i <= 14; i++) feilDager.push("kurs" + i);
+      for (let i = 1; i <= 14; i++) feilDager.push('kurs' + i);
     }
     if (sporsmal.syk && !syk) {
       setFeilISyk(true);
-      for (let i = 1; i <= 14; i++) feilDager.push("syk" + i);
+      for (let i = 1; i <= 14; i++) feilDager.push('syk' + i);
     }
     if (sporsmal.annetFravaer && !annetFravaer) {
       setFeilIAnnetFravaer(true);
-      for (let i = 1; i <= 14; i++) feilDager.push("annetFravaer" + i);
+      for (let i = 1; i <= 14; i++) feilDager.push('annetFravaer' + i);
     }
 
     window.scrollTo(0, 0);
@@ -276,7 +276,7 @@ export default function Utfylling(props: IProps) {
     }
   };
 
-  loggAktivitet("Viser utfylling");
+  loggAktivitet('Viser utfylling');
 
   return (
     <div>
@@ -286,47 +286,47 @@ export default function Utfylling(props: IProps) {
               <ul>
                 {
                   feilIArbeid
-                    ? <li>{parseHtml(tt("utfylling.mangler.arbeid"))}</li>
+                    ? <li>{parseHtml(tt('utfylling.mangler.arbeid'))}</li>
                     : null
                 }
                 {
                   feilIKurs
-                    ? <li>{parseHtml(tt("utfylling.mangler.tiltak"))}</li>
+                    ? <li>{parseHtml(tt('utfylling.mangler.tiltak'))}</li>
                     : null
                 }
                 {
                   feilISyk
-                    ? <li>{parseHtml(tt("utfylling.mangler.syk"))}</li>
+                    ? <li>{parseHtml(tt('utfylling.mangler.syk'))}</li>
                     : null
                 }
                 {
                   feilIAnnetFravaer
-                    ? <li>{parseHtml(tt("utfylling.mangler.ferieFravar"))}</li>
+                    ? <li>{parseHtml(tt('utfylling.mangler.ferieFravar'))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimerHeleHalve
-                    ? <li>{parseHtml(tt("arbeidTimer.heleEllerHalveTallValidator"))}</li>
+                    ? <li>{parseHtml(tt('arbeidTimer.heleEllerHalveTallValidator'))}</li>
                     : null
                 }
                 {
                   feilIArbeidetTimer
-                    ? <li>{parseHtml(tt("arbeidTimer.rangeValidator.range"))}</li>
+                    ? <li>{parseHtml(tt('arbeidTimer.rangeValidator.range'))}</li>
                     : null
                 }
                 {
                   feilKombinasjonSykArbeid
-                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonSykArbeidValidator"))}</li>
+                    ? <li>{parseHtml(tt('arbeidTimer.kombinasjonSykArbeidValidator'))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerArbeid
-                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonFravaerArbeidValidator"))}</li>
+                    ? <li>{parseHtml(tt('arbeidTimer.kombinasjonFravaerArbeidValidator'))}</li>
                     : null
                 }
                 {
                   feilKombinasjonFravaerSyk
-                    ? <li>{parseHtml(tt("arbeidTimer.kombinasjonFravaerSykValidator"))}</li>
+                    ? <li>{parseHtml(tt('arbeidTimer.kombinasjonFravaerSykValidator'))}</li>
                     : null
                 }
                 {
@@ -335,7 +335,7 @@ export default function Utfylling(props: IProps) {
                       <li key={arsakskode.kode}>
                         {
                           parseHtml(
-                            tt("meldekortkontroll.feilkode." + arsakskode.kode.toLowerCase()),
+                            tt('meldekortkontroll.feilkode.' + arsakskode.kode.toLowerCase()),
                             arsakskode.params
                           )
                         }
@@ -352,12 +352,12 @@ export default function Utfylling(props: IProps) {
       </Accordion>
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => tilbake()}>{tt("naviger.forrige")}</Button>
-        <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{tt('naviger.forrige')}</Button>
+        <Button variant="primary" onClick={() => validerOgVidere()}>{tt('naviger.neste')}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
-          {tt("naviger.avbryt")}
+          {tt('naviger.avbryt')}
         </RemixLink>
       </div>
     </div>

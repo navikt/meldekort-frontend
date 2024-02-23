@@ -1,24 +1,24 @@
-import type { ISporsmal } from "~/models/sporsmal";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekort } from "~/models/meldekort";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
-import { useState } from "react";
+import type { ISporsmal } from '~/models/sporsmal';
+import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
+import type { IMeldekort } from '~/models/meldekort';
+import { Innsendingstype } from '~/models/innsendingstype';
+import { finnYtelsestypePostfix } from '~/utils/meldekortUtils';
+import { useState } from 'react';
 import type {
   IFravaerInnsending,
   IMeldekortdetaljerInnsending,
   ISendInnMeldekortActionResponse
-} from "~/models/meldekortdetaljerInnsending";
-import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
-import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
-import Ukeliste from "~/components/ukeliste/Ukeliste";
-import { RemixLink } from "~/components/RemixLink";
-import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
-import { useFetcherWithPromise } from "~/utils/fetchUtils";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+} from '~/models/meldekortdetaljerInnsending';
+import { FravaerTypeInnsending } from '~/models/meldekortdetaljerInnsending';
+import { Alert, Box, Button, ConfirmationPanel } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import Begrunnelse from '~/components/begrunnelse/Begrunnelse';
+import SporsmalOgSvar from '~/components/sporsmalOgSvar/SporsmalOgSvar';
+import Ukeliste from '~/components/ukeliste/Ukeliste';
+import { RemixLink } from '~/components/RemixLink';
+import { opprettSporsmalsobjekter } from '~/utils/sporsmalsobjekterUtils';
+import { useFetcherWithPromise } from '~/utils/fetchUtils';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 interface IProps {
@@ -44,7 +44,7 @@ export default function Bekreftelse(props: IProps) {
 
   const { tt } = useExtendedTranslation();
 
-  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "sendInnMeldekort" });
+  const fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: 'sendInnMeldekort' });
 
   const [bekreftet, setBekreftet] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -116,15 +116,15 @@ export default function Bekreftelse(props: IProps) {
         meldekortId: valgtMeldekort.meldekortId,
         meldeperiode: valgtMeldekort.meldeperiode,
         mottattDato: mottattDato,
-        sesjonsId: "IKKE I BRUK",
+        sesjonsId: 'IKKE I BRUK',
         signatur: true, // Vi sender ikke uten brukerens samtykke
         sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato, nesteMeldekortKanSendes) // Her samler vi alt bruker har sett for å lagre i Dokarkiv
       };
 
       const formData = new FormData();
-      formData.append("meldekortdetaljer", JSON.stringify(meldekortdetaljer));
-      formData.append("innsendingstype", innsendingstype.toString());
-      fetcher.submit(formData, { method: "post" }).then((data) => {
+      formData.append('meldekortdetaljer', JSON.stringify(meldekortdetaljer));
+      formData.append('innsendingstype', innsendingstype.toString());
+      fetcher.submit(formData, { method: 'post' }).then((data) => {
           setLoading(false);
 
           // Vi skal være her på denne siden og vise en feilmelding hvis data.baksystemFeil = true eller hvis det ikke finnes data.innsending.status
@@ -138,9 +138,9 @@ export default function Bekreftelse(props: IProps) {
           // Gå tilbake til Utfylling (og vis feilmeldinger der) hvis status er FEIL
           window.scrollTo(0, 0);
           const status = data.innsending.status;
-          if (status === "OK") {
+          if (status === 'OK') {
             setActiveStep(activeStep + 1);
-          } else if (status === "FEIL") {
+          } else if (status === 'FEIL') {
             setActiveStep(activeStep - 1);
           } else {
             // Uforventet status
@@ -152,13 +152,13 @@ export default function Bekreftelse(props: IProps) {
     }
   };
 
-  loggAktivitet("Viser bekreftelse");
+  loggAktivitet('Viser bekreftelse');
 
   return (
     <div>
       <Alert variant="warning">
-        {parseHtml(tt("overskrift.steg3.info.ikkeSendt"))}
-        {parseHtml(tt("overskrift.steg3.info.bekreftVerdier"))}
+        {parseHtml(tt('overskrift.steg3.info.ikkeSendt'))}
+        {parseHtml(tt('overskrift.steg3.info.bekreftVerdier'))}
       </Alert>
 
       <Box padding="4" />
@@ -177,12 +177,12 @@ export default function Bekreftelse(props: IProps) {
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
       <ConfirmationPanel
-        label={tt("utfylling.bekreftAnsvar")}
+        label={tt('utfylling.bekreftAnsvar')}
         checked={bekreftet}
         onChange={() => setBekreftet((bekreftet) => !bekreftet)}
-        error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
+        error={!bekreftet && visFeil && tt('utfylling.bekreft.feil')}
       >
-        {parseHtml(tt("utfylling.bekreft" + ytelsestypePostfix))}
+        {parseHtml(tt('utfylling.bekreft' + ytelsestypePostfix))}
       </ConfirmationPanel>
 
       {baksystemFeil &&
@@ -190,18 +190,18 @@ export default function Bekreftelse(props: IProps) {
               <Box padding="4" />
 
               <Alert variant="error">
-                {parseHtml(tt("meldekortkontroll.feilkode.00"))}
+                {parseHtml(tt('meldekortkontroll.feilkode.00'))}
               </Alert>
           </div>
       }
 
       <div className="buttons">
-        <Button variant="secondary" onClick={() => tilbake()}>{tt("naviger.forrige")}</Button>
-        <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt("naviger.send")}</Button>
+        <Button variant="secondary" onClick={() => tilbake()}>{tt('naviger.forrige')}</Button>
+        <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt('naviger.send')}</Button>
       </div>
       <div className="centeredButtons">
         <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
-          {tt("naviger.avbryt")}
+          {tt('naviger.avbryt')}
         </RemixLink>
       </div>
     </div>

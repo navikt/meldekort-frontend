@@ -1,30 +1,30 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { useLoaderData } from "@remix-run/react";
-import type { ReactElement } from "react";
-import { Alert, BodyLong, Box, GuidePanel, Label, Table } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { RemixLink } from "~/components/RemixLink";
-import type { IPerson } from "~/models/person";
-import { hentPerson } from "~/models/person";
-import { getOboToken } from "~/utils/authUtils";
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
+import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
+import { useLoaderData } from '@remix-run/react';
+import type { ReactElement } from 'react';
+import { Alert, BodyLong, Box, GuidePanel, Label, Table } from '@navikt/ds-react';
+import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
+import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from '~/utils/datoUtils';
+import { RemixLink } from '~/components/RemixLink';
+import type { IPerson } from '~/models/person';
+import { hentPerson } from '~/models/person';
+import { getOboToken } from '~/utils/authUtils';
 import {
   finnFoersteSomIkkeKanSendesEnna,
   finnNesteSomKanSendes,
   meldekortEtterKanSendesFraKomparator
-} from "~/utils/meldekortUtils";
-import { Navigate } from "react-router";
-import { KortStatus } from "~/models/meldekort";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+} from '~/utils/meldekortUtils';
+import { Navigate } from 'react-router';
+import { KortStatus } from '~/models/meldekort';
+import { loggAktivitet } from '~/utils/amplitudeUtils';
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Meldekort" },
-    { name: "description", content: "Send meldekort" }
+    { title: 'Meldekort' },
+    { name: 'description', content: 'Send meldekort' }
   ];
 };
 
@@ -51,11 +51,11 @@ export default function SendMeldekort() {
 
   let innhold: ReactElement;
 
-  const nesteMeldekort = finnNesteSomKanSendes(person?.meldekort, "");
+  const nesteMeldekort = finnNesteSomKanSendes(person?.meldekort, '');
   const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort);
 
   if (feil || !person) {
-    innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
   } else if (!nesteMeldekort) {
     // Det finnes ikke meldekort som kan sendes nå
     // Finnes det meldekort som kan sendes senere?
@@ -63,23 +63,23 @@ export default function SendMeldekort() {
       // Ja, det finnes minst et meldekort som kan sendes senere. Viser informasjon om dette meldekortet
       innhold = <GuidePanel>
         <BodyLong>
-          {parseHtml(tt("overskrift.nesteMeldekort"))}
-          {parseHtml(tt("sendMeldekort.info.innsendingStatus.kanSendes"))}
+          {parseHtml(tt('overskrift.nesteMeldekort'))}
+          {parseHtml(tt('sendMeldekort.info.innsendingStatus.kanSendes'))}
           {formaterDato(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.kortKanSendesFra)}
         </BodyLong>
         <Label>
-          {tt("overskrift.uke")}
+          {tt('overskrift.uke')}
           {formaterPeriode(foersteMeldekortSomIkkeKanSendesEnna.meldeperiode.fra, 0, 14)}
         </Label>
         <BodyLong>
-          {parseHtml(tt("sendMeldekort.info.ingenKlare"))}
+          {parseHtml(tt('sendMeldekort.info.ingenKlare'))}
         </BodyLong>
       </GuidePanel>;
     } else {
       // Nei, det finnes ingen meldekort å sende
       innhold = <GuidePanel>
         <div>&nbsp;</div>
-        <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+        <div>{tt('sporsmal.ingenMeldekortASende')}</div>
       </GuidePanel>;
     }
   } else {
@@ -95,11 +95,11 @@ export default function SendMeldekort() {
       // Ja, det er for mange. Viser en feilmelding
       innhold = <GuidePanel>
         <BodyLong size="large">
-          {parseHtml(tt("sendMeldekort.info.forMangeMeldekort"))}
+          {parseHtml(tt('sendMeldekort.info.forMangeMeldekort'))}
         </BodyLong>
         <Box padding="2" />
         <BodyLong>
-          {parseHtml(tt("sendMeldekort.info.forMangeMeldekort.feilmelding"))}
+          {parseHtml(tt('sendMeldekort.info.forMangeMeldekort.feilmelding'))}
         </BodyLong>
       </GuidePanel>;
     } else if (meldekortListe.length === 1) {
@@ -111,13 +111,13 @@ export default function SendMeldekort() {
 
       innhold = <div>
         <BodyLong spacing>
-          {parseHtml(tt("sendMeldekort.info.kanSende"))}
+          {parseHtml(tt('sendMeldekort.info.kanSende'))}
         </BodyLong>
         <Table zebraStripes>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell scope="col">{tt("overskrift.periode")}</Table.HeaderCell>
-              <Table.HeaderCell scope="col">{tt("overskrift.dato")}</Table.HeaderCell>
+              <Table.HeaderCell scope="col">{tt('overskrift.periode')}</Table.HeaderCell>
+              <Table.HeaderCell scope="col">{tt('overskrift.dato')}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -125,7 +125,7 @@ export default function SendMeldekort() {
               return (
                 <Table.Row key={meldekort.meldekortId} shadeOnHover={false}>
                   <Table.DataCell>
-                    {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
+                    {tt('overskrift.uke')} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
                   </Table.DataCell>
                   <Table.DataCell>
                     {formaterPeriodeDato(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
@@ -139,27 +139,27 @@ export default function SendMeldekort() {
         <Box padding="4" />
 
         <Box padding="4" borderColor="border-subtle" borderWidth="2" borderRadius="xlarge">
-          <div>{parseHtml(tt("sendMeldekort.info.neste"))}</div>
-          <div>{parseHtml(tt("sendMeldekort.info.eldstePerioden"))}</div>
-          <div>{parseHtml(tt("sendMeldekort.info.automatiskLedet"))}</div>
+          <div>{parseHtml(tt('sendMeldekort.info.neste'))}</div>
+          <div>{parseHtml(tt('sendMeldekort.info.eldstePerioden'))}</div>
+          <div>{parseHtml(tt('sendMeldekort.info.automatiskLedet'))}</div>
         </Box>
 
         <div className="buttons">
           <div />
           <RemixLink as="Button" variant="primary" to={`/send-meldekort/${nesteMeldekortId}`}>
-            {tt("naviger.neste")}
+            {tt('naviger.neste')}
           </RemixLink>
         </div>
       </div>;
     }
   }
 
-  loggAktivitet("Viser send");
+  loggAktivitet('Viser send');
 
   return (
     <div>
       <MeldekortHeader />
-      <Sideinnhold tittel={tt("overskrift.innsending")} innhold={innhold} />
+      <Sideinnhold tittel={tt('overskrift.innsending')} innhold={innhold} />
     </div>
   );
 }

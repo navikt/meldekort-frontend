@@ -1,13 +1,13 @@
-import { afterAll, afterEach, beforeAll } from "vitest";
-import { server } from "../mocks/server";
-import { cleanup, render } from "@testing-library/react";
-import { createRemixStub } from "@remix-run/testing";
-import type { LoaderFunction } from "@remix-run/node";
-import * as React from "react";
+import { afterAll, afterEach, beforeAll } from 'vitest';
+import { server } from '../mocks/server';
+import { cleanup, render } from '@testing-library/react';
+import { createRemixStub } from '@remix-run/testing';
+import type { LoaderFunction } from '@remix-run/node';
+import * as React from 'react';
 
 
 export const beforeAndAfterSetup = () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
   afterAll(() => server.close());
   afterEach(() => {
     server.resetHandlers();
@@ -23,7 +23,7 @@ export const renderRemixStub = (
 ) => {
   const RemixStub = createRemixStub([
     {
-      path: "/",
+      path: '/',
       Component: component,
       loader
     },

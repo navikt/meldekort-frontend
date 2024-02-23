@@ -1,9 +1,9 @@
-import styles from "./Sprakvelger.module.css";
-import { Select } from "@navikt/ds-react";
-import type { ChangeEvent } from "react";
-import { useState } from "react";
-import { useExtendedTranslation } from "~/utils/intlUtils";
-import classNames from "classnames";
+import styles from './Sprakvelger.module.css';
+import { Select } from '@navikt/ds-react';
+import type { ChangeEvent } from 'react';
+import { useState } from 'react';
+import { useExtendedTranslation } from '~/utils/intlUtils';
+import classNames from 'classnames';
 
 
 export default function Sprakvelger() {
@@ -17,7 +17,7 @@ export default function Sprakvelger() {
 
   return (
     <div className={classNames(styles.sprakvelger, styles[currentLocale])}>
-      <Select label={tt("sprakvelger.chooseLanguage")} hideLabel value={currentLocale} onChange={setLocale}>
+      <Select label={tt('sprakvelger.chooseLanguage')} hideLabel value={currentLocale} onChange={setLocale}>
         <option value="nb">
           Norsk
         </option>
