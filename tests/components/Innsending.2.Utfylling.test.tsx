@@ -45,8 +45,8 @@ describe('Utfylling', () => {
     await waitFor(() => screen.findByText('arbeidTimer.heleEllerHalveTallValidator'));
     await waitFor(() => screen.findByText('arbeidTimer.rangeValidator.range'));
 
-    // Sett timer både ok og "out of range"
-    fireEvent.change(screen.getByTestId('arbeid1'), { target: { value: '5' } });
+    // Sett timer både ok med komma og "out of range"
+    fireEvent.change(screen.getByTestId('arbeid1'), { target: { value: '5,5' } });
     fireEvent.change(screen.getByTestId('arbeid2'), { target: { value: '25' } });
 
     // Sett syk og fravær sammen med timer

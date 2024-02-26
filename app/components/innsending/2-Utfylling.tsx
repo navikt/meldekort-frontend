@@ -49,7 +49,7 @@ export default function Utfylling(props: IProps) {
 
   const oppdaterSvar = (value: string | boolean, index: number, spObjKey: string) => {
     const tmpSporsmal: any = { ...sporsmal };
-    tmpSporsmal.meldekortDager[index][spObjKey] = value;
+    tmpSporsmal.meldekortDager[index][spObjKey] = typeof value === 'string' ? value.replace(',', '.') : value;
     setSporsmal(tmpSporsmal);
   };
 
