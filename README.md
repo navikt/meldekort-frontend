@@ -20,8 +20,9 @@ språk og gyldighetstid på nytt i løpet av 30 minutter.
 ## Henvendelser
 Spørsmål knyttet til koden eller prosjekt rettes til:
 
-* Igor Shuliakov, igor.shuliakov@nav.no
-* Mona Kjeldsrud, mona.kjeldsrud@nav.no
+* Thor Håkon Bredesen, thor.hakon.bredesen@nav.no
+* Nattaphong Klinjan, nattaphong.klinjan@nav.no
+* Abdifatah Bashi, abdifatah.bashi@nav.no
 
 ## For NAV-ansatte
 Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekort
@@ -30,7 +31,7 @@ Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekor
 Appen er basert på [Remix](https://remix.run/docs)
 
 For å starte appen lokalt:
-- Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt 
+- Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt
 - Kopier `.env.example` og rename til `.env`.
 - `npm install`
 - `npm run dev`
