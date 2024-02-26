@@ -59,7 +59,7 @@ export function ukeDager() {
 
 export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean | null) {
   const dager = new Array<IMeldekortDag>();
-  for (let i = 0; i <= 13; i++) dager.push({
+  for (let i = 1; i <= 14; i++) dager.push({
     'dag': i,
     'arbeidetTimerSum': 0,
     'syk': false,

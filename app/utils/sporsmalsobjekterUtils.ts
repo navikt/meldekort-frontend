@@ -140,7 +140,7 @@ function formaterUke(dager: IMeldekortDag[], fraDag: number, tilDag: number | un
 
   return dager.slice(fraDag, tilDag).map((dag) => {
     const harAktivitet = dag.arbeidetTimerSum > 0 || dag.kurs || dag.annetFravaer || dag.syk;
-    const ukedag = dag.dag < 7 ? ukedager[dag.dag] : ukedager[dag.dag - 7];
+    const ukedag = dag.dag <= 7 ? ukedager[dag.dag - 1] : ukedager[dag.dag - 8];
     const aktiviteter = [
       dag.arbeidetTimerSum ? `${getText('utfylling.arbeid')} ${dag.arbeidetTimerSum} ${getText('overskrift.timer').trim()}` : '',
       dag.kurs ? getText('utfylling.tiltak').trim() : '',

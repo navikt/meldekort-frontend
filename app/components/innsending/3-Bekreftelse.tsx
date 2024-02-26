@@ -59,7 +59,7 @@ export default function Bekreftelse(props: IProps) {
     sporsmal.meldekortDager.forEach(meldekortDag => {
       if (Number(meldekortDag.arbeidetTimerSum) > 0) {
         fravar.push({
-          dagIndeks: meldekortDag.dag,
+          dagIndeks: meldekortDag.dag - 1,
           type: { typeFravaer: FravaerTypeInnsending.ARBEIDS_FRAVAER },
           arbeidTimer: meldekortDag.arbeidetTimerSum,
         });
@@ -67,21 +67,21 @@ export default function Bekreftelse(props: IProps) {
 
       if (meldekortDag.syk) {
         fravar.push({
-          dagIndeks: meldekortDag.dag,
+          dagIndeks: meldekortDag.dag - 1,
           type: { typeFravaer: FravaerTypeInnsending.SYKDOM },
         });
       }
 
       if (meldekortDag.kurs) {
         fravar.push({
-          dagIndeks: meldekortDag.dag,
+          dagIndeks: meldekortDag.dag - 1,
           type: { typeFravaer: FravaerTypeInnsending.KURS_UTDANNING },
         });
       }
 
       if (meldekortDag.annetFravaer) {
         fravar.push({
-          dagIndeks: meldekortDag.dag,
+          dagIndeks: meldekortDag.dag - 1,
           type: { typeFravaer: FravaerTypeInnsending.ANNET_FRAVAER },
         });
       }

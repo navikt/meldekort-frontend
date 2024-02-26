@@ -156,46 +156,39 @@ export const TEST_DECORATOR_FRAGMENTS = {
 };
 export const TEST_MELDEKORT_DAGER = [
   {
-    dag: 0,
+    dag: 1,
     arbeidetTimerSum: 5,
     syk: false,
     annetFravaer: false,
     kurs: false
   },
   {
-    dag: 1,
+    dag: 2,
     arbeidetTimerSum: 0,
     syk: true,
     annetFravaer: false,
-    kurs: false
-  },
-  {
-    dag: 2,
-    arbeidetTimerSum: 0,
-    syk: false,
-    annetFravaer: true,
     kurs: false
   },
   {
     dag: 3,
     arbeidetTimerSum: 0,
     syk: false,
-    annetFravaer: false,
-    kurs: true
+    annetFravaer: true,
+    kurs: false
   },
   {
     dag: 4,
     arbeidetTimerSum: 0,
-    syk: true,
+    syk: false,
     annetFravaer: false,
     kurs: true
   },
   {
     dag: 5,
     arbeidetTimerSum: 0,
-    syk: false,
+    syk: true,
     annetFravaer: false,
-    kurs: false
+    kurs: true
   },
   {
     dag: 6,
@@ -206,6 +199,13 @@ export const TEST_MELDEKORT_DAGER = [
   },
   {
     dag: 7,
+    arbeidetTimerSum: 0,
+    syk: false,
+    annetFravaer: false,
+    kurs: false
+  },
+  {
+    dag: 8,
     arbeidetTimerSum: 7.5,
     syk: false,
     annetFravaer: false,
