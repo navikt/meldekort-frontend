@@ -27,8 +27,7 @@ describe('Sprakvelger', () => {
   test('Skal vise feil i console når ikke kan sette språk', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
 
-    const i18nSpy = vi.spyOn(i18next, 'changeLanguage');
-    i18nSpy.mockRejectedValue('feil');
+    vi.spyOn(i18next, 'changeLanguage').mockRejectedValue('feil');
 
     reactI18nextSpyAndRender();
 
@@ -45,8 +44,7 @@ describe('Sprakvelger', () => {
 
 
 const reactI18nextSpyAndRender = () => {
-  const reactI18nextSpy = vi.spyOn(reactI18next, 'useTranslation');
-  reactI18nextSpy.mockReturnValue({
+  vi.spyOn(reactI18next, 'useTranslation').mockReturnValue({
     // @ts-ignore
     t: (args: string[]) => args[1],
     i18n: i18next

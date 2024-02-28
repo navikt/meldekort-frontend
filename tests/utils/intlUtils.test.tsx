@@ -1,4 +1,3 @@
-import type { MockInstance } from 'vitest';
 import { describe, expect, test, vi } from 'vitest';
 import { getText, parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
 import i18next from 'i18next';
@@ -25,16 +24,14 @@ describe('Intl utils', () => {
   });
 
   test('getText skal returnere tekst hvis den finnes', async () => {
-    const tSpy: MockInstance = vi.spyOn(i18next, 't');
-    tSpy.mockReturnValue('verdi');
+    vi.spyOn(i18next, 't').mockReturnValue('verdi');
 
     const result = getText('nøkkel');
     expect(result).toBe('verdi');
   });
 
   test('getText skal returnere tekst og sette inn verdier', async () => {
-    const tSpy: MockInstance = vi.spyOn(i18next, 't');
-    tSpy.mockReturnValue('a {verdi1} c {verdi2} e');
+    vi.spyOn(i18next, 't').mockReturnValue('a {verdi1} c {verdi2} e');
 
     const result = getText('nøkkel', { 'verdi1': 'b', 'verdi2': 'd' });
     expect(result).toBe('a b c d e');

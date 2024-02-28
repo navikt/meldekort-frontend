@@ -1,4 +1,4 @@
-import { afterEach, describe, test } from 'vitest';
+import { afterEach, describe, test, vi } from 'vitest';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { Innsendingstype } from '~/models/innsendingstype';
 import { opprettTestMeldekort, TEST_INFOMELDING } from '../mocks/data';
@@ -8,6 +8,7 @@ import type { IMeldekort } from '~/models/meldekort';
 import Sporsmal from '~/components/innsending/1-Sporsmal';
 import { opprettSporsmal } from '~/utils/miscUtils';
 import { Ytelsestype } from '~/models/ytelsestype';
+import * as reactI18next from 'react-i18next';
 
 
 describe('Sporsmal', () => {
@@ -38,6 +39,27 @@ describe('Sporsmal', () => {
     createRouteAndRender(valgtMeldekort, Innsendingstype.ETTERREGISTRERING, Ytelsestype.AAP);
 
     await waitFor(() => screen.findByText('etterregistrering.sporsmal.omVedtak'));
+  });
+
+  test('Skal vise riktig infomelding', async () => {
+    const valgtMeldekort = opprettTestMeldekort(1707696000);
+
+    createRouteAndRender(valgtMeldekort, Innsendingstype.INNSENDING);
+
+    await waitFor(() => screen.findByText('English infomessage'));
+
+    vi.spyOn(reactI18next, 'useTranslation').mockReturnValue({
+      // @ts-ignore
+      t: (args: string[]) => args[1],
+      // @ts-ignore
+      i18n: {
+        language: 'nb'
+      }
+    });
+
+    createRouteAndRender(valgtMeldekort, Innsendingstype.INNSENDING);
+
+    await waitFor(() => screen.findByText('Norsk infomelding'));
   });
 });
 
