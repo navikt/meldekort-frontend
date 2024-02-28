@@ -144,6 +144,7 @@ describe('Root', () => {
   });
 
   test('Skal vise loader hvis tekster ikke er klare ennå', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv('IS_LOCALHOST', 'false');
 
     renderRemixStub(
@@ -161,7 +162,10 @@ describe('Root', () => {
     await waitFor(() => screen.findByTitle('Venter...'));
   });
 
-  test('Skal vise feilmelding hvis feil = true', async () => {
+  test('Skal vise feilmelding hvis feil = true (skal ikke vise Loader)', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
+    vi.stubEnv('IS_LOCALHOST', 'true');
+
     renderRemixStub(
       App,
       () => {
@@ -175,6 +179,10 @@ describe('Root', () => {
     );
 
     await waitFor(() => screen.findByText('feilmelding.baksystem'));
+
+
+    const loader = await waitFor(() => screen.queryByTitle('Venter...'));
+    expect(loader).toBeNull();
   });
 
   test('Skal vise feilmelding hvis skrivemodus = null', async () => {
@@ -211,7 +219,32 @@ describe('Root', () => {
     await waitFor(() => screen.findByText('skrivemodusInfomelding'));
   });
 
-  test('Skal vise feilmelding fra skrivemodus hvis den finnes', async () => {
+  test('Skal vise feilmelding fra skrivemodus (hvis den finnes) iht språk', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres som language: nb eller en
+    vi.stubEnv('IS_LOCALHOST', 'false');
+
+    renderRemixStub(
+      App,
+      () => {
+        return json({
+          feil: false,
+          personStatus: TEST_PERSON_STATUS,
+          skrivemodus: {
+            skrivemodus: false,
+            melding: {
+              norsk: 'NORSK FEILMELDING',
+              engelsk: 'ENGLISH ERROR'
+            }
+          },
+          fragments: TEST_DECORATOR_FRAGMENTS
+        });
+      }
+    );
+
+    await waitFor(() => screen.findByText('NORSK FEILMELDING'));
+
+    vi.stubEnv('IS_LOCALHOST', 'true');
+
     renderRemixStub(
       App,
       () => {

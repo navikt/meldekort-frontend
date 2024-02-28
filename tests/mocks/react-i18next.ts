@@ -17,10 +17,11 @@ export const mock = {
         setDefaultNamespace: () => {
         },
         hasLoadedNamespace: () => {
-          return !getEnv('IS_LOCALHOST');
+          return getEnv('IS_LOCALHOST') === 'true';
         },
         dir: () => {
-        }
+        },
+        language: getEnv('IS_LOCALHOST') === 'true' ? 'en' : 'nb'
       },
       ready: true
     };
