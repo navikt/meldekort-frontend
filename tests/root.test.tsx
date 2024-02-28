@@ -143,6 +143,24 @@ describe('Root', () => {
     expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
   });
 
+  test('Skal vise loader hvis tekster ikke er klare ennå', async () => {
+    vi.stubEnv('IS_LOCALHOST', 'false');
+
+    renderRemixStub(
+      App,
+      () => {
+        return json({
+          feil: false,
+          personStatus: TEST_PERSON_STATUS,
+          skrivemodus: TEST_SKRIVEMODUS,
+          fragments: TEST_DECORATOR_FRAGMENTS
+        });
+      }
+    );
+
+    await waitFor(() => screen.findByTitle('Venter...'));
+  });
+
   test('Skal vise feilmelding hvis feil = true', async () => {
     renderRemixStub(
       App,

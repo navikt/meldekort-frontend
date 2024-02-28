@@ -8,7 +8,7 @@ import i18next from '~/i18next.server';
 import { useChangeLanguage } from 'remix-i18next';
 import type { ISkrivemodus } from '~/models/skrivemodus';
 import { hentSkrivemodus } from '~/models/skrivemodus';
-import { Alert } from '@navikt/ds-react';
+import { Alert, Box, Loader } from '@navikt/ds-react';
 import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
 import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
 import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
@@ -119,6 +119,15 @@ export default function App() {
   useChangeLanguage(locale);
 
   let innhold = <Outlet />;
+
+  // Sjekk at vi allerede har tekster, ellers vis loader
+  if (!i18n.hasLoadedNamespace('1000-01-01')) {
+    innhold = <div>
+      <Box padding="32" />
+      <Loader size="3xlarge" className="img" title="Venter..." />
+      <Box padding="32" />
+    </div>;
+  }
 
   if (feil || skrivemodus?.skrivemodus !== true) {
     // Hvis det er feil, vis feilmelding

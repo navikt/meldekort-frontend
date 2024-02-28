@@ -1,4 +1,6 @@
 // Importeres som en fil via vi.importActual
+import { getEnv } from '~/utils/envUtils';
+
 export const mock = {
   useTranslation: () => {
     return {
@@ -12,7 +14,10 @@ export const mock = {
       i18n: {
         changeLanguage: () => new Promise(() => {
         }),
-        setDefaultNamespace: (ns: string) => {
+        setDefaultNamespace: () => {
+        },
+        hasLoadedNamespace: () => {
+          return !getEnv('IS_LOCALHOST');
         },
         dir: () => {
         }
