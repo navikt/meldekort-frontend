@@ -8,6 +8,7 @@ import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from '
 import { json } from '@remix-run/node';
 import { render, screen, waitFor } from '@testing-library/react';
 import { createRemixStub } from '@remix-run/testing';
+import * as cssBundle from '@remix-run/css-bundle';
 
 
 describe('Root', () => {
@@ -302,7 +303,12 @@ describe('Root', () => {
     await waitFor(() => screen.findByText('Feil i baksystem / System error'));
   });
 
-  test('Skal returnere links', async () => {
-    expect(links().length).toBe(0); // Vi har ikke cssBundleHref i test
+  test('Skal returnere tom array fra links() uten cssBundleHref', async () => {
+    expect(links().length).toBe(0);
+  });
+
+  test('Skal returnere array fra links() med cssBundleHref', async () => {
+    vi.spyOn(cssBundle, 'cssBundleHref', 'get').mockReturnValue('true');
+    expect(links().length).toBe(6);
   });
 });

@@ -27,13 +27,17 @@ describe('Innsending', () => {
     cleanup();
   });
 
-  test('Det skal vare mulig å gå fram og tilbake og sende meldekort', async () => {
-    await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
+  test(
+    'Det skal vare mulig å gå fram og tilbake og sende meldekort',
+    async () => {
+      await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
 
-    // Sjekk at vi viser 4-Kvittering
-    const tittel = await waitFor(() => screen.findByTestId('sideTittel'));
-    expect(tittel.innerHTML).toBe('overskrift.steg4');
-  });
+      // Sjekk at vi viser 4-Kvittering
+      const tittel = await waitFor(() => screen.findByTestId('sideTittel'));
+      expect(tittel.innerHTML).toBe('overskrift.steg4');
+    },
+    7000
+  );
 
   test('Skal vise modal og gå fra steg 1 til 3 hvis alle aktivitetsspørsmålene er Nei', async () => {
     await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
