@@ -9,6 +9,7 @@ import { Ytelsestype } from '~/models/ytelsestype';
 import * as React from 'react';
 import { Meldegruppe } from '~/models/meldegruppe';
 import amplitude from '@amplitude/analytics-browser';
+import type { ISporsmal } from '~/models/sporsmal';
 
 
 const personInfo = TEST_PERSON_INFO;
@@ -41,12 +42,12 @@ describe('Kvittering', () => {
   * Innsending
   */
   test('Skal vise innhold for Innsending uten neste meldekort, kalle HJ og Amplitude og kunne skrive ut', async () => {
+    hjMock.mockClear();
     const trackSpy = vi.spyOn(amplitude, 'track');
 
     createRouteAndRender(Innsendingstype.INNSENDING);
 
     expect(hjMock).toBeCalledWith('trigger', 'meldekortAAP');
-    hjMock.mockClear();
 
     expect(trackSpy).toBeCalledWith('meldekort.aktivitet', {
       arbeidssoker: 'ja',
@@ -101,10 +102,11 @@ describe('Kvittering', () => {
    * Etterregistrering
    */
   test('Skal vise innhold for Etterregistrering uten neste meldekort', async () => {
+    hjMock.mockClear();
+
     createRouteAndRender(Innsendingstype.ETTERREGISTRERING, undefined, undefined, undefined, Ytelsestype.TILTAKSPENGER);
 
     expect(hjMock).toBeCalledWith('trigger', 'meldekortTP');
-    hjMock.mockClear();
 
     await waitFor(() => screen.findByText('tilbake.minSide'));
   });
@@ -130,8 +132,26 @@ describe('Kvittering', () => {
   /*
    * Korrigering
    */
-  test('Skal vise innhold for korrigering og med nesteMeldekortKanSendes', async () => {
-    createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, '2024-02-26');
+  test('Skal vise innhold for korrigering og med nesteMeldekortKanSendes og kalle HJ med Sp.5 = false', async () => {
+    hjMock.mockClear();
+    const trackSpy = vi.spyOn(amplitude, 'track');
+
+    const sporsmal = { ...TEST_SPORSMAL, arbeidssoker: false };
+
+    createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, '2024-02-26', Ytelsestype.DAGPENGER, sporsmal);
+
+    expect(hjMock).not.toBeCalled();
+
+    expect(trackSpy).toBeCalledWith('meldekort.aktivitet', {
+      arbeidssoker: 'nei',
+      meldegruppe: Meldegruppe.DAGP,
+      innsendingstype: Innsendingstype.KORRIGERING,
+      aktivitet: 'Viser kvittering'
+    });
+    expect(trackSpy).toBeCalledWith('meldekort.aktivitet', {
+      meldegruppe: Meldegruppe.DAGP,
+      aktivitet: 'skjema fullført'
+    });
 
     await waitFor(() => screen.findByText('sendt.meldekortKanSendes'));
     await waitFor(() => screen.findByText('korrigering.sporsmal.begrunnelse'));
@@ -143,7 +163,8 @@ const createRouteAndRender = (
   nesteMeldekortId: Number | undefined = undefined,
   nesteEtterregistrerteMeldekortId: Number | undefined = undefined,
   nesteMeldekortKanSendes: string | undefined = undefined,
-  ytelsestypePostfix: Ytelsestype | undefined = Ytelsestype.AAP
+  ytelsestypePostfix: Ytelsestype | undefined = Ytelsestype.AAP,
+  sporsmal: ISporsmal = TEST_SPORSMAL
 ) => {
   const testRouter = createMemoryRouter([
     {
@@ -155,7 +176,7 @@ const createRouteAndRender = (
                            fom={fom}
                            tom={tom}
                            begrunnelse={''}
-                           sporsmal={TEST_SPORSMAL}
+                           sporsmal={sporsmal}
                            nesteMeldekortId={nesteMeldekortId}
                            nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
                            nesteMeldekortKanSendes={nesteMeldekortKanSendes}

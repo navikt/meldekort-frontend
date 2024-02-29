@@ -91,14 +91,14 @@ export default function Kvittering(props: IProps) {
     'Viser kvittering',
     {
       arbeidssoker: sporsmal.arbeidssoker ? 'ja' : 'nei',
-      meldegruppe: meldegruppe || 'UKJENT',
-      innsendingstype: innsendingstype || 'UKJENT',
+      meldegruppe: meldegruppe,
+      innsendingstype: innsendingstype,
     }
   );
   loggAktivitet(
     'skjema fullført',
     {
-      meldegruppe: meldegruppe || 'UKJENT',
+      meldegruppe: meldegruppe,
     }
   );
 
