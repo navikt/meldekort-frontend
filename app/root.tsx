@@ -78,13 +78,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return redirect('/send-meldekort', 307);
   }
 
-  // Hvis vi ikke er på ikke-tilgang
-  if (url.pathname !== '/ikke-tilgang') {
-    // Hvis personStatus ikke er hentet eller hentet men ID er tom, redirect til ikke-tilgang
-    // Vi må ha redirect og kan ikke bare vise en feilmelding her fordi vi må hindre loaders fra andre routes å bli kalt
-    if (!personStatus || personStatus.id === '') {
-      return redirect('/ikke-tilgang', 307);
-    }
+  // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
+  if (url.pathname !== '/ikke-tilgang' && (!personStatus || personStatus.id === '')) {
+    return redirect('/ikke-tilgang', 307);
   }
 
   const fragments = await hentDekoratorHtml();
