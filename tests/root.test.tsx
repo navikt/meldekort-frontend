@@ -164,9 +164,6 @@ describe('Root', () => {
   });
 
   test('Skal vise feilmelding hvis feil = true (skal ikke vise Loader)', async () => {
-    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
-    vi.stubEnv('IS_LOCALHOST', 'true');
-
     renderRemixStub(
       App,
       () => {

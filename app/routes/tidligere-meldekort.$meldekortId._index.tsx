@@ -28,6 +28,7 @@ import Begrunnelse from '~/components/begrunnelse/Begrunnelse';
 import { getOboToken } from '~/utils/authUtils';
 import type { IPersonInfo } from '~/models/person';
 import { hentPersonInfo } from '~/models/person';
+import LoaderMedPadding from '~/components/LoaderMedPadding';
 
 
 export const meta: MetaFunction = () => {
@@ -77,6 +78,11 @@ export default function Meldekortdetaljer() {
   i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
   let innhold: ReactElement;
+
+  // Sjekk at vi allerede har tekster, ellers vis loader
+  if (!i18n.hasLoadedNamespace(fraDato)) {
+    return <LoaderMedPadding />;
+  }
 
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo) {
     innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;

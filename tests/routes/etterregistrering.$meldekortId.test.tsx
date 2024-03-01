@@ -10,7 +10,8 @@ import EtterregistreringMeldekort, {
 } from '~/routes/etterregistrering.$meldekortId';
 import {
   jsonify,
-  opprettTestMeldekort, TEST_INFOMELDING,
+  opprettTestMeldekort,
+  TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO
@@ -162,6 +163,27 @@ describe('Etterregistrer meldekort', () => {
 
   test('Skal få OK resultat ved innsending av meldekort', async () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
+  });
+
+  test('Skal vise loader hvis tekster ikke er klare ennå', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
+    vi.stubEnv('IS_LOCALHOST', 'false');
+
+    renderRemixStub(
+      EtterregistreringMeldekort,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: undefined,
+          nesteMeldekortId: undefined,
+          nesteEtterregistrerteMeldekortId: undefined,
+          personInfo: null,
+          infomelding: null
+        });
+      }
+    );
+
+    await waitFor(() => screen.findByTitle('Venter...'));
   });
 
   test('Skal vise feilmelding hvis feil = true', async () => {

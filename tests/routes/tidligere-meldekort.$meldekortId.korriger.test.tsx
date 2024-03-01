@@ -212,6 +212,25 @@ describe('Korriger tidligere meldekort', () => {
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
   });
 
+  test('Skal vise loader hvis tekster ikke er klare ennå', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
+    vi.stubEnv('IS_LOCALHOST', 'false');
+
+    renderRemixStub(
+      TidligereMeldekortKorrigering,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: undefined,
+          meldekortdetaljer: null,
+          personInfo: null
+        });
+      }
+    );
+
+    await waitFor(() => screen.findByTitle('Venter...'));
+  });
+
   test('Skal vise feilmelding hvis feil = true', async () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,

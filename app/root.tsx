@@ -8,7 +8,7 @@ import i18next from '~/i18next.server';
 import { useChangeLanguage } from 'remix-i18next';
 import type { ISkrivemodus } from '~/models/skrivemodus';
 import { hentSkrivemodus } from '~/models/skrivemodus';
-import { Alert, Box, Loader } from '@navikt/ds-react';
+import { Alert } from '@navikt/ds-react';
 import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
 import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
 import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
@@ -18,6 +18,7 @@ import type { IPersonStatus } from '~/models/personStatus';
 import { hentPersonStatus } from '~/models/personStatus';
 import { hentErViggo } from '~/utils/viggoUtils';
 import { useInjectDecoratorScript } from './utils/dekoratorUtils';
+import LoaderMedPadding from '~/components/LoaderMedPadding';
 
 import navStyles from '@navikt/ds-css/dist/index.css';
 import indexStyle from '~/index.css';
@@ -118,11 +119,7 @@ export default function App() {
 
   // Sjekk at vi allerede har tekster, ellers vis loader
   if (!i18n.hasLoadedNamespace('1000-01-01')) {
-    innhold = <div>
-      <Box padding="32" />
-      <Loader size="3xlarge" className="img" title="Venter..." />
-      <Box padding="32" />
-    </div>;
+    innhold = <LoaderMedPadding />;
   }
 
   if (feil || skrivemodus?.skrivemodus !== true) {

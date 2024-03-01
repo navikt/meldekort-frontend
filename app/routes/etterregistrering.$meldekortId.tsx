@@ -16,6 +16,7 @@ import { finnNesteSomKanSendes } from '~/utils/meldekortUtils';
 import { opprettSporsmal } from '~/utils/miscUtils';
 import type { IInfomelding } from '~/models/infomelding';
 import { hentInfomelding } from '~/models/infomelding';
+import LoaderMedPadding from '~/components/LoaderMedPadding';
 
 
 export const meta: MetaFunction = () => {
@@ -90,6 +91,11 @@ export default function EtterregistreringMeldekort() {
   const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01';
   const { i18n, tt } = useExtendedTranslation(fraDato);
   i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
+
+  // Sjekk at vi allerede har tekster, ellers vis loader
+  if (!i18n.hasLoadedNamespace(fraDato)) {
+    return <LoaderMedPadding />;
+  }
 
   if (feil || !valgtMeldekort || !personInfo || !infomelding) {
     const innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;

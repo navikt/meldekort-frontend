@@ -100,6 +100,24 @@ describe('Tidligere meldekort detaljer', () => {
     });
   });
 
+  test('Skal vise loader hvis tekster ikke er klare ennå', async () => {
+    // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
+    vi.stubEnv('IS_LOCALHOST', 'false');
+
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: undefined,
+          meldekortdetaljer: undefined
+        });
+      }
+    );
+
+    await waitFor(() => screen.findByTitle('Venter...'));
+  });
+
   test('Skal vise feilmelding hvis feil = true', async () => {
     renderRemixStub(
       Meldekortdetaljer,
