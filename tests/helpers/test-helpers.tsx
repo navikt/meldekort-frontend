@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
 import { server } from '../mocks/server';
 import { cleanup, render } from '@testing-library/react';
 import { createRemixStub } from '@remix-run/testing';
@@ -8,11 +8,14 @@ import * as React from 'react';
 
 export const beforeAndAfterSetup = () => {
   beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-  afterAll(() => server.close());
+  beforeEach(() => {
+    vi.stubEnv('IS_LOCALHOST', 'true');
+  });
   afterEach(() => {
     server.resetHandlers();
     cleanup();
   });
+  afterAll(() => server.close());
 };
 
 export const renderRemixStub = (
