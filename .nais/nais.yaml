@@ -47,6 +47,8 @@ spec:
       value: "{{ amplitudeApiKey }}"
   accessPolicy:
     outbound:
+      external:
+        - host: amplitude.nav.no
       rules:
         - application: meldekort-api{{ dashEnv }}
         - application: nav-dekoratoren
