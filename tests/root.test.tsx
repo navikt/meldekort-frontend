@@ -6,7 +6,7 @@ import { TEST_MELDEKORT_API_URL, TEST_URL } from './helpers/setup';
 import App, { ErrorBoundary, links, loader } from '~/root';
 import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from './mocks/data';
 import { json } from '@remix-run/node';
-import { render, screen, waitFor } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { createRemixStub } from '@remix-run/testing';
 import * as cssBundle from '@remix-run/css-bundle';
 
@@ -218,6 +218,7 @@ describe('Root', () => {
   });
 
   test('Skal vise feilmelding fra skrivemodus (hvis den finnes) iht språk', async () => {
+    // Sjekk norsk melding
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres som language: nb eller en
     vi.stubEnv('IS_LOCALHOST', 'false');
 
@@ -241,6 +242,9 @@ describe('Root', () => {
 
     await waitFor(() => screen.findByText('NORSK FEILMELDING'));
 
+    cleanup();
+
+    // Sjekk engelsk melding
     vi.stubEnv('IS_LOCALHOST', 'true');
 
     renderRemixStub(

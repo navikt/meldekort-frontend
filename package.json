@@ -38,10 +38,11 @@
     "i18next-fs-backend": "^2.3.1",
     "i18next-http-backend": "^2.5.0",
     "isbot": "^5.1.0",
+    "jsdom": "^24.0.0",
     "morgan": "^1.10.0",
     "prom-client": "^15.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.0-canary-2f8f77602-20240229",
+    "react-dom": "^18.3.0-canary-2f8f77602-20240229",
     "react-i18next": "^14.0.5",
     "remix-i18next": "^5.5.0",
     "source-map-support": "^0.5.21"
