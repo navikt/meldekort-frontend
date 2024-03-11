@@ -146,8 +146,6 @@ export default function App() {
     </div>;
   }
 
-  useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
-
   return (
     <html lang={locale} dir={i18n.dir()}>
       <head>
@@ -164,6 +162,7 @@ export default function App() {
         {parse(fragments.DECORATOR_FOOTER, { trim: true })}
         <ScrollRestoration />
         <Scripts />
+        {parse(fragments.DECORATOR_SCRIPTS, { trim: true })}
         <LiveReload />
       </body>
     </html>
