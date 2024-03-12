@@ -22,14 +22,11 @@ export const useInjectDecoratorScript = (script?: string) => {
       }
 
       if (parsedScriptElement) {
-        const scriptElement = createElementWithAttributes(
-          "script",
-          parsedScriptElement.attributes,
-        );
+        const scriptElement = createElementWithAttributes("script", parsedScriptElement.attributes);
         document.body.appendChild(scriptElement);
-      }
 
-      isInjected.current = true;
+        isInjected.current = true;
+      }
     }
   }, [script]);
 };
