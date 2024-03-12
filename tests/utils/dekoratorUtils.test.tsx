@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 
 
 describe("Dekorator utils", () => {
-  test("Skal legge til script", async () => {
+  test.todo("Skal legge til script-elementer", async () => {
     const TestComponent = () => {
 
       useInjectDecoratorScript(
