@@ -16,14 +16,18 @@ export const useInjectDecoratorScript = (script?: string) => {
       const parsedDivElement = parsedElements[0] as HTMLDivElement;
       const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
 
-      const divElement = createElementWithAttributes('div', parsedDivElement.attributes);
-      const scriptElement = createElementWithAttributes(
-        'script',
-        parsedScriptElement.attributes
-      );
+      if (parsedDivElement) {
+        const divElement = createElementWithAttributes('div', parsedDivElement.attributes);
+        document.body.appendChild(divElement);
+      }
 
-      document.body.appendChild(divElement);
-      document.body.appendChild(scriptElement);
+      if (parsedScriptElement) {
+        const scriptElement = createElementWithAttributes(
+          'script',
+          parsedScriptElement.attributes
+        );
+        document.body.appendChild(scriptElement);
+      }
 
       isInjected.current = true;
     }
