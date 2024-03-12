@@ -1,15 +1,15 @@
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
-import { server } from '../mocks/server';
-import { cleanup, render } from '@testing-library/react';
-import { createRemixStub } from '@remix-run/testing';
-import type { LoaderFunction } from '@remix-run/node';
-import * as React from 'react';
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
+import { server } from "../mocks/server";
+import { cleanup, render } from "@testing-library/react";
+import { createRemixStub } from "@remix-run/testing";
+import type { LoaderFunction } from "@remix-run/node";
+import * as React from "react";
 
 
 export const beforeAndAfterSetup = () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
   beforeEach(() => {
-    vi.stubEnv('IS_LOCALHOST', 'true');
+    vi.stubEnv("IS_LOCALHOST", "true");
   });
   afterEach(() => {
     server.resetHandlers();
@@ -22,18 +22,18 @@ export const renderRemixStub = (
   component: React.ComponentType,
   loader?: LoaderFunction,
   nextPath?: string,
-  nextComponent?: React.ComponentType
+  nextComponent?: React.ComponentType,
 ) => {
   const RemixStub = createRemixStub([
     {
-      path: '/',
+      path: "/",
       Component: component,
-      loader
+      loader,
     },
     {
       path: nextPath,
-      Component: nextComponent
-    }
+      Component: nextComponent,
+    },
   ]);
 
   render(<RemixStub />);

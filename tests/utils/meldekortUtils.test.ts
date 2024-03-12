@@ -1,116 +1,116 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from "vitest";
 import {
   finnFoersteSomIkkeKanSendesEnna,
   finnNesteSomKanSendes,
   finnRiktigTagVariant,
   finnYtelsestypePostfix,
   mapKortStatusTilTekst,
-  mapKortTypeTilTekst
-} from '~/utils/meldekortUtils';
-import type { IMeldekort } from '~/models/meldekort';
-import { KortStatus } from '~/models/meldekort';
-import { KortType } from '~/models/kortType';
-import { Meldegruppe } from '~/models/meldegruppe';
-import { Ytelsestype } from '~/models/ytelsestype';
-import { jsonify, opprettTestMeldekort } from '../mocks/data';
+  mapKortTypeTilTekst,
+} from "~/utils/meldekortUtils";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import { KortType } from "~/models/kortType";
+import { Meldegruppe } from "~/models/meldegruppe";
+import { Ytelsestype } from "~/models/ytelsestype";
+import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
 
-describe('Meldekort utils', () => {
-  test('finnRiktigTagVariant skal returnere riktig varinat', () => {
+describe("Meldekort utils", () => {
+  test("finnRiktigTagVariant skal returnere riktig varinat", () => {
     let result = finnRiktigTagVariant(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
-    expect(result).toBe('alt3');
+    expect(result).toBe("alt3");
 
     result = finnRiktigTagVariant(KortStatus.KLAR, KortType.ELEKTRONISK);
-    expect(result).toBe('warning');
+    expect(result).toBe("warning");
 
     result = finnRiktigTagVariant(KortStatus.REGIS, KortType.ELEKTRONISK);
-    expect(result).toBe('info');
+    expect(result).toBe("info");
     result = finnRiktigTagVariant(KortStatus.NYKTR, KortType.ELEKTRONISK);
-    expect(result).toBe('info');
+    expect(result).toBe("info");
     result = finnRiktigTagVariant(KortStatus.UBEHA, KortType.ELEKTRONISK);
-    expect(result).toBe('info');
+    expect(result).toBe("info");
 
     result = finnRiktigTagVariant(KortStatus.FERDI, KortType.ELEKTRONISK);
-    expect(result).toBe('success');
+    expect(result).toBe("success");
     result = finnRiktigTagVariant(KortStatus.IKKE, KortType.ELEKTRONISK);
-    expect(result).toBe('success');
+    expect(result).toBe("success");
     result = finnRiktigTagVariant(KortStatus.OVERM, KortType.ELEKTRONISK);
-    expect(result).toBe('success');
+    expect(result).toBe("success");
 
-    result = finnRiktigTagVariant('' as KortStatus, KortType.ELEKTRONISK);
-    expect(result).toBe('error');
+    result = finnRiktigTagVariant("" as KortStatus, KortType.ELEKTRONISK);
+    expect(result).toBe("error");
   });
 
-  test('mapKortStatusTilTekst skal returnere riktig varinat', () => {
+  test("mapKortStatusTilTekst skal returnere riktig varinat", () => {
     let result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
-    expect(result).toBe('meldekort.type.korrigert');
+    expect(result).toBe("meldekort.type.korrigert");
 
     result = mapKortStatusTilTekst(KortStatus.KLAR, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.klar');
+    expect(result).toBe("meldekort.status.klar");
 
     result = mapKortStatusTilTekst(KortStatus.REGIS, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.regis');
+    expect(result).toBe("meldekort.status.regis");
     result = mapKortStatusTilTekst(KortStatus.NYKTR, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.nyktr');
+    expect(result).toBe("meldekort.status.nyktr");
     result = mapKortStatusTilTekst(KortStatus.UBEHA, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.ubeha');
+    expect(result).toBe("meldekort.status.ubeha");
 
     result = mapKortStatusTilTekst(KortStatus.FERDI, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.ferdi');
+    expect(result).toBe("meldekort.status.ferdi");
     result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.ikke');
+    expect(result).toBe("meldekort.status.ikke");
     result = mapKortStatusTilTekst(KortStatus.OVERM, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.overm');
+    expect(result).toBe("meldekort.status.overm");
 
     result = mapKortStatusTilTekst(KortStatus.FMOPP, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.fmopp');
+    expect(result).toBe("meldekort.status.fmopp");
     result = mapKortStatusTilTekst(KortStatus.FUOPP, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.fuopp');
+    expect(result).toBe("meldekort.status.fuopp");
     result = mapKortStatusTilTekst(KortStatus.FEIL, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.feil');
+    expect(result).toBe("meldekort.status.feil");
     result = mapKortStatusTilTekst(KortStatus.VENTE, KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.status.vente');
+    expect(result).toBe("meldekort.status.vente");
 
-    result = mapKortStatusTilTekst('' as KortStatus, KortType.ELEKTRONISK);
-    expect(result).toBe('Feil i status');
+    result = mapKortStatusTilTekst("" as KortStatus, KortType.ELEKTRONISK);
+    expect(result).toBe("Feil i status");
   });
 
-  test('mapKortTypeTilTekst skal returnere riktig varinat', () => {
+  test("mapKortTypeTilTekst skal returnere riktig varinat", () => {
     let result = mapKortTypeTilTekst(KortType.RETUR);
-    expect(result).toBe('meldekort.type.retur');
+    expect(result).toBe("meldekort.type.retur");
 
     result = mapKortTypeTilTekst(KortType.RETUR);
-    expect(result).toBe('meldekort.type.retur');
+    expect(result).toBe("meldekort.type.retur");
 
     result = mapKortTypeTilTekst(KortType.ORDINAER);
-    expect(result).toBe('meldekort.type.ordinar');
+    expect(result).toBe("meldekort.type.ordinar");
 
     result = mapKortTypeTilTekst(KortType.ERSTATNING);
-    expect(result).toBe('meldekort.type.erstatning');
+    expect(result).toBe("meldekort.type.erstatning");
 
     result = mapKortTypeTilTekst(KortType.ELEKTRONISK);
-    expect(result).toBe('meldekort.type.elektronisk');
+    expect(result).toBe("meldekort.type.elektronisk");
 
     result = mapKortTypeTilTekst(KortType.AAP);
-    expect(result).toBe('meldekort.type-AAP');
+    expect(result).toBe("meldekort.type-AAP");
 
     result = mapKortTypeTilTekst(KortType.ORDINAER_MANUELL);
-    expect(result).toBe('meldekort.type.ordinarManuell');
+    expect(result).toBe("meldekort.type.ordinarManuell");
 
     result = mapKortTypeTilTekst(KortType.MASKINELT_OPPDATERT);
-    expect(result).toBe('meldekort.type.maskineltOppdatert');
+    expect(result).toBe("meldekort.type.maskineltOppdatert");
 
     result = mapKortTypeTilTekst(KortType.MANUELL_ARENA);
-    expect(result).toBe('meldekort.type.manuellArena');
+    expect(result).toBe("meldekort.type.manuellArena");
 
     result = mapKortTypeTilTekst(KortType.KORRIGERT_ELEKTRONISK);
-    expect(result).toBe('meldekort.type.korrigertElektronisk');
+    expect(result).toBe("meldekort.type.korrigertElektronisk");
 
-    result = mapKortTypeTilTekst('' as KortType);
-    expect(result).toBe('Feil i korttype');
+    result = mapKortTypeTilTekst("" as KortType);
+    expect(result).toBe("Feil i korttype");
   });
 
-  test('finnYtelsestypePostfix skal returnere riktig varinat', () => {
+  test("finnYtelsestypePostfix skal returnere riktig varinat", () => {
     let result = finnYtelsestypePostfix(Meldegruppe.ATTF);
     expect(result).toBe(Ytelsestype.AAP);
 
@@ -130,7 +130,7 @@ describe('Meldekort utils', () => {
     expect(result).toBe(Ytelsestype.DAGPENGER);
   });
 
-  test('finnNesteSomKanSendes skal returnere riktig meldekort', () => {
+  test("finnNesteSomKanSendes skal returnere riktig meldekort", () => {
     const meldekort1: IMeldekort = opprettTestMeldekort(1707156950, true, KortStatus.SENDT);
     const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false);
     const meldekort3: IMeldekort = opprettTestMeldekort(1707156952);
@@ -158,7 +158,7 @@ describe('Meldekort utils', () => {
     expect(result).toBe(undefined);
   });
 
-  test('finnFoersteSomIkkeKanSendesEnna skal returnere riktig meldekort', () => {
+  test("finnFoersteSomIkkeKanSendesEnna skal returnere riktig meldekort", () => {
     const meldekort1: IMeldekort = opprettTestMeldekort(1707156950);
     const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false, KortStatus.SENDT);
     const meldekort3: IMeldekort = opprettTestMeldekort(1707156952, false);

@@ -2,7 +2,7 @@
  * Injiser script-elementet til dekoratøren og en tilhørende div.
  * useEffect()-hooken sørger for at dette gjøres utelukkende client-side, ellers vil dekoratøren manipulere DOM-en og forstyrre hydreringen.
  */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 export const useInjectDecoratorScript = (script?: string) => {
   const isInjected = useRef(false);
@@ -10,21 +10,21 @@ export const useInjectDecoratorScript = (script?: string) => {
   useEffect(() => {
     if (script && !isInjected.current) {
       const parser = new DOMParser();
-      const parsedDocument = parser.parseFromString(script, 'text/html');
+      const parsedDocument = parser.parseFromString(script, "text/html");
 
       const parsedElements = Array.from(parsedDocument.body.childNodes);
       const parsedDivElement = parsedElements[0] as HTMLDivElement;
       const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
 
       if (parsedDivElement) {
-        const divElement = createElementWithAttributes('div', parsedDivElement.attributes);
+        const divElement = createElementWithAttributes("div", parsedDivElement.attributes);
         document.body.appendChild(divElement);
       }
 
       if (parsedScriptElement) {
         const scriptElement = createElementWithAttributes(
-          'script',
-          parsedScriptElement.attributes
+          "script",
+          parsedScriptElement.attributes,
         );
         document.body.appendChild(scriptElement);
       }

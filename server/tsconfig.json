@@ -1,5 +1,7 @@
 {
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts"
+  ],
   "compilerOptions": {
     "noEmitOnError": true,
     "target": "es5",

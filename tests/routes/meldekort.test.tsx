@@ -1,34 +1,34 @@
-import { describe, expect, test } from 'vitest';
-import { catchErrorResponse } from '../helpers/response-helper';
-import Meldekort, { loader, meta } from '~/routes/meldekort';
-import { TEST_URL } from '../helpers/setup';
-import type { ServerRuntimeMetaArgs } from '@remix-run/server-runtime/dist/routeModules';
+import { describe, expect, test } from "vitest";
+import { catchErrorResponse } from "../helpers/response-helper";
+import Meldekort, { loader, meta } from "~/routes/meldekort";
+import { TEST_URL } from "../helpers/setup";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
-describe('Meldekort', () => {
-  test('Skal få redirect til root', async () => {
+describe("Meldekort", () => {
+  test("Skal få redirect til root", async () => {
     const response = await catchErrorResponse(() =>
       loader({
-        request: new Request(TEST_URL + '/meldekort'),
+        request: new Request(TEST_URL + "/meldekort"),
         params: {},
-        context: {}
-      })
+        context: {},
+      }),
     );
 
     expect(response.status).toBe(301);
-    expect(response.headers.get('location')).toBe('/');
+    expect(response.headers.get("location")).toBe("/");
   });
 
-  test('Skal vise tom div', async () => {
+  test("Skal vise tom div", async () => {
     expect(Meldekort()).toStrictEqual(<div></div>);
   });
 
-  test('Skal returnere metainformasjon', async () => {
+  test("Skal returnere metainformasjon", async () => {
     const args = {} as ServerRuntimeMetaArgs;
 
     expect(meta(args)).toStrictEqual([
-      { title: 'Meldekort' },
-      { name: 'description', content: 'Meldekort' }
+      { title: "Meldekort" },
+      { name: "description", content: "Meldekort" },
     ]);
   });
 });

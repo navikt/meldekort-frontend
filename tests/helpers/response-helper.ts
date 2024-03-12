@@ -8,7 +8,7 @@ export async function catchErrorResponse(fn: any): Promise<Response> {
     } else if (e instanceof Error) {
       throw e;
     } else {
-      throw new Error('Noe skjedde feil');
+      throw new Error("Noe skjedde feil");
     }
   }
 }

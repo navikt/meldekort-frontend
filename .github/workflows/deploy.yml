@@ -45,7 +45,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
   test:
-    needs: [install]
+    needs: [ install ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
       - run: npm run test
 
   build:
-    needs: [install]
+    needs: [ install ]
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -104,7 +104,7 @@ jobs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
   upload-cdn:
-    needs: [build, test]
+    needs: [ build, test ]
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -128,7 +128,7 @@ jobs:
 
   deploy-dev:
     if: github.event.inputs.environment != 'p'
-    needs: [build, test, upload-cdn]
+    needs: [ build, test, upload-cdn ]
     runs-on: ubuntu-latest
     steps:
       - name: Set default environment for push to main

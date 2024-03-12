@@ -1,12 +1,12 @@
 // Importeres som en fil via vi.importActual
-import { getEnv } from '~/utils/envUtils';
+import { getEnv } from "~/utils/envUtils";
 
 export const mock = {
   useTranslation: () => {
     return {
       t: (args: string[]) => {
-        if (args[1] === 'korriger.begrunnelse.valg') {
-          return '{"1": "Op1", "2": "Op2"}';
+        if (args[1] === "korriger.begrunnelse.valg") {
+          return "{\"1\": \"Op1\", \"2\": \"Op2\"}";
         }
 
         return args[1];
@@ -17,13 +17,13 @@ export const mock = {
         setDefaultNamespace: () => {
         },
         hasLoadedNamespace: () => {
-          return getEnv('IS_LOCALHOST') === 'true';
+          return getEnv("IS_LOCALHOST") === "true";
         },
         dir: () => {
         },
-        language: getEnv('IS_LOCALHOST') === 'true' ? 'en' : 'nb'
+        language: getEnv("IS_LOCALHOST") === "true" ? "en" : "nb",
       },
-      ready: true
+      ready: true,
     };
-  }
+  },
 };

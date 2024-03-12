@@ -1,4 +1,4 @@
-import { Box, Loader } from '@navikt/ds-react';
+import { Box, Loader } from "@navikt/ds-react";
 
 
 export default function LoaderMedPadding() {

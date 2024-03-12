@@ -1,12 +1,12 @@
-import { format, getISOWeek } from 'date-fns';
+import { format, getISOWeek } from "date-fns";
 
 
 export function formaterDato(dato: Date | string): string {
-  return format(new Date(dato), 'dd.MM.yyyy');
+  return format(new Date(dato), "dd.MM.yyyy");
 }
 
 export function formaterTid(dato: Date | string): string {
-  return format(new Date(dato), 'HH:mm');
+  return format(new Date(dato), "HH:mm");
 }
 
 export function formaterPeriodeDato(fraOgMed: Date | string, tilOgMed: Date | string) {
@@ -29,7 +29,7 @@ export function formaterPeriode(fom: Date | string, plussDager: number, periodel
   const nestePeriodeTom = new Date(nestePeriodeFom);
   nestePeriodeTom.setDate(nestePeriodeTom.getDate() + periodelengde - 1);
 
-  return formaterPeriodeTilUkenummer(nestePeriodeFom, nestePeriodeTom) + ' (' + formaterPeriodeDato(nestePeriodeFom, nestePeriodeTom) + ')';
+  return formaterPeriodeTilUkenummer(nestePeriodeFom, nestePeriodeTom) + " (" + formaterPeriodeDato(nestePeriodeFom, nestePeriodeTom) + ")";
 }
 
 export function ukeFormatert(fom: Date | string, plussDager = 14): string {
@@ -38,5 +38,5 @@ export function ukeFormatert(fom: Date | string, plussDager = 14): string {
   const ukeTom = new Date(ukeFom);
   ukeTom.setDate(ukeTom.getDate() + 6);
 
-  return getISOWeek(ukeFom) + ' (' + formaterPeriodeDato(ukeFom, ukeTom) + ')';
+  return getISOWeek(ukeFom) + " (" + formaterPeriodeDato(ukeFom, ukeTom) + ")";
 }

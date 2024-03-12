@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { useExtendedTranslation } from '~/utils/intlUtils';
-import type { Innsendingstype } from '~/models/innsendingstype';
-import type { IPersonInfo } from '~/models/person';
-import Sideoverskrift from '~/components/sideoverskrift/Sideoverskrift';
-import { BodyLong, Box, Stepper } from '@navikt/ds-react';
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from '~/utils/datoUtils';
-import { byggBegrunnelseObjekt } from '~/utils/miscUtils';
-import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
-import type { IMeldekort } from '~/models/meldekort';
-import type { ISporsmal } from '~/models/sporsmal';
-import type { IInfomelding } from '~/models/infomelding';
-import { finnYtelsestypePostfix } from '~/utils/meldekortUtils';
-import Sporsmal from '~/components/innsending/1-Sporsmal';
-import Utfylling from '~/components/innsending/2-Utfylling';
-import Bekreftelse from '~/components/innsending/3-Bekreftelse';
-import Kvittering from '~/components/innsending/4-Kvittering';
-import styles from '~/components/sideinnhold/Sideinnhold.module.css';
+import { useState } from "react";
+import { useExtendedTranslation } from "~/utils/intlUtils";
+import type { Innsendingstype } from "~/models/innsendingstype";
+import type { IPersonInfo } from "~/models/person";
+import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
+import { BodyLong, Box, Stepper } from "@navikt/ds-react";
+import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import type { IMeldekort } from "~/models/meldekort";
+import type { ISporsmal } from "~/models/sporsmal";
+import type { IInfomelding } from "~/models/infomelding";
+import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import Sporsmal from "~/components/innsending/1-Sporsmal";
+import Utfylling from "~/components/innsending/2-Utfylling";
+import Bekreftelse from "~/components/innsending/3-Bekreftelse";
+import Kvittering from "~/components/innsending/4-Kvittering";
+import styles from "~/components/sideinnhold/Sideinnhold.module.css";
 
 
 interface IProps {
@@ -40,7 +40,7 @@ export default function Innsending(props: IProps) {
     infomelding,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
-    nesteMeldekortKanSendes
+    nesteMeldekortKanSendes,
   } = props;
 
   const fom = valgtMeldekort.meldeperiode.fra;
@@ -48,17 +48,17 @@ export default function Innsending(props: IProps) {
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
 
   const { tt } = useExtendedTranslation();
-  const [begrunnelse, setBegrunnelse] = useState('');
+  const [begrunnelse, setBegrunnelse] = useState("");
   const [nyeSporsmal, setNyeSporsmal] = useState(sporsmal);
 
   const steps = [
-    'overskrift.steg1',
-    'overskrift.steg2',
-    'overskrift.steg3',
-    'overskrift.steg4'
+    "overskrift.steg1",
+    "overskrift.steg2",
+    "overskrift.steg3",
+    "overskrift.steg4",
   ];
 
-  const begrunnelseObjekt = byggBegrunnelseObjekt(tt('korriger.begrunnelse.valg'));
+  const begrunnelseObjekt = byggBegrunnelseObjekt(tt("korriger.begrunnelse.valg"));
 
   let innhold: JSX.Element;
 
@@ -106,10 +106,10 @@ export default function Innsending(props: IProps) {
   return (
     <div className={styles.sideInnhold}>
       <BodyLong as="div" align="center" spacing className="notForPrint">
-        <div>{tt('meldekort.for.perioden')}</div>
+        <div>{tt("meldekort.for.perioden")}</div>
         <div>
           <h2 className="navds-heading navds-heading--large">
-            {tt('overskrift.uke')} {formaterPeriodeTilUkenummer(fom, tom)}
+            {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
           </h2>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
