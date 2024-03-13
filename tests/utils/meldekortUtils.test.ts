@@ -20,6 +20,9 @@ describe("Meldekort utils", () => {
     let result = finnRiktigTagVariant(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
     expect(result).toBe("alt3");
 
+    result = finnRiktigTagVariant(KortStatus.FERDI, KortType.KORRIGERT_ELEKTRONISK);
+    expect(result).toBe("success");
+
     result = finnRiktigTagVariant(KortStatus.KLAR, KortType.ELEKTRONISK);
     expect(result).toBe("warning");
 

@@ -8,7 +8,7 @@ import { getText } from "~/utils/intlUtils";
 
 
 export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): "success" | "info" | "warning" | "error" | "alt3" {
-  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return "alt3";
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK && status === KortStatus.IKKE) return "alt3";
 
   switch (status) {
     case KortStatus.KLAR:
