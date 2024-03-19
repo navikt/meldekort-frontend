@@ -1,28 +1,29 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { Alert } from '@navikt/ds-react';
-import { parseHtml, useExtendedTranslation } from '~/utils/intlUtils';
-import type { IMeldekortdetaljer } from '~/models/meldekortdetaljer';
-import { hentMeldekortdetaljer } from '~/models/meldekortdetaljer';
-import type { IMeldekort } from '~/models/meldekort';
-import { hentHistoriskeMeldekort } from '~/models/meldekort';
-import type { IPersonInfo } from '~/models/person';
-import { hentPersonInfo } from '~/models/person';
-import { Innsendingstype } from '~/models/innsendingstype';
-import Innsending from '~/components/innsending/Innsending';
-import MeldekortHeader from '~/components/meldekortHeader/MeldekortHeader';
-import Sideinnhold from '~/components/sideinnhold/Sideinnhold';
-import { getOboToken } from '~/utils/authUtils';
-import { sendInnMeldekortAction } from '~/models/meldekortdetaljerInnsending';
-import type { IInfomelding } from '~/models/infomelding';
-import { hentInfomelding } from '~/models/infomelding';
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { Alert } from "@navikt/ds-react";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { IMeldekort } from "~/models/meldekort";
+import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import type { IPersonInfo } from "~/models/person";
+import { hentPersonInfo } from "~/models/person";
+import { Innsendingstype } from "~/models/innsendingstype";
+import Innsending from "~/components/innsending/Innsending";
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { getOboToken } from "~/utils/authUtils";
+import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import type { IInfomelding } from "~/models/infomelding";
+import { hentInfomelding } from "~/models/infomelding";
+import LoaderMedPadding from "~/components/LoaderMedPadding";
 
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Meldekort' },
-    { name: 'description', content: 'Korriger tidligere meldekort' }
+    { title: "Meldekort" },
+    { name: "description", content: "Korriger tidligere meldekort" },
   ];
 };
 
@@ -76,7 +77,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     valgtMeldekort,
     meldekortdetaljer,
     personInfo,
-    infomelding
+    infomelding,
   });
 }
 
@@ -86,15 +87,20 @@ export default function TidligereMeldekortKorrigering() {
     valgtMeldekort,
     meldekortdetaljer,
     personInfo,
-    infomelding
+    infomelding,
   } = useLoaderData<typeof loader>();
 
-  const fraDato = valgtMeldekort?.meldeperiode.fra || '1000-01-01';
+  const fraDato = valgtMeldekort?.meldeperiode.fra || "1000-01-01";
   const { i18n, tt } = useExtendedTranslation(fraDato);
   i18n.setDefaultNamespace(fraDato); // Setter Default namespace slik at vi ikke må tenke om dette i alle komponenter
 
+  // Sjekk at vi allerede har tekster, ellers vis loader
+  if (!i18n.hasLoadedNamespace(fraDato)) {
+    return <LoaderMedPadding />;
+  }
+
   if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo || !infomelding) {
-    const innhold = <Alert variant="error">{parseHtml(tt('feilmelding.baksystem'))}</Alert>;
+    const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     return (
       <div>

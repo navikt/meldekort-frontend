@@ -1,12 +1,12 @@
-import { RemixBrowser } from '@remix-run/react';
-import { startTransition, StrictMode } from 'react';
-import { hydrateRoot } from 'react-dom/client';
-import i18n from './i18n'; // i18n configuration file
-import i18next from 'i18next';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
-import { getInitialNamespaces } from 'remix-i18next';
+import { RemixBrowser } from "@remix-run/react";
+import { startTransition, StrictMode } from "react";
+import { hydrateRoot } from "react-dom/client";
+import i18n from "./i18n"; // i18n configuration file
+import i18next from "i18next";
+import { I18nextProvider, initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import Backend from "i18next-http-backend";
+import { getInitialNamespaces } from "remix-i18next";
 
 
 async function hydrate() {
@@ -17,11 +17,11 @@ async function hydrate() {
     .init({
       ...i18n, // Spread the configuration
       ns: getInitialNamespaces(),  // This function detects the namespaces your routes rendered while SSR use
-      backend: { loadPath: '/locales/{{lng}}/{{ns}}.json' },
+      backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
       detection: {
         // Here only enable htmlTag detection, we'll detect the language only server-side with remix-i18next,
         // by using the `<html lang>` attribute we can communicate to the client the language detected server-side
-        order: ['htmlTag'],
+        order: ["htmlTag"],
         // Because we only use htmlTag, there's no reason to cache the language on the browser, so we disable it
         caches: [],
       },
@@ -34,7 +34,7 @@ async function hydrate() {
         <StrictMode>
           <RemixBrowser />
         </StrictMode>
-      </I18nextProvider>
+      </I18nextProvider>,
     );
   });
 }

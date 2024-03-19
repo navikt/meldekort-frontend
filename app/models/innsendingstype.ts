@@ -1,5 +1,5 @@
 export enum Innsendingstype {
-  INNSENDING = 'innsending',
-  ETTERREGISTRERING = 'etterregistrering',
-  KORRIGERING = 'korriger'
+  INNSENDING = "innsending",
+  ETTERREGISTRERING = "etterregistrering",
+  KORRIGERING = "korriger"
 }
