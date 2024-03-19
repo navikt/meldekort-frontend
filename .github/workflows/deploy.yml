@@ -120,11 +120,13 @@ jobs:
           fail-on-cache-miss: true
 
       - name: Upload static files
-        uses: navikt/frontend/actions/cdn-upload/v1@main
+        uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           cdn-team-name: meldekort
           source: ./public
           destination: '/meldekort-frontend/'
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
   deploy-dev:
     if: github.event.inputs.environment != 'p'
