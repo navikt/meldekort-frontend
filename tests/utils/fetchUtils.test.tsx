@@ -1,28 +1,28 @@
-import { describe, expect, expectTypeOf, test } from 'vitest';
-import { getHeaders, useFetcherWithPromise } from '~/utils/fetchUtils';
-import type { ISendInnMeldekortActionResponse } from '~/models/meldekortdetaljerInnsending';
-import type { FetcherWithComponents, SubmitFunction } from '@remix-run/react';
-import { render } from '@testing-library/react';
-import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import type { SerializeFrom } from '@remix-run/node';
+import { describe, expect, expectTypeOf, test } from "vitest";
+import { getHeaders, useFetcherWithPromise } from "~/utils/fetchUtils";
+import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
+import type { FetcherWithComponents, SubmitFunction } from "@remix-run/react";
+import { render } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import type { SerializeFrom } from "@remix-run/node";
 
 
-describe('Fetch utils', () => {
-  test('getHeaders skal returnere riktige headerd', async () => {
-    const token = 'TOKEN';
+describe("Fetch utils", () => {
+  test("getHeaders skal returnere riktige headerd", async () => {
+    const token = "TOKEN";
     const result = getHeaders(token);
     expect(result).toStrictEqual({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'TokenXAuthorization': `Bearer ${token}`
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "TokenXAuthorization": `Bearer ${token}`,
     });
   });
 
-  test('useFetcherWithPromise skal returnere fetcher med promise', async () => {
+  test("useFetcherWithPromise skal returnere fetcher med promise", async () => {
     let fetcher: FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>;
 
     const TestComponent = () => {
-      fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: 'TEST' });
+      fetcher = useFetcherWithPromise<ISendInnMeldekortActionResponse>({ key: "TEST" });
 
       return (
         <fetcher.Form>
@@ -33,12 +33,12 @@ describe('Fetch utils', () => {
 
     const testRouter = createMemoryRouter([
       {
-        path: '/',
+        path: "/",
         element: <TestComponent />,
         action: async (args: any) => {
           return args;
-        }
-      }
+        },
+      },
     ]);
 
     render(<RouterProvider router={testRouter} />);
@@ -55,9 +55,9 @@ describe('Fetch utils', () => {
 
     // Prøver å bruke submit og Promise
     const formData = new FormData();
-    formData.append('meldekortdetaljer', '{}');
+    formData.append("meldekortdetaljer", "{}");
     // @ts-ignore
-    fetcher.submit(formData, { method: 'post' }).then((data) => {
+    fetcher.submit(formData, { method: "post" }).then((data) => {
       console.trace(data);
     }).catch(() => {
     });

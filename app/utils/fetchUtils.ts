@@ -1,14 +1,14 @@
-import type { useFetcher as useFetcherRR } from 'react-router-dom';
-import type { SubmitFunction } from '@remix-run/react';
-import { useFetcher } from '@remix-run/react';
-import { useCallback, useEffect, useRef } from 'react';
+import type { useFetcher as useFetcherRR } from "react-router-dom";
+import type { SubmitFunction } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
+import { useCallback, useEffect, useRef } from "react";
 
 
 export function getHeaders(onBehalfOfToken: string) {
   return {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'TokenXAuthorization': `Bearer ${onBehalfOfToken}`
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "TokenXAuthorization": `Bearer ${onBehalfOfToken}`,
   };
 }
 
@@ -35,11 +35,11 @@ export function useFetcherWithPromise<T>(opts?: Parameters<typeof useFetcherRR>[
       fetcher.submit(...args);
       return promiseRef.current;
     },
-    [fetcher, promiseRef]
+    [fetcher, promiseRef],
   );
 
   useEffect(() => {
-    if (fetcher.data && fetcher.state === 'idle') {
+    if (fetcher.data && fetcher.state === "idle") {
       resolveRef.current(fetcher.data);
       resetResolver();
     }

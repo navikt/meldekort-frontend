@@ -1,32 +1,32 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test } from 'vitest';
-import { catchErrorResponse } from '../helpers/response-helper';
-import { server } from '../mocks/server';
-import { http, HttpResponse } from 'msw';
-import { TEST_MELDEKORT_API_URL } from '../helpers/setup';
-import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from '../mocks/data';
-import { sendInnMeldekortAction } from '~/models/meldekortdetaljerInnsending';
-import type { ActionFunctionArgs, AppLoadContext } from '@remix-run/node';
-import type { Params } from '@remix-run/router/utils';
-import { Innsendingstype } from '~/models/innsendingstype';
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+import { catchErrorResponse } from "../helpers/response-helper";
+import { server } from "../mocks/server";
+import { http, HttpResponse } from "msw";
+import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
+import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
+import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import type { ActionFunctionArgs, AppLoadContext } from "@remix-run/node";
+import type { Params } from "@remix-run/router/utils";
+import { Innsendingstype } from "~/models/innsendingstype";
 
 
 // Kan ikke kjøres parallelt!
-describe('Meldekortdetaljer Innsending', () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+describe("Meldekortdetaljer Innsending", () => {
+  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
   afterAll(() => server.close());
   afterEach(() => server.resetHandlers());
 
   const opprettActionFunctionArgs = (innsendingstype: Innsendingstype = Innsendingstype.INNSENDING) => {
     const body = new FormData();
-    body.append('meldekortdetaljer', '{ "meldekortId": "1708156951" }');
-    body.append('innsendingstype', innsendingstype.toString());
+    body.append("meldekortdetaljer", "{ \"meldekortId\": \"1708156951\" }");
+    body.append("innsendingstype", innsendingstype.toString());
 
     const request = new Request(
-      'http://localhost',
+      "http://localhost",
       {
-        method: 'POST',
-        body
-      }
+        method: "POST",
+        body,
+      },
     );
     const params: Params = {};
     const context: AppLoadContext = {};
@@ -34,19 +34,19 @@ describe('Meldekortdetaljer Innsending', () => {
     const actionFunctionArgs: ActionFunctionArgs = {
       request,
       params,
-      context
+      context,
     };
 
     return actionFunctionArgs;
   };
 
-  test('sendInnMeldekortAction skal få baksystemFeil = true når feil ved henting en ny meldekortId ved Korrigering', async () => {
+  test("sendInnMeldekortAction skal få baksystemFeil = true når feil ved henting en ny meldekortId ved Korrigering", async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/meldekort/1708156951/korrigering`,
         () => new HttpResponse(null, { status: 500 }),
-        { once: true }
-      )
+        { once: true },
+      ),
     );
 
     const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING)));
@@ -56,17 +56,17 @@ describe('Meldekortdetaljer Innsending', () => {
     expect(response.status).toBe(200);
     expect(json).toEqual({
       baksystemFeil: true,
-      innsending: null
+      innsending: null,
     });
   });
 
-  test('sendInnMeldekortAction skal få baksystemFeil = true når feil i backend', async () => {
+  test("sendInnMeldekortAction skal få baksystemFeil = true når feil i backend", async () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () => new HttpResponse(null, { status: 500 }),
-        { once: true }
-      )
+        { once: true },
+      ),
     );
 
     const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs()));
@@ -76,11 +76,11 @@ describe('Meldekortdetaljer Innsending', () => {
     expect(response.status).toBe(200);
     expect(json).toEqual({
       baksystemFeil: true,
-      innsending: null
+      innsending: null,
     });
   });
 
-  test('sendInnMeldekortAction skal få data', async () => {
+  test("sendInnMeldekortAction skal få data", async () => {
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs());
 
     const json = await response.json();
@@ -88,11 +88,11 @@ describe('Meldekortdetaljer Innsending', () => {
     expect(response.status).toBe(200);
     expect(json).toStrictEqual({
       baksystemFeil: false,
-      innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK
+      innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
     });
   });
 
-  test('sendInnMeldekortAction skal få data ved Korrigering', async () => {
+  test("sendInnMeldekortAction skal få data ved Korrigering", async () => {
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING));
 
     const json = await response.json();
@@ -100,11 +100,11 @@ describe('Meldekortdetaljer Innsending', () => {
     expect(response.status).toBe(200);
     expect(json).toStrictEqual({
       baksystemFeil: false,
-      innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK
+      innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
     });
   });
 
-  test('sendInnMeldekortAction skal få baksystemFeil = true når feil i fetch', async () => {
+  test("sendInnMeldekortAction skal få baksystemFeil = true når feil i fetch", async () => {
     // Stopper server slik at fetch kaster exception
     server.close();
 
@@ -115,7 +115,7 @@ describe('Meldekortdetaljer Innsending', () => {
     expect(response.status).toBe(200);
     expect(json).toEqual({
       baksystemFeil: true,
-      innsending: null
+      innsending: null,
     });
   });
 

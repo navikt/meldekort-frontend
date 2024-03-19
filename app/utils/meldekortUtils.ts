@@ -1,89 +1,89 @@
-import type { IMeldekort } from '~/models/meldekort';
-import { KortStatus } from '~/models/meldekort';
-import { KortType } from '~/models/kortType';
-import { Meldegruppe } from '~/models/meldegruppe';
-import { Ytelsestype } from '~/models/ytelsestype';
-import type { Jsonify } from '@remix-run/server-runtime/dist/jsonify';
-import { getText } from '~/utils/intlUtils';
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import { KortType } from "~/models/kortType";
+import { Meldegruppe } from "~/models/meldegruppe";
+import { Ytelsestype } from "~/models/ytelsestype";
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import { getText } from "~/utils/intlUtils";
 
 
-export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): 'success' | 'info' | 'warning' | 'error' | 'alt3' {
-  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return 'alt3';
+export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): "success" | "info" | "warning" | "error" | "alt3" {
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK && status === KortStatus.IKKE) return "alt3";
 
   switch (status) {
     case KortStatus.KLAR:
-      return 'warning';
+      return "warning";
     case KortStatus.REGIS:
     case KortStatus.NYKTR:
     case KortStatus.UBEHA:
-      return 'info';
+      return "info";
     case KortStatus.FERDI:
     case KortStatus.IKKE:
     case KortStatus.OVERM:
-      return 'success';
+      return "success";
     default:
-      return 'error';
+      return "error";
   }
 }
 
 export function mapKortStatusTilTekst(status: KortStatus, kortType: KortType) {
-  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return getText('meldekort.type.korrigert');
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK) return getText("meldekort.type.korrigert");
 
   switch (status) {
     case KortStatus.KLAR:
-      return getText('meldekort.status.klar');
+      return getText("meldekort.status.klar");
 
     case KortStatus.REGIS:
-      return getText('meldekort.status.regis');
+      return getText("meldekort.status.regis");
     case KortStatus.NYKTR:
-      return getText('meldekort.status.nyktr');
+      return getText("meldekort.status.nyktr");
     case KortStatus.UBEHA:
-      return getText('meldekort.status.ubeha');
+      return getText("meldekort.status.ubeha");
 
     case KortStatus.FERDI:
-      return getText('meldekort.status.ferdi');
+      return getText("meldekort.status.ferdi");
     case KortStatus.IKKE:
-      return getText('meldekort.status.ikke');
+      return getText("meldekort.status.ikke");
     case KortStatus.OVERM:
-      return getText('meldekort.status.overm');
+      return getText("meldekort.status.overm");
 
     case KortStatus.FMOPP:
-      return getText('meldekort.status.fmopp');
+      return getText("meldekort.status.fmopp");
     case KortStatus.FUOPP:
-      return getText('meldekort.status.fuopp');
+      return getText("meldekort.status.fuopp");
     case KortStatus.FEIL:
-      return getText('meldekort.status.feil');
+      return getText("meldekort.status.feil");
     case KortStatus.VENTE:
-      return getText('meldekort.status.vente');
+      return getText("meldekort.status.vente");
 
     default:
-      return 'Feil i status';
+      return "Feil i status";
   }
 }
 
 export function mapKortTypeTilTekst(type: KortType) {
   switch (type) {
     case KortType.RETUR:
-      return getText('meldekort.type.retur');
+      return getText("meldekort.type.retur");
     case KortType.ORDINAER:
-      return getText('meldekort.type.ordinar');
+      return getText("meldekort.type.ordinar");
     case KortType.ERSTATNING:
-      return getText('meldekort.type.erstatning');
+      return getText("meldekort.type.erstatning");
     case KortType.ELEKTRONISK:
-      return getText('meldekort.type.elektronisk');
+      return getText("meldekort.type.elektronisk");
     case KortType.AAP:
-      return getText('meldekort.type-AAP');
+      return getText("meldekort.type-AAP");
     case KortType.ORDINAER_MANUELL:
-      return getText('meldekort.type.ordinarManuell');
+      return getText("meldekort.type.ordinarManuell");
     case KortType.MASKINELT_OPPDATERT:
-      return getText('meldekort.type.maskineltOppdatert');
+      return getText("meldekort.type.maskineltOppdatert");
     case KortType.MANUELL_ARENA:
-      return getText('meldekort.type.manuellArena');
+      return getText("meldekort.type.manuellArena");
     case KortType.KORRIGERT_ELEKTRONISK:
-      return getText('meldekort.type.korrigertElektronisk');
+      return getText("meldekort.type.korrigertElektronisk");
 
     default:
-      return 'Feil i korttype';
+      return "Feil i korttype";
   }
 }
 
