@@ -17,7 +17,7 @@ on:
           - p
 
 env:
-  APPNAME: meldekort-frontend-new
+  APPNAME: meldekort-frontend
   ENVIRONMENT: ${{ github.event.inputs.environment }}
 
 jobs:
