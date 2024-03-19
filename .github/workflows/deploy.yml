@@ -122,7 +122,7 @@ jobs:
       - name: Upload static files
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
-          cdn-team-name: meldekort
+          team: teamdagpenger
           source: ./public
           destination: '/meldekort-frontend/'
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
