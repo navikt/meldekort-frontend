@@ -13,6 +13,7 @@ import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import classNames from "classnames";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {
@@ -356,7 +357,7 @@ export default function Utfylling(props: IProps) {
         <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
+        <RemixLink as="Button" variant="tertiary" to={`${getEnv("BASE_PATH")}/om-meldekort`}>
           {tt("naviger.avbryt")}
         </RemixLink>
       </div>

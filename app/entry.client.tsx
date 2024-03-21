@@ -7,17 +7,18 @@ import { I18nextProvider, initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 import { getInitialNamespaces } from "remix-i18next";
+import { getEnv } from "~/utils/envUtils";
 
 
 async function hydrate() {
   await i18next
     .use(initReactI18next) // Tell i18next to use the react-i18next plugin
-    .use(LanguageDetector) // Setup a client-side language detector
+    .use(LanguageDetector) // Set up a client-side language detector
     .use(Backend) // Setup backend (use http-backend)
     .init({
       ...i18n, // Spread the configuration
       ns: getInitialNamespaces(),  // This function detects the namespaces your routes rendered while SSR use
-      backend: { loadPath: "/locales/{{lng}}/{{ns}}.json" },
+      backend: { loadPath: `${getEnv("BASE_PATH")}/locales/{{lng}}/{{ns}}.json` },
       detection: {
         // Here only enable htmlTag detection, we'll detect the language only server-side with remix-i18next,
         // by using the `<html lang>` attribute we can communicate to the client the language detected server-side

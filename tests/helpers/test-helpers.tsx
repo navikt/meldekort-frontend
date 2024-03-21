@@ -10,6 +10,7 @@ export const beforeAndAfterSetup = () => {
   beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
   beforeEach(() => {
     vi.stubEnv("IS_LOCALHOST", "true");
+    vi.stubEnv("BASE_PATH", "/meldekort");
   });
   afterEach(() => {
     server.resetHandlers();

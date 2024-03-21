@@ -1,5 +1,6 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import { getEnv } from "~/utils/envUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -10,7 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return redirect("/send-meldekort", 301);
+  return redirect(getEnv("BASE_PATH"), 301);
 };
 
 export default function Index() {

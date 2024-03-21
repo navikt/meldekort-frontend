@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
-import OmMeldekort, { meta } from "~/routes/om-meldekort";
+import OmMeldekort, { meta } from "~/routes/meldekort.om-meldekort";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 

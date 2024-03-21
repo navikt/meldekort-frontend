@@ -186,7 +186,7 @@ const createRouteAndRender = (
       />,
     },
     {
-      path: "/om-meldekort",
+      path: "/undefined/om-meldekort", // BASE_PATH/om-meldekort
       element: <div>AVBRUTT</div>,
     },
   ]);

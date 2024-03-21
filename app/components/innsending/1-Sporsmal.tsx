@@ -11,6 +11,7 @@ import { formaterPeriode } from "~/utils/datoUtils";
 import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 import { Ytelsestype } from "~/models/ytelsestype";
 import type { IInfomelding } from "~/models/infomelding";
+import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {
@@ -241,7 +242,7 @@ export default function Sporsmal(props: IProps) {
         <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
+        <RemixLink as="Button" variant="tertiary" to={`${getEnv("BASE_PATH")}/om-meldekort`}>
           {tt("naviger.avbryt")}
         </RemixLink>
       </div>

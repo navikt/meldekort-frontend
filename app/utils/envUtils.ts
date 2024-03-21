@@ -7,6 +7,7 @@ declare global {
 }
 
 interface IEnv {
+  BASE_PATH: string;
   NODE_ENV: string;
   PORT: string;
   DEKORATOR_MILJO: string;

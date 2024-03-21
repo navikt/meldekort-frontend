@@ -7,7 +7,7 @@ import TidligereMeldekortKorrigering, {
   loader,
   meta,
   shouldRevalidate,
-} from "~/routes/tidligere-meldekort.$meldekortId.korriger";
+} from "~/routes/meldekort.tidligere-meldekort.$meldekortId.korriger";
 import {
   jsonify,
   opprettTestMeldekort,

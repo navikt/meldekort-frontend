@@ -19,6 +19,7 @@ const BUILD_PATH = path.resolve("./build/index.js");
 const WATCH_PATH = path.resolve("./build/version.txt");
 
 const port = process.env.PORT || 8080;
+const basePath = process.env.BASE_PATH;
 
 /**
  * Initial build
@@ -37,16 +38,16 @@ app.use(compression());
 app.disable("x-powered-by");
 
 // Remix fingerprints its assets so we can cache forever.
-app.use("/build", express.static("public/build", { immutable: true, maxAge: "1y" }));
+app.use(`${basePath}/build`, express.static("public/build", { immutable: true, maxAge: "1y" }));
 
 // Everything else (like favicon.ico) is cached for an hour. You may want to be more aggressive with this caching
-app.use(express.static("public", { maxAge: "1h" }));
+app.use(`${basePath}`, express.static("public", { maxAge: "1h" }));
 
-app.get("/internal/isAlive|isReady", (_, res) => res.sendStatus(200));
+app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
 app.use(
   promBundle({
-    metricsPath: "/internal/metrics",
+    metricsPath: `${basePath}/internal/metrics`,
     buckets: [0.1, 0.5, 1, 1.5],
   }),
 );
@@ -56,11 +57,11 @@ app.use(
 app.use(morgan("tiny"));
 
 // This is used when we test the app locally
-app.get("/api/tekst/hentAlle", (_, res) => res.send("{}"));
+app.get(`${basePath}/api/tekst/hentAlle`, (_, res) => res.send("{}"));
 
 // i18next tries to load texts from files, but we don't have these texts in files, we have them in meldekort-api
 // So we check what i18next wants to get, fetch data from meldekort-api and return to i18next
-app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
+app.get(`${basePath}/locales/:sprak/:fraDato.json`, async (req, res) => {
   const sprak = req.params["sprak"] || "nb";
   const fraDato = req.params["fraDato"] || "1000-01-01";
 
@@ -108,7 +109,7 @@ app.get("/locales/:sprak/:fraDato.json", async (req, res) => {
 
 // Check if the server is running in development mode and use the devBuild to reflect realtime changes in the codebase
 app.all(
-  "*",
+  `${basePath}(/*)?`,
   process.env.NODE_ENV === "development"
     ? createDevRequestHandler()
     : createRequestHandler({

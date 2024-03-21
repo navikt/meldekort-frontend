@@ -1,6 +1,7 @@
 dashEnv: -q2
 ingresses:
-  - "https://meldekort-frontend-q2.intern.dev.nav.no"
+  - "https://meldekort-frontend-q2.intern.dev.nav.no/meldekort"
+basePath: "/meldekort"
 dekoratorMiljo: "dev"
 meldekortApiAudience: "dev-gcp:meldekort:meldekort-api-q2"
 meldekortApiUrl: "https://meldekort-api-q2.intern.dev.nav.no/meldekort/meldekort-api/api"
