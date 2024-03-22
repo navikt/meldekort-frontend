@@ -75,7 +75,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
-  if (url.pathname.endsWith("/ikke-tilgang") && personStatus?.id !== "") {
+  if (url.pathname.endsWith("/ikke-tilgang") && personStatus && personStatus.id !== "") {
     return redirect(`${getEnv("BASE_PATH")}/send-meldekort`, 307);
   }
 
