@@ -15,14 +15,14 @@ spec:
      - {{url}}
   {{/each}}
   liveness:
-    path: /internal/isAlive
+    path: {{basePath}}/internal/isAlive
     initialDelay: 10
   readiness:
-    path: /internal/isReady
+    path: {{basePath}}/internal/isReady
     initialDelay: 10
   prometheus:
     enabled: true
-    path: /internal/metrics
+    path: {{basePath}}/internal/metrics
   replicas:
     min: 2
     max: 4
@@ -33,6 +33,8 @@ spec:
       cpu: 500m
       memory: 128Mi
   env:
+    - name: BASE_PATH
+      value: "{{ basePath }}"
     - name: DEKORATOR_MILJO
       value: "{{ dekoratorMiljo }}"
     - name: MELDEKORT_API_AUDIENCE

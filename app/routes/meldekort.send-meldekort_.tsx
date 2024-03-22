@@ -19,6 +19,7 @@ import {
 import { Navigate } from "react-router";
 import { KortStatus } from "~/models/meldekort";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getEnv } from "~/utils/envUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -104,7 +105,7 @@ export default function SendMeldekort() {
       </GuidePanel>;
     } else if (meldekortListe.length === 1) {
       // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
-      innhold = <Navigate to={`/send-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />;
+      innhold = <Navigate to={`${getEnv("BASE_PATH")}/send-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />;
     } else {
       // Det finnes flere meldekort. Viser dem
       const nesteMeldekortId = nesteMeldekort.meldekortId;
@@ -146,7 +147,7 @@ export default function SendMeldekort() {
 
         <div className="buttons">
           <div />
-          <RemixLink as="Button" variant="primary" to={`/send-meldekort/${nesteMeldekortId}`}>
+          <RemixLink as="Button" variant="primary" to={`${getEnv("BASE_PATH")}/send-meldekort/${nesteMeldekortId}`}>
             {tt("naviger.neste")}
           </RemixLink>
         </div>

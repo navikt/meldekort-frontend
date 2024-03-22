@@ -42,7 +42,7 @@ For å starte appen lokalt:
 - Kopier `.env.example` og rename til `.env`.
 - `npm install` (egentlig `npm install --legacy-peer-deps` pga react og react-dom 18.3.0-canary)
 - `npm run dev`
-- Åpen http://localhost:8080/send-meldekort i nettlseren
+- Åpen http://localhost:8080/meldekort/send-meldekort i nettlseren
 
 OBS! `npm run dev` starter serveren i [manual mode](https://remix.run/docs/en/main/guides/manual-mode), dvs. man må
 restarte serveren hver gang man gjør endringer i server.ts (men dette skjer ikke veldig ofte)

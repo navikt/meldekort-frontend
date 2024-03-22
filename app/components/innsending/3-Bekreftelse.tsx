@@ -19,6 +19,7 @@ import { RemixLink } from "~/components/RemixLink";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {
@@ -201,7 +202,7 @@ export default function Bekreftelse(props: IProps) {
         <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to="/om-meldekort">
+        <RemixLink as="Button" variant="tertiary" to={`${getEnv("BASE_PATH")}/om-meldekort`}>
           {tt("naviger.avbryt")}
         </RemixLink>
       </div>

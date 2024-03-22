@@ -9,6 +9,7 @@ import { KortStatus } from "~/models/meldekort";
 import { formaterBelop } from "~/utils/miscUtils";
 import classNames from "classnames";
 import styles from "./MeldekortTabell.module.css";
+import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {
@@ -39,7 +40,7 @@ export default function MeldekorTabell(props: IProps) {
             <div className={styles.header}><Heading size="xsmall" level="4">{tt("overskrift.bruttoBelop")}</Heading>
             </div>
             <div>
-              <NavLink to={"/tidligere-meldekort/" + meldekort.meldekortId}>
+              <NavLink to={`${getEnv("BASE_PATH")}/tidligere-meldekort/${meldekort.meldekortId}`}>
                 {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
               </NavLink>
             </div>

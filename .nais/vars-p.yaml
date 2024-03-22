@@ -1,7 +1,8 @@
 dashEnv: ""
 ingresses:
-  - "https://meldekort-frontend-new.nav.no"
-
+  - "https://meldekort-frontend.nav.no/meldekort"
+  - "https://www.nav.no/meldekort"
+basePath: "/meldekort"
 dekoratorMiljo: "prod"
 meldekortApiAudience: "prod-gcp:meldekort:meldekort-api"
 meldekortApiUrl: "https://meldekort-api.nav.no/meldekort/meldekort-api/api"

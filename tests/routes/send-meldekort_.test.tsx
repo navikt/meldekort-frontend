@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import SendMeldekort, { loader, meta } from "~/routes/send-meldekort_";
+import SendMeldekort, { loader, meta } from "~/routes/meldekort.send-meldekort_";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import { json } from "@remix-run/node";
@@ -154,7 +154,7 @@ describe("Send meldekort", () => {
           },
         });
       },
-      "/send-meldekort/1",
+      "/meldekort/send-meldekort/1",
       NextComponent,
     );
 

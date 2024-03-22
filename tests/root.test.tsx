@@ -65,7 +65,7 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/send-meldekort");
+    expect(response.headers.get("location")).toBe("/meldekort/send-meldekort");
   });
 
   test("Skal sende til ikke-tilgang når feil med personStatus", async () => {
@@ -84,7 +84,7 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/ikke-tilgang");
+    expect(response.headers.get("location")).toBe("/meldekort/ikke-tilgang");
   });
 
   test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
@@ -103,7 +103,7 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/ikke-tilgang");
+    expect(response.headers.get("location")).toBe("/meldekort/ikke-tilgang");
   });
 
   test("Skal få feil = true når feil med skrivemodus", async () => {

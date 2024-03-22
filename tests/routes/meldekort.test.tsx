@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { catchErrorResponse } from "../helpers/response-helper";
-import Meldekort, { loader, meta } from "~/routes/meldekort";
+import Meldekort, { loader, meta } from "~/routes/meldekort_";
 import { TEST_URL } from "../helpers/setup";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
@@ -16,7 +16,7 @@ describe("Meldekort", () => {
     );
 
     expect(response.status).toBe(301);
-    expect(response.headers.get("location")).toBe("/");
+    expect(response.headers.get("location")).toBe("undefined/send-meldekort"); // BASE_PATH/send-meldekort
   });
 
   test("Skal vise tom div", async () => {

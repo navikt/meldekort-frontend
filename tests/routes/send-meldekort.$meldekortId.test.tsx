@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/send-meldekort.$meldekortId";
+import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/meldekort.send-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,

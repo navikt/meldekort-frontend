@@ -1,10 +1,14 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 
 
 describe("MeldekortHeader", () => {
+  beforeAll(() => {
+    vi.stubEnv("BASE_PATH", "/meldekort");
+  });
+
   afterEach(() => {
     cleanup();
   });
@@ -41,23 +45,23 @@ describe("MeldekortHeader", () => {
   });
 
   test("Skal vise Send meldekort", async () => {
-    await sjekkLenke("/send-meldekort", "sekundarmeny.send");
+    await sjekkLenke("/meldekort/send-meldekort", "sekundarmeny.send");
   });
 
   test("Skal vise Tidligere meldekort", async () => {
-    await sjekkLenke("/tidligere-meldekort", "sekundarmeny.tidligere");
+    await sjekkLenke("/meldekort/tidligere-meldekort", "sekundarmeny.tidligere");
   });
 
   test("Skal vise Etterregistrer", async () => {
-    await sjekkLenke("/etterregistrering", "sekundarmeny.etterregistrer");
+    await sjekkLenke("/meldekort/etterregistrering", "sekundarmeny.etterregistrer");
   });
 
   test("Skal vise Om meldekort", async () => {
-    await sjekkLenke("/om-meldekort", "sekundarmeny.omMeldekort");
+    await sjekkLenke("/meldekort/om-meldekort", "sekundarmeny.omMeldekort");
   });
 
   test("Skal vise Ofte stilte sporsmal", async () => {
-    await sjekkLenke("/ofte-stilte-sporsmal", "sekundarmeny.faq");
+    await sjekkLenke("/meldekort/ofte-stilte-sporsmal", "sekundarmeny.faq");
   });
 });
 

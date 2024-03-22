@@ -29,6 +29,7 @@ import { getOboToken } from "~/utils/authUtils";
 import type { IPersonInfo } from "~/models/person";
 import { hentPersonInfo } from "~/models/person";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
+import { getEnv } from "~/utils/envUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -158,7 +159,7 @@ export default function Meldekortdetaljer() {
       </div>
 
       <div className="buttons notForPrint">
-        <RemixLink as="Button" variant="primary" to="/tidligere-meldekort">
+        <RemixLink as="Button" variant="primary" to={`${getEnv("BASE_PATH")}/tidligere-meldekort`}>
           {tt("naviger.tilbake")}
         </RemixLink>
         {
@@ -166,7 +167,7 @@ export default function Meldekortdetaljer() {
           valgtMeldekort.korrigerbart &&
           <RemixLink as="Button"
                      variant="secondary"
-                     to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
+                     to={`${getEnv("BASE_PATH")}/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
             {tt("korriger.meldekort")}
           </RemixLink>
         }
