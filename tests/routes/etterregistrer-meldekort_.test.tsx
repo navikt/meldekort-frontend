@@ -15,7 +15,7 @@ import { KortStatus } from "~/models/meldekort";
 describe("Etterregistrering", () => {
   beforeAndAfterSetup();
 
-  const request = new Request(TEST_URL + "/etteregistrering");
+  const request = new Request(TEST_URL + "/etterregistrer-meldekort");
 
   test("Skal få feil = true og person = null når feil på backend", async () => {
     server.use(
