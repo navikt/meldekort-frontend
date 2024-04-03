@@ -88,7 +88,7 @@ describe("Kvittering", () => {
 
     const button = await waitFor(() => screen.findByText("overskrift.etterregistrertMeldekort"));
     button.click();
-    expect(replaceMock).toBeCalledWith("undefined/etterregistrering/2"); // BASE_PATH/etterregistrering/w
+    expect(replaceMock).toBeCalledWith("undefined/etterregistrer-meldekort/2"); // BASE_PATH/etterregistrer-meldekort/w
     replaceMock.mockClear();
   });
 

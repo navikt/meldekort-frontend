@@ -63,7 +63,7 @@ export default function Etterregistrering() {
     </GuidePanel>;
   } else if (meldekortListe.length === 1) {
     // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
-    innhold = <Navigate to={`${getEnv("BASE_PATH")}/etterregistrering/${meldekortListe[0].meldekortId}`} replace={true} />;
+    innhold = <Navigate to={`${getEnv("BASE_PATH")}/etterregistrer-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />;
   } else {
     const nesteMeldekortId = meldekortListe[0].meldekortId;
 
@@ -96,7 +96,7 @@ export default function Etterregistrering() {
 
       <div className="buttons">
         <div />
-        <RemixLink as="Button" variant="primary" to={`${getEnv("BASE_PATH")}/etterregistrering/${nesteMeldekortId}`}>
+        <RemixLink as="Button" variant="primary" to={`${getEnv("BASE_PATH")}/etterregistrer-meldekort/${nesteMeldekortId}`}>
           {tt("naviger.neste")}
         </RemixLink>
       </div>

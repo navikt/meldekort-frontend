@@ -42,7 +42,7 @@ export default function MeldekortHeader() {
         <NavLink to={`${getEnv("BASE_PATH")}/tidligere-meldekort`} className={setClassName}>
           {tt("sekundarmeny.tidligere")}
         </NavLink>
-        <NavLink to={`${getEnv("BASE_PATH")}/etterregistrering`} className={setClassName}>
+        <NavLink to={`${getEnv("BASE_PATH")}/etterregistrer-meldekort`} className={setClassName}>
           {tt("sekundarmeny.etterregistrer")}
         </NavLink>
         <NavLink to={`${getEnv("BASE_PATH")}/om-meldekort`} className={setClassName}>

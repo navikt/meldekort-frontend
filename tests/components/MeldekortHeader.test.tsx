@@ -53,7 +53,7 @@ describe("MeldekortHeader", () => {
   });
 
   test("Skal vise Etterregistrer", async () => {
-    await sjekkLenke("/meldekort/etterregistrering", "sekundarmeny.etterregistrer");
+    await sjekkLenke("/meldekort/etterregistrer-meldekort", "sekundarmeny.etterregistrer");
   });
 
   test("Skal vise Om meldekort", async () => {
