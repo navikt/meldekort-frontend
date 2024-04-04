@@ -26,7 +26,6 @@ export const useInjectDecoratorScript = (script?: string) => {
         const parsedElements = Array.from(parsedDocument.body.childNodes);
         const parsedDivElement = parsedElements[0] as HTMLDivElement;
         const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
-        console.log(parsedScriptElement)
 
         const divElement = createHtmlElement("div", parsedDivElement);
         const scriptElement = createHtmlElement("script", parsedScriptElement);
