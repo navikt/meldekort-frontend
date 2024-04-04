@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import Etterregistrering, { loader, meta } from "~/routes/meldekort.etterregistrering_";
+import Etterregistrering, { loader, meta } from "~/routes/meldekort.etterregistrer-meldekort_";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
@@ -15,7 +15,7 @@ import { KortStatus } from "~/models/meldekort";
 describe("Etterregistrering", () => {
   beforeAndAfterSetup();
 
-  const request = new Request(TEST_URL + "/etteregistrering");
+  const request = new Request(TEST_URL + "/etterregistrer-meldekort");
 
   test("Skal få feil = true og person = null når feil på backend", async () => {
     server.use(
@@ -115,7 +115,7 @@ describe("Etterregistrering", () => {
           },
         });
       },
-      "/meldekort/etterregistrering/1",
+      "/meldekort/etterregistrer-meldekort/1",
       NextComponent,
     );
 

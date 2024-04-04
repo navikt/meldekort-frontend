@@ -7,7 +7,7 @@ import EtterregistreringMeldekort, {
   loader,
   meta,
   shouldRevalidate,
-} from "~/routes/meldekort.etterregistrering.$meldekortId";
+} from "~/routes/meldekort.etterregistrer-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -31,7 +31,7 @@ describe("Etterregistrer meldekort", () => {
   beforeAndAfterSetup();
 
   const meldekortId = "1707156947";
-  const request = new Request(TEST_URL + "/etteregistrering");
+  const request = new Request(TEST_URL + "/etterregistrer-meldekort");
 
   const checkLoader = async (meldekortId?: string) => {
     const response = await loader({
