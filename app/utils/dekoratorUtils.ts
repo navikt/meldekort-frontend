@@ -13,11 +13,27 @@ export const useInjectDecoratorScript = (script?: string) => {
       const parsedDocument = parser.parseFromString(script, "text/html");
 
       const headNodes = Array.from(parsedDocument.head.childNodes);
-      headNodes.forEach(node => {
-        const htmlScriptElement = node as HTMLScriptElement;
-        const htmlElement = createHtmlElement("script", htmlScriptElement);
-        document.body.appendChild(htmlElement);
-      });
+
+      if (headNodes.length !== 0) {
+        // New
+        headNodes.forEach(node => {
+          const htmlScriptElement = node as HTMLScriptElement;
+          const htmlElement = createHtmlElement("script", htmlScriptElement);
+          document.body.appendChild(htmlElement);
+        });
+      } else {
+        // Old
+        const parsedElements = Array.from(parsedDocument.body.childNodes);
+        const parsedDivElement = parsedElements[0] as HTMLDivElement;
+        const parsedScriptElement = parsedElements[2] as HTMLScriptElement;
+        console.log(parsedScriptElement)
+
+        const divElement = createHtmlElement("div", parsedDivElement);
+        const scriptElement = createHtmlElement("script", parsedScriptElement);
+
+        document.body.appendChild(divElement);
+        document.body.appendChild(scriptElement);
+      }
 
       isInjected.current = true;
     }
