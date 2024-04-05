@@ -1,10 +1,10 @@
 /** @type {import("@remix-run/dev").AppConfig} */
 module.exports = {
+  serverDependenciesToBundle: ["remix-i18next/server", "remix-i18next/client"],
   ignoredRouteFiles: ["**/.*"],
   serverModuleFormat: "cjs",
-  publicPath: "/meldekort/build"
+  publicPath: "/meldekort/build",
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
 };
