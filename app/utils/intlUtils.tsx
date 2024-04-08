@@ -1,10 +1,11 @@
 import type { FlatNamespace, KeyPrefix } from "i18next";
 import i18next from "i18next";
-import type { $Tuple } from "react-i18next/helpers";
 import type { FallbackNs, UseTranslationOptions } from "react-i18next";
 import { useTranslation } from "react-i18next";
-import type { ReactElement } from "react";
+import type { ReactElement} from "react";
+import { useEffect } from "react";
 
+type $Tuple<T> = readonly [T?, ...T[]];
 
 export interface TTFunction {
   (
@@ -30,6 +31,16 @@ export function useExtendedTranslation<
   };
 
   return { i18n, tt };
+}
+
+export function useChangeLanguage(locale: string) {
+  let { i18n } = useTranslation();
+  useEffect(
+    () => {
+      i18n.changeLanguage(locale);
+    },
+    [locale, i18n],
+  );
 }
 
 // Denne funksjonen trigger ikke oppdatering av komponenter når bruker bytter språk.
