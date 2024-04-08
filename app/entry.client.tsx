@@ -20,10 +20,9 @@ async function hydrate() {
       ns: getInitialNamespaces(),  // This function detects the namespaces your routes rendered while SSR use
       backend: { loadPath: `${getEnv("BASE_PATH")}/locales/{{lng}}/{{ns}}.json` },
       detection: {
-        // Here only enable htmlTag detection, we'll detect the language only server-side with remix-i18next,
-        // by using the `<html lang>` attribute we can communicate to the client the language detected server-side
-        order: ["htmlTag"],
-        // Because we only use htmlTag, there's no reason to cache the language on the browser, so we disable it
+        // We will use only cookies for detection of preferred language. If there is no cookie we will use fallbackLng
+        order: ["cookie"],
+        // Disable cache for language
         caches: [],
       },
     });

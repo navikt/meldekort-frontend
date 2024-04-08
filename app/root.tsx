@@ -4,11 +4,10 @@ import { json, redirect } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
-import i18next from "~/i18next.server";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
 import { Alert } from "@navikt/ds-react";
-import { parseHtml, useChangeLanguage, useExtendedTranslation } from "~/utils/intlUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
@@ -84,7 +83,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   const fragments = await hentDekoratorHtml();
-  const locale = await i18next.getLocale(request);
   const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
   if (!erViggoResponse.ok || !skrivemodusResponse.ok) {
@@ -95,7 +93,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({
     fragments,
-    locale,
     feil,
     skrivemodus,
     env: {
@@ -108,12 +105,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function App() {
 
-  const { fragments, locale, feil, skrivemodus, env } = useLoaderData<typeof loader>();
+  const { fragments, feil, skrivemodus, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
-
-  // This hook will change the i18n instance language to the current locale detected by the loader
-  useChangeLanguage(locale);
 
   let innhold = <Outlet />;
 
@@ -149,7 +143,7 @@ export default function App() {
   useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
 
   return (
-    <html lang={locale} dir={i18n.dir()}>
+    <html>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
