@@ -33,16 +33,6 @@ export function useExtendedTranslation<
   return { i18n, tt };
 }
 
-export function useChangeLanguage(locale: string) {
-  let { i18n } = useTranslation();
-  useEffect(
-    () => {
-      i18n.changeLanguage(locale);
-    },
-    [locale, i18n],
-  );
-}
-
 // Denne funksjonen trigger ikke oppdatering av komponenter når bruker bytter språk.
 // Så den må brukes kun i hjelpefunksjoner som er plassert i separate filer og hvor det ikker er mulig å bruke useExtendedTranslation/tt.
 // Komponenter må bruke useExtendedTranslation/tt

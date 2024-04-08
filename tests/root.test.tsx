@@ -124,7 +124,6 @@ describe("Root", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.locale).toEqual("nb");
     expect(data.feil).toEqual(true);
     expect(data.skrivemodus).toEqual(null);
   });
@@ -139,7 +138,6 @@ describe("Root", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data.locale).toEqual("nb");
     expect(data.feil).toEqual(false);
     expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
   });
