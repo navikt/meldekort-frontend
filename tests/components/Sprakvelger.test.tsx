@@ -1,12 +1,23 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import Sprakvelger from "~/components/sprakvelger/Sprakvelger";
 import type { TFunction } from "i18next";
 import i18next from "i18next";
-import * as reactI18next from "react-i18next";
 
 
 describe("Sprakvelger", () => {
+  beforeAll(() => {
+    vi.mock("react-i18next", () => ({
+      useTranslation: () => {
+        return {
+          // @ts-ignore
+          t: (args: string[]) => args[1],
+          i18n: i18next,
+        };
+      },
+    }));
+  });
+
   afterEach(() => {
     cleanup();
   });
@@ -15,7 +26,7 @@ describe("Sprakvelger", () => {
     const i18nSpy = vi.spyOn(i18next, "changeLanguage");
     i18nSpy.mockReturnValue(new Promise<TFunction<"translation", undefined>>(() => undefined));
 
-    reactI18nextSpyAndRender();
+    render(<Sprakvelger />);
 
     fireEvent.change(screen.getByLabelText("sprakvelger.chooseLanguage"), { target: { value: "en" } });
     expect(i18nSpy).toBeCalledWith("en");
@@ -29,7 +40,7 @@ describe("Sprakvelger", () => {
 
     vi.spyOn(i18next, "changeLanguage").mockRejectedValue("feil");
 
-    reactI18nextSpyAndRender();
+    render(<Sprakvelger />);
 
     fireEvent.change(screen.getByLabelText("sprakvelger.chooseLanguage"), { target: { value: "en" } });
 
@@ -41,14 +52,3 @@ describe("Sprakvelger", () => {
     logSpy.mockRestore();
   });
 });
-
-
-const reactI18nextSpyAndRender = () => {
-  vi.spyOn(reactI18next, "useTranslation").mockReturnValue({
-    // @ts-ignore
-    t: (args: string[]) => args[1],
-    i18n: i18next,
-  });
-
-  render(<Sprakvelger />);
-};

@@ -1,4 +1,4 @@
-import { afterEach, describe, test, vi } from "vitest";
+import { afterEach, beforeAll, describe, test, vi } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { Innsendingstype } from "~/models/innsendingstype";
 import { opprettTestMeldekort, TEST_INFOMELDING } from "../mocks/data";
@@ -12,6 +12,11 @@ import * as reactI18next from "react-i18next";
 
 
 describe("Sporsmal", () => {
+  beforeAll(() => {
+    vi.mock("react-i18next");
+    setLocale("en");
+  });
+
   afterEach(() => {
     cleanup();
   });
@@ -41,27 +46,37 @@ describe("Sporsmal", () => {
     await waitFor(() => screen.findByText("etterregistrering.sporsmal.omVedtak"));
   });
 
-  test("Skal vise riktig infomelding", async () => {
+  test("Skal vise engelsk infomelding", async () => {
     const valgtMeldekort = opprettTestMeldekort(1707696000);
 
     createRouteAndRender(valgtMeldekort, Innsendingstype.INNSENDING);
 
     await waitFor(() => screen.findByText("English infomessage"));
+  });
 
-    vi.spyOn(reactI18next, "useTranslation").mockReturnValue({
-      // @ts-ignore
-      t: (args: string[]) => args[1],
-      // @ts-ignore
-      i18n: {
-        language: "nb",
-      },
-    });
+  test("Skal vise norsk infomelding", async () => {
+    const valgtMeldekort = opprettTestMeldekort(1707696000);
+
+    setLocale("nb");
 
     createRouteAndRender(valgtMeldekort, Innsendingstype.INNSENDING);
 
     await waitFor(() => screen.findByText("Norsk infomelding"));
   });
 });
+
+const setLocale = (language: string) => {
+  vi.mocked(reactI18next.useTranslation).mockReturnValue(
+    {
+      // @ts-ignore
+      t: (args: string[]) => args[1],
+      // @ts-ignore
+      i18n: {
+        language: language,
+      },
+    },
+  );
+};
 
 const createRouteAndRender = (
   valgtMeldekort: IMeldekort,
