@@ -40,7 +40,7 @@ For å starte appen lokalt:
 
 - Strart [meldekort-api](https://github.com/navikt/meldekort-api) lokalt
 - Kopier `.env.example` og rename til `.env`.
-- `npm install` (egentlig `npm install --legacy-peer-deps` pga react og react-dom 18.3.0-canary)
+- `npm install`
 - `npm run dev`
 - Åpen http://localhost:8080/meldekort/send-meldekort i nettlseren
 
