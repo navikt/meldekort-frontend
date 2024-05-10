@@ -11,7 +11,6 @@ import type { ISporsmal } from "~/models/sporsmal";
 import type { IPersonStatus } from "~/models/personStatus";
 import type { IInfomelding } from "~/models/infomelding";
 
-
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
 // Den oppretter ikke et nytt objekt, men gjør endringer i det gitte
 export const jsonify = (data: Object) => {
@@ -24,21 +23,27 @@ export const jsonify = (data: Object) => {
   }
 };
 
-
 // For å opprette testdata
-export const opprettTestPerson = (meldekortId: number[], etterregistrerteMeldekortId: number[]): IPerson => {
+export const opprettTestPerson = (
+  meldekortId: number[],
+  etterregistrerteMeldekortId: number[]
+): IPerson => {
   return {
-    maalformkode: "maalformkode",
     meldeform: MeldeForm.ELEKTRONISK,
-    meldekort: meldekortId.map(id => opprettTestMeldekort(id)),
-    etterregistrerteMeldekort: etterregistrerteMeldekortId.map(id => opprettTestMeldekort(id)),
+    meldekort: meldekortId.map((id) => opprettTestMeldekort(id)),
+    etterregistrerteMeldekort: etterregistrerteMeldekortId.map((id) => opprettTestMeldekort(id)),
     fravaer: new Array<IFravaer>(),
     id: "1",
     antallGjenstaaendeFeriedager: 5,
   };
 };
 
-export const opprettPersonInfo = (personId: number, fodselsnr: string, fornavn: string, etternavn: string): IPersonInfo => {
+export const opprettPersonInfo = (
+  personId: number,
+  fodselsnr: string,
+  fornavn: string,
+  etternavn: string
+): IPersonInfo => {
   return {
     personId,
     fodselsnr,
@@ -53,7 +58,7 @@ export const opprettTestMeldekort = (
   kortStatus: KortStatus = KortStatus.OPPRE,
   korrigerbart: boolean = true,
   kortType: KortType = KortType.ELEKTRONISK,
-  meldegruppe: Meldegruppe = Meldegruppe.DAGP,
+  meldegruppe: Meldegruppe = Meldegruppe.DAGP
 ): IMeldekort => {
   return {
     meldekortId: meldekortId,
@@ -96,7 +101,6 @@ export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdet
   };
 };
 
-
 // Data
 const meldekortId1 = 1707156945;
 const meldekortId2 = 1707156946;
@@ -105,9 +109,15 @@ const meldekortId4 = 1707156948;
 const meldekortId5 = 1707156949;
 const meldekortId6 = 1707156950;
 
-export const TEST_PERSON = opprettTestPerson([meldekortId1, meldekortId2], [meldekortId3, meldekortId4]);
+export const TEST_PERSON = opprettTestPerson(
+  [meldekortId1, meldekortId2],
+  [meldekortId3, meldekortId4]
+);
 export const TEST_PERSON_INFO = opprettPersonInfo(1, "01020312345", "Test", "Testesen");
-export const TEST_HISTORISKEMELDEKORT = [opprettTestMeldekort(meldekortId5), opprettTestMeldekort(meldekortId6)];
+export const TEST_HISTORISKEMELDEKORT = [
+  opprettTestMeldekort(meldekortId5),
+  opprettTestMeldekort(meldekortId6),
+];
 export const TEST_MELDEKORTDETALJER = opprettTestMeldekortdetaljer(meldekortId5);
 export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK: IValideringsResultat = {
   meldekortId: 1,

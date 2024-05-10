@@ -3,9 +3,7 @@ import type { IMeldekort } from "~/models/meldekort";
 import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
-
 export interface IPerson {
-  maalformkode: string;
   meldeform: MeldeForm;
   meldekort: IMeldekort[];
   etterregistrerteMeldekort: IMeldekort[];
@@ -19,7 +17,7 @@ export enum MeldeForm {
   PAPIR = "PAPIR",
   MANUELL = "MANU",
   AUTO = "AUTO",
-  IKKE_SATT = "IKKE SATT"
+  IKKE_SATT = "IKKE SATT",
 }
 
 export interface IFravaer {
@@ -32,7 +30,7 @@ export enum FravaerType {
   KURS_UTDANNING = "K",
   SYKDOM = "S",
   ANNET_FRAVAER = "X",
-  ARBEIDS_FRAVAER = "F"
+  ARBEIDS_FRAVAER = "F",
 }
 
 export interface IPersonInfo {

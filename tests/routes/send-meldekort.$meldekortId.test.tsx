@@ -2,7 +2,12 @@ import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import SendMeldekort, { action, loader, meta, shouldRevalidate } from "~/routes/meldekort.send-meldekort.$meldekortId";
+import SendMeldekort, {
+  action,
+  loader,
+  meta,
+  shouldRevalidate,
+} from "~/routes/meldekort.send-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -18,10 +23,10 @@ import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/route
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import { MeldeForm } from "~/models/person";
 
-
 describe("Send meldekort", () => {
-  vi.mock("react-i18next", async () =>
-    (await vi.importActual("tests/mocks/react-i18next.ts")).mock,
+  vi.mock(
+    "react-i18next",
+    async () => (await vi.importActual("tests/mocks/react-i18next.ts")).mock
   );
 
   beforeAndAfterSetup();
@@ -82,8 +87,8 @@ describe("Send meldekort", () => {
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () => new HttpResponse(null, { status: 500 }),
-        { once: true },
-      ),
+        { once: true }
+      )
     );
 
     await checkLoader(meldekortId);
@@ -94,8 +99,8 @@ describe("Send meldekort", () => {
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/info`,
         () => new HttpResponse(null, { status: 500 }),
-        { once: true },
-      ),
+        { once: true }
+      )
     );
 
     await checkLoader(meldekortId);
@@ -106,8 +111,8 @@ describe("Send meldekort", () => {
       http.get(
         `${TEST_MELDEKORT_API_URL}/meldekort/infomelding`,
         () => new HttpResponse(null, { status: 500 }),
-        { once: true },
-      ),
+        { once: true }
+      )
     );
 
     await checkLoader(meldekortId);
@@ -145,17 +150,17 @@ describe("Send meldekort", () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
-        () => HttpResponse.json({
-          maalformkode: "maalformkode",
-          meldeform: MeldeForm.ELEKTRONISK,
-          meldekort: [meldekort1, meldekort2],
-          etterregistrerteMeldekort: [],
-          fravaer: [],
-          id: "1",
-          antallGjenstaaendeFeriedager: 5,
-        }),
-        { once: true },
-      ),
+        () =>
+          HttpResponse.json({
+            meldeform: MeldeForm.ELEKTRONISK,
+            meldekort: [meldekort1, meldekort2],
+            etterregistrerteMeldekort: [],
+            fravaer: [],
+            id: "1",
+            antallGjenstaaendeFeriedager: 5,
+          }),
+        { once: true }
+      )
     );
 
     jsonify(meldekort1);
@@ -184,8 +189,8 @@ describe("Send meldekort", () => {
     server.use(
       http.post(
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
-        () => new HttpResponse(null, { status: 500 }),
-      ),
+        () => new HttpResponse(null, { status: 500 })
+      )
     );
 
     await checkAction(true, null);
@@ -193,10 +198,9 @@ describe("Send meldekort", () => {
 
   test("Skal få FEIL resultat ved innsending av meldekort", async () => {
     server.use(
-      http.post(
-        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
-        () => HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL, { status: 200 }),
-      ),
+      http.post(`${TEST_MELDEKORT_API_URL}/person/meldekort`, () =>
+        HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL, { status: 200 })
+      )
     );
 
     await checkAction(false, TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
@@ -210,132 +214,114 @@ describe("Send meldekort", () => {
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv("IS_LOCALHOST", "false");
 
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: false,
-          valgtMeldekort: undefined,
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          infomelding: null,
-        });
-      },
-    );
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: false,
+        valgtMeldekort: undefined,
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: null,
+        infomelding: null,
+      });
+    });
 
     await waitFor(() => screen.findByTitle("Venter..."));
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: true,
-          valgtMeldekort: undefined,
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          infomelding: null,
-        });
-      },
-    );
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: true,
+        valgtMeldekort: undefined,
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: null,
+        infomelding: null,
+      });
+    });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
   });
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: false,
-          valgtMeldekort: undefined,
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          infomelding: null,
-        });
-      },
-    );
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: false,
+        valgtMeldekort: undefined,
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: null,
+        infomelding: null,
+      });
+    });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
   });
 
   test("Skal vise feilmelding hvis personInfo = null", async () => {
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: false,
-          valgtMeldekort: {
-            meldeperiode: {
-              fra: "",
-            },
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: false,
+        valgtMeldekort: {
+          meldeperiode: {
+            fra: "",
           },
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: null,
-          infomelding: null,
-        });
-      },
-    );
+        },
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: null,
+        infomelding: null,
+      });
+    });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
   });
 
   test("Skal vise feilmelding hvis infomelding = null", async () => {
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: false,
-          valgtMeldekort: {
-            meldeperiode: {
-              fra: "",
-            },
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: false,
+        valgtMeldekort: {
+          meldeperiode: {
+            fra: "",
           },
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: {
-            personId: 1,
-            fodselsnr: "01020312345",
-            etternavn: "Etternavn",
-            fornavn: "Fornavn",
-          },
-          infomelding: null,
-        });
-      },
-    );
+        },
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: {
+          personId: 1,
+          fodselsnr: "01020312345",
+          etternavn: "Etternavn",
+          fornavn: "Fornavn",
+        },
+        infomelding: null,
+      });
+    });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
   });
 
   test("Skal vise Innsending", async () => {
-    renderRemixStub(
-      SendMeldekort,
-      () => {
-        return json({
-          feil: false,
-          valgtMeldekort: {
-            meldeperiode: {
-              fra: "2024-02-12",
-              til: "2024-02-25",
-            },
+    renderRemixStub(SendMeldekort, () => {
+      return json({
+        feil: false,
+        valgtMeldekort: {
+          meldeperiode: {
+            fra: "2024-02-12",
+            til: "2024-02-25",
           },
-          nesteMeldekortId: undefined,
-          nesteEtterregistrerteMeldekortId: undefined,
-          personInfo: {
-            personId: 1,
-            fodselsnr: "01020312345",
-            etternavn: "Etternavn",
-            fornavn: "Fornavn",
-          },
-          infomelding: TEST_INFOMELDING,
-        });
-      },
-    );
+        },
+        nesteMeldekortId: undefined,
+        nesteEtterregistrerteMeldekortId: undefined,
+        personInfo: {
+          personId: 1,
+          fodselsnr: "01020312345",
+          etternavn: "Etternavn",
+          fornavn: "Fornavn",
+        },
+        infomelding: TEST_INFOMELDING,
+      });
+    });
 
     await waitFor(() => screen.findByText("meldekort.for.perioden"));
   });
