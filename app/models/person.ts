@@ -6,23 +6,6 @@ import type { TypedResponse } from "@remix-run/node";
 export interface IPerson {
   meldekort: IMeldekort[];
   etterregistrerteMeldekort: IMeldekort[];
-  fravaer: IFravaer[];
-  id: string;
-  antallGjenstaaendeFeriedager: number;
-}
-
-export enum MeldeForm {
-  ELEKTRONISK = "EMELD",
-  PAPIR = "PAPIR",
-  MANUELL = "MANU",
-  AUTO = "AUTO",
-  IKKE_SATT = "IKKE SATT",
-}
-
-export interface IFravaer {
-  fraDato: Date;
-  tilDato: Date;
-  type: FravaerType;
 }
 
 export enum FravaerType {

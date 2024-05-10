@@ -153,9 +153,7 @@ describe("Send meldekort", () => {
           HttpResponse.json({
             meldekort: [meldekort1, meldekort2],
             etterregistrerteMeldekort: [],
-            fravaer: [],
             id: "1",
-            antallGjenstaaendeFeriedager: 5,
           }),
         { once: true }
       )

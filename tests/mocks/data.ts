@@ -3,7 +3,7 @@ import { KortStatus } from "~/models/meldekort";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IFravaer, IPerson, IPersonInfo } from "~/models/person";
+import type { IPerson, IPersonInfo } from "~/models/person";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
@@ -30,9 +30,6 @@ export const opprettTestPerson = (
   return {
     meldekort: meldekortId.map((id) => opprettTestMeldekort(id)),
     etterregistrerteMeldekort: etterregistrerteMeldekortId.map((id) => opprettTestMeldekort(id)),
-    fravaer: new Array<IFravaer>(),
-    id: "1",
-    antallGjenstaaendeFeriedager: 5,
   };
 };
 
