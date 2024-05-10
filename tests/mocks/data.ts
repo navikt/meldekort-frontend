@@ -63,7 +63,6 @@ export const opprettTestMeldekort = (
       til: new Date(meldekortId * 1000 + 7 * 24 * 60 * 60),
       kortKanSendesFra: new Date(meldekortId * 1000),
       kanKortSendes: kanKortSendes,
-      periodeKode: "",
     },
     meldegruppe: meldegruppe,
     kortStatus: kortStatus,
