@@ -5,7 +5,6 @@ import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
-
 export interface IMeldekort {
   meldekortId: number;
   kortType: KortType;
@@ -13,7 +12,6 @@ export interface IMeldekort {
   meldegruppe: Meldegruppe;
   kortStatus: KortStatus;
   bruttoBelop?: number;
-  erForskuddsPeriode: boolean;
   mottattDato: Date;
   korrigerbart: boolean;
 }
@@ -34,10 +32,12 @@ export enum KortStatus {
   FEIL = "FEIL",
   VENTE = "VENTE",
   OPPF = "OPPF",
-  UBEHA = "UBEHA"
+  UBEHA = "UBEHA",
 }
 
-export async function hentHistoriskeMeldekort(onBehalfOfToken: string): Promise<TypedResponse<IMeldekort[]>> {
+export async function hentHistoriskeMeldekort(
+  onBehalfOfToken: string
+): Promise<TypedResponse<IMeldekort[]>> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/historiskemeldekort`;
 
   try {
@@ -52,7 +52,10 @@ export async function hentHistoriskeMeldekort(onBehalfOfToken: string): Promise<
   }
 }
 
-export async function hentMeldekortIdForKorrigering(onBehalfOfToken: string, meldekortId: string): Promise<TypedResponse<number>> {
+export async function hentMeldekortIdForKorrigering(
+  onBehalfOfToken: string,
+  meldekortId: string
+): Promise<TypedResponse<number>> {
   const url = `${getEnv("MELDEKORT_API_URL")}/meldekort/${meldekortId}/korrigering`;
 
   try {

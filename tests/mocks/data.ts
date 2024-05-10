@@ -68,7 +68,6 @@ export const opprettTestMeldekort = (
     meldegruppe: meldegruppe,
     kortStatus: kortStatus,
     bruttoBelop: 100,
-    erForskuddsPeriode: false,
     mottattDato: new Date(meldekortId * 1000),
     korrigerbart: korrigerbart,
   };
