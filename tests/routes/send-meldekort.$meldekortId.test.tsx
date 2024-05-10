@@ -21,7 +21,6 @@ import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import { MeldeForm } from "~/models/person";
 
 describe("Send meldekort", () => {
   vi.mock(
@@ -152,7 +151,6 @@ describe("Send meldekort", () => {
         `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () =>
           HttpResponse.json({
-            meldeform: MeldeForm.ELEKTRONISK,
             meldekort: [meldekort1, meldekort2],
             etterregistrerteMeldekort: [],
             fravaer: [],

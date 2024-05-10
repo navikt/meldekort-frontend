@@ -4,7 +4,6 @@ import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
 export interface IPerson {
-  meldeform: MeldeForm;
   meldekort: IMeldekort[];
   etterregistrerteMeldekort: IMeldekort[];
   fravaer: IFravaer[];
