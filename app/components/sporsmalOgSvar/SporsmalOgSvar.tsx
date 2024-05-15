@@ -23,6 +23,7 @@ export default function SporsmalOgSvar(props: IProps) {
 
   const sporsmalOgSvar: ISporsmalOgSvar[] = sporsmalConfig.map(sporsmalsObj => {
     return {
+      id: sporsmalsObj.id,
       kategori: sporsmalsObj.kategori,
       sporsmal: sporsmalsObj.sporsmal + ytelsestypePostfix,
       forklaring: sporsmalsObj.forklaring + ytelsestypePostfix,
@@ -31,7 +32,7 @@ export default function SporsmalOgSvar(props: IProps) {
     };
   });
 
-  return sporsmalOgSvar.map((item, index) => {
+  return sporsmalOgSvar.map((item) => {
     return (
       <div key={item.sporsmal} className={styles.sporsmalOgSvar}>
         <Label data-testid={item.sporsmal}>
@@ -40,7 +41,7 @@ export default function SporsmalOgSvar(props: IProps) {
         </Label>
         <UtvidetInformasjon
           innhold={parseHtml(tt(item.forklaring))}
-          logText={`Viser "Les mer" for sp. ${index + 1} på Bekreftelse/Kvittering`}
+          logText={`Viser "Les mer" for ${item.id} på Bekreftelse/Kvittering`}
         />
         <Box paddingBlock="1" data-testid={item.sporsmal + ".svar"}>
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />

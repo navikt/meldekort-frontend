@@ -57,6 +57,7 @@ export interface ISporsmalObj {
 }
 
 export interface ISporsmalOgSvar {
+  id: string;
   kategori: string;
   sporsmal: string;
   forklaring: string;
