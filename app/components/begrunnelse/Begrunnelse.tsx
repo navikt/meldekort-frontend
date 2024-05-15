@@ -17,7 +17,10 @@ export default function Begrunnelse(props: IProps) {
   return (
     <div key="begrunnelse" className={styles.begrunnelse}>
       <Label>{parseHtml(tt("korrigering.sporsmal.begrunnelse"))}</Label>
-      <UtvidetInformasjon innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))} />
+      <UtvidetInformasjon
+        innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))}
+        logText={"Viser \"Les mer\" for begrunnelse for korrigering på Bekreftelse/Kvittering"}
+      />
       <Box paddingBlock="1">
         <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />&nbsp;{begrunnelse}
       </Box>

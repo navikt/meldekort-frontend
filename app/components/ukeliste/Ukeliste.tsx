@@ -60,7 +60,10 @@ function formaterUke(tt: TTFunction, dager: IMeldekortDag[], fraDag: number, til
               ].filter(Boolean).join(", ")
             }
           </span>
-          <UtvidetInformasjon innhold={hentDagsdata(tt, dag, ytelsestypePostfix)} />
+          <UtvidetInformasjon
+            innhold={hentDagsdata(tt, dag, ytelsestypePostfix)}
+            logText={"Viser \"Les mer\" for ukeliste på Bekreftelse/Kvittering"}
+          />
         </div>
       );
     } else {

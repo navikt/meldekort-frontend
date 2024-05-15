@@ -144,7 +144,9 @@ export default function Sporsmal(props: IProps) {
           <Select label={parseHtml(tt("korrigering.sporsmal.begrunnelse"))}
                   description={
                     <UtvidetInformasjon
-                      innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))} />
+                      innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))}
+                      logText={"Viser \"Les mer\" for begrunnelse for korrigering på Spørsmål"}
+                    />
                   }
                   value={begrunnelse}
                   onChange={setValgtBegrunnelse}
@@ -172,7 +174,10 @@ export default function Sporsmal(props: IProps) {
             }
           </div>;
 
-          const desc = <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring + ytelsestypePostfix))} />;
+          const desc = <UtvidetInformasjon
+            innhold={parseHtml(tt(item.forklaring + ytelsestypePostfix))}
+            logText={`Viser "Les mer" for sp. ${item.id} på Spørsmål`}
+          />;
 
           let value = hentSvar(sporsmal, item.id);
           let disabled = false;

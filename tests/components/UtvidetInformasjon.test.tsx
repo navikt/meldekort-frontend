@@ -5,7 +5,7 @@ import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasj
 
 describe("UtvidetInformasjon", () => {
   test("Skal vise innhold og åpnes og lukkes", async () => {
-    render(<UtvidetInformasjon innhold={<div>INNHOLD</div>} />);
+    render(<UtvidetInformasjon innhold={<div>INNHOLD</div>} logText={"LOG"} />);
 
     // Sjekk at det vises en lenke som brukes til å åpne info
     const linkLes = await waitFor(() => screen.findByText("veiledning.les"));

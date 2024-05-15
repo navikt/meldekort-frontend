@@ -70,7 +70,10 @@ export default function Utfylling(props: IProps) {
         <Heading level="4" size="small">{tt("utfylling.arbeid")}</Heading>
       </div>
       <div className={classNames(styles.info, styles.arbeid)}>
-        <UtvidetInformasjon innhold={parseHtml(tt("forklaring.utfylling.arbeid" + ytelsestypePostfix))} />
+        <UtvidetInformasjon
+          innhold={parseHtml(tt("forklaring.utfylling.arbeid" + ytelsestypePostfix))}
+          logText={"Viser \"Les mer\" for arbeid på Utfylling"}
+        />
       </div>
       <div className={styles.grid}>
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>
@@ -99,7 +102,10 @@ export default function Utfylling(props: IProps) {
         <Heading level="4" size="small">{tt(`utfylling.${type}`)}</Heading>
       </div>
       <div className={classNames(styles.info, styles[type])}>
-        <UtvidetInformasjon innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))} />
+        <UtvidetInformasjon
+          innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))}
+          logText={`Viser "Les mer" for ${type} på Utfylling`}
+        />
       </div>
       <div className={styles.grid}>
         <div className={classNames(styles.placeholder, styles[type])}></div>

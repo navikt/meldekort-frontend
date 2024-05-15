@@ -31,14 +31,17 @@ export default function SporsmalOgSvar(props: IProps) {
     };
   });
 
-  return sporsmalOgSvar.map((item) => {
+  return sporsmalOgSvar.map((item, index) => {
     return (
       <div key={item.sporsmal} className={styles.sporsmalOgSvar}>
         <Label data-testid={item.sporsmal}>
           {parseHtml(tt(item.sporsmal))}
           {item.formatertDato ? <span> {item.formatertDato}?</span> : null}
         </Label>
-        <UtvidetInformasjon innhold={parseHtml(tt(item.forklaring))} />
+        <UtvidetInformasjon
+          innhold={parseHtml(tt(item.forklaring))}
+          logText={`Viser "Les mer" for sp. ${index + 1} på Bekreftelse/Kvittering`}
+        />
         <Box paddingBlock="1" data-testid={item.sporsmal + ".svar"}>
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />
           &nbsp;
