@@ -3,5 +3,4 @@ export interface IMeldeperiode {
   til: Date;
   kortKanSendesFra: Date;
   kanKortSendes: boolean;
-  periodeKode: string;
 }
