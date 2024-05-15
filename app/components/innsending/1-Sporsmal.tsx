@@ -176,7 +176,7 @@ export default function Sporsmal(props: IProps) {
 
           const desc = <UtvidetInformasjon
             innhold={parseHtml(tt(item.forklaring + ytelsestypePostfix))}
-            logText={`Viser "Les mer" for sp. ${item.id} på Spørsmål`}
+            logText={`Viser "Les mer" for ${item.id} på Spørsmål`}
           />;
 
           let value = hentSvar(sporsmal, item.id);
