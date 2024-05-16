@@ -19,7 +19,7 @@ export default function UtvidetInformasjon(props: IProps) {
   const clickHandler = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
     event.preventDefault();
-    loggAktivitet(props.logText);
+    if (!open) loggAktivitet(props.logText);
     setOpen(!open);
   };
 
