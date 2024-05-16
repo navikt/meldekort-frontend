@@ -72,7 +72,7 @@ export default function Utfylling(props: IProps) {
       <div className={classNames(styles.info, styles.arbeid)}>
         <UtvidetInformasjon
           innhold={parseHtml(tt("forklaring.utfylling.arbeid" + ytelsestypePostfix))}
-          logText={"Viser \"Les mer\" for arbeid på Utfylling"}
+          logText={"Viser \"Les mer\" for arbeidet på Utfylling"}
         />
       </div>
       <div className={styles.grid}>
@@ -104,7 +104,7 @@ export default function Utfylling(props: IProps) {
       <div className={classNames(styles.info, styles[type])}>
         <UtvidetInformasjon
           innhold={parseHtml(tt(`forklaring.utfylling.${type}${ytelsestypePostfix}`))}
-          logText={`Viser "Les mer" for ${type} på Utfylling`}
+          logText={`Viser "Les mer" for ${spObjKey} på Utfylling`}
         />
       </div>
       <div className={styles.grid}>
