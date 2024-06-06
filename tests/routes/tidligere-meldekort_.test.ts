@@ -1,9 +1,9 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import TidligereMeldekort, { loader, meta } from "~/routes/meldekort.tidligere-meldekort_";
-import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT } from "../mocks/data";
+import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMODUS } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { json } from "@remix-run/node";
@@ -14,6 +14,28 @@ describe("Tidligere meldekort", () => {
   beforeAndAfterSetup();
 
   const request = new Request(TEST_URL + "/tidligere-meldekort");
+
+  test("Skal få feil = true og skrivemodus = null når feil skrivemodus", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/skrivemodus`,
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request,
+      params: {},
+      context: {},
+    });
+
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.feil).toEqual(true);
+    expect(data.skrivemodus).toEqual(null);
+  });
 
   test("Skal få feil = true og historiskeMeldekort = null når feil på backend", async () => {
     server.use(
@@ -33,7 +55,22 @@ describe("Tidligere meldekort", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: true, historiskeMeldekort: null });
+    expect(data.feil).toEqual(true);
+    expect(data.historiskeMeldekort).toEqual(null);
+  });
+
+  test("Skal få feil = false og skrivemodus-objektet fra backend", async () => {
+    const response = await loader({
+      request,
+      params: {},
+      context: {},
+    });
+
+    const data = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(data.feil).toEqual(false);
+    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
   });
 
   test("Skal få feil = false og historiskeMeldekort-objektet fra backend", async () => {
@@ -51,7 +88,9 @@ describe("Tidligere meldekort", () => {
     const data = await response.json();
 
     expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: false, historiskeMeldekort: historiskemeldekortData });
+    expect(data.feil).toEqual(false);
+    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
+    expect(data.historiskeMeldekort).toEqual(historiskemeldekortData);
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
@@ -60,6 +99,7 @@ describe("Tidligere meldekort", () => {
       () => {
         return json({
           feil: true,
+          skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: null,
         });
       },
@@ -70,12 +110,72 @@ describe("Tidligere meldekort", () => {
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
   });
 
+  test("Skal vise feilmelding hvis skrivemodus er null", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          skrivemodus: null,
+          historiskeMeldekort: null,
+        });
+      },
+    );
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"));
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"));
+    await waitFor(() => screen.findByText("feilmelding.baksystem"));
+  });
+
+  test("Skal vise melding fra skrivemodus om den finnes når skrivemodus = false", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          skrivemodus: {
+            skrivemodus: false,
+            melding: {
+              norsk: "Norsk melding",
+              engelsk: "English message",
+            },
+          },
+          historiskeMeldekort: null,
+        });
+      },
+    );
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"));
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"));
+    await waitFor(() => screen.findByText("English message"));
+  });
+
+  test("Skal vise standard melding hvis det ikke finnes melding i skrivemodus når skrivemodus = false", async () => {
+    renderRemixStub(
+      TidligereMeldekort,
+      () => {
+        return json({
+          feil: false,
+          skrivemodus: {
+            skrivemodus: false,
+          },
+          historiskeMeldekort: null,
+        });
+      },
+    );
+
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring"));
+    await waitFor(() => screen.findByText("tidligereMeldekort.forklaring.korrigering"));
+    await waitFor(() => screen.findByText("skrivemodusInfomelding"));
+  });
+
   test("Skal vise melding om det ikke finnes meldekort hvis historiskeMeldekort = null", async () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
         return json({
           feil: false,
+          skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: null,
         });
       },
@@ -92,6 +192,7 @@ describe("Tidligere meldekort", () => {
       () => {
         return json({
           feil: false,
+          skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: [],
         });
       },
@@ -108,6 +209,7 @@ describe("Tidligere meldekort", () => {
       () => {
         return json({
           feil: false,
+          skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: TEST_HISTORISKEMELDEKORT,
         });
       },

@@ -4,8 +4,6 @@ import { json, redirect } from "@remix-run/node";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
-import type { ISkrivemodus } from "~/models/skrivemodus";
-import { hentSkrivemodus } from "~/models/skrivemodus";
 import { Alert } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
@@ -54,7 +52,6 @@ export const links: LinksFunction = () => {
 export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
   let personStatus: IPersonStatus | null = null;
-  let skrivemodus: ISkrivemodus | null = null;
 
   const onBehalfOfToken = await getOboToken(request);
 
@@ -83,18 +80,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   const fragments = await hentDekoratorHtml();
-  const skrivemodusResponse = await hentSkrivemodus(onBehalfOfToken);
 
-  if (!erViggoResponse.ok || !skrivemodusResponse.ok) {
+  if (!erViggoResponse.ok) {
     feil = true;
-  } else {
-    skrivemodus = await skrivemodusResponse.json();
   }
 
   return json({
     fragments,
     feil,
-    skrivemodus,
     env: {
       BASE_PATH: getEnv("BASE_PATH"),
       MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
@@ -105,7 +98,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function App() {
 
-  const { fragments, feil, skrivemodus, env } = useLoaderData<typeof loader>();
+  const { fragments, feil, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
 
@@ -116,23 +109,10 @@ export default function App() {
     innhold = <LoaderMedPadding />;
   }
 
-  if (feil || skrivemodus?.skrivemodus !== true) {
+  if (feil) {
     // Hvis det er feil, vis feilmelding
-    // Hvis skrivemodus er hentet men ikke er true, vis infomelding
     // Ellers vis Outlet
     let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
-
-    if (skrivemodus && !skrivemodus.skrivemodus) {
-      // Hvis skrivemodues ikke er true:
-      // Hvis det finnes infomelding i Skrivemodus, vis denne meldingen
-      // Ellers vis standard melding
-      let melding = tt("skrivemodusInfomelding");
-      if (skrivemodus.melding) {
-        melding = i18n.language === "nb" ? skrivemodus.melding.norsk : skrivemodus.melding.engelsk;
-      }
-
-      alert = <Alert variant="info">{parseHtml(melding)}</Alert>;
-    }
 
     innhold = <div>
       <MeldekortHeader />

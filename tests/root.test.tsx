@@ -6,7 +6,7 @@ import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
 import App, { ErrorBoundary, links, loader } from "~/root";
 import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
 import { json } from "@remix-run/node";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 import * as cssBundle from "@remix-run/css-bundle";
 
@@ -106,42 +106,6 @@ describe("Root", () => {
     expect(response.headers.get("location")).toBe("/meldekort/ikke-tilgang");
   });
 
-  test("Skal få feil = true når feil med skrivemodus", async () => {
-    server.use(
-      http.get(
-        `${TEST_MELDEKORT_API_URL}/skrivemodus`,
-        () => new HttpResponse(null, { status: 500 }),
-        { once: true },
-      ),
-    );
-
-    const response = await loader({
-      request: new Request(TEST_URL),
-      params: {},
-      context: {},
-    });
-
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(true);
-    expect(data.skrivemodus).toEqual(null);
-  });
-
-  test("Skal returnere skrivemodus", async () => {
-    const response = await loader({
-      request: new Request(TEST_URL),
-      params: {},
-      context: {},
-    });
-
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(false);
-    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
-  });
-
   test("Skal vise loader hvis tekster ikke er klare ennå", async () => {
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv("IS_LOCALHOST", "false");
@@ -179,91 +143,6 @@ describe("Root", () => {
 
     const loader = await waitFor(() => screen.queryByTitle("Venter..."));
     expect(loader).toBeNull();
-  });
-
-  test("Skal vise feilmelding hvis skrivemodus = null", async () => {
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: TEST_PERSON_STATUS,
-          skrivemodus: null,
-          fragments: TEST_DECORATOR_FRAGMENTS,
-        });
-      },
-    );
-
-    await waitFor(() => screen.findByText("feilmelding.baksystem"));
-  });
-
-  test("Skal vise feilmelding hvis skrivemodus = false", async () => {
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: TEST_PERSON_STATUS,
-          skrivemodus: {
-            skrivemodus: false,
-          },
-          fragments: TEST_DECORATOR_FRAGMENTS,
-        });
-      },
-    );
-
-    await waitFor(() => screen.findByText("skrivemodusInfomelding"));
-  });
-
-  test("Skal vise feilmelding fra skrivemodus (hvis den finnes) iht språk", async () => {
-    // Sjekk norsk melding
-    // IS_LOCALHOST brukes i mock for å velge hva som må returneres som language: nb eller en
-    vi.stubEnv("IS_LOCALHOST", "false");
-
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: TEST_PERSON_STATUS,
-          skrivemodus: {
-            skrivemodus: false,
-            melding: {
-              norsk: "NORSK FEILMELDING",
-              engelsk: "ENGLISH ERROR",
-            },
-          },
-          fragments: TEST_DECORATOR_FRAGMENTS,
-        });
-      },
-    );
-
-    await waitFor(() => screen.findByText("NORSK FEILMELDING"));
-
-    cleanup();
-
-    // Sjekk engelsk melding
-    vi.stubEnv("IS_LOCALHOST", "true");
-
-    renderRemixStub(
-      App,
-      () => {
-        return json({
-          feil: false,
-          personStatus: TEST_PERSON_STATUS,
-          skrivemodus: {
-            skrivemodus: false,
-            melding: {
-              norsk: "NORSK FEILMELDING",
-              engelsk: "ENGLISH ERROR",
-            },
-          },
-          fragments: TEST_DECORATOR_FRAGMENTS,
-        });
-      },
-    );
-
-    await waitFor(() => screen.findByText("ENGLISH ERROR"));
   });
 
   test("Skal vise innhold", async () => {
