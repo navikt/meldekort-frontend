@@ -69,14 +69,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
     personStatus = await personStatusResponse.json();
   }
 
-  // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
-  if (url.pathname.endsWith("/ikke-tilgang") && personStatus && personStatus.id !== "") {
-    return redirect(`${getEnv("BASE_PATH")}/send-meldekort`, 307);
-  }
+  if (personStatus == null) {
+    feil = true;
+  } else {
+    // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
+    if (url.pathname.endsWith("/ikke-tilgang") && personStatus.id !== "") {
+      return redirect(`${getEnv("BASE_PATH")}/send-meldekort`, 307);
+    }
 
-  // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
-  if (!url.pathname.endsWith("/ikke-tilgang") && (!personStatus || personStatus.id === "")) {
-    return redirect(`${getEnv("BASE_PATH")}/ikke-tilgang`, 307);
+    // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
+    if (!url.pathname.endsWith("/ikke-tilgang") && personStatus.id === "") {
+      return redirect(`${getEnv("BASE_PATH")}/ikke-tilgang`, 307);
+    }
   }
 
   const fragments = await hentDekoratorHtml();

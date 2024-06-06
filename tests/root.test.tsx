@@ -68,7 +68,7 @@ describe("Root", () => {
     expect(response.headers.get("location")).toBe("/meldekort/send-meldekort");
   });
 
-  test("Skal sende til ikke-tilgang når feil med personStatus", async () => {
+  test("Skal ikke sende til ikke-tilgang når feil med personStatus", async () => {
     server.use(
       http.get(
         `${TEST_MELDEKORT_API_URL}/person/status`,
@@ -83,8 +83,8 @@ describe("Root", () => {
       context: {},
     });
 
-    expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/meldekort/ikke-tilgang");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBe(null);
   });
 
   test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
