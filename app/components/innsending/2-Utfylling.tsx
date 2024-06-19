@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
 import { RemixLink } from "~/components/RemixLink";
 import type { ISporsmal } from "~/models/sporsmal";
-import { ukeFormatert } from "~/utils/datoUtils";
+import { formaterDato, ukeFormatert } from "~/utils/datoUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
@@ -79,9 +79,12 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>
         {
           ukedager.map((dag, index) => {
+            let date = new Date(fom);
+            date.setDate(date.getDate() + index + plussDager);
+
             return <div key={"arbeid" + index} className={styles.centered}>
               {opprettDag(dag)}
-              <TextField label=""
+              <TextField label={tt("utfylling.arbeid") + " " + dag + " " + formaterDato(date)}
                          hideLabel
                          className={styles.input}
                          value={((sporsmal as any).meldekortDager[index + plussDager])["arbeidetTimerSum"] || ""}
@@ -111,6 +114,9 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles[type])}></div>
         {
           ukedager.map((dag, index) => {
+            let date = new Date(fom);
+            date.setDate(date.getDate() + index + plussDager);
+
             return <div key={type + index} className={styles.centered}>
               {opprettDag(dag)}
               <Checkbox hideLabel
@@ -119,7 +125,7 @@ export default function Utfylling(props: IProps) {
                         error={feilDager.includes(spObjKey + (index + plussDager + 1))}
                         data-testid={spObjKey + (index + plussDager + 1)}
               >
-                _
+                {tt(`utfylling.${type}`) + " " + dag + " " + formaterDato(date)}
               </Checkbox>
             </div>;
           })
@@ -139,7 +145,7 @@ export default function Utfylling(props: IProps) {
                 {
                   ukedager.map((dag) => {
                     return <div key={dag} className={styles.centered}>
-                      <abbr key={"ukedager-" + dag} title={dag}>
+                      <abbr key={"ukedager-" + dag} title={dag} aria-label={dag}>
                         {dag.toUpperCase()[0]}
                       </abbr>
                     </div>;
