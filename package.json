@@ -16,7 +16,7 @@
     "test-coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "^2.9.0",
+    "@amplitude/analytics-browser": "^2.9.3",
     "@navikt/aksel-icons": "^6.7.0",
     "@navikt/ds-css": "^6.7.0",
     "@navikt/ds-react": "^6.7.0",
