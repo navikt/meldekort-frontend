@@ -24,7 +24,7 @@
     "@navikt/oasis": "^3.2.4",
     "@remix-run/css-bundle": "^2.9.2",
     "@remix-run/express": "^2.9.2",
-    "@remix-run/node": "^2.9.2",
+    "@remix-run/node": "^2.10.0",
     "@remix-run/react": "^2.9.1",
     "classnames": "^2.5.1",
     "compression": "^1.7.4",
