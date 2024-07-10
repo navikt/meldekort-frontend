@@ -15,8 +15,9 @@ describe("MeldekorTabell", () => {
   test("Skal vise innhold", async () => {
     const meldekort1 = opprettTestMeldekort(1, false, KortStatus.FERDI, true);
     const meldekort2 = opprettTestMeldekort(2, false, KortStatus.FERDI, true, KortType.KORRIGERT_ELEKTRONISK);
-    const meldekort3 = opprettTestMeldekort(3, true, KortStatus.IKKE, true, KortType.KORRIGERT_ELEKTRONISK);
-    const meldekortListe = [meldekort1, meldekort2, meldekort3];
+    const meldekort3 = opprettTestMeldekort(3, true, KortStatus.KAND, true, KortType.KORRIGERT_ELEKTRONISK);
+    const meldekort4 = opprettTestMeldekort(4, true, KortStatus.IKKE, true, KortType.KORRIGERT_ELEKTRONISK);
+    const meldekortListe = [meldekort1, meldekort2, meldekort3, meldekort4];
     jsonify(meldekortListe);
 
     const testRouter = createMemoryRouter([
@@ -37,6 +38,7 @@ describe("MeldekorTabell", () => {
     await sjekkMeldekortRad(meldekort1, true);
     await sjekkMeldekortRad(meldekort2, true);
     await sjekkMeldekortRad(meldekort3);
+    await sjekkMeldekortRad(meldekort4);
   });
 });
 

@@ -17,7 +17,9 @@ import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
 describe("Meldekort utils", () => {
   test("finnRiktigTagVariant skal returnere riktig varinat", () => {
-    let result = finnRiktigTagVariant(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
+    let result = finnRiktigTagVariant(KortStatus.KAND, KortType.KORRIGERT_ELEKTRONISK);
+    expect(result).toBe("alt3");
+    result = finnRiktigTagVariant(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
     expect(result).toBe("alt3");
 
     result = finnRiktigTagVariant(KortStatus.FERDI, KortType.KORRIGERT_ELEKTRONISK);
@@ -35,6 +37,8 @@ describe("Meldekort utils", () => {
 
     result = finnRiktigTagVariant(KortStatus.FERDI, KortType.ELEKTRONISK);
     expect(result).toBe("success");
+    result = finnRiktigTagVariant(KortStatus.KAND, KortType.ELEKTRONISK);
+    expect(result).toBe("success");
     result = finnRiktigTagVariant(KortStatus.IKKE, KortType.ELEKTRONISK);
     expect(result).toBe("success");
     result = finnRiktigTagVariant(KortStatus.OVERM, KortType.ELEKTRONISK);
@@ -45,7 +49,9 @@ describe("Meldekort utils", () => {
   });
 
   test("mapKortStatusTilTekst skal returnere riktig varinat", () => {
-    let result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
+    let result = mapKortStatusTilTekst(KortStatus.KAND, KortType.KORRIGERT_ELEKTRONISK);
+    expect(result).toBe("meldekort.type.korrigert");
+    result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.KORRIGERT_ELEKTRONISK);
     expect(result).toBe("meldekort.type.korrigert");
 
     result = mapKortStatusTilTekst(KortStatus.KLAR, KortType.ELEKTRONISK);
@@ -53,24 +59,33 @@ describe("Meldekort utils", () => {
 
     result = mapKortStatusTilTekst(KortStatus.REGIS, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.regis");
+
     result = mapKortStatusTilTekst(KortStatus.NYKTR, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.nyktr");
+
     result = mapKortStatusTilTekst(KortStatus.UBEHA, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.ubeha");
 
     result = mapKortStatusTilTekst(KortStatus.FERDI, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.ferdi");
+
+    result = mapKortStatusTilTekst(KortStatus.KAND, KortType.ELEKTRONISK);
+    expect(result).toBe("meldekort.status.ikke");
     result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.ikke");
+
     result = mapKortStatusTilTekst(KortStatus.OVERM, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.overm");
 
     result = mapKortStatusTilTekst(KortStatus.FMOPP, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.fmopp");
+
     result = mapKortStatusTilTekst(KortStatus.FUOPP, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.fuopp");
+
     result = mapKortStatusTilTekst(KortStatus.FEIL, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.feil");
+
     result = mapKortStatusTilTekst(KortStatus.VENTE, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.vente");
 

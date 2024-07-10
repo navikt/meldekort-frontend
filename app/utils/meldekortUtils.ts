@@ -8,7 +8,7 @@ import { getText } from "~/utils/intlUtils";
 
 
 export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): "success" | "info" | "warning" | "error" | "alt3" {
-  if (kortType === KortType.KORRIGERT_ELEKTRONISK && status === KortStatus.IKKE) return "alt3";
+  if (kortType === KortType.KORRIGERT_ELEKTRONISK && (status === KortStatus.KAND || status === KortStatus.IKKE)) return "alt3";
 
   switch (status) {
     case KortStatus.KLAR:
@@ -18,6 +18,7 @@ export function finnRiktigTagVariant(status: KortStatus, kortType: KortType): "s
     case KortStatus.UBEHA:
       return "info";
     case KortStatus.FERDI:
+    case KortStatus.KAND:
     case KortStatus.IKKE:
     case KortStatus.OVERM:
       return "success";
@@ -42,6 +43,7 @@ export function mapKortStatusTilTekst(status: KortStatus, kortType: KortType) {
 
     case KortStatus.FERDI:
       return getText("meldekort.status.ferdi");
+    case KortStatus.KAND:
     case KortStatus.IKKE:
       return getText("meldekort.status.ikke");
     case KortStatus.OVERM:
