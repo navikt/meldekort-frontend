@@ -44,6 +44,7 @@ export function mapKortStatusTilTekst(status: KortStatus, kortType: KortType) {
     case KortStatus.FERDI:
       return getText("meldekort.status.ferdi");
     case KortStatus.KAND:
+      return getText("meldekort.status.kand");
     case KortStatus.IKKE:
       return getText("meldekort.status.ikke");
     case KortStatus.OVERM:

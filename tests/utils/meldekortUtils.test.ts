@@ -70,7 +70,7 @@ describe("Meldekort utils", () => {
     expect(result).toBe("meldekort.status.ferdi");
 
     result = mapKortStatusTilTekst(KortStatus.KAND, KortType.ELEKTRONISK);
-    expect(result).toBe("meldekort.status.ikke");
+    expect(result).toBe("meldekort.status.kand");
     result = mapKortStatusTilTekst(KortStatus.IKKE, KortType.ELEKTRONISK);
     expect(result).toBe("meldekort.status.ikke");
 
