@@ -205,6 +205,22 @@ describe("Tidligere meldekort detaljer", () => {
     await waitFor(() => screen.findByText("kr. 100,00"));
   });
 
+  test("Skal vise begrunnelse om det finnes", async () => {
+    renderRemixStub(
+      Meldekortdetaljer,
+      () => {
+        return json({
+          feil: false,
+          valgtMeldekort: opprettTestMeldekort(1),
+          meldekortdetaljer: opprettTestMeldekortdetaljer(1, "Test begrunnelse"),
+          personInfo: TEST_PERSON_INFO,
+        });
+      },
+    );
+
+    await waitFor(() => screen.findByText("Test begrunnelse"));
+  });
+
   test("Skal returnere metainformasjon", async () => {
     const args = {} as ServerRuntimeMetaArgs;
 

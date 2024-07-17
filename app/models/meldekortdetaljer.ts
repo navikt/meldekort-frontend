@@ -14,7 +14,7 @@ export interface IMeldekortdetaljer {
   meldeDato: Date;
   lestDato: Date;
   sporsmal: ISporsmal;
-  begrunnelse: string;
+  begrunnelse: string | null;
 }
 
 export async function hentMeldekortdetaljer(onBehalfOfToken: string, meldekortId: string): Promise<TypedResponse<IMeldekortdetaljer>> {

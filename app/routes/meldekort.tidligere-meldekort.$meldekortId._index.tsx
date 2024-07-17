@@ -145,7 +145,10 @@ export default function Meldekortdetaljer() {
 
       <Box padding="6" />
 
-      <Begrunnelse begrunnelse={meldekortdetaljer.begrunnelse} ytelsestypePostfix={ytelsestypePostfix} />
+      {
+        meldekortdetaljer.begrunnelse &&
+        <Begrunnelse begrunnelse={meldekortdetaljer.begrunnelse} ytelsestypePostfix={ytelsestypePostfix} />
+      }
 
       <SporsmalOgSvar sporsmal={sporsmal} fom={fom} ytelsestypePostfix={ytelsestypePostfix} />
 

@@ -72,7 +72,7 @@ export const opprettTestMeldekort = (
   };
 };
 
-export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdetaljer => {
+export const opprettTestMeldekortdetaljer = (meldekortId: number, begrunnelse: string | null = null): IMeldekortdetaljer => {
   return {
     id: meldekortId.toString(),
     meldekortId: meldekortId,
@@ -90,7 +90,7 @@ export const opprettTestMeldekortdetaljer = (meldekortId: number): IMeldekortdet
       signatur: true,
       meldekortDager: [],
     },
-    begrunnelse: "",
+    begrunnelse: begrunnelse,
   };
 };
 
