@@ -22,10 +22,10 @@
     "@navikt/ds-react": "^6.13.0",
     "@navikt/nav-dekoratoren-moduler": "^2.1.6",
     "@navikt/oasis": "^3.3.0",
-    "@remix-run/css-bundle": "^2.10.2",
+    "@remix-run/css-bundle": "^2.10.3",
     "@remix-run/express": "^2.10.3",
     "@remix-run/node": "^2.10.3",
-    "@remix-run/react": "^2.10.2",
+    "@remix-run/react": "^2.10.3",
     "classnames": "^2.5.1",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
@@ -33,12 +33,12 @@
     "express": "^4.19.2",
     "express-prom-bundle": "^7.0.0",
     "html-react-parser": "^5.1.12",
-    "i18next": "^23.11.5",
+    "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-fs-backend": "^2.3.1",
     "i18next-http-backend": "^2.5.2",
     "isbot": "^5.1.13",
-    "jsdom": "^24.1.0",
+    "jsdom": "^24.1.1",
     "morgan": "^1.10.0",
     "prom-client": "^15.1.3",
     "react": "^18.3.1",
@@ -48,8 +48,8 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.10.2",
-    "@remix-run/eslint-config": "^2.10.2",
+    "@remix-run/dev": "^2.10.3",
+    "@remix-run/eslint-config": "^2.10.3",
     "@remix-run/testing": "^2.10.3",
     "@testing-library/react": "^16.0.0",
     "@types/compression": "^1.7.5",
@@ -68,7 +68,7 @@
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
-    "vitest": "^2.0.2"
+    "vitest": "^2.0.3"
   },
   "engines": {
     "node": ">=21.0.0"
