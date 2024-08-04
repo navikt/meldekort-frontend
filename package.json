@@ -22,7 +22,7 @@
     "@navikt/ds-react": "^6.13.0",
     "@navikt/nav-dekoratoren-moduler": "^2.1.6",
     "@navikt/oasis": "^3.3.0",
-    "@remix-run/css-bundle": "^2.10.3",
+    "@remix-run/css-bundle": "^2.11.0",
     "@remix-run/express": "^2.10.3",
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
