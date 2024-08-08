@@ -2,8 +2,8 @@ import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 
 
-export async function hentErViggo(onBehalfOfToken: string): Promise<Response> {
-  const url = `${getEnv("MELDEKORT_API_URL")}/viggo/erViggo`;
+export async function hentHarDP(onBehalfOfToken: string): Promise<Response> {
+  const url = `${getEnv("MELDEKORT_API_URL")}/hardp`;
 
   try {
     return await fetch(url, {

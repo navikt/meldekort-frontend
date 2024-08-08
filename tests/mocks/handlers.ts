@@ -60,7 +60,7 @@ export const handlers = [
   ),
 
   http.get(
-    `${TEST_MELDEKORT_API_URL}/viggo/erViggo`,
+    `${TEST_MELDEKORT_API_URL}/hardp`,
     () => HttpResponse.json(null, { status: 200 }),
   ),
 

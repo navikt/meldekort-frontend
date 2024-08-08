@@ -12,7 +12,7 @@ import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
-import { hentErViggo } from "~/utils/viggoUtils";
+import { hentHarDP } from "~/utils/dpUtils";
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 
@@ -57,8 +57,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   // Sjekk at denne personen skal sendes til den nye DP løsningen
   // Redirect til DP ellers fortsett
-  const erViggoResponse = await hentErViggo(onBehalfOfToken);
-  if (erViggoResponse.status === 307) {
+  const harDPResponse = await hentHarDP(onBehalfOfToken);
+  if (harDPResponse.status === 307) {
     return redirect(getEnv("DP_URL"), 307);
   }
 
@@ -85,7 +85,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const fragments = await hentDekoratorHtml();
 
-  if (!erViggoResponse.ok) {
+  if (!harDPResponse.ok) {
     feil = true;
   }
 

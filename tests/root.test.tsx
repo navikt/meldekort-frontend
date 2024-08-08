@@ -18,10 +18,10 @@ describe("Root", () => {
 
   beforeAndAfterSetup();
 
-  test("Skal få feil = true når feil med erViggo", async () => {
+  test("Skal få feil = true når feil med harDP", async () => {
     server.use(
       http.get(
-        `${TEST_MELDEKORT_API_URL}/viggo/erViggo`,
+        `${TEST_MELDEKORT_API_URL}/hardp`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true },
       ),
@@ -39,10 +39,10 @@ describe("Root", () => {
     expect(data.feil).toEqual(true);
   });
 
-  test("Skal sende til DP når erViggo = true", async () => {
+  test("Skal sende til DP når harDP = true", async () => {
     server.use(
       http.get(
-        `${TEST_MELDEKORT_API_URL}/viggo/erViggo`,
+        `${TEST_MELDEKORT_API_URL}/hardp`,
         () => new HttpResponse(null, { status: 307 }),
         { once: true },
       ),
