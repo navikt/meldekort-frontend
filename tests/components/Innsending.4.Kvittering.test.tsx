@@ -140,7 +140,7 @@ describe("Kvittering", () => {
 
     createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, "2024-02-26", Ytelsestype.DAGPENGER, sporsmal);
 
-    expect(hjMock).not.toBeCalled();
+    expect(hjMock).toBeCalledWith("trigger", "meldekortDP");
 
     expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
       arbeidssoker: "nei",
