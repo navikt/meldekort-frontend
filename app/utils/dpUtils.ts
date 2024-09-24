@@ -9,6 +9,7 @@ export async function hentHarDP(onBehalfOfToken: string): Promise<Response> {
     return await fetch(url, {
       method: "GET",
       headers: getHeaders(onBehalfOfToken),
+      redirect: "manual", // Ellers skal fetch prøve å følge URL fra redirect, men meldekort-api returnerer ikke URL
     });
   } catch (err) {
     const response = new Response(null, { status: 500, statusText: (err as Error).message });

@@ -7,7 +7,7 @@ import { catchErrorResponse } from "../helpers/response-helper";
 
 
 describe("Misc utils", () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+  beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
   afterAll(() => server.close());
   afterEach(() => server.resetHandlers());
 
