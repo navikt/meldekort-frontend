@@ -85,7 +85,10 @@ export default function Kvittering(props: IProps) {
     window.hj("trigger", "meldekortAAP");
   } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && (window as any)["hj"]) {
     window.hj("trigger", "meldekortTP");
+  } else if (ytelsestypePostfix === Ytelsestype.DAGPENGER && (window as any)["hj"]) {
+    window.hj("trigger", "meldekortDP");
   }
+
 
   loggAktivitet(
     "Viser kvittering",
