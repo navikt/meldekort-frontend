@@ -23,7 +23,7 @@
     "@navikt/nav-dekoratoren-moduler": "^2.1.6",
     "@navikt/oasis": "^3.4.0",
     "@remix-run/css-bundle": "^2.12.1",
-    "@remix-run/express": "^2.12.1",
+    "@remix-run/express": "^2.13.1",
     "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.12.1",
     "classnames": "^2.5.1",
