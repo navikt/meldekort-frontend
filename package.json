@@ -30,7 +30,7 @@
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "date-fns": "^4.1.0",
-    "express": "^4.21.0",
+    "express": "^4.21.1",
     "express-prom-bundle": "^7.0.0",
     "html-react-parser": "^5.1.18",
     "i18next": "^23.15.2",
