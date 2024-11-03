@@ -27,7 +27,7 @@
     "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.13.1",
     "classnames": "^2.5.1",
-    "compression": "^1.7.4",
+    "compression": "^1.7.5",
     "cross-env": "^7.0.3",
     "date-fns": "^4.1.0",
     "express": "^4.21.1",
