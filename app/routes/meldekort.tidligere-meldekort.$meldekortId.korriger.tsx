@@ -14,7 +14,7 @@ import Innsending from "~/components/innsending/Innsending";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
 import LoaderMedPadding from "~/components/LoaderMedPadding";

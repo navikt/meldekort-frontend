@@ -5,6 +5,7 @@ import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
+
 export interface IMeldekort {
   meldekortId: number;
   kortType: KortType;

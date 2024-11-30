@@ -4,7 +4,7 @@ import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 import type { ActionFunctionArgs, AppLoadContext } from "@remix-run/node";
 import type { Params } from "@remix-run/router/utils";
 import { Innsendingstype } from "~/models/innsendingstype";

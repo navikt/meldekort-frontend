@@ -11,7 +11,7 @@ import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
 import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IInfomelding } from "~/models/infomelding";

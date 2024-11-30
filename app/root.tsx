@@ -1,7 +1,7 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
 import { Alert } from "@navikt/ds-react";
@@ -16,17 +16,15 @@ import { hentHarDP } from "~/utils/dpUtils";
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 
-import navStyles from "@navikt/ds-css/dist/index.css";
-import indexStyle from "~/index.css";
+import "@navikt/ds-css/dist/index.css";
+import "~/index.css";
 
 
 export const links: LinksFunction = () => {
   return [
     ...(cssBundleHref
       ? [
-        { rel: "stylesheet", href: navStyles },
         { rel: "stylesheet", href: cssBundleHref },
-        { rel: "stylesheet", href: indexStyle },
         {
           rel: "icon",
           type: "image/png",
@@ -142,7 +140,6 @@ export default function App() {
         {parse(fragments.DECORATOR_FOOTER, { trim: true })}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

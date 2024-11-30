@@ -10,8 +10,7 @@ WORKDIR /app
 
 COPY ./app ./app
 COPY ./public ./public
-COPY ./server ./server
-COPY ./tsconfig.json ./
+COPY ./vite.config.ts ./
 COPY ./package.json ./
 COPY ./package-lock.json  ./
 
@@ -33,15 +32,18 @@ RUN npm ci --ignore-scripts --omit dev
 FROM gcr.io/distroless/nodejs22-debian12 AS runtime
 WORKDIR /app
 
+ENV TZ="Europe/Oslo"
+
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
-ENV TZ="Europe/Oslo"
-EXPOSE 8080
+
+ARG PORT=8080
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 
 COPY ./public ./public/
 COPY ./package.json ./package.json
 COPY --from=app-build /app/build/ ./build/
-COPY --from=app-build /app/server/build/ ./server/
 COPY --from=app-dependencies /app/node_modules ./node_modules
 
-CMD ["./server/server.js"]
+CMD ["./build/server/index.js"]

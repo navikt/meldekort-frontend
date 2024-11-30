@@ -187,6 +187,6 @@ describe("Root", () => {
 
   test("Skal returnere array fra links() med cssBundleHref", async () => {
     vi.spyOn(cssBundle, "cssBundleHref", "get").mockReturnValue("true");
-    expect(links().length).toBe(6);
+    expect(links().length).toBe(4);
   });
 });
