@@ -98,12 +98,21 @@ export function handleError(
 export const app = createExpressApp({
   configure: app => {
     const basePath = process.env.BASE_PATH;
-    const isProductionMode = process.env.NODE_ENV === 'production'
+    const isProductionMode = process.env.NODE_ENV === "production"
 
     app.use(compression());
 
     // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
     app.disable("x-powered-by");
+
+    // Vite fingerprints its assets so we can cache forever.
+    app.use(
+      "/assets",
+      express.static("build/client/assets", {
+        immutable: true,
+        maxAge: "1y"
+      }),
+    )
 
     // Everything else (like favicon.ico) is cached for an hour. You may want to be more aggressive with this caching
     app.use(express.static(isProductionMode ? "build/client" : "public", { maxAge: "1h" }))
