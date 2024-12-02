@@ -11,6 +11,7 @@ import Backend from "i18next-fs-backend";
 import i18n from "./i18n"; // i18n configuration file
 import { resolve } from "node:path";
 import morgan from "morgan";
+import promBundle from "express-prom-bundle";
 import { requestTokenxOboToken } from "@navikt/oasis";
 import { createExpressApp } from "remix-create-express-app";
 import compression from "compression";
@@ -97,10 +98,9 @@ export function handleError(
 export const app = createExpressApp({
   configure: app => {
     const basePath = process.env.BASE_PATH;
+    const isProductionMode = process.env.NODE_ENV === 'production'
 
     app.use(compression());
-
-    app.use(morgan("tiny"));
 
     // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
     app.disable("x-powered-by");
@@ -110,14 +110,14 @@ export const app = createExpressApp({
 
     app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
-    /*
-    app.use(
-      promBundle({
-        metricsPath: `${basePath}/internal/metrics`,
-        buckets: [0.1, 0.5, 1, 1.5],
-      }),
-    );
-    */
+    if (isProductionMode) {
+      app.use(
+        promBundle({
+          metricsPath: `${basePath}/internal/metrics`,
+          buckets: [0.1, 0.5, 1, 1.5],
+        }),
+      );
+    }
 
     // Morgan is an HTTP request logger middleware
     // We should use Morgan after isAlive|isReady and metrics so as Morgan doesn't log these requests
