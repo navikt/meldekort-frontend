@@ -8,9 +8,10 @@ import path from "path";
 installGlobals({ nativeFetch: true })
 
 export default defineConfig({
+  base: "/meldekort/",
   plugins: [
     expressDevServer(),
-    remix(),
+    remix({ basename: "/meldekort/" }),
     tsconfigPaths(),
   ],
   server: {
