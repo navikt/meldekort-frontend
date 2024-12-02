@@ -1,14 +1,10 @@
-import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test } from "vitest";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 
 
 describe("MeldekortHeader", () => {
-  beforeAll(() => {
-    vi.stubEnv("BASE_PATH", "/meldekort");
-  });
-
   afterEach(() => {
     cleanup();
   });

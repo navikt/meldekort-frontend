@@ -65,7 +65,7 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/meldekort/send-meldekort");
+    expect(response.headers.get("location")).toBe("/send-meldekort");
   });
 
   test("Skal ikke sende til ikke-tilgang når feil med personStatus", async () => {
@@ -103,7 +103,7 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe("/meldekort/ikke-tilgang");
+    expect(response.headers.get("location")).toBe("/ikke-tilgang");
   });
 
   test("Skal vise loader hvis tekster ikke er klare ennå", async () => {

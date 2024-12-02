@@ -154,7 +154,7 @@ describe("Send meldekort", () => {
           },
         });
       },
-      "/meldekort/send-meldekort/1",
+      "/send-meldekort/1",
       NextComponent,
     );
 

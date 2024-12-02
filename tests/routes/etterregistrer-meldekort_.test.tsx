@@ -115,7 +115,7 @@ describe("Etterregistrering", () => {
           },
         });
       },
-      "/meldekort/etterregistrer-meldekort/1",
+      "/etterregistrer-meldekort/1",
       NextComponent,
     );
 
