@@ -106,7 +106,7 @@ export const app = createExpressApp({
     app.disable("x-powered-by");
 
     // Everything else (like favicon.ico) is cached for an hour. You may want to be more aggressive with this caching
-    app.use(`${basePath}`, express.static("public", { maxAge: "1h" }));
+    app.use(express.static(isProductionMode ? "build/client" : "public", { maxAge: "1h" }))
 
     app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
