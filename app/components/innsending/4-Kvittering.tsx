@@ -60,8 +60,8 @@ export default function Kvittering(props: IProps) {
   };
 
   let nesteLink = <NavLink to={getEnv("MIN_SIDE_URL")}>{tt("tilbake.minSide")}</NavLink>;
-  const mLink = createButton(`/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"));
-  const eLink = createButton(`/etterregistrer-meldekort/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"));
+  const mLink = createButton(`${getEnv("BASE_PATH")}/send-meldekort/${nesteMeldekortId}`, tt("overskrift.nesteMeldekort"));
+  const eLink = createButton(`${getEnv("BASE_PATH")}/etterregistrer-meldekort/${nesteEtterregistrerteMeldekortId}`, tt("overskrift.etterregistrertMeldekort"));
 
   if (innsendingstype === Innsendingstype.INNSENDING) {
     if (nesteMeldekortId) {
