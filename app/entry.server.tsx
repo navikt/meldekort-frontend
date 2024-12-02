@@ -15,7 +15,6 @@ import promBundle from "express-prom-bundle";
 import { requestTokenxOboToken } from "@navikt/oasis";
 import { createExpressApp } from "remix-create-express-app";
 import compression from "compression";
-import express from "express";
 
 
 const ABORT_DELAY = 5_000;
@@ -104,18 +103,6 @@ export const app = createExpressApp({
 
     // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
     app.disable("x-powered-by");
-
-    // Vite fingerprints its assets so we can cache forever.
-    app.use(
-      "/assets",
-      express.static("build/client/assets", {
-        immutable: true,
-        maxAge: "1y"
-      }),
-    )
-
-    // Everything else (like favicon.ico) is cached for an hour. You may want to be more aggressive with this caching
-    app.use(express.static(isProductionMode ? "build/client" : "public", { maxAge: "1h" }))
 
     app.get(`${basePath}/internal/isAlive|isReady`, (_, res) => res.sendStatus(200));
 
