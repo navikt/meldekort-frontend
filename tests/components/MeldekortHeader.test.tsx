@@ -45,23 +45,23 @@ describe("MeldekortHeader", () => {
   });
 
   test("Skal vise Send meldekort", async () => {
-    await sjekkLenke("/meldekort/send-meldekort", "sekundarmeny.send");
+    await sjekkLenke("/send-meldekort", "sekundarmeny.send");
   });
 
   test("Skal vise Tidligere meldekort", async () => {
-    await sjekkLenke("/meldekort/tidligere-meldekort", "sekundarmeny.tidligere");
+    await sjekkLenke("/tidligere-meldekort", "sekundarmeny.tidligere");
   });
 
   test("Skal vise Etterregistrer", async () => {
-    await sjekkLenke("/meldekort/etterregistrer-meldekort", "sekundarmeny.etterregistrer");
+    await sjekkLenke("/etterregistrer-meldekort", "sekundarmeny.etterregistrer");
   });
 
   test("Skal vise Om meldekort", async () => {
-    await sjekkLenke("/meldekort/om-meldekort", "sekundarmeny.omMeldekort");
+    await sjekkLenke("/om-meldekort", "sekundarmeny.omMeldekort");
   });
 
   test("Skal vise Ofte stilte sporsmal", async () => {
-    await sjekkLenke("/meldekort/ofte-stilte-sporsmal", "sekundarmeny.faq");
+    await sjekkLenke("/ofte-stilte-sporsmal", "sekundarmeny.faq");
   });
 });
 
