@@ -18,7 +18,7 @@ describe("Index", () => {
     );
 
     expect(response.status).toBe(301);
-    expect(response.headers.get("location")).toBe("/meldekort");
+    expect(response.headers.get("location")).toBe("/send-meldekort");
   });
 
   test("Skal vise tom div", async () => {

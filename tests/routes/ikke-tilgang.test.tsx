@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
-import IkkeTilgang, { meta } from "~/routes/meldekort.ikke-tilgang";
+import IkkeTilgang, { meta } from "~/routes/ikke-tilgang";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 

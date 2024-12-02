@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-  return redirect(getEnv("BASE_PATH"), 301);
+  return redirect(`/send-meldekort`, 301);
 };
 
 export default function Index() {

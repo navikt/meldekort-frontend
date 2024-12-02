@@ -15,6 +15,7 @@ import promBundle from "express-prom-bundle";
 import { requestTokenxOboToken } from "@navikt/oasis";
 import { createExpressApp } from "remix-create-express-app";
 import compression from "compression";
+import express from "express";
 
 
 const ABORT_DELAY = 5_000;
@@ -114,6 +115,23 @@ export const app = createExpressApp({
         }),
       );
     }
+
+    // Vite fingerprints its assets so we can cache forever
+    app.use(
+      `${basePath}/assets`,
+      express.static("build/client/assets", {
+        immutable: true,
+        maxAge: "1y",
+      }),
+    )
+
+    // Everything else (like favicon.ico) is cached for an hour
+    app.use(
+      `${basePath}`,
+      express.static(isProductionMode ? "build/client" : "public", {
+        maxAge: "1h",
+      }),
+    )
 
     // Morgan is an HTTP request logger middleware
     // We should use Morgan after isAlive|isReady and metrics so as Morgan doesn't log these requests

@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import Meldekortdetaljer, { loader, meta } from "~/routes/meldekort.tidligere-meldekort.$meldekortId._index";
+import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
 import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import { json } from "@remix-run/node";
