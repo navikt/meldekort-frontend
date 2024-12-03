@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/source-map-support": "^0.5.10",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "chokidar": "^4.0.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
