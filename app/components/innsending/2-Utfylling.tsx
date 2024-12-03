@@ -293,7 +293,7 @@ export default function Utfylling(props: IProps) {
   return (
     <div>
       {
-        (visFeil || innsending?.arsakskoder?.length) &&
+        (visFeil || innsending?.arsakskoder?.length > 0) &&
         <Alert variant="error" className={styles.error}>
           <ul>
             {
