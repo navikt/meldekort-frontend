@@ -7,7 +7,7 @@ import EtterregistreringMeldekort, {
   loader,
   meta,
   shouldRevalidate,
-} from "~/routes/meldekort.etterregistrer-meldekort.$meldekortId";
+} from "~/routes/etterregistrer-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,

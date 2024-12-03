@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import { catchErrorResponse } from "../helpers/response-helper";
 import Index, { loader, meta } from "~/routes/_index";
 import { TEST_URL } from "../helpers/setup";
@@ -7,8 +7,6 @@ import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/route
 
 describe("Index", () => {
   test("Skal få redirect til Send meldekort", async () => {
-    vi.stubEnv("BASE_PATH", "/meldekort");
-
     const response = await catchErrorResponse(() =>
       loader({
         request: new Request(TEST_URL),
@@ -18,7 +16,7 @@ describe("Index", () => {
     );
 
     expect(response.status).toBe(301);
-    expect(response.headers.get("location")).toBe("/meldekort");
+    expect(response.headers.get("location")).toBe("/send-meldekort");
   });
 
   test("Skal vise tom div", async () => {

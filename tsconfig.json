@@ -1,6 +1,5 @@
 {
   "include": [
-    "remix.env.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
@@ -10,10 +9,12 @@
       "DOM.Iterable",
       "ES2022"
     ],
+    "types": ["@remix-run/node", "vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
     "strict": true,
@@ -25,10 +26,8 @@
         "./app/*"
       ]
     },
-    "skipLibCheck": true,
-    // Skip type checking all .d.ts files
 
-    // Remix takes care of building everything in `remix build`.
+    // Remix/Vite takes care of building everything in `remix vite:build`.
     "noEmit": true
   }
 }

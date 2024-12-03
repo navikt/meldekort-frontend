@@ -1,20 +1,19 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import type { IPerson, IPersonInfo } from "~/models/person";
+import { hentPerson, hentPersonInfo } from "~/models/person";
 import { useLoaderData } from "@remix-run/react";
 import { Alert } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort } from "~/models/meldekort";
-import type { IPersonInfo } from "~/models/person";
-import { hentPersonInfo } from "~/models/person";
-import { Innsendingstype } from "~/models/innsendingstype";
 import Innsending from "~/components/innsending/Innsending";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
 import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
+import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
+import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
@@ -23,7 +22,7 @@ import LoaderMedPadding from "~/components/LoaderMedPadding";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Korriger tidligere meldekort" },
+    { name: "description", content: "Etterregistrer meldekort" },
   ];
 };
 
@@ -38,11 +37,12 @@ export function shouldRevalidate() {
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false;
-  let historiskeMeldekort: IMeldekort[] | null = null;
-  let meldekortdetaljer: IMeldekortdetaljer | null = null;
+  let person: IPerson | null = null;
   let personInfo: IPersonInfo | null = null;
   let infomelding: IInfomelding | null = null;
   let valgtMeldekort: IMeldekort | undefined;
+  let nesteMeldekortId: Number | undefined;
+  let nesteEtterregistrerteMeldekortId: Number | undefined;
 
   const meldekortId = params.meldekortId;
 
@@ -51,41 +51,39 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     feil = true;
   } else {
     const onBehalfOfToken = await getOboToken(request);
-    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
-    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId);
+    const personResponse = await hentPerson(onBehalfOfToken);
     const personInfoResponse = await hentPersonInfo(onBehalfOfToken);
     const infomeldingResponse = await hentInfomelding(onBehalfOfToken);
 
-    if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok || !infomeldingResponse.ok) {
+    if (!personResponse.ok || !personInfoResponse.ok || !infomeldingResponse.ok) {
       feil = true;
     } else {
-      historiskeMeldekort = await historiskeMeldekortResponse.json();
-      meldekortdetaljer = await meldekortdetaljerResponse.json();
+      person = await personResponse.json();
       personInfo = await personInfoResponse.json();
       infomelding = await infomeldingResponse.json();
 
-      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
-
-      if (valgtMeldekort?.korrigerbart !== true) {
-        feil = true;
-      }
+      valgtMeldekort = person?.etterregistrerteMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
+      nesteMeldekortId = finnNesteSomKanSendes(person?.meldekort, meldekortId)?.meldekortId;
+      nesteEtterregistrerteMeldekortId = finnNesteSomKanSendes(person?.etterregistrerteMeldekort, meldekortId)?.meldekortId;
     }
   }
 
   return json({
     feil,
     valgtMeldekort,
-    meldekortdetaljer,
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
     personInfo,
     infomelding,
   });
 }
 
-export default function TidligereMeldekortKorrigering() {
+export default function EtterregistreringMeldekort() {
   const {
     feil,
     valgtMeldekort,
-    meldekortdetaljer,
+    nesteMeldekortId,
+    nesteEtterregistrerteMeldekortId,
     personInfo,
     infomelding,
   } = useLoaderData<typeof loader>();
@@ -99,7 +97,7 @@ export default function TidligereMeldekortKorrigering() {
     return <LoaderMedPadding />;
   }
 
-  if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo || !infomelding) {
+  if (feil || !valgtMeldekort || !personInfo || !infomelding) {
     const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     return (
@@ -111,9 +109,11 @@ export default function TidligereMeldekortKorrigering() {
   }
 
   return (
-    <Innsending innsendingstype={Innsendingstype.KORRIGERING}
+    <Innsending innsendingstype={Innsendingstype.ETTERREGISTRERING}
                 valgtMeldekort={valgtMeldekort}
-                sporsmal={meldekortdetaljer.sporsmal}
+                nesteMeldekortId={nesteMeldekortId}
+                nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
+                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, true)}
                 personInfo={personInfo}
                 infomelding={infomelding}
     />

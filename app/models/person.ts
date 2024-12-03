@@ -3,16 +3,10 @@ import type { IMeldekort } from "~/models/meldekort";
 import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
 
+
 export interface IPerson {
   meldekort: IMeldekort[];
   etterregistrerteMeldekort: IMeldekort[];
-}
-
-export enum FravaerType {
-  KURS_UTDANNING = "K",
-  SYKDOM = "S",
-  ANNET_FRAVAER = "X",
-  ARBEIDS_FRAVAER = "F",
 }
 
 export interface IPersonInfo {

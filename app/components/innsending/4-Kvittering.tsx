@@ -169,7 +169,7 @@ export default function Kvittering(props: IProps) {
       </div>
 
       <div className="buttons notForPrint">
-        <RemixLink as="Button" variant="secondary" to={`${getEnv("BASE_PATH")}/tidligere-meldekort`}>
+        <RemixLink as="Button" variant="secondary" to={"/tidligere-meldekort"}>
           {tt("sendt.linkTilTidligereMeldekort")}
         </RemixLink>
         {nesteLink}

@@ -162,7 +162,7 @@ export default function Meldekortdetaljer() {
       </div>
 
       <div className="buttons notForPrint">
-        <RemixLink as="Button" variant="primary" to={`${getEnv("BASE_PATH")}/tidligere-meldekort`}>
+        <RemixLink as="Button" variant="primary" to={"/tidligere-meldekort"}>
           {tt("naviger.tilbake")}
         </RemixLink>
         {
@@ -170,7 +170,7 @@ export default function Meldekortdetaljer() {
           valgtMeldekort.korrigerbart &&
           <RemixLink as="Button"
                      variant="secondary"
-                     to={`${getEnv("BASE_PATH")}/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
+                     to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
             {tt("korriger.meldekort")}
           </RemixLink>
         }

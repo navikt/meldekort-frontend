@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import OfteStilteSporsmal, { meta } from "~/routes/meldekort.ofte-stilte-sporsmal";
+import OfteStilteSporsmal, { meta } from "~/routes/ofte-stilte-sporsmal";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 

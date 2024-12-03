@@ -3,7 +3,6 @@ import { useExtendedTranslation } from "~/utils/intlUtils";
 import classNames from "classnames";
 import { MenuHamburgerIcon } from "@navikt/aksel-icons";
 import styles from "./MeldekortHeader.module.css";
-import { getEnv } from "~/utils/envUtils";
 
 
 type LinkState = {
@@ -36,19 +35,19 @@ export default function MeldekortHeader() {
         </div>
       </div>
       <div className={classNames(styles.menu, "notForPrint")} id="menu" data-testid="menu">
-        <NavLink to={`${getEnv("BASE_PATH")}/send-meldekort`} className={setClassName}>
+        <NavLink to={"/send-meldekort"} className={setClassName}>
           {tt("sekundarmeny.send")}
         </NavLink>
-        <NavLink to={`${getEnv("BASE_PATH")}/tidligere-meldekort`} className={setClassName}>
+        <NavLink to={"/tidligere-meldekort"} className={setClassName}>
           {tt("sekundarmeny.tidligere")}
         </NavLink>
-        <NavLink to={`${getEnv("BASE_PATH")}/etterregistrer-meldekort`} className={setClassName}>
+        <NavLink to={"/etterregistrer-meldekort"} className={setClassName}>
           {tt("sekundarmeny.etterregistrer")}
         </NavLink>
-        <NavLink to={`${getEnv("BASE_PATH")}/om-meldekort`} className={setClassName}>
+        <NavLink to={"/om-meldekort"} className={setClassName}>
           {tt("sekundarmeny.omMeldekort")}
         </NavLink>
-        <NavLink to={`${getEnv("BASE_PATH")}/ofte-stilte-sporsmal`} className={setClassName}>
+        <NavLink to={"/ofte-stilte-sporsmal"} className={setClassName}>
           {tt("sekundarmeny.faq")}
         </NavLink>
       </div>

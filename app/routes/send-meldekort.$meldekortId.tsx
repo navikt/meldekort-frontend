@@ -11,8 +11,8 @@ import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
 import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
-import { finnNesteSomKanSendes } from "~/utils/meldekortUtils";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
+import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/meldekortUtils";
 import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
@@ -22,7 +22,7 @@ import LoaderMedPadding from "~/components/LoaderMedPadding";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Etterregistrer meldekort" },
+    { name: "description", content: "Send meldekort" },
   ];
 };
 
@@ -43,6 +43,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let valgtMeldekort: IMeldekort | undefined;
   let nesteMeldekortId: Number | undefined;
   let nesteEtterregistrerteMeldekortId: Number | undefined;
+  let nesteMeldekortKanSendes: string | Date | undefined;
 
   const meldekortId = params.meldekortId;
 
@@ -62,9 +63,17 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       personInfo = await personInfoResponse.json();
       infomelding = await infomeldingResponse.json();
 
-      valgtMeldekort = person?.etterregistrerteMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
-      nesteMeldekortId = finnNesteSomKanSendes(person?.meldekort, meldekortId)?.meldekortId;
-      nesteEtterregistrerteMeldekortId = finnNesteSomKanSendes(person?.etterregistrerteMeldekort, meldekortId)?.meldekortId;
+      valgtMeldekort = person?.meldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
+
+      const nesteMeldekortSomKanSendes = finnNesteSomKanSendes(person?.meldekort, meldekortId);
+      const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort);
+      const nesteEtterregistrerteMeldekort = finnNesteSomKanSendes(person?.etterregistrerteMeldekort, meldekortId);
+
+      nesteMeldekortId = nesteMeldekortSomKanSendes?.meldekortId;
+      nesteEtterregistrerteMeldekortId = nesteEtterregistrerteMeldekort?.meldekortId;
+      nesteMeldekortKanSendes = nesteMeldekortSomKanSendes
+        ? nesteMeldekortSomKanSendes.meldeperiode.kortKanSendesFra
+        : foersteMeldekortSomIkkeKanSendesEnna?.meldeperiode.kortKanSendesFra;
     }
   }
 
@@ -73,17 +82,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     valgtMeldekort,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
+    nesteMeldekortKanSendes,
     personInfo,
     infomelding,
   });
 }
 
-export default function EtterregistreringMeldekort() {
+export default function SendMeldekort() {
   const {
     feil,
     valgtMeldekort,
     nesteMeldekortId,
     nesteEtterregistrerteMeldekortId,
+    nesteMeldekortKanSendes,
     personInfo,
     infomelding,
   } = useLoaderData<typeof loader>();
@@ -109,11 +120,12 @@ export default function EtterregistreringMeldekort() {
   }
 
   return (
-    <Innsending innsendingstype={Innsendingstype.ETTERREGISTRERING}
+    <Innsending innsendingstype={Innsendingstype.INNSENDING}
                 valgtMeldekort={valgtMeldekort}
                 nesteMeldekortId={nesteMeldekortId}
                 nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
-                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, true)}
+                nesteMeldekortKanSendes={nesteMeldekortKanSendes}
+                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
                 personInfo={personInfo}
                 infomelding={infomelding}
     />

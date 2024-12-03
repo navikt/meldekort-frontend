@@ -40,7 +40,7 @@ export default function MeldekorTabell(props: IProps) {
             <div className={styles.header}><Heading size="xsmall" level="4">{tt("overskrift.bruttoBelop")}</Heading>
             </div>
             <div>
-              <NavLink to={`${getEnv("BASE_PATH")}/tidligere-meldekort/${meldekort.meldekortId}`}>
+              <NavLink to={`/tidligere-meldekort/${meldekort.meldekortId}`}>
                 {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(meldekort.meldeperiode.fra, meldekort.meldeperiode.til)}
               </NavLink>
             </div>

@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import Etterregistrering, { loader, meta } from "~/routes/meldekort.etterregistrer-meldekort_";
+import Etterregistrering, { loader, meta } from "~/routes/etterregistrer-meldekort_";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
@@ -115,7 +115,7 @@ describe("Etterregistrering", () => {
           },
         });
       },
-      "/meldekort/etterregistrer-meldekort/1",
+      "/etterregistrer-meldekort/1",
       NextComponent,
     );
 

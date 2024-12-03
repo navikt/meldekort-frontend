@@ -7,7 +7,7 @@ import SendMeldekort, {
   loader,
   meta,
   shouldRevalidate,
-} from "~/routes/meldekort.send-meldekort.$meldekortId";
+} from "~/routes/send-meldekort.$meldekortId";
 import {
   jsonify,
   opprettTestMeldekort,

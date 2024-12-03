@@ -1,7 +1,7 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
 import { Alert } from "@navikt/ds-react";
@@ -16,17 +16,15 @@ import { hentHarDP } from "~/utils/dpUtils";
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 
-import navStyles from "@navikt/ds-css/dist/index.css";
-import indexStyle from "~/index.css";
+import "@navikt/ds-css/dist/index.css";
+import "~/index.css";
 
 
 export const links: LinksFunction = () => {
   return [
     ...(cssBundleHref
       ? [
-        { rel: "stylesheet", href: navStyles },
         { rel: "stylesheet", href: cssBundleHref },
-        { rel: "stylesheet", href: indexStyle },
         {
           rel: "icon",
           type: "image/png",
@@ -74,12 +72,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   } else {
     // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
     if (url.pathname.endsWith("/ikke-tilgang") && personStatus.id !== "") {
-      return redirect(`${getEnv("BASE_PATH")}/send-meldekort`, 307);
+      return redirect("/send-meldekort", 307);
     }
 
     // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
     if (!url.pathname.endsWith("/ikke-tilgang") && personStatus.id === "") {
-      return redirect(`${getEnv("BASE_PATH")}/ikke-tilgang`, 307);
+      return redirect("/ikke-tilgang", 307);
     }
   }
 
@@ -142,7 +140,6 @@ export default function App() {
         {parse(fragments.DECORATOR_FOOTER, { trim: true })}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

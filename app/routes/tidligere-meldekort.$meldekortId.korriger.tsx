@@ -1,19 +1,20 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import type { IPerson, IPersonInfo } from "~/models/person";
-import { hentPerson, hentPersonInfo } from "~/models/person";
 import { useLoaderData } from "@remix-run/react";
 import { Alert } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import Innsending from "~/components/innsending/Innsending";
-import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IMeldekort } from "~/models/meldekort";
+import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import type { IPersonInfo } from "~/models/person";
+import { hentPersonInfo } from "~/models/person";
+import { Innsendingstype } from "~/models/innsendingstype";
+import Innsending from "~/components/innsending/Innsending";
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/models/meldekortdetaljerInnsending";
-import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/meldekortUtils";
-import { opprettSporsmal } from "~/utils/miscUtils";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
@@ -22,7 +23,7 @@ import LoaderMedPadding from "~/components/LoaderMedPadding";
 export const meta: MetaFunction = () => {
   return [
     { title: "Meldekort" },
-    { name: "description", content: "Send meldekort" },
+    { name: "description", content: "Korriger tidligere meldekort" },
   ];
 };
 
@@ -37,13 +38,11 @@ export function shouldRevalidate() {
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   let feil = false;
-  let person: IPerson | null = null;
+  let historiskeMeldekort: IMeldekort[] | null = null;
+  let meldekortdetaljer: IMeldekortdetaljer | null = null;
   let personInfo: IPersonInfo | null = null;
   let infomelding: IInfomelding | null = null;
   let valgtMeldekort: IMeldekort | undefined;
-  let nesteMeldekortId: Number | undefined;
-  let nesteEtterregistrerteMeldekortId: Number | undefined;
-  let nesteMeldekortKanSendes: string | Date | undefined;
 
   const meldekortId = params.meldekortId;
 
@@ -52,49 +51,41 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     feil = true;
   } else {
     const onBehalfOfToken = await getOboToken(request);
-    const personResponse = await hentPerson(onBehalfOfToken);
+    const historiskeMeldekortResponse = await hentHistoriskeMeldekort(onBehalfOfToken);
+    const meldekortdetaljerResponse = await hentMeldekortdetaljer(onBehalfOfToken, meldekortId);
     const personInfoResponse = await hentPersonInfo(onBehalfOfToken);
     const infomeldingResponse = await hentInfomelding(onBehalfOfToken);
 
-    if (!personResponse.ok || !personInfoResponse.ok || !infomeldingResponse.ok) {
+    if (!historiskeMeldekortResponse.ok || !meldekortdetaljerResponse.ok || !personInfoResponse.ok || !infomeldingResponse.ok) {
       feil = true;
     } else {
-      person = await personResponse.json();
+      historiskeMeldekort = await historiskeMeldekortResponse.json();
+      meldekortdetaljer = await meldekortdetaljerResponse.json();
       personInfo = await personInfoResponse.json();
       infomelding = await infomeldingResponse.json();
 
-      valgtMeldekort = person?.meldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
+      valgtMeldekort = historiskeMeldekort?.find(meldekort => meldekort.meldekortId.toString(10) === meldekortId);
 
-      const nesteMeldekortSomKanSendes = finnNesteSomKanSendes(person?.meldekort, meldekortId);
-      const foersteMeldekortSomIkkeKanSendesEnna = finnFoersteSomIkkeKanSendesEnna(person?.meldekort);
-      const nesteEtterregistrerteMeldekort = finnNesteSomKanSendes(person?.etterregistrerteMeldekort, meldekortId);
-
-      nesteMeldekortId = nesteMeldekortSomKanSendes?.meldekortId;
-      nesteEtterregistrerteMeldekortId = nesteEtterregistrerteMeldekort?.meldekortId;
-      nesteMeldekortKanSendes = nesteMeldekortSomKanSendes
-        ? nesteMeldekortSomKanSendes.meldeperiode.kortKanSendesFra
-        : foersteMeldekortSomIkkeKanSendesEnna?.meldeperiode.kortKanSendesFra;
+      if (valgtMeldekort?.korrigerbart !== true) {
+        feil = true;
+      }
     }
   }
 
   return json({
     feil,
     valgtMeldekort,
-    nesteMeldekortId,
-    nesteEtterregistrerteMeldekortId,
-    nesteMeldekortKanSendes,
+    meldekortdetaljer,
     personInfo,
     infomelding,
   });
 }
 
-export default function SendMeldekort() {
+export default function TidligereMeldekortKorrigering() {
   const {
     feil,
     valgtMeldekort,
-    nesteMeldekortId,
-    nesteEtterregistrerteMeldekortId,
-    nesteMeldekortKanSendes,
+    meldekortdetaljer,
     personInfo,
     infomelding,
   } = useLoaderData<typeof loader>();
@@ -108,7 +99,7 @@ export default function SendMeldekort() {
     return <LoaderMedPadding />;
   }
 
-  if (feil || !valgtMeldekort || !personInfo || !infomelding) {
+  if (feil || !valgtMeldekort || !meldekortdetaljer || !personInfo || !infomelding) {
     const innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     return (
@@ -120,12 +111,9 @@ export default function SendMeldekort() {
   }
 
   return (
-    <Innsending innsendingstype={Innsendingstype.INNSENDING}
+    <Innsending innsendingstype={Innsendingstype.KORRIGERING}
                 valgtMeldekort={valgtMeldekort}
-                nesteMeldekortId={nesteMeldekortId}
-                nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
-                nesteMeldekortKanSendes={nesteMeldekortKanSendes}
-                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
+                sporsmal={meldekortdetaljer.sporsmal}
                 personInfo={personInfo}
                 infomelding={infomelding}
     />
