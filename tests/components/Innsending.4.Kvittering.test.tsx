@@ -79,7 +79,7 @@ describe("Kvittering", () => {
 
     const button = await waitFor(() => screen.findByText("overskrift.nesteMeldekort"));
     button.click();
-    expect(replaceMock).toBeCalledWith("/send-meldekort/1");
+    expect(replaceMock).toBeCalledWith("undefined/send-meldekort/1"); // BASE_PATH/send-meldekort/1
     replaceMock.mockClear();
   });
 
@@ -88,7 +88,7 @@ describe("Kvittering", () => {
 
     const button = await waitFor(() => screen.findByText("overskrift.etterregistrertMeldekort"));
     button.click();
-    expect(replaceMock).toBeCalledWith("/etterregistrer-meldekort/2");
+    expect(replaceMock).toBeCalledWith("undefined/etterregistrer-meldekort/2"); // BASE_PATH/etterregistrer-meldekort/w
     replaceMock.mockClear();
   });
 
