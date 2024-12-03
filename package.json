@@ -65,7 +65,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "msw": "^2.6.6",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "remix-express-dev-server": "^0.4.4",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
