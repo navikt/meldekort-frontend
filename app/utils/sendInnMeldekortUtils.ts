@@ -1,7 +1,6 @@
 import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
 import { getHeaders } from "~/utils/fetchUtils";
 import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
 import { Innsendingstype } from "~/models/innsendingstype";
@@ -61,5 +60,5 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
     }
   }
 
-  return json({ baksystemFeil, innsending });
+  return { baksystemFeil, innsending };
 }

@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
@@ -38,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     historiskeMeldekort = await historiskeMeldekortResponse.json();
   }
 
-  return json({ feil, skrivemodus, historiskeMeldekort });
+  return { feil, skrivemodus, historiskeMeldekort };
 }
 
 export default function TidligereMeldekort() {

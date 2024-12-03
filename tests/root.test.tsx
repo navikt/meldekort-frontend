@@ -5,7 +5,6 @@ import { http, HttpResponse } from "msw";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
 import App, { ErrorBoundary, links, loader } from "~/root";
 import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
-import { json } from "@remix-run/node";
 import { render, screen, waitFor } from "@testing-library/react";
 import { createRemixStub } from "@remix-run/testing";
 import * as cssBundle from "@remix-run/css-bundle";
@@ -33,10 +32,7 @@ describe("Root", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(true);
+    expect(response.feil).toEqual(true);
   });
 
   test("Skal sende til DP når harDP = true", async () => {
@@ -83,8 +79,9 @@ describe("Root", () => {
       context: {},
     });
 
-    expect(response.status).toBe(200);
-    expect(response.headers.get("location")).toBe(null);
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).not.toBeNull();
+    expect(response.env).not.toBeNull();
   });
 
   test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
@@ -113,12 +110,12 @@ describe("Root", () => {
     renderRemixStub(
       App,
       () => {
-        return json({
+        return {
           feil: false,
           personStatus: TEST_PERSON_STATUS,
           skrivemodus: TEST_SKRIVEMODUS,
           fragments: TEST_DECORATOR_FRAGMENTS,
-        });
+        };
       },
     );
 
@@ -129,12 +126,12 @@ describe("Root", () => {
     renderRemixStub(
       App,
       () => {
-        return json({
+        return {
           feil: true,
           personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS,
-        });
+        };
       },
     );
 
@@ -149,14 +146,14 @@ describe("Root", () => {
     renderRemixStub(
       App,
       () => {
-        return json({
+        return {
           feil: false,
           personStatus: TEST_PERSON_STATUS,
           skrivemodus: {
             skrivemodus: true,
           },
           fragments: TEST_DECORATOR_FRAGMENTS,
-        });
+        };
       },
     );
 

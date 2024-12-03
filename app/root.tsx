@@ -1,6 +1,6 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
@@ -87,7 +87,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     feil = true;
   }
 
-  return json({
+  return {
     fragments,
     feil,
     env: {
@@ -95,7 +95,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
       AMPLITUDE_API_KEY: getEnv("AMPLITUDE_API_KEY"),
     },
-  });
+  };
 }
 
 export default function App() {

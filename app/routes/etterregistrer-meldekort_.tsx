@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { IPerson } from "~/models/person";
@@ -37,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     person = await personResponse.json();
   }
 
-  return json({ feil, person });
+  return { feil, person };
 }
 
 export default function Etterregistrering() {

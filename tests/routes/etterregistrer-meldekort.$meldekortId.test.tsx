@@ -19,7 +19,6 @@ import {
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
-import { json } from "@remix-run/node";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 
 
@@ -40,10 +39,7 @@ describe("Etterregistrer meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: true,
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
@@ -67,10 +63,7 @@ describe("Etterregistrer meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       baksystemFeil,
       innsending,
     });
@@ -126,10 +119,7 @@ describe("Etterregistrer meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: false,
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156945,
@@ -172,14 +162,14 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: null,
           infomelding: null,
-        });
+        };
       },
     );
 
@@ -190,14 +180,14 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: true,
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: null,
           infomelding: null,
-        });
+        };
       },
     );
 
@@ -208,14 +198,14 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           nesteMeldekortId: undefined,
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: null,
           infomelding: null,
-        });
+        };
       },
     );
 
@@ -226,7 +216,7 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -237,7 +227,7 @@ describe("Etterregistrer meldekort", () => {
           nesteEtterregistrerteMeldekortId: undefined,
           personInfo: null,
           infomelding: null,
-        });
+        };
       },
     );
 
@@ -248,7 +238,7 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -264,7 +254,7 @@ describe("Etterregistrer meldekort", () => {
             fornavn: "Fornavn",
           },
           infomelding: null,
-        });
+        };
       },
     );
 
@@ -275,7 +265,7 @@ describe("Etterregistrer meldekort", () => {
     renderRemixStub(
       EtterregistreringMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -292,7 +282,7 @@ describe("Etterregistrer meldekort", () => {
             fornavn: "Fornavn",
           },
           infomelding: TEST_INFOMELDING,
-        });
+        };
       },
     );
 

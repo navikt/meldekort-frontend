@@ -19,7 +19,6 @@ import {
   TEST_PERSON_INFO,
 } from "../mocks/data";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
@@ -53,10 +52,7 @@ describe("Korriger tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: true,
       valgtMeldekort: valgtMeldekort,
       meldekortdetaljer: meldekortdetaljer,
@@ -79,10 +75,7 @@ describe("Korriger tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       baksystemFeil,
       innsending,
     });
@@ -174,10 +167,7 @@ describe("Korriger tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: false,
       valgtMeldekort: meldekort,
       meldekortdetaljer: meldekortdetaljerData,
@@ -219,12 +209,12 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
           personInfo: null,
-        });
+        };
       },
     );
 
@@ -235,12 +225,12 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: true,
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
           personInfo: null,
-        });
+        };
       },
     );
 
@@ -251,12 +241,12 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           meldekortdetaljer: null,
           personInfo: null,
-        });
+        };
       },
     );
 
@@ -267,7 +257,7 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -276,7 +266,7 @@ describe("Korriger tidligere meldekort", () => {
           },
           meldekortdetaljer: null,
           personInfo: null,
-        });
+        };
       },
     );
 
@@ -287,7 +277,7 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -298,7 +288,7 @@ describe("Korriger tidligere meldekort", () => {
             sporsmal: {},
           },
           personInfo: null,
-        });
+        };
       },
     );
 
@@ -309,7 +299,7 @@ describe("Korriger tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekortKorrigering,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: {
             meldeperiode: {
@@ -327,7 +317,7 @@ describe("Korriger tidligere meldekort", () => {
             fornavn: "Fornavn",
           },
           infomelding: TEST_INFOMELDING,
-        });
+        };
       },
     );
 

@@ -1,5 +1,4 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { IPerson, IPersonInfo } from "~/models/person";
@@ -77,7 +76,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }
   }
 
-  return json({
+  return {
     feil,
     valgtMeldekort,
     nesteMeldekortId,
@@ -85,7 +84,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     nesteMeldekortKanSendes,
     personInfo,
     infomelding,
-  });
+  };
 }
 
 export default function SendMeldekort() {

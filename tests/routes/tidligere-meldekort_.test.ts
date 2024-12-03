@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
@@ -6,7 +6,6 @@ import TidligereMeldekort, { loader, meta } from "~/routes/tidligere-meldekort_"
 import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMODUS } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 
 
@@ -30,11 +29,8 @@ describe("Tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(true);
-    expect(data.skrivemodus).toEqual(null);
+    expect(response.feil).toEqual(true);
+    expect(response.skrivemodus).toEqual(null);
   });
 
   test("Skal få feil = true og historiskeMeldekort = null når feil på backend", async () => {
@@ -52,11 +48,8 @@ describe("Tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(true);
-    expect(data.historiskeMeldekort).toEqual(null);
+    expect(response.feil).toEqual(true);
+    expect(response.historiskeMeldekort).toEqual(null);
   });
 
   test("Skal få feil = false og skrivemodus-objektet fra backend", async () => {
@@ -66,11 +59,8 @@ describe("Tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(false);
-    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
+    expect(response.feil).toEqual(false);
+    expect(response.skrivemodus).toEqual(TEST_SKRIVEMODUS);
   });
 
   test("Skal få feil = false og historiskeMeldekort-objektet fra backend", async () => {
@@ -85,23 +75,20 @@ describe("Tidligere meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data.feil).toEqual(false);
-    expect(data.skrivemodus).toEqual(TEST_SKRIVEMODUS);
-    expect(data.historiskeMeldekort).toEqual(historiskemeldekortData);
+    expect(response.feil).toEqual(false);
+    expect(response.skrivemodus).toEqual(TEST_SKRIVEMODUS);
+    expect(response.historiskeMeldekort).toEqual(historiskemeldekortData);
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: true,
           skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: null,
-        });
+        };
       },
     );
 
@@ -114,11 +101,11 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: null,
           historiskeMeldekort: null,
-        });
+        };
       },
     );
 
@@ -131,7 +118,7 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: {
             skrivemodus: false,
@@ -141,7 +128,7 @@ describe("Tidligere meldekort", () => {
             },
           },
           historiskeMeldekort: null,
-        });
+        };
       },
     );
 
@@ -154,13 +141,13 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: {
             skrivemodus: false,
           },
           historiskeMeldekort: null,
-        });
+        };
       },
     );
 
@@ -173,11 +160,11 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: null,
-        });
+        };
       },
     );
 
@@ -190,11 +177,11 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: [],
-        });
+        };
       },
     );
 
@@ -207,11 +194,11 @@ describe("Tidligere meldekort", () => {
     renderRemixStub(
       TidligereMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           skrivemodus: TEST_SKRIVEMODUS,
           historiskeMeldekort: TEST_HISTORISKEMELDEKORT,
-        });
+        };
       },
     );
 

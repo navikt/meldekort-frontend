@@ -4,7 +4,6 @@ import { server } from "../mocks/server";
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import Etterregistrering, { loader, meta } from "~/routes/etterregistrer-meldekort_";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
@@ -32,10 +31,7 @@ describe("Etterregistrering", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: true, person: null });
+    expect(response).toEqual({ feil: true, person: null });
   });
 
   test("Skal få feil = false og person-objektet fra backend", async () => {
@@ -48,20 +44,17 @@ describe("Etterregistrering", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: false, person: expectedPersondata });
+    expect(response).toEqual({ feil: false, person: expectedPersondata });
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(
       Etterregistrering,
       () => {
-        return json({
+        return {
           feil: true,
           person: null,
-        });
+        };
       },
     );
 
@@ -72,10 +65,10 @@ describe("Etterregistrering", () => {
     renderRemixStub(
       Etterregistrering,
       () => {
-        return json({
+        return {
           feil: false,
           person: null,
-        });
+        };
       },
     );
 
@@ -86,12 +79,12 @@ describe("Etterregistrering", () => {
     renderRemixStub(
       Etterregistrering,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             etterregistrerteMeldekort: [],
           },
-        });
+        };
       },
     );
 
@@ -108,12 +101,12 @@ describe("Etterregistrering", () => {
     renderRemixStub(
       Etterregistrering,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             etterregistrerteMeldekort: [opprettTestMeldekort(1, true, KortStatus.SENDT)],
           },
-        });
+        };
       },
       "/etterregistrer-meldekort/1",
       NextComponent,
@@ -126,12 +119,12 @@ describe("Etterregistrering", () => {
     renderRemixStub(
       Etterregistrering,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             etterregistrerteMeldekort: [opprettTestMeldekort(1), opprettTestMeldekort(2)],
           },
-        });
+        };
       },
     );
 

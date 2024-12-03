@@ -1,5 +1,4 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
@@ -68,7 +67,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }
   }
 
-  return json({ feil, valgtMeldekort, meldekortdetaljer, personInfo });
+  return { feil, valgtMeldekort, meldekortdetaljer, personInfo };
 }
 
 export default function Meldekortdetaljer() {

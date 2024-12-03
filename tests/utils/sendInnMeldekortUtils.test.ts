@@ -51,10 +51,7 @@ describe("Meldekortdetaljer Innsending", () => {
 
     const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING)));
 
-    const json = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(json).toEqual({
+    expect(response).toEqual({
       baksystemFeil: true,
       innsending: null,
     });
@@ -71,10 +68,7 @@ describe("Meldekortdetaljer Innsending", () => {
 
     const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs()));
 
-    const json = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(json).toEqual({
+    expect(response).toEqual({
       baksystemFeil: true,
       innsending: null,
     });
@@ -83,10 +77,7 @@ describe("Meldekortdetaljer Innsending", () => {
   test("sendInnMeldekortAction skal få data", async () => {
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs());
 
-    const json = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(json).toStrictEqual({
+    expect(response).toStrictEqual({
       baksystemFeil: false,
       innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
     });
@@ -95,10 +86,7 @@ describe("Meldekortdetaljer Innsending", () => {
   test("sendInnMeldekortAction skal få data ved Korrigering", async () => {
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING));
 
-    const json = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(json).toStrictEqual({
+    expect(response).toStrictEqual({
       baksystemFeil: false,
       innsending: TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
     });
@@ -110,10 +98,7 @@ describe("Meldekortdetaljer Innsending", () => {
 
     const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs()));
 
-    const json = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(json).toEqual({
+    expect(response).toEqual({
       baksystemFeil: true,
       innsending: null,
     });

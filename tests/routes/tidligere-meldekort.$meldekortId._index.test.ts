@@ -5,7 +5,6 @@ import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
 import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { KortStatus } from "~/models/meldekort";
@@ -29,10 +28,7 @@ describe("Tidligere meldekort detaljer", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null, personInfo: null });
+    expect(response).toEqual({ feil: true, valgtMeldekort: undefined, meldekortdetaljer: null, personInfo: null });
   };
 
   test("Skal få feil = true hvis det ikke finnes meldekortId i params", async () => {
@@ -89,10 +85,7 @@ describe("Tidligere meldekort detaljer", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: false,
       valgtMeldekort: meldekort,
       meldekortdetaljer: meldekortdetaljerData,
@@ -107,11 +100,11 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           meldekortdetaljer: undefined,
-        });
+        };
       },
     );
 
@@ -122,11 +115,11 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: true,
           valgtMeldekort: undefined,
           meldekortdetaljer: undefined,
-        });
+        };
       },
     );
 
@@ -137,11 +130,11 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: undefined,
           meldekortdetaljer: undefined,
-        });
+        };
       },
     );
 
@@ -152,11 +145,11 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1),
           meldekortdetaljer: undefined,
-        });
+        };
       },
     );
 
@@ -167,12 +160,12 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1),
           meldekortdetaljer: opprettTestMeldekortdetaljer(1),
           personInfo: TEST_PERSON_INFO,
-        });
+        };
       },
     );
 
@@ -193,12 +186,12 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1, true, KortStatus.FERDI, true, KortType.ELEKTRONISK),
           meldekortdetaljer: opprettTestMeldekortdetaljer(1),
           personInfo: TEST_PERSON_INFO,
-        });
+        };
       },
     );
 
@@ -209,12 +202,12 @@ describe("Tidligere meldekort detaljer", () => {
     renderRemixStub(
       Meldekortdetaljer,
       () => {
-        return json({
+        return {
           feil: false,
           valgtMeldekort: opprettTestMeldekort(1),
           meldekortdetaljer: opprettTestMeldekortdetaljer(1, "Test begrunnelse"),
           personInfo: TEST_PERSON_INFO,
-        });
+        };
       },
     );
 

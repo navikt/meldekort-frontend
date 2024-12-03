@@ -17,7 +17,6 @@ import {
   TEST_PERSON_INFO,
 } from "../mocks/data";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
@@ -40,10 +39,7 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: true,
       valgtMeldekort: undefined,
       nesteMeldekortId: undefined,
@@ -68,10 +64,7 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       baksystemFeil,
       innsending,
     });
@@ -127,10 +120,7 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: false,
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156946,
@@ -167,10 +157,7 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({
+    expect(response).toEqual({
       feil: false,
       valgtMeldekort: meldekort1,
       nesteMeldekortId: undefined,
@@ -211,14 +198,14 @@ describe("Send meldekort", () => {
     vi.stubEnv("IS_LOCALHOST", "false");
 
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: false,
         valgtMeldekort: undefined,
         nesteMeldekortId: undefined,
         nesteEtterregistrerteMeldekortId: undefined,
         personInfo: null,
         infomelding: null,
-      });
+      };
     });
 
     await waitFor(() => screen.findByTitle("Venter..."));
@@ -226,14 +213,14 @@ describe("Send meldekort", () => {
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: true,
         valgtMeldekort: undefined,
         nesteMeldekortId: undefined,
         nesteEtterregistrerteMeldekortId: undefined,
         personInfo: null,
         infomelding: null,
-      });
+      };
     });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
@@ -241,14 +228,14 @@ describe("Send meldekort", () => {
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: false,
         valgtMeldekort: undefined,
         nesteMeldekortId: undefined,
         nesteEtterregistrerteMeldekortId: undefined,
         personInfo: null,
         infomelding: null,
-      });
+      };
     });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
@@ -256,7 +243,7 @@ describe("Send meldekort", () => {
 
   test("Skal vise feilmelding hvis personInfo = null", async () => {
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: false,
         valgtMeldekort: {
           meldeperiode: {
@@ -267,7 +254,7 @@ describe("Send meldekort", () => {
         nesteEtterregistrerteMeldekortId: undefined,
         personInfo: null,
         infomelding: null,
-      });
+      };
     });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
@@ -275,7 +262,7 @@ describe("Send meldekort", () => {
 
   test("Skal vise feilmelding hvis infomelding = null", async () => {
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: false,
         valgtMeldekort: {
           meldeperiode: {
@@ -291,7 +278,7 @@ describe("Send meldekort", () => {
           fornavn: "Fornavn",
         },
         infomelding: null,
-      });
+      };
     });
 
     await waitFor(() => screen.findByText("feilmelding.baksystem"));
@@ -299,7 +286,7 @@ describe("Send meldekort", () => {
 
   test("Skal vise Innsending", async () => {
     renderRemixStub(SendMeldekort, () => {
-      return json({
+      return {
         feil: false,
         valgtMeldekort: {
           meldeperiode: {
@@ -316,7 +303,7 @@ describe("Send meldekort", () => {
           fornavn: "Fornavn",
         },
         infomelding: TEST_INFOMELDING,
-      });
+      };
     });
 
     await waitFor(() => screen.findByText("meldekort.for.perioden"));

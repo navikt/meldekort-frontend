@@ -5,7 +5,6 @@ import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import SendMeldekort, { loader, meta } from "~/routes/send-meldekort_";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import { json } from "@remix-run/node";
 import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import type { IMeldekort } from "~/models/meldekort";
@@ -33,10 +32,7 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: true, person: null });
+    expect(response).toEqual({ feil: true, person: null });
   });
 
   test("Skal få feil = false og person-objektet fra backend", async () => {
@@ -49,20 +45,17 @@ describe("Send meldekort", () => {
       context: {},
     });
 
-    const data = await response.json();
-
-    expect(response.status).toBe(200);
-    expect(data).toEqual({ feil: false, person: expectedPersondata });
+    expect(response).toEqual({ feil: false, person: expectedPersondata });
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: true,
           person: null,
-        });
+        };
       },
     );
 
@@ -73,10 +66,10 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: null,
-        });
+        };
       },
     );
 
@@ -87,12 +80,12 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             meldekort: [opprettTestMeldekort(1, false)],
           },
-        });
+        };
       },
     );
 
@@ -105,12 +98,12 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             meldekort: [],
           },
-        });
+        };
       },
     );
 
@@ -124,12 +117,12 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             meldekort: meldekort,
           },
-        });
+        };
       },
     );
 
@@ -147,12 +140,12 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             meldekort: [opprettTestMeldekort(1, true, KortStatus.SENDT)],
           },
-        });
+        };
       },
       "/send-meldekort/1",
       NextComponent,
@@ -165,12 +158,12 @@ describe("Send meldekort", () => {
     renderRemixStub(
       SendMeldekort,
       () => {
-        return json({
+        return {
           feil: false,
           person: {
             meldekort: [opprettTestMeldekort(1), opprettTestMeldekort(2), opprettTestMeldekort(3)],
           },
-        });
+        };
       },
     );
 

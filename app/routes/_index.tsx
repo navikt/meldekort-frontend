@@ -1,6 +1,5 @@
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { getEnv } from "~/utils/envUtils";
 
 
 export const meta: MetaFunction = () => {

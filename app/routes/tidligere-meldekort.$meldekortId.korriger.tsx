@@ -1,5 +1,4 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Alert } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
@@ -72,13 +71,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }
   }
 
-  return json({
+  return {
     feil,
     valgtMeldekort,
     meldekortdetaljer,
     personInfo,
     infomelding,
-  });
+  };
 }
 
 export default function TidligereMeldekortKorrigering() {
