@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.9",
-    "@navikt/aksel-icons": "^7.5.3",
-    "@navikt/ds-css": "^7.5.3",
-    "@navikt/ds-react": "^7.5.3",
+    "@navikt/aksel-icons": "^7.6.0",
+    "@navikt/ds-css": "^7.6.0",
+    "@navikt/ds-react": "^7.6.0",
     "@navikt/nav-dekoratoren-moduler": "^2.1.6",
-    "@navikt/oasis": "^3.4.0",
+    "@navikt/oasis": "^3.6.0",
     "@remix-run/css-bundle": "^2.15.0",
     "@remix-run/express": "^2.15.0",
     "@remix-run/node": "^2.15.0",
@@ -42,7 +42,7 @@
     "prom-client": "^15.1.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-i18next": "^15.1.1",
+    "react-i18next": "^15.1.3",
     "remix-create-express-app": "^0.4.5",
     "remix-i18next": "^6.4.1",
     "source-map-support": "^0.5.21"
@@ -58,19 +58,19 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/source-map-support": "^0.5.10",
-    "@vitejs/plugin-react": "^4.3.3",
-    "@vitest/coverage-istanbul": "^2.1.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-istanbul": "^2.1.8",
     "chokidar": "^4.0.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "msw": "^2.6.6",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.1",
     "remix-express-dev-server": "^0.4.4",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.3",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.8"
   },
   "engines": {
     "node": ">=21.0.0"
