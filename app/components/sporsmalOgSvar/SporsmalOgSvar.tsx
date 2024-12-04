@@ -1,11 +1,13 @@
+import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
+import { Box, Label } from "@navikt/ds-react";
+
+import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { ISporsmal, ISporsmalOgSvar } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterPeriode } from "~/utils/datoUtils";
-import { Box, Label } from "@navikt/ds-react";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
-import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
 import { hentSvar } from "~/utils/miscUtils";
+
 import styles from "./SporsmalOgSvar.module.css";
 
 

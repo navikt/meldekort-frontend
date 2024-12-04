@@ -1,4 +1,10 @@
 import { describe, expect, test } from "vitest";
+
+import { KortType } from "~/models/kortType";
+import { Meldegruppe } from "~/models/meldegruppe";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import { Ytelsestype } from "~/models/ytelsestype";
 import {
   finnFoersteSomIkkeKanSendesEnna,
   finnNesteSomKanSendes,
@@ -7,11 +13,7 @@ import {
   mapKortStatusTilTekst,
   mapKortTypeTilTekst,
 } from "~/utils/meldekortUtils";
-import type { IMeldekort } from "~/models/meldekort";
-import { KortStatus } from "~/models/meldekort";
-import { KortType } from "~/models/kortType";
-import { Meldegruppe } from "~/models/meldegruppe";
-import { Ytelsestype } from "~/models/ytelsestype";
+
 import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
 

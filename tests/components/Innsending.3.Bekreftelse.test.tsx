@@ -1,12 +1,13 @@
-import { afterEach, describe, test } from "vitest";
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { jsonify, opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import * as React from "react";
-import Bekreftelse from "~/components/innsending/3-Bekreftelse";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { afterEach, describe, test } from "vitest";
+
+import Bekreftelse from "~/components/innsending/3-Bekreftelse";
+import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
+
+import { jsonify, opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
 
 
 describe("Bekreftelse", () => {

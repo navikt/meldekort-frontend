@@ -1,19 +1,20 @@
+import { Alert, BodyLong, GuidePanel, Table } from "@navikt/ds-react";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import type { ReactElement } from "react";
+import { Navigate } from "react-router";
+
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import { RemixLink } from "~/components/RemixLink";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { KortStatus } from "~/models/meldekort";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
-import { useLoaderData } from "@remix-run/react";
-import { Alert, BodyLong, GuidePanel, Table } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { ReactElement } from "react";
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { RemixLink } from "~/components/RemixLink";
-import { getOboToken } from "~/utils/authUtils";
-import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
-import { Navigate } from "react-router";
-import { KortStatus } from "~/models/meldekort";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getOboToken } from "~/utils/authUtils";
+import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
 
 
 export const meta: MetaFunction = () => {

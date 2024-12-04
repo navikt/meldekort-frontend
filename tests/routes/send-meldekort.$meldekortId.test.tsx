@@ -1,13 +1,18 @@
-import { describe, expect, test, vi } from "vitest";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { describe, expect, test, vi } from "vitest";
+
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import SendMeldekort, {
   action,
   loader,
   meta,
   shouldRevalidate,
 } from "~/routes/send-meldekort.$meldekortId";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -16,10 +21,7 @@ import {
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO,
 } from "../mocks/data";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { screen, waitFor } from "@testing-library/react";
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { server } from "../mocks/server";
 
 describe("Send meldekort", () => {
   vi.mock(

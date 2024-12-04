@@ -1,7 +1,9 @@
-import { Box, Label } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { CheckmarkCircleIcon } from "@navikt/aksel-icons";
+import { Box, Label } from "@navikt/ds-react";
+
+import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+
 import styles from "./Begrunnelse.module.css";
 
 

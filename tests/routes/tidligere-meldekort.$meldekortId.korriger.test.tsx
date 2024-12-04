@@ -1,13 +1,23 @@
-import { describe, expect, test, vi } from "vitest";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { describe, expect, test, vi } from "vitest";
+
+import type { IInfomelding } from "~/models/infomelding";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import type { IPersonInfo } from "~/models/person";
 import TidligereMeldekortKorrigering, {
   action,
   loader,
   meta,
   shouldRevalidate,
 } from "~/routes/tidligere-meldekort.$meldekortId.korriger";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -18,15 +28,7 @@ import {
   TEST_MELDEKORTDETALJER,
   TEST_PERSON_INFO,
 } from "../mocks/data";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
-import { screen, waitFor } from "@testing-library/react";
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import type { IMeldekort } from "~/models/meldekort";
-import { KortStatus } from "~/models/meldekort";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IPersonInfo } from "~/models/person";
-import type { IInfomelding } from "~/models/infomelding";
+import { server } from "../mocks/server";
 
 
 describe("Korriger tidligere meldekort", () => {

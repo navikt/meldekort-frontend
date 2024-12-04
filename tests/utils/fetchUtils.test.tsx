@@ -1,10 +1,11 @@
-import { describe, expect, expectTypeOf, test } from "vitest";
-import { getHeaders, useFetcherWithPromise } from "~/utils/fetchUtils";
-import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
+import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents, SubmitFunction } from "@remix-run/react";
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import type { SerializeFrom } from "@remix-run/node";
+import { describe, expect, expectTypeOf, test } from "vitest";
+
+import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
+import { getHeaders, useFetcherWithPromise } from "~/utils/fetchUtils";
 
 
 describe("Fetch utils", () => {
@@ -35,7 +36,7 @@ describe("Fetch utils", () => {
       {
         path: "/",
         element: <TestComponent />,
-        action: async (args: any) => {
+        action: async (args: never) => {
           return args;
         },
       },
@@ -44,19 +45,14 @@ describe("Fetch utils", () => {
     render(<RouterProvider router={testRouter} />);
 
     // Sjekker typer
-    // @ts-ignore
     expectTypeOf(fetcher as FetcherWithComponents<SerializeFrom<ISendInnMeldekortActionResponse>>).toBeObject();
-    // @ts-ignore
     expectTypeOf(fetcher.submit).toBeFunction();
-    // @ts-ignore
     expectTypeOf(fetcher.submit).parameters.toMatchTypeOf<Parameters<SubmitFunction>>();
-    // @ts-ignore
     expectTypeOf(fetcher.submit).returns.toMatchTypeOf<Promise<ISendInnMeldekortActionResponse | undefined>>();
 
     // Prøver å bruke submit og Promise
     const formData = new FormData();
     formData.append("meldekortdetaljer", "{}");
-    // @ts-ignore
     fetcher.submit(formData, { method: "post" }).then((data) => {
       console.trace(data);
     }).catch(() => {

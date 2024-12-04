@@ -1,15 +1,16 @@
-import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { opprettTestMeldekort } from "../mocks/data";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import * as React from "react";
-import type { IMeldekort } from "~/models/meldekort";
-import { KortStatus } from "~/models/meldekort";
+import { afterEach, describe, expect, test } from "vitest";
+
 import Utfylling from "~/components/innsending/2-Utfylling";
-import { ukeFormatert } from "~/utils/datoUtils";
-import type { IMeldekortDag } from "~/models/sporsmal";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
+import type { IMeldekortDag } from "~/models/sporsmal";
+import { ukeFormatert } from "~/utils/datoUtils";
+
+import { opprettTestMeldekort } from "../mocks/data";
 
 
 describe("Utfylling", () => {

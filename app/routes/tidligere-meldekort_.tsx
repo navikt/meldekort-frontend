@@ -1,17 +1,18 @@
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { Alert, BodyLong } from "@navikt/ds-react";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
+
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
-import { useLoaderData } from "@remix-run/react";
-import { getOboToken } from "~/utils/authUtils";
-import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { getOboToken } from "~/utils/authUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -51,7 +52,7 @@ export default function TidligereMeldekort() {
 
   const { feil, skrivemodus, historiskeMeldekort } = useLoaderData<typeof loader>();
 
-  let forklaring = <div>
+  const forklaring = <div>
     <BodyLong spacing>
       {parseHtml(tt("tidligereMeldekort.forklaring"))}
     </BodyLong>

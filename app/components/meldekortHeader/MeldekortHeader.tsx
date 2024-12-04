@@ -1,7 +1,10 @@
-import { NavLink } from "@remix-run/react";
-import { useExtendedTranslation } from "~/utils/intlUtils";
-import classNames from "classnames";
 import { MenuHamburgerIcon } from "@navikt/aksel-icons";
+import { Button } from "@navikt/ds-react";
+import { NavLink } from "@remix-run/react";
+import classNames from "classnames";
+
+import { useExtendedTranslation } from "~/utils/intlUtils";
+
 import styles from "./MeldekortHeader.module.css";
 
 
@@ -30,9 +33,12 @@ export default function MeldekortHeader() {
         <div className={styles.title}>
           <h1 className="navds-heading navds-heading--xlarge">{tt("overskrift.meldekort")}</h1>
         </div>
-        <div className={styles.mobileMenu} data-testid="mobileMenu" onClick={() => togleMobileMenu()}>
-          <MenuHamburgerIcon title="a11y-title" fontSize="3rem" />
-        </div>
+        <Button variant="tertiary-neutral"
+                className={styles.mobileMenu}
+                data-testid="mobileMenu"
+                onClick={() => togleMobileMenu()}
+                icon={<MenuHamburgerIcon title="a11y-title" fontSize="3rem" />}
+        />
       </div>
       <div className={classNames(styles.menu, "notForPrint")} id="menu" data-testid="menu">
         <NavLink to={"/send-meldekort"} className={setClassName}>

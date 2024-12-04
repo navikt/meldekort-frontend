@@ -1,6 +1,7 @@
-import type { MetaFunction } from "@remix-run/node";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { Alert, Heading } from "@navikt/ds-react";
+import type { MetaFunction } from "@remix-run/node";
+
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 

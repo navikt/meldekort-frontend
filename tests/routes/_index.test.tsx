@@ -1,8 +1,10 @@
-import { describe, expect, test } from "vitest";
-import { catchErrorResponse } from "../helpers/response-helper";
-import Index, { loader, meta } from "~/routes/_index";
-import { TEST_URL } from "../helpers/setup";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { describe, expect, test } from "vitest";
+
+import Index, { loader, meta } from "~/routes/_index";
+
+import { catchErrorResponse } from "../helpers/response-helper";
+import { TEST_URL } from "../helpers/setup";
 
 
 describe("Index", () => {

@@ -1,6 +1,8 @@
-import styles from "./Sideinnhold.module.css";
-import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
 import type { ReactElement } from "react";
+
+import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
+
+import styles from "./Sideinnhold.module.css";
 
 
 interface IProps {

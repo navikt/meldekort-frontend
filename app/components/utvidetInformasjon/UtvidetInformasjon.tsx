@@ -1,10 +1,12 @@
-import { useExtendedTranslation } from "~/utils/intlUtils";
+import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
+import { Link } from "@navikt/ds-react";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
-import { Link } from "@navikt/ds-react";
-import { ChevronDownIcon, ChevronUpIcon } from "@navikt/aksel-icons";
-import styles from "./UtvidetInformasjon.module.css";
+
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { useExtendedTranslation } from "~/utils/intlUtils";
+
+import styles from "./UtvidetInformasjon.module.css";
 
 
 interface IProps {

@@ -1,7 +1,8 @@
-import { describe, expect, test, vi } from "vitest";
-import { getText, parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import i18next from "i18next";
 import { render } from "@testing-library/react";
+import i18next from "i18next";
+import { describe, expect, test, vi } from "vitest";
+
+import { getText, parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 
 describe("Intl utils", () => {
@@ -19,7 +20,7 @@ describe("Intl utils", () => {
   });
 
   test("getText skal returnere nøkkel hvis tekst ikke finnes", async () => {
-    let result = getText("nøkkel");
+    const result = getText("nøkkel");
     expect(result).toBe("nøkkel");
   });
 

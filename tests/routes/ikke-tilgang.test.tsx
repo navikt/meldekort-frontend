@@ -1,8 +1,9 @@
-import { describe, expect, test } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
-import IkkeTilgang, { meta } from "~/routes/ikke-tilgang";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { render, screen, waitFor } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { describe, expect, test } from "vitest";
+
+import IkkeTilgang, { meta } from "~/routes/ikke-tilgang";
 
 
 describe("Ikke tilgang", () => {

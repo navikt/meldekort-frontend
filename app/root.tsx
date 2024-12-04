@@ -1,23 +1,25 @@
+import "@navikt/ds-css/dist/index.css";
+import "~/index.css";
+
+import { Alert } from "@navikt/ds-react";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
-import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import parse from "html-react-parser";
-import { Alert } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+
+import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { getOboToken } from "~/utils/authUtils";
-import { getEnv } from "~/utils/envUtils";
+import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
+import { getOboToken } from "~/utils/authUtils";
 import { hentHarDP } from "~/utils/dpUtils";
-import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
-import LoaderMedPadding from "~/components/LoaderMedPadding";
+import { getEnv } from "~/utils/envUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
-import "@navikt/ds-css/dist/index.css";
-import "~/index.css";
+import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 
 
 export const links: LinksFunction = () => {
@@ -114,7 +116,7 @@ export default function App() {
   if (feil) {
     // Hvis det er feil, vis feilmelding
     // Ellers vis Outlet
-    let alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     innhold = <div>
       <MeldekortHeader />
@@ -125,7 +127,7 @@ export default function App() {
   useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
 
   return (
-    <html>
+    <html lang="nb">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,7 +151,7 @@ export function ErrorBoundary() {
   const alert = <Alert variant="error">Feil i baksystem / System error</Alert>;
 
   return (
-    <html>
+    <html lang="nb">
       <head>
         <title>Meldekort</title>
         <Meta />

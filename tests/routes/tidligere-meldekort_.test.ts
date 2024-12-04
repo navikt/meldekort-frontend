@@ -1,12 +1,14 @@
-import { describe, expect, test } from "vitest";
-import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import TidligereMeldekort, { loader, meta } from "~/routes/tidligere-meldekort_";
-import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMODUS } from "../mocks/data";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { describe, expect, test } from "vitest";
+
+import TidligereMeldekort, { loader, meta } from "~/routes/tidligere-meldekort_";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMODUS } from "../mocks/data";
+import { server } from "../mocks/server";
 
 
 describe("Tidligere meldekort", () => {

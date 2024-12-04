@@ -1,7 +1,8 @@
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+
+import type { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getText } from "~/utils/intlUtils";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { Meldegruppe } from "~/models/meldegruppe";
 
 
 export function formaterBelop(belop?: number): string {
@@ -29,7 +30,7 @@ export function byggBegrunnelseObjekt(str: string) {
   try {
     obj = JSON.parse(str);
   } catch (e) {
-
+    console.error(e)
   }
 
   return obj;
@@ -38,7 +39,7 @@ export function byggBegrunnelseObjekt(str: string) {
 export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
   for (const sporsmalKey in sporsmal) {
     if (sporsmalKey === spmid) {
-      return (sporsmal as any)[sporsmalKey];
+      return sporsmal[sporsmalKey];
     }
   }
 

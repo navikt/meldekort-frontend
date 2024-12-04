@@ -1,12 +1,14 @@
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import i18next from "i18next";
 import type { MockInstance } from "vitest";
 import { describe, expect, test, vi } from "vitest";
-import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
+
 import { Innsendingstype } from "~/models/innsendingstype";
-import { opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
 import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
-import i18next from "i18next";
+import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
+
+import { opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
 
 
 describe("Sporsmalsobjekter utils", () => {

@@ -1,7 +1,8 @@
+import fs from 'node:fs'
 import type http from 'node:http'
+
 import { minimatch } from 'minimatch'
 import type { Connect, Plugin as VitePlugin, ViteDevServer } from 'vite'
-import fs from 'node:fs'
 
 export type DevServerOptions = {
   entry?: string
@@ -58,8 +59,8 @@ export function expressDevServer(options?: DevServerOptions): VitePlugin {
         ): Promise<void> {
           // exclude requests that should be handled by Vite dev server
           const exclude = [
-            new RegExp(`^${basePattern}\/@.+$`),
-            new RegExp(`^${basePattern}\/node_modules\\/.*`)
+            new RegExp(`^${basePattern}/@.+$`),
+            new RegExp(`^${basePattern}/node_modules/.*`)
           ]
 
           for (const pattern of exclude) {
@@ -84,7 +85,7 @@ export function expressDevServer(options?: DevServerOptions): VitePlugin {
           let ssrModule
 
           try {
-            let module = await server.moduleGraph.getModuleByUrl(entry)
+            const module = await server.moduleGraph.getModuleByUrl(entry)
             if (module) {
               ssrModule = module.ssrModule
             }

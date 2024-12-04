@@ -1,23 +1,24 @@
+import { Alert, BodyLong, Box, GuidePanel, Label, Table } from "@navikt/ds-react";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
-import { Alert, BodyLong, Box, GuidePanel, Label, Table } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { Navigate } from "react-router";
+
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import { RemixLink } from "~/components/RemixLink";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import { KortStatus } from "~/models/meldekort";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { getOboToken } from "~/utils/authUtils";
+import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import {
   finnFoersteSomIkkeKanSendesEnna,
   finnNesteSomKanSendes,
   meldekortEtterKanSendesFraKomparator,
 } from "~/utils/meldekortUtils";
-import { Navigate } from "react-router";
-import { KortStatus } from "~/models/meldekort";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 export const meta: MetaFunction = () => {

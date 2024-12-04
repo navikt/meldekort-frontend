@@ -1,9 +1,11 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
-import { hentHarDP } from "~/utils/dpUtils";
-import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
-import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+
+import { hentHarDP } from "~/utils/dpUtils";
+
 import { catchErrorResponse } from "../helpers/response-helper";
+import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
+import { server } from "../mocks/server";
 
 
 describe("Misc utils", () => {

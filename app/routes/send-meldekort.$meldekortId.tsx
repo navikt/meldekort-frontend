@@ -1,21 +1,22 @@
+import { Alert } from "@navikt/ds-react";
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+import Innsending from "~/components/innsending/Innsending";
+import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import type { IPerson, IPersonInfo } from "~/models/person";
-import { hentPerson, hentPersonInfo } from "~/models/person";
-import { useLoaderData } from "@remix-run/react";
-import { Alert } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import Innsending from "~/components/innsending/Innsending";
-import { Innsendingstype } from "~/models/innsendingstype";
-import type { IMeldekort } from "~/models/meldekort";
-import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
-import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/meldekortUtils";
-import { opprettSporsmal } from "~/utils/miscUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
-import LoaderMedPadding from "~/components/LoaderMedPadding";
+import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
+import type { IPerson, IPersonInfo } from "~/models/person";
+import { hentPerson, hentPersonInfo } from "~/models/person";
+import { getOboToken } from "~/utils/authUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { finnFoersteSomIkkeKanSendesEnna, finnNesteSomKanSendes } from "~/utils/meldekortUtils";
+import { opprettSporsmal } from "~/utils/miscUtils";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -40,8 +41,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let personInfo: IPersonInfo | null = null;
   let infomelding: IInfomelding | null = null;
   let valgtMeldekort: IMeldekort | undefined;
-  let nesteMeldekortId: Number | undefined;
-  let nesteEtterregistrerteMeldekortId: Number | undefined;
+  let nesteMeldekortId: number | undefined;
+  let nesteEtterregistrerteMeldekortId: number | undefined;
   let nesteMeldekortKanSendes: string | Date | undefined;
 
   const meldekortId = params.meldekortId;

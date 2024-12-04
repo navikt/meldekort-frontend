@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
-import { byggBegrunnelseObjekt, formaterBelop, hentSvar, ukeDager } from "~/utils/miscUtils";
+
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
+import { byggBegrunnelseObjekt, formaterBelop, hentSvar, ukeDager } from "~/utils/miscUtils";
 
 
 describe("Misc utils", () => {

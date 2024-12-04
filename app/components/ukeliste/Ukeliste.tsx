@@ -1,11 +1,13 @@
-import type { IMeldekortDag } from "~/models/sporsmal";
 import { Label } from "@navikt/ds-react";
+
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
+import type { IMeldekortDag } from "~/models/sporsmal";
+import { ukeFormatert } from "~/utils/datoUtils";
 import type { TTFunction } from "~/utils/intlUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import { ukeFormatert } from "~/utils/datoUtils";
-import styles from "./Ukeliste.module.css";
 import { ukeDager } from "~/utils/miscUtils";
+
+import styles from "./Ukeliste.module.css";
 
 
 interface IProps {

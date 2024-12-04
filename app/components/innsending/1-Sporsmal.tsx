@@ -1,16 +1,17 @@
 import { Alert, BodyLong, Box, Button, GuidePanel, Modal, Radio, RadioGroup, Select } from "@navikt/ds-react";
-import { RemixLink } from "~/components/RemixLink";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
+
+import { RemixLink } from "~/components/RemixLink";
+import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
+import type { IInfomelding } from "~/models/infomelding";
+import { Innsendingstype } from "~/models/innsendingstype";
 import type { ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
-import { formaterPeriode } from "~/utils/datoUtils";
-import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 import { Ytelsestype } from "~/models/ytelsestype";
-import type { IInfomelding } from "~/models/infomelding";
+import { formaterPeriode } from "~/utils/datoUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { byggBegrunnelseObjekt, hentSvar } from "~/utils/miscUtils";
 
 
 interface IProps {
@@ -22,7 +23,7 @@ interface IProps {
   sporsmal: ISporsmal;
   setSporsmal: Dispatch<SetStateAction<ISporsmal>>;
   activeStep: number;
-  setActiveStep: Function;
+  setActiveStep: (value: number) => void;
   infomelding: IInfomelding;
 }
 
@@ -52,13 +53,13 @@ export default function Sporsmal(props: IProps) {
   };
 
   const oppdaterSvar = (id: string, value: boolean) => {
-    const tmpSporsmal: any = { ...sporsmal };
+    const tmpSporsmal = { ...sporsmal };
     tmpSporsmal[id] = value;
     setSporsmal(tmpSporsmal);
   };
 
   const oppdaterMeldekortDager = (value: string | boolean, index: number, spObjKey: string) => {
-    const tmpSporsmal: any = { ...sporsmal };
+    const tmpSporsmal = { ...sporsmal };
     tmpSporsmal.meldekortDager[index][spObjKey] = value;
     setSporsmal(tmpSporsmal);
   };
@@ -73,7 +74,7 @@ export default function Sporsmal(props: IProps) {
 
     // Sjekker at alle spørsmålene er besvart
     for (const sporsmalKey in sporsmal) {
-      if ((sporsmal as any)[sporsmalKey] === null) {
+      if (sporsmal[sporsmalKey] === null) {
         feil = true;
       }
     }
@@ -155,8 +156,8 @@ export default function Sporsmal(props: IProps) {
             </option>
             {
               Object.keys(begrunnelseObjekt).map(key => (
-                <option value={key} key={(begrunnelseObjekt as any)[key]}>
-                  {(begrunnelseObjekt as any)[key]}
+                <option value={key} key={begrunnelseObjekt[key]}>
+                  {begrunnelseObjekt[key]}
                 </option>
               ))
             }
@@ -197,7 +198,7 @@ export default function Sporsmal(props: IProps) {
                 legend={label}
                 description={desc}
                 value={value}
-                onChange={(value: any) => oppdaterSvar(item.id, value)}
+                onChange={(value: boolean) => oppdaterSvar(item.id, value)}
                 disabled={disabled}
                 error={visFeil && hentSvar(sporsmal, item.id) === null && tt(item.feilmeldingId + ytelsestypePostfix)}
               >

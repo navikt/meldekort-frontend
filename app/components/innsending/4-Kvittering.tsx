@@ -1,21 +1,22 @@
-import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
+import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
+import { NavLink } from "@remix-run/react";
+import { format } from "date-fns";
+
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
+import { RemixLink } from "~/components/RemixLink";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
-import type { ISporsmal } from "~/models/sporsmal";
-import { RemixLink } from "~/components/RemixLink";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import type { IPersonInfo } from "~/models/person";
-import { NavLink } from "@remix-run/react";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { format } from "date-fns";
-import { Ytelsestype } from "~/models/ytelsestype";
 import nav from "~/img/nav.svg";
+import { Innsendingstype } from "~/models/innsendingstype";
 import type { Meldegruppe } from "~/models/meldegruppe";
+import type { IPersonInfo } from "~/models/person";
+import type { ISporsmal } from "~/models/sporsmal";
+import { Ytelsestype } from "~/models/ytelsestype";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { getEnv } from "~/utils/envUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 
 interface IProps {
@@ -27,8 +28,8 @@ interface IProps {
   tom: string;
   begrunnelse: string;
   sporsmal: ISporsmal;
-  nesteMeldekortId: Number | undefined;
-  nesteEtterregistrerteMeldekortId: Number | undefined;
+  nesteMeldekortId: number | undefined;
+  nesteEtterregistrerteMeldekortId: number | undefined;
   nesteMeldekortKanSendes: string | undefined;
 }
 
@@ -80,12 +81,12 @@ export default function Kvittering(props: IProps) {
   if (
     ytelsestypePostfix === Ytelsestype.AAP &&
     nesteMeldekortId == undefined &&
-    (window as any)["hj"]
+    window["hj"]
   ) {
     window.hj("trigger", "meldekortAAP");
-  } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && (window as any)["hj"]) {
+  } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && window["hj"]) {
     window.hj("trigger", "meldekortTP");
-  } else if (ytelsestypePostfix === Ytelsestype.DAGPENGER && (window as any)["hj"]) {
+  } else if (ytelsestypePostfix === Ytelsestype.DAGPENGER && window["hj"]) {
     window.hj("trigger", "meldekortDP");
   }
 

@@ -1,14 +1,16 @@
-import { describe, expect, test } from "vitest";
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { render, screen, waitFor } from "@testing-library/react";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { describe, expect, test } from "vitest";
+
 import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
-import { jsonify, opprettTestMeldekort } from "../mocks/data";
+import { KortType } from "~/models/kortType";
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import { KortType } from "~/models/kortType";
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { mapKortStatusTilTekst } from "~/utils/meldekortUtils";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+
+import { jsonify, opprettTestMeldekort } from "../mocks/data";
 
 
 describe("MeldekorTabell", () => {

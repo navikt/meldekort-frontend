@@ -1,7 +1,8 @@
-import { describe, expect, test, vi } from "vitest";
 import amplitude from "@amplitude/analytics-browser";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { describe, expect, test, vi } from "vitest";
+
 import { Meldegruppe } from "~/models/meldegruppe";
+import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 describe("Amplitude utils", () => {

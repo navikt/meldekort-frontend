@@ -1,7 +1,8 @@
-import type { KortType } from "~/models/kortType";
-import type { KortStatus } from "~/models/meldekort";
-import type { Meldegruppe } from "~/models/meldegruppe";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+
+import type { KortType } from "~/models/kortType";
+import type { Meldegruppe } from "~/models/meldegruppe";
+import type { KortStatus } from "~/models/meldekort";
 import type { IMeldeperiode } from "~/models/meldeperiode";
 
 

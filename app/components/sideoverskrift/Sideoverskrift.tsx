@@ -1,6 +1,8 @@
 import classnames from "classnames";
-import styles from "./Sideoverskrift.module.css";
+
 import Sprakvelger from "~/components/sprakvelger/Sprakvelger";
+
+import styles from "./Sideoverskrift.module.css";
 
 
 interface IProps {

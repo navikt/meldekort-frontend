@@ -1,8 +1,9 @@
-import { describe, expect, test } from "vitest";
+import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 import { render, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { describe, expect, test } from "vitest";
+
 import OfteStilteSporsmal, { meta } from "~/routes/ofte-stilte-sporsmal";
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
 
 
 describe("Ofte stilte spørsmål", () => {

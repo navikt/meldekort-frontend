@@ -1,10 +1,12 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
-import { catchErrorResponse } from "../helpers/response-helper";
-import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+
+import { hentSkrivemodus } from "~/models/skrivemodus";
+
+import { catchErrorResponse } from "../helpers/response-helper";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_SKRIVEMODUS } from "../mocks/data";
-import { hentSkrivemodus } from "~/models/skrivemodus";
+import { server } from "../mocks/server";
 
 
 // Kan ikke kjøres parallelt!

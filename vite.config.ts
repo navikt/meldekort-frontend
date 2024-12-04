@@ -1,9 +1,10 @@
-import { installGlobals } from "@remix-run/node";
-import { defineConfig } from "vite";
-import { expressDevServer } from "./app/utils/devServerUtils";
 import { vitePlugin as remix } from "@remix-run/dev";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { installGlobals } from "@remix-run/node";
 import path from "path";
+import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+
+import { expressDevServer } from "./app/utils/devServerUtils";
 
 installGlobals({ nativeFetch: true });
 

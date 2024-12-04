@@ -1,9 +1,10 @@
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
-import { server } from "../mocks/server";
-import { cleanup, render } from "@testing-library/react";
-import { createRemixStub } from "@remix-run/testing";
 import type { LoaderFunction } from "@remix-run/node";
+import { createRemixStub } from "@remix-run/testing";
+import { cleanup, render } from "@testing-library/react";
 import * as React from "react";
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
+
+import { server } from "../mocks/server";
 
 
 export const beforeAndAfterSetup = () => {

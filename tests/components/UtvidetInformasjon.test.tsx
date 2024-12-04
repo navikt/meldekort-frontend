@@ -1,5 +1,6 @@
-import { describe, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import { describe, test } from "vitest";
+
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 
 

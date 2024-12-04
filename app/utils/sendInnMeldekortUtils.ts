@@ -1,14 +1,15 @@
-import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
-import { getHeaders } from "~/utils/fetchUtils";
 import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
-import { getOboToken } from "~/utils/authUtils";
-import { getEnv } from "~/utils/envUtils";
+
 import { Innsendingstype } from "~/models/innsendingstype";
+import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
 import {
   IMeldekortdetaljerInnsending,
   ISendInnMeldekortActionResponse,
   IValideringsResultat,
 } from "~/models/meldekortdetaljerInnsending";
+import { getOboToken } from "~/utils/authUtils";
+import { getEnv } from "~/utils/envUtils";
+import { getHeaders } from "~/utils/fetchUtils";
 
 
 async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<TypedResponse<IValideringsResultat>> {

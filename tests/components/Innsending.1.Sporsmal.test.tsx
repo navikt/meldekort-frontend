@@ -1,14 +1,15 @@
-import { afterEach, beforeAll, describe, test, vi } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { opprettTestMeldekort, TEST_INFOMELDING } from "../mocks/data";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import * as React from "react";
-import type { IMeldekort } from "~/models/meldekort";
-import Sporsmal from "~/components/innsending/1-Sporsmal";
-import { opprettSporsmal } from "~/utils/miscUtils";
-import { Ytelsestype } from "~/models/ytelsestype";
 import * as reactI18next from "react-i18next";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { afterEach, beforeAll, describe, test, vi } from "vitest";
+
+import Sporsmal from "~/components/innsending/1-Sporsmal";
+import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
+import { Ytelsestype } from "~/models/ytelsestype";
+import { opprettSporsmal } from "~/utils/miscUtils";
+
+import { opprettTestMeldekort, TEST_INFOMELDING } from "../mocks/data";
 
 
 describe("Sporsmal", () => {
@@ -68,9 +69,7 @@ describe("Sporsmal", () => {
 const setLocale = (language: string) => {
   vi.mocked(reactI18next.useTranslation).mockReturnValue(
     {
-      // @ts-ignore
       t: (args: string[]) => args[1],
-      // @ts-ignore
       i18n: {
         language: language,
       },

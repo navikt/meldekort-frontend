@@ -1,13 +1,15 @@
-import { describe, expect, test, vi } from "vitest";
-import { beforeAndAfterSetup, renderRemixStub } from "./helpers/test-helpers";
-import { server } from "./mocks/server";
-import { http, HttpResponse } from "msw";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
-import App, { ErrorBoundary, links, loader } from "~/root";
-import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
-import { render, screen, waitFor } from "@testing-library/react";
-import { createRemixStub } from "@remix-run/testing";
 import * as cssBundle from "@remix-run/css-bundle";
+import { createRemixStub } from "@remix-run/testing";
+import { render, screen, waitFor } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { describe, expect, test, vi } from "vitest";
+
+import App, { ErrorBoundary, links, loader } from "~/root";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "./helpers/test-helpers";
+import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
+import { server } from "./mocks/server";
 
 
 describe("Root", () => {

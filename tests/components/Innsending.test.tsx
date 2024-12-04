@@ -1,9 +1,16 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { afterEach, describe, expect, test, vi } from "vitest";
+
 import Innsending from "~/components/innsending/Innsending";
 import { Innsendingstype } from "~/models/innsendingstype";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import type { IMeldekort } from "~/models/meldekort";
+import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import { sporsmalConfig } from "~/models/sporsmal";
+import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { opprettSporsmal } from "~/utils/miscUtils";
+
 import {
   jsonify,
   opprettTestMeldekort, TEST_INFOMELDING,
@@ -11,11 +18,6 @@ import {
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO,
 } from "../mocks/data";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { sporsmalConfig } from "~/models/sporsmal";
-import { formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { opprettSporsmal } from "~/utils/miscUtils";
-import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 
 
 describe("Innsending", () => {
@@ -194,7 +196,7 @@ const createRouteAndRender = async (
   await waitFor(() => screen.findByText(TEST_INFOMELDING.engelsk));
   await waitFor(() => screen.findByText("meldekort.for.perioden"));
   await waitFor(() => screen.findByText("overskrift.uke " + formaterPeriodeTilUkenummer(periode.fra, periode.til)));
-  let tittel = await waitFor(() => screen.findByTestId("sideTittel"));
+  const tittel = await waitFor(() => screen.findByTestId("sideTittel"));
   expect(tittel.innerHTML).toBe("overskrift.steg1");
 };
 

@@ -1,8 +1,10 @@
-import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, test } from "vitest";
+
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
-import { TEST_SPORSMAL } from "../mocks/data";
 import { formaterPeriode } from "~/utils/datoUtils";
+
+import { TEST_SPORSMAL } from "../mocks/data";
 
 
 describe("SporsmalOgSvar", () => {

@@ -1,7 +1,8 @@
-import { getEnv } from "~/utils/envUtils";
-import type { IMeldekort } from "~/models/meldekort";
-import { getHeaders } from "~/utils/fetchUtils";
 import type { TypedResponse } from "@remix-run/node";
+
+import type { IMeldekort } from "~/models/meldekort";
+import { getEnv } from "~/utils/envUtils";
+import { getHeaders } from "~/utils/fetchUtils";
 
 
 export interface IPerson {

@@ -1,8 +1,10 @@
-import { describe, expect, test } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+
 import Ukeliste from "~/components/ukeliste/Ukeliste";
-import { TEST_MELDEKORT_DAGER } from "../mocks/data";
 import { ukeFormatert } from "~/utils/datoUtils";
+
+import { TEST_MELDEKORT_DAGER } from "../mocks/data";
 
 
 describe("Ukeliste", () => {

@@ -1,14 +1,16 @@
-import { describe, expect, test, vi } from "vitest";
-import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
-import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
-import { KortStatus } from "~/models/meldekort";
+import { screen, waitFor } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { describe, expect, test, vi } from "vitest";
+
 import { KortType } from "~/models/kortType";
+import { KortStatus } from "~/models/meldekort";
+import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
+import { server } from "../mocks/server";
 
 
 describe("Tidligere meldekort detaljer", () => {

@@ -1,28 +1,29 @@
-import { useState } from "react";
-import { useExtendedTranslation } from "~/utils/intlUtils";
-import type { Innsendingstype } from "~/models/innsendingstype";
-import type { IPersonInfo } from "~/models/person";
-import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
 import { BodyLong, Box, Stepper } from "@navikt/ds-react";
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekort } from "~/models/meldekort";
-import type { ISporsmal } from "~/models/sporsmal";
-import type { IInfomelding } from "~/models/infomelding";
-import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import { useState } from "react";
+
 import Sporsmal from "~/components/innsending/1-Sporsmal";
 import Utfylling from "~/components/innsending/2-Utfylling";
 import Bekreftelse from "~/components/innsending/3-Bekreftelse";
 import Kvittering from "~/components/innsending/4-Kvittering";
 import styles from "~/components/sideinnhold/Sideinnhold.module.css";
+import Sideoverskrift from "~/components/sideoverskrift/Sideoverskrift";
+import type { IInfomelding } from "~/models/infomelding";
+import type { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
+import type { IPersonInfo } from "~/models/person";
+import type { ISporsmal } from "~/models/sporsmal";
+import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { useExtendedTranslation } from "~/utils/intlUtils";
+import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
 
 
 interface IProps {
   innsendingstype: Innsendingstype;
   valgtMeldekort: Jsonify<IMeldekort>;
-  nesteMeldekortId?: Number | undefined;
-  nesteEtterregistrerteMeldekortId?: Number | undefined;
+  nesteMeldekortId?: number | undefined;
+  nesteEtterregistrerteMeldekortId?: number | undefined;
   nesteMeldekortKanSendes?: string | undefined;
   sporsmal: Jsonify<ISporsmal>;
   personInfo: IPersonInfo;
@@ -82,7 +83,7 @@ export default function Innsending(props: IProps) {
                          activeStep={activeStep}
                          setActiveStep={setActiveStep} />;
   } else if (activeStep === 3) {
-    innhold = <Bekreftelse begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
+    innhold = <Bekreftelse begrunnelse={begrunnelseObjekt[begrunnelse]}
                            sporsmal={nyeSporsmal}
                            valgtMeldekort={valgtMeldekort}
                            innsendingstype={innsendingstype}
@@ -96,7 +97,7 @@ export default function Innsending(props: IProps) {
                           personInfo={personInfo}
                           fom={fom}
                           tom={tom}
-                          begrunnelse={(begrunnelseObjekt as any)[begrunnelse]}
+                          begrunnelse={begrunnelseObjekt[begrunnelse]}
                           sporsmal={nyeSporsmal}
                           nesteMeldekortId={nesteMeldekortId}
                           nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}

@@ -3,6 +3,7 @@ import {
   type DecoratorFetchProps,
   fetchDecoratorHtml,
 } from "@navikt/nav-dekoratoren-moduler/ssr";
+
 import { getEnv } from "~/utils/envUtils";
 
 

@@ -1,15 +1,16 @@
-import { describe, expect, test } from "vitest";
-import { http, HttpResponse } from "msw";
-import { server } from "../mocks/server";
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import SendMeldekort, { loader, meta } from "~/routes/send-meldekort_";
-import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
-import { screen, waitFor } from "@testing-library/react";
 import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import { screen, waitFor } from "@testing-library/react";
+import { http, HttpResponse } from "msw";
+import { describe, expect, test } from "vitest";
+
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
-import * as React from "react";
+import SendMeldekort, { loader, meta } from "~/routes/send-meldekort_";
+
+import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
+import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
+import { server } from "../mocks/server";
 
 
 describe("Send meldekort", () => {

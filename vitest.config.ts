@@ -1,6 +1,7 @@
-import { defineConfig } from "vitest/config";
-import path from "path";
 import react from "@vitejs/plugin-react";
+import path from "path";
+import { defineConfig } from "vitest/config";
+
 import { TEST_PORT } from "./tests/helpers/setup";
 
 export default defineConfig({

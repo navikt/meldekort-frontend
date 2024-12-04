@@ -1,12 +1,13 @@
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekort } from "~/models/meldekort";
+
 import { Innsendingstype } from "~/models/innsendingstype";
-import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import type { IMeldekort } from "~/models/meldekort";
 import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { formaterDato, formaterPeriode, formaterTid, ukeFormatert } from "~/utils/datoUtils";
 import { getText } from "~/utils/intlUtils";
+import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import { ukeDager } from "~/utils/miscUtils";
 
 
@@ -116,9 +117,9 @@ function sporsmalOgSvar(
       sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
       forklaring: getText(spm.forklaring + ytelsestypePostfix),
       svar:
-        ((sporsmal as any)[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
+        (sporsmal[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
         "<br>" +
-        ((sporsmal as any)[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
+        (sporsmal[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
     };
   });
 }

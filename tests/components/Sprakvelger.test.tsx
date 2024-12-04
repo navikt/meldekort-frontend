@@ -1,8 +1,9 @@
-import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import Sprakvelger from "~/components/sprakvelger/Sprakvelger";
 import type { TFunction } from "i18next";
 import i18next from "i18next";
+import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
+
+import Sprakvelger from "~/components/sprakvelger/Sprakvelger";
 
 
 describe("Sprakvelger", () => {
@@ -10,7 +11,6 @@ describe("Sprakvelger", () => {
     vi.mock("react-i18next", () => ({
       useTranslation: () => {
         return {
-          // @ts-ignore
           t: (args: string[]) => args[1],
           i18n: i18next,
         };

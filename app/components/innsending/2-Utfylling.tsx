@@ -1,18 +1,20 @@
+import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
+import classNames from "classnames";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
+
 import { RemixLink } from "~/components/RemixLink";
-import type { ISporsmal } from "~/models/sporsmal";
-import { formaterDato, ukeFormatert } from "~/utils/datoUtils";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
-import styles from "./Innsending.module.css";
-import { ukeDager } from "~/utils/miscUtils";
-import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
-import classNames from "classnames";
+import type { ISporsmal } from "~/models/sporsmal";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { formaterDato, ukeFormatert } from "~/utils/datoUtils";
+import { useFetcherWithPromise } from "~/utils/fetchUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { ukeDager } from "~/utils/miscUtils";
+
+import styles from "./Innsending.module.css";
 
 
 interface IProps {
@@ -22,7 +24,7 @@ interface IProps {
   ytelsestypePostfix: string;
   meldegruppe: Meldegruppe;
   activeStep: number;
-  setActiveStep: Function;
+  setActiveStep: (value: number) => void;
 }
 
 export default function Utfylling(props: IProps) {
@@ -48,7 +50,7 @@ export default function Utfylling(props: IProps) {
   const ukedager = ukeDager();
 
   const oppdaterSvar = (value: string | boolean, index: number, spObjKey: string) => {
-    const tmpSporsmal: any = { ...sporsmal };
+    const tmpSporsmal = { ...sporsmal };
     tmpSporsmal.meldekortDager[index][spObjKey] = typeof value === "string" ? value.replace(",", ".") : value;
     setSporsmal(tmpSporsmal);
   };
@@ -78,7 +80,7 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>
         {
           ukedager.map((dag, index) => {
-            let date = new Date(fom);
+            const date = new Date(fom);
             date.setDate(date.getDate() + index + plussDager);
 
             return <div key={"arbeid" + index} className={styles.centered}>
@@ -86,7 +88,7 @@ export default function Utfylling(props: IProps) {
               <TextField label={tt("utfylling.arbeid") + " " + dag + " " + formaterDato(date)}
                          hideLabel
                          className={styles.input}
-                         value={((sporsmal as any).meldekortDager[index + plussDager])["arbeidetTimerSum"] || ""}
+                         value={(sporsmal.meldekortDager[index + plussDager])["arbeidetTimerSum"] || ""}
                          onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
                          error={feilDager.includes("arbeid" + (index + plussDager + 1))}
                          data-testid={"arbeid" + (index + plussDager + 1)}
@@ -113,14 +115,14 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles[type])}></div>
         {
           ukedager.map((dag, index) => {
-            let date = new Date(fom);
+            const date = new Date(fom);
             date.setDate(date.getDate() + index + plussDager);
 
             return <div key={type + index} className={styles.centered}>
               {opprettDag(dag)}
               <Checkbox hideLabel
                         onChange={(event) => oppdaterSvar(event.target.checked, index + plussDager, spObjKey)}
-                        checked={((sporsmal as any).meldekortDager[index + plussDager])[spObjKey] === true}
+                        checked={(sporsmal.meldekortDager[index + plussDager])[spObjKey] === true}
                         error={feilDager.includes(spObjKey + (index + plussDager + 1))}
                         data-testid={spObjKey + (index + plussDager + 1)}
               >
@@ -177,7 +179,7 @@ export default function Utfylling(props: IProps) {
 
   const validerOgVidere = () => {
     // Reset
-    let feilDager: string[] = [];
+    const feilDager: string[] = [];
     setFeilDager([]);
     setFeilIArbeid(false);
     setFeilIKurs(false);

@@ -1,7 +1,7 @@
-import type { useFetcher as useFetcherRR } from "react-router-dom";
 import type { SubmitFunction } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
+import type { useFetcher as useFetcherRR } from "react-router-dom";
 
 
 export function getHeaders(onBehalfOfToken: string) {
@@ -14,9 +14,9 @@ export function getHeaders(onBehalfOfToken: string) {
 
 // Bare "syntactic sugar" slik at vi kan få Promise fra fetcher.submit()
 export function useFetcherWithPromise<T>(opts?: Parameters<typeof useFetcherRR>[0]) {
-  let resolveRef = useRef<any>();
-  let promiseRef = useRef<Promise<T>>();
-  let fetcher = useFetcher<T>(opts);
+  const resolveRef = useRef<never>();
+  const promiseRef = useRef<Promise<T>>();
+  const fetcher = useFetcher<T>(opts);
 
   if (!promiseRef.current) {
     promiseRef.current = new Promise<T>((resolve) => {

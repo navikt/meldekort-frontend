@@ -1,15 +1,16 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import amplitude from "@amplitude/analytics-browser";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { afterEach, describe, expect, test, vi } from "vitest";
+
 import Kvittering from "~/components/innsending/4-Kvittering";
 import { Innsendingstype } from "~/models/innsendingstype";
-import { TEST_PERSON_INFO, TEST_SPORSMAL } from "../mocks/data";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { Ytelsestype } from "~/models/ytelsestype";
-import * as React from "react";
 import { Meldegruppe } from "~/models/meldegruppe";
-import amplitude from "@amplitude/analytics-browser";
 import type { ISporsmal } from "~/models/sporsmal";
+import { Ytelsestype } from "~/models/ytelsestype";
+import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+
+import { TEST_PERSON_INFO, TEST_SPORSMAL } from "../mocks/data";
 
 
 const personInfo = TEST_PERSON_INFO;
@@ -160,8 +161,8 @@ describe("Kvittering", () => {
 
 const createRouteAndRender = (
   innsendingstype: Innsendingstype,
-  nesteMeldekortId: Number | undefined = undefined,
-  nesteEtterregistrerteMeldekortId: Number | undefined = undefined,
+  nesteMeldekortId: number | undefined = undefined,
+  nesteEtterregistrerteMeldekortId: number | undefined = undefined,
   nesteMeldekortKanSendes: string | undefined = undefined,
   ytelsestypePostfix: Ytelsestype | undefined = Ytelsestype.AAP,
   sporsmal: ISporsmal = TEST_SPORSMAL,

@@ -1,6 +1,7 @@
-import { describe, test } from "vitest";
-import { useInjectDecoratorScript } from "~/utils/dekoratorUtils";
 import { render, screen, waitFor } from "@testing-library/react";
+import { describe, test } from "vitest";
+
+import { useInjectDecoratorScript } from "~/utils/dekoratorUtils";
 
 
 describe("Dekorator utils", () => {

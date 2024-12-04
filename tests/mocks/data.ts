@@ -1,23 +1,23 @@
-import type { IMeldekort } from "~/models/meldekort";
-import { KortStatus } from "~/models/meldekort";
+import type { IInfomelding } from "~/models/infomelding";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
+import type { IMeldekort } from "~/models/meldekort";
+import { KortStatus } from "~/models/meldekort";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IPerson, IPersonInfo } from "~/models/person";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
+import type { IPerson, IPersonInfo } from "~/models/person";
+import type { IPersonStatus } from "~/models/personStatus";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
-import type { IPersonStatus } from "~/models/personStatus";
-import type { IInfomelding } from "~/models/infomelding";
 
 // Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
 // Den oppretter ikke et nytt objekt, men gjør endringer i det gitte
-export const jsonify = (data: Object) => {
+export const jsonify = (data: object) => {
   for (const key in data) {
-    if ((data as any)[key] instanceof Date) {
-      (data as any)[key] = (data as any)[key].toISOString();
-    } else if (typeof (data as any)[key] === "object") {
-      jsonify((data as any)[key]);
+    if (data[key] instanceof Date) {
+      data[key] = data[key].toISOString();
+    } else if (typeof data[key] === "object") {
+      jsonify(data[key]);
     }
   }
 };

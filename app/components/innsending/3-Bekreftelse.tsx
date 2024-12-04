@@ -1,24 +1,25 @@
-import type { ISporsmal } from "~/models/sporsmal";
+import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import type { IMeldekort } from "~/models/meldekort";
-import { Innsendingstype } from "~/models/innsendingstype";
-import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import { useState } from "react";
+
+import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
+import { RemixLink } from "~/components/RemixLink";
+import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
+import Ukeliste from "~/components/ukeliste/Ukeliste";
+import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
 import type {
   IFravaerInnsending,
   IMeldekortdetaljerInnsending,
   ISendInnMeldekortActionResponse,
 } from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
-import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
-import Ukeliste from "~/components/ukeliste/Ukeliste";
-import { RemixLink } from "~/components/RemixLink";
-import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
-import { useFetcherWithPromise } from "~/utils/fetchUtils";
+import type { ISporsmal } from "~/models/sporsmal";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { useFetcherWithPromise } from "~/utils/fetchUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
+import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 
 
 interface IProps {
@@ -27,7 +28,7 @@ interface IProps {
   valgtMeldekort: Jsonify<IMeldekort>;
   innsendingstype: Innsendingstype;
   activeStep: number;
-  setActiveStep: Function;
+  setActiveStep: (value: number) => void;
   nesteMeldekortKanSendes: string | undefined;
 }
 

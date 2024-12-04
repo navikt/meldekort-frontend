@@ -1,34 +1,34 @@
+import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
+import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import type { ReactElement } from "react";
-import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+
+import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
+import LoaderMedPadding from "~/components/LoaderMedPadding";
+import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
+import { RemixLink } from "~/components/RemixLink";
+import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
+import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
+import Ukeliste from "~/components/ukeliste/Ukeliste";
 import nav from "~/img/nav.svg";
 import utklippstavle from "~/img/utklippstavle.svg";
-import { formaterBelop } from "~/utils/miscUtils";
-import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort, KortStatus } from "~/models/meldekort";
-import { RemixLink } from "~/components/RemixLink";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { IPersonInfo } from "~/models/person";
+import { hentPersonInfo } from "~/models/person";
+import { getOboToken } from "~/utils/authUtils";
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import {
   finnRiktigTagVariant,
   finnYtelsestypePostfix,
   mapKortStatusTilTekst,
   mapKortTypeTilTekst,
 } from "~/utils/meldekortUtils";
-import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
-import Ukeliste from "~/components/ukeliste/Ukeliste";
-import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import { getOboToken } from "~/utils/authUtils";
-import type { IPersonInfo } from "~/models/person";
-import { hentPersonInfo } from "~/models/person";
-import LoaderMedPadding from "~/components/LoaderMedPadding";
-import { getEnv } from "~/utils/envUtils";
+import { formaterBelop } from "~/utils/miscUtils";
 
 
 export const meta: MetaFunction = () => {

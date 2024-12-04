@@ -1,10 +1,12 @@
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
-import { catchErrorResponse } from "../helpers/response-helper";
-import { hentHistoriskeMeldekort, hentMeldekortIdForKorrigering } from "~/models/meldekort";
-import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
+import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+
+import { hentHistoriskeMeldekort, hentMeldekortIdForKorrigering } from "~/models/meldekort";
+
+import { catchErrorResponse } from "../helpers/response-helper";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { jsonify, TEST_HISTORISKEMELDEKORT } from "../mocks/data";
+import { server } from "../mocks/server";
 
 
 // Kan ikke kjøres parallelt!

@@ -1,9 +1,10 @@
+import { Box, GuidePanel } from "@navikt/ds-react";
 import type { MetaFunction } from "@remix-run/node";
+
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { Box, GuidePanel } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 
 export const meta: MetaFunction = () => {

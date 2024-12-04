@@ -1,9 +1,10 @@
+import type { TypedResponse } from "@remix-run/node";
+
 import type { KortType } from "~/models/kortType";
-import type { IMeldeperiode } from "~/models/meldeperiode";
 import type { Meldegruppe } from "~/models/meldegruppe";
+import type { IMeldeperiode } from "~/models/meldeperiode";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
-import type { TypedResponse } from "@remix-run/node";
 
 
 export interface IMeldekort {

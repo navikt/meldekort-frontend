@@ -1,15 +1,16 @@
-import { useExtendedTranslation } from "~/utils/intlUtils";
 import { Heading, Tag } from "@navikt/ds-react";
 import { NavLink } from "@remix-run/react";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
-import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
+import classNames from "classnames";
+
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { useExtendedTranslation } from "~/utils/intlUtils";
+import { finnRiktigTagVariant, mapKortStatusTilTekst } from "~/utils/meldekortUtils";
 import { formaterBelop } from "~/utils/miscUtils";
-import classNames from "classnames";
+
 import styles from "./MeldekortTabell.module.css";
-import { getEnv } from "~/utils/envUtils";
 
 
 interface IProps {

@@ -1,9 +1,11 @@
-import styles from "./Sprakvelger.module.css";
 import { Select } from "@navikt/ds-react";
+import classNames from "classnames";
 import type { ChangeEvent } from "react";
 import { useState } from "react";
+
 import { useExtendedTranslation } from "~/utils/intlUtils";
-import classNames from "classnames";
+
+import styles from "./Sprakvelger.module.css";
 
 
 export default function Sprakvelger() {

@@ -1,10 +1,11 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import type { MouseEventHandler, ReactNode } from "react";
 import * as React from "react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { afterEach, describe, expect, test, vi } from "vitest";
+
 import { RemixLink } from "~/components/RemixLink";
-import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 
 
 describe("RemixLink", () => {

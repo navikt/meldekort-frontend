@@ -1,22 +1,23 @@
+import { Alert } from "@navikt/ds-react";
 import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Alert } from "@navikt/ds-react";
-import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
-import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
-import type { IMeldekort } from "~/models/meldekort";
-import { hentHistoriskeMeldekort } from "~/models/meldekort";
-import type { IPersonInfo } from "~/models/person";
-import { hentPersonInfo } from "~/models/person";
-import { Innsendingstype } from "~/models/innsendingstype";
+
 import Innsending from "~/components/innsending/Innsending";
+import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { getOboToken } from "~/utils/authUtils";
-import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 import type { IInfomelding } from "~/models/infomelding";
 import { hentInfomelding } from "~/models/infomelding";
-import LoaderMedPadding from "~/components/LoaderMedPadding";
+import { Innsendingstype } from "~/models/innsendingstype";
+import type { IMeldekort } from "~/models/meldekort";
+import { hentHistoriskeMeldekort } from "~/models/meldekort";
+import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import { hentMeldekortdetaljer } from "~/models/meldekortdetaljer";
+import type { IPersonInfo } from "~/models/person";
+import { hentPersonInfo } from "~/models/person";
+import { getOboToken } from "~/utils/authUtils";
+import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 
 
 export const meta: MetaFunction = () => {

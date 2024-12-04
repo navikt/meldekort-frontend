@@ -1,5 +1,6 @@
-import { afterEach, describe, expect, test } from "vitest";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, test } from "vitest";
+
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 
 

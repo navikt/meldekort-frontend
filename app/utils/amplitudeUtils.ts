@@ -1,4 +1,5 @@
 import * as amplitude from "@amplitude/analytics-browser";
+
 import { getEnv } from "~/utils/envUtils";
 
 
