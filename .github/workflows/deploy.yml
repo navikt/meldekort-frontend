@@ -43,6 +43,16 @@ jobs:
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           build_secrets: NODE_AUTH_TOKEN=${{ secrets.READER_TOKEN }}
+      - run: pwd
+      - run: ls ./app
+      - name: Upload static files
+        uses: nais/deploy/actions/cdn-upload/v2@master
+        with:
+          team: meldekort
+          source: ./app/build/client
+          destination: '/meldekort-frontend/'
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
@@ -58,9 +68,9 @@ jobs:
           key: modules-${{ hashFiles('package-lock.json') }}
       - uses: actions/setup-node@v4
         with:
-          node-version: "22.x"
-          cache: "npm"
-          registry-url: "https://npm.pkg.github.com"
+          node-version: '22.x'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
 
       - run: npm ci --ignore-scripts
         if: steps.node_modules.outputs.cache-hit != 'true'
@@ -69,9 +79,31 @@ jobs:
 
       - run: npm run test
 
+  upload-cdn:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - uses: actions/cache@v4
+        with:
+          path: ./build/client
+          key: ${{ github.sha }}
+          fail-on-cache-miss: true
+
+      - name: Upload static files
+        uses: nais/deploy/actions/cdn-upload/v2@master
+        with:
+          team: meldekort
+          source: ./build/client
+          destination: '/meldekort-frontend/'
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+
   deploy-dev:
     if: github.event.inputs.environment != 'p'
-    needs: [ build, test ]
+    needs: [ build, test, upload-cdn ]
     runs-on: ubuntu-latest
     steps:
       - name: Set default environment for push to main
@@ -89,7 +121,7 @@ jobs:
 
   deploy-prod:
     if: github.event.inputs.environment == 'p'
-    needs: [ build, test ]
+    needs: [ build, test, upload-cdn ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
