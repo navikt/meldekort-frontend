@@ -132,7 +132,7 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        {parse(fragments.DECORATOR_STYLES, { trim: true })}
+        {parse(fragments.DECORATOR_HEAD_ASSETS, { trim: true })}
         <Links />
       </head>
       <body>
