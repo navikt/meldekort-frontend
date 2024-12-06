@@ -28,6 +28,11 @@ COPY ./package-lock.json  ./
 RUN npm ci --ignore-scripts --omit dev
 
 
+# export build to filesystem (GitHub)
+FROM scratch AS export
+COPY --from=app-build /app/build /
+
+
 # runtime
 FROM gcr.io/distroless/nodejs22-debian12 AS runtime
 WORKDIR /app
