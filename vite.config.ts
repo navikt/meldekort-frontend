@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
     target: "ESNext",
   },
-  base: "/meldekort/",
+  base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/meldekort/",
   plugins: [
     expressDevServer({ base: "/meldekort" }),
     remix({ basename: "/meldekort/" }),
