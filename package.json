@@ -50,7 +50,7 @@
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@remix-run/dev": "^2.15.0",
-    "@remix-run/testing": "^2.15.0",
+    "@remix-run/testing": "^2.15.1",
     "@testing-library/react": "^16.1.0",
     "@types/compression": "^1.7.5",
     "@types/express": "^5.0.0",
