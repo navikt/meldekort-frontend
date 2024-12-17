@@ -12,10 +12,10 @@ export default defineConfig({
   build: {
     target: "ESNext",
   },
-  base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/meldekort/",
+  base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/meldekort",
   plugins: [
     expressDevServer({ base: "/meldekort" }),
-    remix({ basename: "/meldekort/" }),
+    remix({ basename: "/meldekort" }),
     tsconfigPaths(),
   ],
   server: {
