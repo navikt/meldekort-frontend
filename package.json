@@ -48,7 +48,7 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.18.0",
     "@remix-run/dev": "^2.15.2",
     "@remix-run/testing": "^2.15.2",
     "@testing-library/react": "^16.1.0",
