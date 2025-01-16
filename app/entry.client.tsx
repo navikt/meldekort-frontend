@@ -24,6 +24,7 @@ async function hydrate() {
       detection: {
         // We will use only cookies for detection of preferred language. If there is no cookie we will use fallbackLng
         order: ["cookie"],
+        lookupCookie: "decorator-language",
         // Disable cache for language
         caches: [],
       },

@@ -15,7 +15,7 @@ export default function Sprakvelger() {
   const setLocale = (event: ChangeEvent<HTMLSelectElement>) => {
     setCurrentLocale(event.target.value);
     i18n.changeLanguage(event.target.value).catch((error) => console.log(error));
-    document.cookie = "i18next=" + event.target.value;
+    document.cookie = "decorator-language=" + event.target.value + ";path=/";
   };
 
   return (
