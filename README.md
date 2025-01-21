@@ -1,6 +1,6 @@
 # Meldekort
 
-Meldekort er et webgrensesnitt for brukere til å fylle ut og sende inn meldekort til NAV.  
+Meldekort er et webgrensesnitt for brukere til å fylle ut og sende inn meldekort til Nav.  
 Meldekort tilbyr påloggende arbeidssøkere å se sin meldekorthistorikk, samt å fylle ut og sende inn meldekort.
 
 ## Dokumentasjon
@@ -28,7 +28,7 @@ Spørsmål knyttet til koden eller prosjekt rettes til:
 * Nattaphong Klinjan, nattaphong.klinjan@nav.no
 * Abdifatah Bashi, abdifatah.bashi@nav.no
 
-## For NAV-ansatte
+## For Nav-ansatte
 
 Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekort
 
