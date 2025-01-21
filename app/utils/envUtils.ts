@@ -18,6 +18,7 @@ interface IEnv {
   IS_LOCALHOST: string;
   MELDEKORT_API_TOKEN: string;
   AMPLITUDE_API_KEY: string;
+  SKAL_LOGGE: string;
 }
 
 export function getEnv(key: keyof IEnv) {

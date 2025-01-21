@@ -20,6 +20,8 @@ type AmplitudeAktivitetsData = {
 }
 
 export function loggAktivitet(aktivitet: string, data?: AmplitudeAktivitetsData) {
+  if (getEnv("SKAL_LOGGE") !== "true") return;
+
   try {
     if (typeof window !== "undefined") {
       const eventData = { ...data, aktivitet: aktivitet };

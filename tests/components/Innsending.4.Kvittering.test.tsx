@@ -44,6 +44,7 @@ describe("Kvittering", () => {
   */
   test("Skal vise innhold for Innsending uten neste meldekort, kalle HJ og Amplitude og kunne skrive ut", async () => {
     hjMock.mockClear();
+    vi.stubEnv("SKAL_LOGGE", "true");
     const trackSpy = vi.spyOn(amplitude, "track");
 
     createRouteAndRender(Innsendingstype.INNSENDING);
@@ -135,6 +136,7 @@ describe("Kvittering", () => {
    */
   test("Skal vise innhold for korrigering og med nesteMeldekortKanSendes og kalle HJ med Sp.5 = false", async () => {
     hjMock.mockClear();
+    vi.stubEnv("SKAL_LOGGE", "true");
     const trackSpy = vi.spyOn(amplitude, "track");
 
     const sporsmal = { ...TEST_SPORSMAL, arbeidssoker: false };

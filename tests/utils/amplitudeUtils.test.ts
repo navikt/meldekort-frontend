@@ -1,21 +1,29 @@
 import amplitude from "@amplitude/analytics-browser";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { Meldegruppe } from "~/models/meldegruppe";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
 
 
 describe("Amplitude utils", () => {
-  test("Skal kalle amplitude.track uten data", async () => {
+  let trackSpy = vi.spyOn(amplitude, "track");
+  afterEach(() => {
+    trackSpy.mockClear()
+  });
 
-    const trackSpy = vi.spyOn(amplitude, "track");
+  test("Skal kalle amplitude.track uten data", async () => {
+    vi.stubEnv("SKAL_LOGGE", "true");
+
+    trackSpy = vi.spyOn(amplitude, "track");
 
     loggAktivitet("test");
     expect(trackSpy).toBeCalledWith("meldekort.aktivitet", { aktivitet: "test" });
   });
 
   test("Skal kalle amplitude.track med data", async () => {
-    const trackSpy = vi.spyOn(amplitude, "track");
+    vi.stubEnv("SKAL_LOGGE", "true");
+
+    trackSpy = vi.spyOn(amplitude, "track");
 
     loggAktivitet("test", { meldegruppe: Meldegruppe.DAGP, arbeidssoker: "true", innsendingstype: "type" });
     expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
@@ -27,8 +35,10 @@ describe("Amplitude utils", () => {
   });
 
   test("Skal logge error", async () => {
+    vi.stubEnv("SKAL_LOGGE", "true");
+
     const error = new Error("Test error");
-    vi.spyOn(amplitude, "track").mockImplementation(() => {
+    trackSpy = vi.spyOn(amplitude, "track").mockImplementation(() => {
       throw error;
     });
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
@@ -38,5 +48,14 @@ describe("Amplitude utils", () => {
     expect(logSpy).toBeCalledWith(error);
 
     logSpy.mockRestore();
+  });
+
+  test("Skal ikke kalle amplitude.track når SKAL_LOGGE != true", async () => {
+    vi.stubEnv("SKAL_LOGGE", "false");
+
+    trackSpy = vi.spyOn(amplitude, "track");
+
+    loggAktivitet("test");
+    expect(trackSpy).not.toBeCalled();
   });
 });

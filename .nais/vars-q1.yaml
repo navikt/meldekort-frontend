@@ -9,3 +9,4 @@ meldekortApiUrl: "https://meldekort-api-q1.intern.dev.nav.no/meldekort/meldekort
 minSideUrl: "https://www.intern.dev.nav.no/minside/"
 dpUrl: "https://arbeid.intern.dev.nav.no/arbeid/dagpenger/meldekort"
 amplitudeApiKey: "9845ded64c69cd068651cd0d968e0796"
+skal_logge: "true"
