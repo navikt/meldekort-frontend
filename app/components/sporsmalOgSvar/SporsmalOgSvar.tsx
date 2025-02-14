@@ -35,6 +35,10 @@ export default function SporsmalOgSvar(props: IProps) {
   });
 
   return sporsmalOgSvar.map((item) => {
+    if (item.id === "arbeidssoker") {
+      return (<div key={item.sporsmal} />)
+    }
+
     return (
       <div key={item.sporsmal} className={styles.sporsmalOgSvar}>
         <Label data-testid={item.sporsmal}>
