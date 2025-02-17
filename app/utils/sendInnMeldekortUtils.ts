@@ -10,6 +10,7 @@ import {
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
+import { KortType } from "~/models/kortType";
 
 
 async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<TypedResponse<IValideringsResultat>> {
@@ -41,6 +42,7 @@ export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): P
 
     if (nyMeldekortIdResponse.ok) {
       meldekortdetaljer.meldekortId = await nyMeldekortIdResponse.json();
+      meldekortdetaljer.kortType = KortType.KORRIGERT_ELEKTRONISK
     } else {
       baksystemFeil = true;
     }
