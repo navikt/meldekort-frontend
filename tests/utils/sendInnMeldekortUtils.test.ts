@@ -10,6 +10,7 @@ import { catchErrorResponse } from "../helpers/response-helper";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
 import { server } from "../mocks/server";
+import { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 
 
 // Kan ikke kjøres parallelt!
@@ -85,7 +86,22 @@ describe("Meldekortdetaljer Innsending", () => {
     });
   });
 
-  test("sendInnMeldekortAction skal få data ved Korrigering", async () => {
+  test("sendInnMeldekortAction skal sette kortType = KORRIGERT_ELEKTRONISK og få data ved Korrigering", async () => {
+    server.use(
+      http.post(
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        async ({ request }) => {
+          const data = await request.json() as IMeldekortdetaljer
+          const kortType = data.kortType
+          if (kortType === "KORRIGERT_ELEKTRONISK") {
+            return HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, { status: 200 });
+          } else {
+            return HttpResponse.json("", { status: 500 });
+          }
+        }
+      )
+    );
+
     const response = await sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING));
 
     expect(response).toStrictEqual({
