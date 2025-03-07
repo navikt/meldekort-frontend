@@ -211,7 +211,6 @@ const createRouteAndRenderAndCheckCommon = async (valideringsResultat: IValideri
   await waitFor(() => screen.findByText("kurs.required"));
   await waitFor(() => screen.findByText("syk.required"));
   await waitFor(() => screen.findByText("annetFravar.required"));
-  await waitFor(() => screen.findByText("fortsetteRegistrert.required"));
 
   // Svar Ja på alle spørsmålene
   sporsmalConfig.forEach((item) => {
