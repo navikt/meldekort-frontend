@@ -21,7 +21,6 @@ describe("SporsmalOgSvar", () => {
     await sjekkeSporsmalOgSvar("sporsmal.aktivitetArbeid", "diverse.ja");
     await sjekkeSporsmalOgSvar("sporsmal.forhindret", "diverse.ja");
     await sjekkeSporsmalOgSvar("sporsmal.ferieFravar", "diverse.nei");
-    await sjekkeSporsmalOgSvar("sporsmal.registrert", "diverse.ja", fom);
   });
 });
 

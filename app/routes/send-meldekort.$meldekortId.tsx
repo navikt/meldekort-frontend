@@ -125,7 +125,8 @@ export default function SendMeldekort() {
                 nesteMeldekortId={nesteMeldekortId}
                 nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
                 nesteMeldekortKanSendes={nesteMeldekortKanSendes}
-                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, null)}
+                // NEW: Svaret på sp. 5 må alltid være JA etter uke 11 2025
+                sporsmal={opprettSporsmal(valgtMeldekort.meldegruppe, true)}
                 personInfo={personInfo}
                 infomelding={infomelding}
     />

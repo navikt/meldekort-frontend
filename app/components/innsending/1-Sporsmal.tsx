@@ -183,15 +183,16 @@ export default function Sporsmal(props: IProps) {
           let disabled = false;
 
           // Sporsmålet om å bli arbeidssøker neste periode:
-          // Svaret må vare JA hvis det er ETTERREGISTRERING
+          // Svaret må være JA hvis det er ETTERREGISTRERING
           // Sporsmålet må være disabled hvis det er ETTERREGISTRERING eller KORRIGERING
+          // NEW: Sp. 5 må være alltid skjult etter uke 11 2025
           if (item.id === "arbeidssoker") {
             value = innsendingstype === Innsendingstype.ETTERREGISTRERING ? true : value;
-            disabled = innsendingstype === Innsendingstype.ETTERREGISTRERING || innsendingstype === Innsendingstype.KORRIGERING;
+            disabled = true;
           }
 
           return (
-            <div key={item.sporsmal}>
+            <div key={item.sporsmal} style={{ display: disabled ? "none" : "" }}>
               <Box padding="4" />
 
               <RadioGroup
@@ -212,13 +213,6 @@ export default function Sporsmal(props: IProps) {
             </div>
           );
         })
-      }
-
-      {
-        innsendingstype === Innsendingstype.INNSENDING &&
-        <Alert variant="warning">
-          {parseHtml(tt("sporsmal.registrertMerknad"))}
-        </Alert>
       }
 
       <Modal ref={ref} header={{
