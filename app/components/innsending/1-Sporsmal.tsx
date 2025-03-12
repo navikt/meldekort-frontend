@@ -121,9 +121,13 @@ export default function Sporsmal(props: IProps) {
 
       {
         (ytelsestypePostfix === Ytelsestype.AAP || ytelsestypePostfix === Ytelsestype.TILTAKSPENGER) &&
-        <Alert variant="info">
-          {parseHtml(tt("sporsmal.registrertMerknad"))}
-        </Alert>
+        <div>
+          <Alert variant="info">
+            {parseHtml(tt("sporsmal.registrertMerknad"))}
+          </Alert>
+
+          <Box padding="4" />
+        </div>
       }
 
       {
