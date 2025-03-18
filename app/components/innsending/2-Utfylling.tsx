@@ -92,6 +92,7 @@ export default function Utfylling(props: IProps) {
                          onChange={(event) => oppdaterSvar(event.target.value, index + plussDager, "arbeidetTimerSum")}
                          error={feilDager.includes("arbeid" + (index + plussDager + 1))}
                          data-testid={"arbeid" + (index + plussDager + 1)}
+                         inputMode={"decimal"}
               />
             </div>;
           })
