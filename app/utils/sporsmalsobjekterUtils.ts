@@ -110,18 +110,20 @@ function sporsmalOgSvar(
   fra: string,
   ytelsestypePostfix: string,
 ): ISporsmalsobjekt[] {
-  return sporsmalConfig.map(spm => {
-    const nestePeriode = spm.kategori === "registrert" ? " " + formaterPeriode(fra, 14, 14) : "";
+  return sporsmalConfig
+    .filter(spm => spm.id !== "arbeidssoker")
+    .map(spm => {
+      const nestePeriode = spm.kategori === "registrert" ? " " + formaterPeriode(fra, 14, 14) : "";
 
-    return {
-      sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
-      forklaring: getText(spm.forklaring + ytelsestypePostfix),
-      svar:
-        (sporsmal[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
-        "<br>" +
-        (sporsmal[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
-    };
-  });
+      return {
+        sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
+        forklaring: getText(spm.forklaring + ytelsestypePostfix),
+        svar:
+          (sporsmal[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
+          "<br>" +
+          (sporsmal[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
+      };
+    });
 }
 
 function uke(

@@ -34,7 +34,7 @@ describe("Sporsmalsobjekter utils", () => {
       nesteMeldekortKanSendes,
     );
 
-    expect(result.length).toBe(15);
+    expect(result.length).toBe(14);
 
     // Header
     expect(result[0]).toStrictEqual({
@@ -81,14 +81,16 @@ describe("Sporsmalsobjekter utils", () => {
       forklaring: "forklaring.sporsmal.ferieFravar",
       svar: "_ svar.ferieFravar.ja<br>X svar.ferieFravar.nei",
     });
+    /*
     expect(result[7]).toStrictEqual({
       sporsmal: "sporsmal.registrert " + formaterPeriode(valgtMeldekort.meldeperiode.fra, 14, 14),
       forklaring: "forklaring.sporsmal.registrert",
       svar: "X svar.registrert.ja<br>_ svar.registrert.nei",
     });
+    */
 
     // Aktiviteter
-    expect(result[8]).toStrictEqual({
+    expect(result[7]).toStrictEqual({
       sporsmal: "overskrift.uke " + ukeFormatert(valgtMeldekort.meldeperiode.fra, 0),
       svar: "<div><b>ukedag.mandag:</b><span> </span>utfylling.arbeid 5 overskrift.timer</div>" +
         "<div><b>ukedag.tirsdag:</b><span> </span>utfylling.syk</div>" +
@@ -96,35 +98,35 @@ describe("Sporsmalsobjekter utils", () => {
         "><div><b>ukedag.torsdag:</b><span> </span>utfylling.tiltak</div>" +
         "<div><b>ukedag.fredag:</b><span> </span>utfylling.tiltak, utfylling.syk</div>",
     });
-    expect(result[9]).toStrictEqual({
+    expect(result[8]).toStrictEqual({
       sporsmal: "overskrift.uke " + ukeFormatert(valgtMeldekort.meldeperiode.fra, 7),
       svar: "<div><b>ukedag.mandag:</b><span> </span>utfylling.arbeid 7.5 overskrift.timer</div>",
     });
 
     // Forklaring
-    expect(result[10]).toStrictEqual({
+    expect(result[9]).toStrictEqual({
       advarsel: "sendt.advarsel",
       sporsmal: "",
       forklaring: "<b>utfylling.arbeid</b><br/>forklaring.utfylling.arbeid",
     });
-    expect(result[11]).toStrictEqual({
+    expect(result[10]).toStrictEqual({
       advarsel: "",
       sporsmal: "",
       forklaring: "<b>utfylling.tiltak</b><br/>forklaring.utfylling.tiltak",
     });
-    expect(result[12]).toStrictEqual({
+    expect(result[11]).toStrictEqual({
       advarsel: "",
       sporsmal: "",
       forklaring: "<b>utfylling.syk</b><br/>forklaring.utfylling.syk",
     });
-    expect(result[13]).toStrictEqual({
+    expect(result[12]).toStrictEqual({
       advarsel: "",
       sporsmal: "",
       forklaring: "<b>utfylling.ferieFravar</b><br/>forklaring.utfylling.ferieFravar",
     });
 
     // Bekreftelse
-    expect(result[14]).toStrictEqual({
+    expect(result[13]).toStrictEqual({
       sporsmal: "utfylling.bekreft<br><br>X utfylling.bekreftAnsvar",
     });
   });
@@ -146,6 +148,6 @@ describe("Sporsmalsobjekter utils", () => {
       svar: begrunnelse,
     });
 
-    expect(result.length).toBe(16);
+    expect(result.length).toBe(15);
   });
 });
