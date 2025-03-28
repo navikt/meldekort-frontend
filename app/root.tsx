@@ -20,6 +20,7 @@ import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
+import { hentHarAAP } from "~/utils/aapUtils";
 
 
 export const links: LinksFunction = () => {
@@ -60,6 +61,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const harDPResponse = await hentHarDP(onBehalfOfToken);
   if (harDPResponse.status === 307) {
     return redirect(getEnv("DP_URL"), 307);
+  }
+
+  // Sjekk at denne personen skal sendes til den nye AAP løsningen
+  // Redirect til AAP ellers fortsett
+  const harAAPResponse = await hentHarAAP(onBehalfOfToken);
+  if (harAAPResponse.status === 200 && await harAAPResponse.text() === 'AAP') {
+    return redirect(getEnv("AAP_URL"), 307);
   }
 
   const url = new URL(request.url);

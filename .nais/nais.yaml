@@ -49,6 +49,8 @@ spec:
       value: "{{ minSideUrl }}"
     - name: DP_URL
       value: "{{ dpUrl }}"
+    - name: AAP_URL
+      value: "{{ aapUrl }}"
     - name: AMPLITUDE_API_KEY
       value: "{{ amplitudeApiKey }}"
     - name: SKAL_LOGGE
@@ -61,6 +63,8 @@ spec:
         - application: meldekort-api{{ dashEnv }}
         - application: nav-dekoratoren
           namespace: personbruker
+        - application: meldekort-backend
+          namespace: aap
   idporten:
     enabled: true
     sidecar:
