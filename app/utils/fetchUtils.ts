@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef } from "react";
 import type { useFetcher as useFetcherRR } from "react-router-dom";
 
 
-export function getHeaders(onBehalfOfToken: string) {
+export function getHeaders(onBehalfOfToken: string, authHeaderName: String = "TokenXAuthorization") {
   return {
     "Accept": "application/json",
     "Content-Type": "application/json",
-    "TokenXAuthorization": `Bearer ${onBehalfOfToken}`,
+    [authHeaderName]: `Bearer ${onBehalfOfToken}`,
   };
 }
 
