@@ -27,5 +27,6 @@ export async function getOboToken(request: Request, audience: String = getEnv("M
   }
 
   console.log("Audience: " + audience)
+  console.log("Token: " + obo.token)
   return obo.token;
 }
