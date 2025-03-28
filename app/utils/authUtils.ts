@@ -26,5 +26,6 @@ export async function getOboToken(request: Request, audience: String = getEnv("M
     throw new Response(null, { status: 500, statusText: "Feil ved henting  av obo token" });
   }
 
+  console.log("Audience: " + audience)
   return obo.token;
 }
