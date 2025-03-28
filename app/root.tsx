@@ -67,10 +67,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // Redirect til AAP ellers fortsett
   const aapApiOBOToken = await getOboToken(request, getEnv("AAP_API_AUDIENCE"));
   const harAAPResponse = await hentHarAAP(aapApiOBOToken);
-  const text = await harAAPResponse.text()
-  console.log("AAP status: " + harAAPResponse.status)
-  console.log("AAP text: " + text)
-  if (harAAPResponse.status === 200 && text === '"AAP"') { // Returneres fra API med sitattegn
+  const harAapBody = await harAAPResponse.text()
+  if (harAAPResponse.status === 200 && harAapBody === '"AAP"') { // Returneres fra API med sitattegn
     return redirect(getEnv("AAP_URL"), 307);
   }
 
