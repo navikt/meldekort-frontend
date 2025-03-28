@@ -70,7 +70,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const text = await harAAPResponse.text()
   console.log("AAP status: " + harAAPResponse.status)
   console.log("AAP text: " + text)
-  if (harAAPResponse.status === 200 && text === 'AAP') {
+  if (harAAPResponse.status === 200 && text === '"AAP"') { // Returneres fra API med sitattegn
     return redirect(getEnv("AAP_URL"), 307);
   }
 

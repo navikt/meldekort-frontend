@@ -59,7 +59,7 @@ describe("Root", () => {
     server.use(
       http.get(
         'http://meldekort-backend.aap/api/ansvarlig-system-felles',
-        () => new HttpResponse("AAP", { status: 200 }),
+        () => new HttpResponse('"AAP"', { status: 200 }),
         { once: true },
       ),
     );
@@ -77,7 +77,7 @@ describe("Root", () => {
     server.use(
       http.get(
         'http://meldekort-backend.aap/api/ansvarlig-system-felles',
-        () => new HttpResponse("FELLES", { status: 200 }),
+        () => new HttpResponse('"FELLES"', { status: 200 }),
         { once: true },
       ),
     );
