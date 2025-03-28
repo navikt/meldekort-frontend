@@ -54,18 +54,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
   let feil = false;
   let personStatus: IPersonStatus | null = null;
 
-  const onBehalfOfToken = await getOboToken(request);
+  const meldekortApiOBOToken = await getOboToken(request);
 
   // Sjekk at denne personen skal sendes til den nye DP løsningen
   // Redirect til DP ellers fortsett
-  const harDPResponse = await hentHarDP(onBehalfOfToken);
+  const harDPResponse = await hentHarDP(meldekortApiOBOToken);
   if (harDPResponse.status === 307) {
     return redirect(getEnv("DP_URL"), 307);
   }
 
   // Sjekk at denne personen skal sendes til den nye AAP løsningen
   // Redirect til AAP ellers fortsett
-  const harAAPResponse = await hentHarAAP(onBehalfOfToken);
+  const aapApiOBOToken = await getOboToken(request, getEnv("AAP_API_AUDIENCE"));
+  const harAAPResponse = await hentHarAAP(aapApiOBOToken);
   const text = await harAAPResponse.text()
   console.log("AAP status: " + harAAPResponse.status)
   console.log("AAP text: " + text)
@@ -75,7 +76,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const url = new URL(request.url);
   // Sjekk at denne personen har tilgang (dvs. har meldeplikt)
-  const personStatusResponse = await hentPersonStatus(onBehalfOfToken);
+  const personStatusResponse = await hentPersonStatus(meldekortApiOBOToken);
   if (personStatusResponse.ok) {
     personStatus = await personStatusResponse.json();
   }

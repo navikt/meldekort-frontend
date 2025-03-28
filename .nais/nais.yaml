@@ -51,6 +51,8 @@ spec:
       value: "{{ dpUrl }}"
     - name: AAP_URL
       value: "{{ aapUrl }}"
+    - name: AAP_API_AUDIENCE
+      value: "{{ aapApiAudience }}"
     - name: AMPLITUDE_API_KEY
       value: "{{ amplitudeApiKey }}"
     - name: SKAL_LOGGE

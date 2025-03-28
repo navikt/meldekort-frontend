@@ -6,7 +6,7 @@ import { getEnv } from "~/utils/envUtils";
 export const FALLBACK_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
-export async function getOboToken(request: Request) {
+export async function getOboToken(request: Request, audience: String = getEnv("MELDEKORT_API_AUDIENCE")) {
   if (getEnv("IS_LOCALHOST") === "true") {
     return getEnv("MELDEKORT_API_TOKEN") || FALLBACK_TOKEN;
   }
@@ -21,7 +21,7 @@ export async function getOboToken(request: Request) {
     throw new Response(null, { status: 500, statusText: "Feil ved validering av token" });
   }
 
-  const obo = await requestTokenxOboToken(token, getEnv("MELDEKORT_API_AUDIENCE"));
+  const obo = await requestTokenxOboToken(token, audience);
   if (!obo.ok) {
     throw new Response(null, { status: 500, statusText: "Feil ved henting  av obo token" });
   }
