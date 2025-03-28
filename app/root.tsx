@@ -66,7 +66,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   // Sjekk at denne personen skal sendes til den nye AAP løsningen
   // Redirect til AAP ellers fortsett
   const harAAPResponse = await hentHarAAP(onBehalfOfToken);
-  if (harAAPResponse.status === 200 && await harAAPResponse.text() === 'AAP') {
+  const text = await harAAPResponse.text()
+  console.log("AAP status: " + harAAPResponse.status)
+  console.log("AAP text: " + text)
+  if (harAAPResponse.status === 200 && text === 'AAP') {
     return redirect(getEnv("AAP_URL"), 307);
   }
 
