@@ -55,6 +55,64 @@ describe("Root", () => {
     expect(response.status).toBe(307);
   });
 
+  test("Skal sende til AAP når AAP API returnerer AAP", async () => {
+    server.use(
+      http.get(
+        'http://meldekort-backend.aap/api/ansvarlig-system-felles',
+        () => new HttpResponse('"AAP"', { status: 200 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.status).toBe(307);
+  });
+
+  test("Skal ikke sende til AAP når AAP API returnerer FELLES", async () => {
+    server.use(
+      http.get(
+        'http://meldekort-backend.aap/api/ansvarlig-system-felles',
+        () => new HttpResponse('"FELLES"', { status: 200 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).not.toBeNull();
+    expect(response.env).not.toBeNull();
+  });
+
+  test("Skal ikke sende til AAP når AAP API returnerer feil", async () => {
+    server.use(
+      http.get(
+        'http://meldekort-backend.aap/api/ansvarlig-system-felles',
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).not.toBeNull();
+    expect(response.env).not.toBeNull();
+  });
+
   test("Skal sende til send-meldekort fra ikke-tilgang når personStatus er OK", async () => {
     const response = await loader({
       request: new Request(TEST_URL + "/ikke-tilgang"),
