@@ -40,6 +40,8 @@ async function hydrate() {
       </I18nextProvider>,
     );
   });
+
+  document.documentElement.lang = i18next.language
 }
 
 if (window.requestIdleCallback) {

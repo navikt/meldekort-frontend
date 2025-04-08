@@ -137,7 +137,7 @@ export default function App() {
   useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
 
   return (
-    <html lang="nb">
+    <html lang={ i18n.language }>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -158,10 +158,12 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
+  const { i18n } = useExtendedTranslation();
+
   const alert = <Alert variant="error">Feil i baksystem / System error</Alert>;
 
   return (
-    <html lang="nb">
+    <html lang={ i18n.language }>
       <head>
         <title>Meldekort</title>
         <Meta />
