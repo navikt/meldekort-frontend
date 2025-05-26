@@ -1,12 +1,12 @@
 apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ appName }}{{ dashEnv }}
+  name: "{{ appName }}"{{ dashEnv }}
   namespace: meldekort
   labels:
     team: meldekort
 spec:
-  image: {{image}}
+  image: "{{image}}"
   port: 8080
   secureLogs:
     enabled: true
@@ -15,10 +15,10 @@ spec:
      - {{url}}
   {{/each}}
   liveness:
-    path: {{basePath}}/internal/isAlive
+    path: "{{basePath}}"/internal/isAlive
     initialDelay: 10
   readiness:
-    path: {{basePath}}/internal/isReady
+    path: "{{basePath}}"/internal/isReady
     initialDelay: 10
   observability:
     autoInstrumentation:
@@ -26,7 +26,7 @@ spec:
       runtime: nodejs
   prometheus:
     enabled: true
-    path: {{basePath}}/internal/metrics
+    path: "{{basePath}}"/internal/metrics
   replicas:
     min: 2
     max: 4
