@@ -21,6 +21,7 @@ import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 import { hentHarAAP } from "~/utils/aapUtils";
+import { hentTpBruker, ITPBruker } from "~/utils/tpUtils";
 
 
 export const links: LinksFunction = () => {
@@ -70,6 +71,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const harAapBody = await harAAPResponse.text()
   if (harAAPResponse.status === 200 && harAapBody === '"AAP"') { // Returneres fra API med sitattegn
     return redirect(getEnv("AAP_URL"), 307);
+  }
+
+  // Sjekk at denne personen skal sendes til den nye TP løsningen
+  // Redirect til TP ellers fortsett
+  const tpApiOBOToken = await getOboToken(request, getEnv("TP_API_AUDIENCE"));
+  const tpBrukerResponse = await hentTpBruker(tpApiOBOToken);
+  if (tpBrukerResponse.status === 200) {
+    const tpBruker: ITPBruker = await tpBrukerResponse.json();
+    if (tpBruker.harSak) {
+      return redirect(getEnv("TP_URL"), 307);
+    }
   }
 
   const url = new URL(request.url);

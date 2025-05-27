@@ -113,6 +113,64 @@ describe("Root", () => {
     expect(response.env).not.toBeNull();
   });
 
+  test("Skal sende til TP når TP API returnerer true", async () => {
+    server.use(
+      http.get(
+        'http://tiltakspenger-meldekort-api.tpts/brukerfrontend/bruker',
+        () => new HttpResponse('{"harSak": true}', { status: 200 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.status).toBe(307);
+  });
+
+  test("Skal ikke sende til TP når TP API returnerer false", async () => {
+    server.use(
+      http.get(
+        'http://tiltakspenger-meldekort-api.tpts/brukerfrontend/bruker',
+        () => new HttpResponse('{"harSak": false}', { status: 200 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).not.toBeNull();
+    expect(response.env).not.toBeNull();
+  });
+
+  test("Skal ikke sende til TP når TP API returnerer feil", async () => {
+    server.use(
+      http.get(
+        'http://tiltakspenger-meldekort-api.tpts/brukerfrontend/bruker',
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).not.toBeNull();
+    expect(response.env).not.toBeNull();
+  });
+
   test("Skal sende til send-meldekort fra ikke-tilgang når personStatus er OK", async () => {
     const response = await loader({
       request: new Request(TEST_URL + "/ikke-tilgang"),

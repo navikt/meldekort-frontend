@@ -53,6 +53,10 @@ spec:
       value: "{{ aapUrl }}"
     - name: AAP_API_AUDIENCE
       value: "{{ aapApiAudience }}"
+    - name: TP_URL
+      value: "{{ tpUrl }}"
+    - name: TP_API_AUDIENCE
+      value: "{{ tpApiAudience }}"
     - name: AMPLITUDE_API_KEY
       value: "{{ amplitudeApiKey }}"
     - name: SKAL_LOGGE
@@ -67,6 +71,8 @@ spec:
           namespace: personbruker
         - application: meldekort-backend
           namespace: aap
+        - application: tiltakspenger-meldekort-api
+          namespace: tpts
   idporten:
     enabled: true
     sidecar:

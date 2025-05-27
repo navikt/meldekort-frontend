@@ -17,6 +17,8 @@ interface IEnv {
   DP_URL: string;
   AAP_URL: string;
   AAP_API_AUDIENCE: string;
+  TP_URL: string;
+  TP_API_AUDIENCE: string;
   IS_LOCALHOST: string;
   MELDEKORT_API_TOKEN: string;
   AMPLITUDE_API_KEY: string;
