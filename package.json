@@ -15,10 +15,10 @@
     "test-coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "2.17.9",
-    "@navikt/aksel-icons": "7.22.0",
-    "@navikt/ds-css": "7.22.0",
-    "@navikt/ds-react": "7.22.0",
+    "@amplitude/analytics-browser": "2.17.10",
+    "@navikt/aksel-icons": "7.23.1",
+    "@navikt/ds-css": "7.23.1",
+    "@navikt/ds-react": "7.23.1",
     "@navikt/nav-dekoratoren-moduler": "3.2.3",
     "@navikt/oasis": "3.8.0",
     "@remix-run/css-bundle": "2.16.8",
@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.3.7",
     "@types/source-map-support": "^0.5.10",
     "@vitejs/plugin-react": "^4.5.2",
-    "@vitest/coverage-istanbul": "3.2.3",
+    "@vitest/coverage-istanbul": "3.2.4",
     "chokidar": "^4.0.3",
     "eslint": "9.29.0",
     "eslint-config-prettier": "10.1.5",
@@ -72,10 +72,10 @@
     "prettier": "3.5.3",
     "remix-express-dev-server": "^0.4.6",
     "typescript": "^5.8.3",
-    "typescript-eslint": "8.34.0",
+    "typescript-eslint": "8.34.1",
     "vite": "^5.4.19",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "3.2.3"
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=21.0.0"
