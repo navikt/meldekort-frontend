@@ -68,7 +68,7 @@
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.2.0",
-    "msw": "2.10.2",
+    "msw": "2.10.3",
     "prettier": "3.6.2",
     "remix-express-dev-server": "^0.4.6",
     "typescript": "^5.8.3",
