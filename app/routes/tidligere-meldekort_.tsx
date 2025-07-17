@@ -1,7 +1,7 @@
 import { Alert, BodyLong } from "@navikt/ds-react";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";

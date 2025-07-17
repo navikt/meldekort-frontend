@@ -1,16 +1,15 @@
-import type { ActionFunctionArgs, AppLoadContext } from "@remix-run/node";
-import type { Params } from "@remix-run/router/utils";
 import { http, HttpResponse } from "msw";
+import { ActionFunctionArgs, AppLoadContext, Params } from "react-router";
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { Innsendingstype } from "~/models/innsendingstype";
+import { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 
 import { catchErrorResponse } from "../helpers/response-helper";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
 import { server } from "../mocks/server";
-import { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 
 
 // Kan ikke kjøres parallelt!

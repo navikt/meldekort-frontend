@@ -1,5 +1,3 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { getText } from "~/utils/intlUtils";
@@ -39,7 +37,7 @@ export function byggBegrunnelseObjekt(str: string) {
 export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
   for (const sporsmalKey in sporsmal) {
     if (sporsmalKey === spmid) {
-      return sporsmal[sporsmalKey];
+      return sporsmal[sporsmalKey as keyof typeof sporsmal];
     }
   }
 
@@ -69,7 +67,7 @@ export function opprettSporsmal(meldegruppe: Meldegruppe, arbeidssoker: boolean 
     "meldegruppe": meldegruppe,
   });
 
-  const sporsmal: Jsonify<ISporsmal> = {
+  const sporsmal: ISporsmal = {
     arbeidet: null,
     kurs: null,
     syk: null,

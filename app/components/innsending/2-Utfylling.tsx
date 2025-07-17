@@ -3,11 +3,12 @@ import classNames from "classnames";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import { Meldegruppe } from "~/models/meldegruppe";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import type { ISporsmal } from "~/models/sporsmal";
+import type { IMeldekortDag } from "~/models/sporsmal";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { formaterDato, ukeFormatert } from "~/utils/datoUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
@@ -49,7 +50,7 @@ export default function Utfylling(props: IProps) {
 
   const ukedager = ukeDager();
 
-  const oppdaterSvar = (value: string | boolean, index: number, spObjKey: string) => {
+  const oppdaterSvar = (value: string | boolean, index: number, spObjKey: keyof IMeldekortDag) => {
     const tmpSporsmal = { ...sporsmal };
     tmpSporsmal.meldekortDager[index][spObjKey] = typeof value === "string" ? value.replace(",", ".") : value;
     setSporsmal(tmpSporsmal);
@@ -101,7 +102,7 @@ export default function Utfylling(props: IProps) {
     </div>;
   };
 
-  const opprettAktivitetsrad = (type: string, spObjKey: string, plussDager: number) => {
+  const opprettAktivitetsrad = (type: string, spObjKey: keyof IMeldekortDag, plussDager: number) => {
     return <div className={styles.rad}>
       <div className={classNames(styles.tittel, styles[type])}>
         <Heading level="4" size="small">{tt(`utfylling.${type}`)}</Heading>
@@ -296,7 +297,7 @@ export default function Utfylling(props: IProps) {
   return (
     <div>
       {
-        (visFeil || innsending?.arsakskoder?.length > 0) &&
+        (visFeil || (!!innsending && !!innsending.arsakskoder && innsending.arsakskoder.length > 0)) &&
         <Alert variant="error" className={styles.error}>
           <ul>
             {
@@ -371,9 +372,9 @@ export default function Utfylling(props: IProps) {
         <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to={"/om-meldekort"}>
+        <ReactLink as="Button" variant="tertiary" to={"/om-meldekort"}>
           {tt("naviger.avbryt")}
-        </RemixLink>
+        </ReactLink>
       </div>
     </div>
   );

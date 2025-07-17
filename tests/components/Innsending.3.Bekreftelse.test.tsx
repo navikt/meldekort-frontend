@@ -1,6 +1,5 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, test } from "vitest";
 
 import Bekreftelse from "~/components/innsending/3-Bekreftelse";
@@ -19,7 +18,7 @@ describe("Bekreftelse", () => {
     const valgtMeldekort = opprettTestMeldekort(1707696000);
     jsonify(valgtMeldekort);
 
-    createRouteAndRender((valgtMeldekort as unknown) as Jsonify<IMeldekort>, Innsendingstype.KORRIGERING);
+    createRouteAndRender((valgtMeldekort as unknown) as IMeldekort, Innsendingstype.KORRIGERING);
 
     await waitFor(() => screen.findByText("overskrift.steg3.info.ikkeSendt"));
     await waitFor(() => screen.findByText("overskrift.steg3.info.bekreftVerdier"));
@@ -35,7 +34,7 @@ describe("Bekreftelse", () => {
 });
 
 const createRouteAndRender = (
-  valgtMeldekort: Jsonify<IMeldekort>,
+  valgtMeldekort: IMeldekort,
   innsendingstype: Innsendingstype,
   nesteMeldekortKanSendes: string | undefined = undefined,
 ) => {

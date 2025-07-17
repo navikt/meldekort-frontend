@@ -1,7 +1,7 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { createRemixStub } from "@remix-run/testing";
 import { cleanup, render } from "@testing-library/react";
 import * as React from "react";
+import type { LoaderFunction } from "react-router";
+import { createRoutesStub } from "react-router";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
 
 import { server } from "../mocks/server";
@@ -19,13 +19,13 @@ export const beforeAndAfterSetup = () => {
   afterAll(() => server.close());
 };
 
-export const renderRemixStub = (
+export const renderRoutesStub = (
   component: React.ComponentType,
   loader?: LoaderFunction,
   nextPath?: string,
   nextComponent?: React.ComponentType,
 ) => {
-  const RemixStub = createRemixStub([
+  const RoutesStub = createRoutesStub([
     {
       path: "/",
       Component: component,
@@ -37,5 +37,5 @@ export const renderRemixStub = (
     },
   ]);
 
-  render(<RemixStub />);
+  render(<RoutesStub />);
 };

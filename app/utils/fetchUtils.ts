@@ -1,10 +1,10 @@
-import type { SubmitFunction } from "@remix-run/react";
-import { useFetcher } from "@remix-run/react";
 import { useCallback, useEffect, useRef } from "react";
-import type { useFetcher as useFetcherRR } from "react-router-dom";
+import type { SubmitFunction } from "react-router";
+import type { useFetcher as useFetcherRR } from "react-router";
+import { useFetcher } from "react-router";
 
 
-export function getHeaders(onBehalfOfToken: string, authHeaderName: String = "TokenXAuthorization") {
+export function getHeaders(onBehalfOfToken: string, authHeaderName: string = "TokenXAuthorization") {
   return {
     "Accept": "application/json",
     "Content-Type": "application/json",

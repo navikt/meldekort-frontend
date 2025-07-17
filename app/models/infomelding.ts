@@ -1,5 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
-
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 
@@ -9,7 +7,7 @@ export interface IInfomelding {
   engelsk: string;
 }
 
-export async function hentInfomelding(onBehalfOfToken: string): Promise<TypedResponse<IInfomelding>> {
+export async function hentInfomelding(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/meldekort/infomelding`;
 
   try {

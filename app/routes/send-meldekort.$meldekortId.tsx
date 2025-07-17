@@ -1,6 +1,6 @@
 import { Alert } from "@navikt/ds-react";
-import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 
 import Innsending from "~/components/innsending/Innsending";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
@@ -43,7 +43,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   let valgtMeldekort: IMeldekort | undefined;
   let nesteMeldekortId: number | undefined;
   let nesteEtterregistrerteMeldekortId: number | undefined;
-  let nesteMeldekortKanSendes: string | Date | undefined;
+  let nesteMeldekortKanSendes: string | undefined;
 
   const meldekortId = params.meldekortId;
 
@@ -85,7 +85,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     nesteMeldekortKanSendes,
     personInfo,
     infomelding,
-  };
+  }
 }
 
 export default function SendMeldekort() {

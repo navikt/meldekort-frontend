@@ -1,5 +1,3 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldekort } from "~/models/meldekort";
@@ -97,20 +95,20 @@ export function finnYtelsestypePostfix(meldegruppe: Meldegruppe): string {
   return Ytelsestype.DAGPENGER;
 }
 
-export function finnNesteSomKanSendes(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined, valgtMeldekortId: string) {
+export function finnNesteSomKanSendes(meldekort: IMeldekort[] | undefined, valgtMeldekortId: string) {
   return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
     .filter(meldekort => meldekort.meldeperiode.kanKortSendes)
     .sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => meldekort.meldekortId.toString(10) !== valgtMeldekortId);
 }
 
-export function finnFoersteSomIkkeKanSendesEnna(meldekort: IMeldekort[] | Jsonify<IMeldekort>[] | undefined) {
+export function finnFoersteSomIkkeKanSendesEnna(meldekort: IMeldekort[] | undefined) {
   return meldekort?.filter(meldekort => meldekort.kortStatus === KortStatus.OPPRE || meldekort.kortStatus === KortStatus.SENDT)
     .sort(meldekortEtterKanSendesFraKomparator)
     .find(meldekort => !meldekort.meldeperiode.kanKortSendes);
 }
 
-export function meldekortEtterKanSendesFraKomparator(a: IMeldekort | Jsonify<IMeldekort>, b: IMeldekort | Jsonify<IMeldekort>): number {
+export function meldekortEtterKanSendesFraKomparator(a: IMeldekort, b: IMeldekort): number {
   return (
     new Date(a.meldeperiode.kortKanSendesFra).valueOf() -
     new Date(b.meldeperiode.kortKanSendesFra).valueOf()

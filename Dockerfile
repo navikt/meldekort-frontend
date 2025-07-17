@@ -11,6 +11,7 @@ WORKDIR /app
 COPY ./app ./app
 COPY ./public ./public
 COPY ./vite.config.ts ./
+COPY ./react-router.config.ts ./
 COPY ./package.json ./
 COPY ./package-lock.json  ./
 
@@ -49,5 +50,6 @@ EXPOSE ${PORT}
 COPY ./package.json ./package.json
 COPY --from=app-build /app/build/ ./build/
 COPY --from=app-dependencies /app/node_modules ./node_modules
+COPY ./server.js ./server.js
 
-CMD ["./build/server/index.js"]
+CMD ["./server.js"]

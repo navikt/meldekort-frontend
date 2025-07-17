@@ -34,7 +34,7 @@ Interne henvendelser kan sendes via Slack i kanalen #team-meldeplikt / #meldekor
 
 ## For utviklere
 
-Appen er basert på [Remix](https://remix.run/docs)
+Appen er basert på [React Router v7](https://reactrouter.com/)
 
 For å starte appen lokalt:
 
@@ -43,6 +43,3 @@ For å starte appen lokalt:
 - `npm install`
 - `npm run dev`
 - Åpen http://localhost:8080/meldekort/send-meldekort i nettlseren
-
-OBS! `npm run dev` starter serveren i [manual mode](https://remix.run/docs/en/main/guides/manual-mode), dvs. man må
-restarte serveren hver gang man gjør endringer i server.ts (men dette skjer ikke veldig ofte)

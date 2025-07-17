@@ -1,5 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
-
 import type { IInfomelding } from "~/models/infomelding";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
@@ -10,7 +8,7 @@ export interface ISkrivemodus {
   melding?: IInfomelding;
 }
 
-export async function hentSkrivemodus(onBehalfOfToken: string): Promise<TypedResponse<ISkrivemodus>> {
+export async function hentSkrivemodus(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/skrivemodus`;
 
   try {

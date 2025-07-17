@@ -1,19 +1,18 @@
-import type { ActionFunctionArgs, TypedResponse } from "@remix-run/node";
+import type { ActionFunctionArgs } from "react-router";
 
 import { Innsendingstype } from "~/models/innsendingstype";
+import { KortType } from "~/models/kortType";
 import { hentMeldekortIdForKorrigering } from "~/models/meldekort";
 import {
-  IMeldekortdetaljerInnsending,
-  ISendInnMeldekortActionResponse,
+  IMeldekortdetaljerInnsending, ISendInnMeldekortActionResponse,
   IValideringsResultat,
 } from "~/models/meldekortdetaljerInnsending";
 import { getOboToken } from "~/utils/authUtils";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
-import { KortType } from "~/models/kortType";
 
 
-async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<TypedResponse<IValideringsResultat>> {
+async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string, meldekortdetaljer: IMeldekortdetaljerInnsending): Promise<Response> {
   const url = `${melekortApiUrl}/person/meldekort`; // Ja, URLen er litt rar her
   try {
     return await fetch(url, {
@@ -28,7 +27,7 @@ async function sendInnMeldekort(onBehalfOfToken: string, melekortApiUrl: string,
   }
 }
 
-export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): Promise<TypedResponse<ISendInnMeldekortActionResponse>> {
+export async function sendInnMeldekortAction({ request }: ActionFunctionArgs): Promise<ISendInnMeldekortActionResponse> {
   let baksystemFeil = false;
   let innsending: IValideringsResultat | null = null;
 
