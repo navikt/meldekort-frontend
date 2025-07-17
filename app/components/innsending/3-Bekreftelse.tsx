@@ -1,9 +1,8 @@
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { useState } from "react";
 
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import { Innsendingstype } from "~/models/innsendingstype";
@@ -25,7 +24,7 @@ import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
 interface IProps {
   begrunnelse: string;
   sporsmal: ISporsmal;
-  valgtMeldekort: Jsonify<IMeldekort>;
+  valgtMeldekort: IMeldekort;
   innsendingstype: Innsendingstype;
   activeStep: number;
   setActiveStep: (value: number) => void;
@@ -202,9 +201,9 @@ export default function Bekreftelse(props: IProps) {
         <Button variant="primary" loading={loading} onClick={() => validerOgVidere()}>{tt("naviger.send")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to={"/om-meldekort"}>
+        <ReactLink as="Button" variant="tertiary" to={"/om-meldekort"}>
           {tt("naviger.avbryt")}
-        </RemixLink>
+        </ReactLink>
       </div>
     </div>
   );

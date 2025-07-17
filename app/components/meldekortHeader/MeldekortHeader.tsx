@@ -1,7 +1,7 @@
 import { MenuHamburgerIcon } from "@navikt/aksel-icons";
 import { Button } from "@navikt/ds-react";
-import { NavLink } from "@remix-run/react";
 import classNames from "classnames";
+import { NavLink } from "react-router";
 
 import { useExtendedTranslation } from "~/utils/intlUtils";
 

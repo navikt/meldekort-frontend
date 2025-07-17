@@ -2,13 +2,13 @@ import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import type { MouseEventHandler, ReactNode } from "react";
 import * as React from "react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 
 
-describe("RemixLink", () => {
+describe("ReactLink", () => {
   afterEach(() => {
     cleanup();
   });
@@ -129,8 +129,8 @@ const createRouteAndRender = (as: "Link" | "Button", icon?: ReactNode, iconPosit
   const testRouter = createMemoryRouter([
     {
       path: "/",
-      element: <RemixLink as={as} to={"/neste"} icon={icon} iconPosition={iconPosition}
-                          onClick={onClick}>FIRST</RemixLink>,
+      element: <ReactLink as={as} to={"/neste"} icon={icon} iconPosition={iconPosition}
+                          onClick={onClick}>FIRST</ReactLink>,
     },
     {
       path: "/neste",

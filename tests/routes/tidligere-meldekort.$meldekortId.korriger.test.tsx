@@ -1,4 +1,4 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, test, vi } from "vitest";
@@ -17,7 +17,7 @@ import TidligereMeldekortKorrigering, {
 } from "~/routes/tidligere-meldekort.$meldekortId.korriger";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
 import {
   jsonify,
   opprettTestMeldekort,
@@ -208,7 +208,7 @@ describe("Korriger tidligere meldekort", () => {
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv("IS_LOCALHOST", "false");
 
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {
@@ -224,7 +224,7 @@ describe("Korriger tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {
@@ -240,7 +240,7 @@ describe("Korriger tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {
@@ -256,7 +256,7 @@ describe("Korriger tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis meldekortdetaljer = null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {
@@ -276,7 +276,7 @@ describe("Korriger tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis personInfo = null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {
@@ -298,7 +298,7 @@ describe("Korriger tidligere meldekort", () => {
   });
 
   test("Skal vise Innsending", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekortKorrigering,
       () => {
         return {

@@ -1,4 +1,4 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, test, vi } from "vitest";
@@ -8,7 +8,7 @@ import { KortStatus } from "~/models/meldekort";
 import Meldekortdetaljer, { loader, meta } from "~/routes/tidligere-meldekort.$meldekortId._index";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
 import { jsonify, opprettTestMeldekort, opprettTestMeldekortdetaljer, TEST_PERSON_INFO } from "../mocks/data";
 import { server } from "../mocks/server";
 
@@ -99,7 +99,7 @@ describe("Tidligere meldekort detaljer", () => {
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv("IS_LOCALHOST", "false");
 
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -114,7 +114,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -129,7 +129,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise feilmelding hvis valgtMeldekort = undefined", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -144,7 +144,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise feilmelding hvis meldekortdetaljer = undefined", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -159,7 +159,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise meldekortdetaljer uten bruttoBelop", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -185,7 +185,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise meldekortdetaljer med bruttoBelop", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {
@@ -201,7 +201,7 @@ describe("Tidligere meldekort detaljer", () => {
   });
 
   test("Skal vise begrunnelse om det finnes", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Meldekortdetaljer,
       () => {
         return {

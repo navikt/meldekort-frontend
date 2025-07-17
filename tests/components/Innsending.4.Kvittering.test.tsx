@@ -1,6 +1,6 @@
 import amplitude from "@amplitude/analytics-browser";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import Kvittering from "~/components/innsending/4-Kvittering";

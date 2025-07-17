@@ -18,7 +18,6 @@ export async function hentDekoratorHtml() {
       feedback: false,
       chatbot: false,
       shareScreen: true,
-      enforceLogin: false,
       logoutWarning: true,
     },
   };

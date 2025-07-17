@@ -2,11 +2,11 @@ import { Alert, BodyLong, Box, Button, GuidePanel, Modal, Radio, RadioGroup, Sel
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useRef, useState } from "react";
 
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import UtvidetInformasjon from "~/components/utvidetInformasjon/UtvidetInformasjon";
 import type { IInfomelding } from "~/models/infomelding";
 import { Innsendingstype } from "~/models/innsendingstype";
-import type { ISporsmal } from "~/models/sporsmal";
+import type { IMeldekortDag, ISporsmal } from "~/models/sporsmal";
 import { sporsmalConfig } from "~/models/sporsmal";
 import { Ytelsestype } from "~/models/ytelsestype";
 import { formaterPeriode } from "~/utils/datoUtils";
@@ -52,13 +52,13 @@ export default function Sporsmal(props: IProps) {
     setBegrunnelse(event.target.value);
   };
 
-  const oppdaterSvar = (id: string, value: boolean) => {
+  const oppdaterSvar = (id: keyof ISporsmal, value: boolean) => {
     const tmpSporsmal = { ...sporsmal };
     tmpSporsmal[id] = value;
     setSporsmal(tmpSporsmal);
   };
 
-  const oppdaterMeldekortDager = (value: string | boolean, index: number, spObjKey: string) => {
+  const oppdaterMeldekortDager = (value: string | boolean, index: number, spObjKey: keyof IMeldekortDag) => {
     const tmpSporsmal = { ...sporsmal };
     tmpSporsmal.meldekortDager[index][spObjKey] = value;
     setSporsmal(tmpSporsmal);
@@ -74,7 +74,7 @@ export default function Sporsmal(props: IProps) {
 
     // Sjekker at alle spørsmålene er besvart
     for (const sporsmalKey in sporsmal) {
-      if (sporsmal[sporsmalKey] === null) {
+      if (sporsmal[sporsmalKey as keyof typeof sporsmal] === null) {
         feil = true;
       }
     }
@@ -164,8 +164,8 @@ export default function Sporsmal(props: IProps) {
             </option>
             {
               Object.keys(begrunnelseObjekt).map(key => (
-                <option value={key} key={begrunnelseObjekt[key]}>
-                  {begrunnelseObjekt[key]}
+                <option value={key} key={begrunnelseObjekt[key as keyof typeof begrunnelseObjekt]}>
+                  {begrunnelseObjekt[key as keyof typeof begrunnelseObjekt]}
                 </option>
               ))
             }
@@ -207,7 +207,7 @@ export default function Sporsmal(props: IProps) {
                 legend={label}
                 description={desc}
                 value={value}
-                onChange={(value: boolean) => oppdaterSvar(item.id, value)}
+                onChange={(value: boolean) => oppdaterSvar(item.id as keyof ISporsmal, value)}
                 disabled={disabled}
                 error={visFeil && hentSvar(sporsmal, item.id) === null && tt(item.feilmeldingId + ytelsestypePostfix)}
               >
@@ -249,9 +249,9 @@ export default function Sporsmal(props: IProps) {
         <Button variant="primary" onClick={() => validerOgVidere()}>{tt("naviger.neste")}</Button>
       </div>
       <div className="centeredButtons">
-        <RemixLink as="Button" variant="tertiary" to={"/om-meldekort"}>
+        <ReactLink as="Button" variant="tertiary" to={"/om-meldekort"}>
           {tt("naviger.avbryt")}
-        </RemixLink>
+        </ReactLink>
       </div>
     </div>
   );

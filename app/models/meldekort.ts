@@ -1,5 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
-
 import type { KortType } from "~/models/kortType";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldeperiode } from "~/models/meldeperiode";
@@ -39,7 +37,7 @@ export enum KortStatus {
 
 export async function hentHistoriskeMeldekort(
   onBehalfOfToken: string
-): Promise<TypedResponse<IMeldekort[]>> {
+): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/historiskemeldekort`;
 
   try {
@@ -57,7 +55,7 @@ export async function hentHistoriskeMeldekort(
 export async function hentMeldekortIdForKorrigering(
   onBehalfOfToken: string,
   meldekortId: string
-): Promise<TypedResponse<number>> {
+): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/meldekort/${meldekortId}/korrigering`;
 
   try {

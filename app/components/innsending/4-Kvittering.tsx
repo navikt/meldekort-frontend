@@ -1,10 +1,10 @@
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
-import { NavLink } from "@remix-run/react";
 import { format } from "date-fns";
+import { NavLink } from "react-router";
 
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
 import nav from "~/img/nav.svg";
@@ -170,9 +170,9 @@ export default function Kvittering(props: IProps) {
       </div>
 
       <div className="buttons notForPrint">
-        <RemixLink as="Button" variant="secondary" to={"/tidligere-meldekort"}>
+        <ReactLink as="Button" variant="secondary" to={"/tidligere-meldekort"}>
           {tt("sendt.linkTilTidligereMeldekort")}
-        </RemixLink>
+        </ReactLink>
         {nesteLink}
       </div>
       <div className="centeredButtons notForPrint">

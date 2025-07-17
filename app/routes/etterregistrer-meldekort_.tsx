@@ -1,11 +1,11 @@
 import { Alert, BodyLong, GuidePanel, Table } from "@navikt/ds-react";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 import { Navigate } from "react-router";
 
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { KortStatus } from "~/models/meldekort";
 import type { IPerson } from "~/models/person";
@@ -95,9 +95,9 @@ export default function Etterregistrering() {
 
       <div className="buttons">
         <div />
-        <RemixLink as="Button" variant="primary" to={`/etterregistrer-meldekort/${nesteMeldekortId}`}>
+        <ReactLink as="Button" variant="primary" to={`/etterregistrer-meldekort/${nesteMeldekortId}`}>
           {tt("naviger.neste")}
-        </RemixLink>
+        </ReactLink>
       </div>
     </div>;
   }
