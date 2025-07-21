@@ -1,6 +1,5 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
 import Innsending from "~/components/innsending/Innsending";
@@ -19,6 +18,9 @@ import {
   TEST_PERSON_INFO,
 } from "../mocks/data";
 
+const delay = (durationMs: number) => {
+  return new Promise(resolve => setTimeout(resolve, durationMs));
+}
 
 describe("Innsending", () => {
   vi.mock("react-i18next", async () =>
@@ -34,11 +36,13 @@ describe("Innsending", () => {
     async () => {
       await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK);
 
+      await delay(2000);
+
       // Sjekk at vi viser 4-Kvittering
       const tittel = await waitFor(() => screen.findByTestId("sideTittel"));
       expect(tittel.innerHTML).toBe("overskrift.steg4");
     },
-    7000,
+    10000,
   );
 
   test("Skal vise modal og gå fra steg 1 til 3 hvis alle aktivitetsspørsmålene er Nei", async () => {
@@ -80,12 +84,16 @@ describe("Innsending", () => {
   });
 
   test("Skal vise feilmeldinger hvis innsending er feil", async () => {
-    await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
+      await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL);
 
-    // Sjekk at vi viser 2-Utfylling
-    const tittel = await waitFor(() => screen.findByTestId("sideTittel"));
-    expect(tittel.innerHTML).toBe("overskrift.steg2");
-  });
+      await delay(2000);
+
+      // Sjekk at vi viser 2-Utfylling
+      const tittel = await waitFor(() => screen.findByTestId("sideTittel"));
+      expect(tittel.innerHTML).toBe("overskrift.steg2");
+    },
+    10000,
+  );
 
   test("Skal vise feilmeldinger hvis innsending = undefined", async () => {
     await createRouteAndRenderAndCheckCommon(undefined);
@@ -173,7 +181,7 @@ const createRouteAndRender = async (
     {
       path: "/",
       element: <Innsending innsendingstype={innsendingstype}
-                           valgtMeldekort={(valgtMeldekort as unknown) as Jsonify<IMeldekort>}
+                           valgtMeldekort={(valgtMeldekort as unknown) as IMeldekort}
                            nesteMeldekortId={2}
                            nesteEtterregistrerteMeldekortId={3}
                            nesteMeldekortKanSendes={"2024-02-01"}

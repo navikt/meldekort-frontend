@@ -1,5 +1,3 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
 import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
@@ -14,7 +12,7 @@ import { ukeDager } from "~/utils/miscUtils";
 // Vi må samle alt vi har vist til bruker og sende sammen med meldekort for å lagre dette i Dokarkiv
 // Dette brukes når vi mottar spørsmål eller klager på informasjon brukere kunne få på et eller annet tidspunkt
 export function opprettSporsmalsobjekter(
-  valgtMeldekort: Jsonify<IMeldekort>,
+  valgtMeldekort: IMeldekort,
   innsendingstype: Innsendingstype,
   begrunnelse: string,
   sporsmal: ISporsmal,
@@ -58,7 +56,7 @@ export function opprettSporsmalsobjekter(
 
 function header(
   korrigering: boolean,
-  valgtMeldekort: Jsonify<IMeldekort>,
+  valgtMeldekort: IMeldekort,
   mottattDato: Date,
   nesteDato: string | undefined,
 ): ISporsmalsobjekt {
@@ -119,9 +117,9 @@ function sporsmalOgSvar(
         sporsmal: getText(spm.sporsmal + ytelsestypePostfix) + nestePeriode,
         forklaring: getText(spm.forklaring + ytelsestypePostfix),
         svar:
-          (sporsmal[spm.id] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
+          (sporsmal[spm.id as keyof typeof sporsmal] === true ? "X " : "_ ") + getText(spm.ja + ytelsestypePostfix) +
           "<br>" +
-          (sporsmal[spm.id] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
+          (sporsmal[spm.id as keyof typeof sporsmal] !== true ? "X " : "_ ") + getText(spm.nei + ytelsestypePostfix),
       };
     });
 }

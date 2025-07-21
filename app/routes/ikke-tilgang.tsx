@@ -1,5 +1,5 @@
 import { Alert, Heading } from "@navikt/ds-react";
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "react-router";
 
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";

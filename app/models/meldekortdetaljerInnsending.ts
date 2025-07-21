@@ -1,5 +1,3 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-
 import type { KortType } from "~/models/kortType";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { KortStatus } from "~/models/meldekort";
@@ -13,7 +11,7 @@ export interface IMeldekortdetaljerInnsending {
   kortStatus: KortStatus;
   meldegruppe: Meldegruppe,
   mottattDato: Date;
-  meldeperiode: Jsonify<IMeldeperiode>;
+  meldeperiode: IMeldeperiode;
   erArbeidssokerNestePeriode: boolean;
   bruttoBelop?: number;
   fravaersdager: IFravaerInnsending[];

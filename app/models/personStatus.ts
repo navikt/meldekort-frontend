@@ -1,5 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
-
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
 
@@ -10,7 +8,7 @@ export interface IPersonStatus {
   statusYtelse: string | null;
 }
 
-export async function hentPersonStatus(onBehalfOfToken: string): Promise<TypedResponse<IPersonStatus>> {
+export async function hentPersonStatus(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/status`;
 
   try {

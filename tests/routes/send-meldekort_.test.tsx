@@ -1,4 +1,4 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, test } from "vitest";
@@ -8,7 +8,7 @@ import { KortStatus } from "~/models/meldekort";
 import SendMeldekort, { loader, meta } from "~/routes/send-meldekort_";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { server } from "../mocks/server";
 
@@ -50,7 +50,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -64,7 +64,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis person = null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -78,7 +78,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal vise melding når det finnes meldekort som ikke kan sendes ennå", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -96,7 +96,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal vise melding når det ikke finnes meldekort som kan sendes", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -115,7 +115,7 @@ describe("Send meldekort", () => {
     const meldekort: IMeldekort[] = [];
     for (let i = 1; i <= 6; i++) meldekort.push(opprettTestMeldekort(i));
 
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -138,7 +138,7 @@ describe("Send meldekort", () => {
       );
     };
 
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {
@@ -156,7 +156,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal vise meldekort som kan sendes", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       SendMeldekort,
       () => {
         return {

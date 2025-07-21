@@ -1,4 +1,4 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, test } from "vitest";
@@ -7,7 +7,7 @@ import { KortStatus } from "~/models/meldekort";
 import Etterregistrering, { loader, meta } from "~/routes/etterregistrer-meldekort_";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
 import { jsonify, opprettTestMeldekort, TEST_PERSON } from "../mocks/data";
 import { server } from "../mocks/server";
 
@@ -49,7 +49,7 @@ describe("Etterregistrering", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Etterregistrering,
       () => {
         return {
@@ -63,7 +63,7 @@ describe("Etterregistrering", () => {
   });
 
   test("Skal vise feilmelding hvis person = null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Etterregistrering,
       () => {
         return {
@@ -77,7 +77,7 @@ describe("Etterregistrering", () => {
   });
 
   test("Skal vise melding når det ikke finnes meldekort som kan sendes", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Etterregistrering,
       () => {
         return {
@@ -99,7 +99,7 @@ describe("Etterregistrering", () => {
       );
     };
 
-    renderRemixStub(
+    renderRoutesStub(
       Etterregistrering,
       () => {
         return {
@@ -117,7 +117,7 @@ describe("Etterregistrering", () => {
   });
 
   test("Skal vise melding innhold når det fines meldekort å sende", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       Etterregistrering,
       () => {
         return {

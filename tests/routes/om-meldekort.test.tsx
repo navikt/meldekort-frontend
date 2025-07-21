@@ -1,6 +1,6 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { render, screen } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, test } from "vitest";
 
 import OmMeldekort, { meta } from "~/routes/om-meldekort";

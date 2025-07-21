@@ -1,6 +1,5 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import { render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, test } from "vitest";
 
 import MeldekorTabell from "~/components/meldekortTabell/MeldekortTabell";
@@ -25,7 +24,7 @@ describe("MeldekorTabell", () => {
     const testRouter = createMemoryRouter([
       {
         path: "/",
-        element: <MeldekorTabell meldekortListe={(meldekortListe as unknown) as Jsonify<IMeldekort>[]} />,
+        element: <MeldekorTabell meldekortListe={(meldekortListe as unknown) as IMeldekort[]} />,
       },
     ]);
 

@@ -1,12 +1,7 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
+import { reactRouter } from "@react-router/dev/vite";
 import path from "path";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-
-import { expressDevServer } from "./app/utils/devServerUtils";
-
-installGlobals({ nativeFetch: true });
 
 export default defineConfig({
   build: {
@@ -14,12 +9,11 @@ export default defineConfig({
   },
   base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/meldekort",
   plugins: [
-    expressDevServer({ base: "/meldekort" }),
-    remix({ basename: "/meldekort" }),
+    reactRouter(),
     tsconfigPaths(),
   ],
   server: {
-    port: 8080,
+    port: 8080
   },
   resolve: {
     alias: {

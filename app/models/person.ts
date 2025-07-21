@@ -1,5 +1,3 @@
-import type { TypedResponse } from "@remix-run/node";
-
 import type { IMeldekort } from "~/models/meldekort";
 import { getEnv } from "~/utils/envUtils";
 import { getHeaders } from "~/utils/fetchUtils";
@@ -17,7 +15,7 @@ export interface IPersonInfo {
   fornavn: string;
 }
 
-export async function hentPerson(onBehalfOfToken: string): Promise<TypedResponse<IPerson>> {
+export async function hentPerson(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/meldekort`; // Ja, URLen er litt rar her
 
   try {
@@ -32,7 +30,7 @@ export async function hentPerson(onBehalfOfToken: string): Promise<TypedResponse
   }
 }
 
-export async function hentPersonInfo(onBehalfOfToken: string): Promise<TypedResponse<IPersonInfo>> {
+export async function hentPersonInfo(onBehalfOfToken: string): Promise<Response> {
   const url = `${getEnv("MELDEKORT_API_URL")}/person/info`;
 
   try {

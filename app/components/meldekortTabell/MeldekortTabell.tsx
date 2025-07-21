@@ -1,7 +1,6 @@
 import { Heading, Tag } from "@navikt/ds-react";
-import { NavLink } from "@remix-run/react";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import classNames from "classnames";
+import { NavLink } from "react-router";
 
 import type { IMeldekort } from "~/models/meldekort";
 import { KortStatus } from "~/models/meldekort";
@@ -14,7 +13,7 @@ import styles from "./MeldekortTabell.module.css";
 
 
 interface IProps {
-  meldekortListe: Jsonify<IMeldekort>[];
+  meldekortListe: IMeldekort[];
 }
 
 export default function MeldekorTabell(props: IProps) {

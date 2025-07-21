@@ -2,11 +2,10 @@ import "@navikt/ds-css/dist/index.css";
 import "~/index.css";
 
 import { Alert } from "@navikt/ds-react";
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "@remix-run/react";
 import parse from "html-react-parser";
+import type { LinksFunction, LoaderFunctionArgs } from "react-router";
+import { redirect } from "react-router";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "react-router";
 
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
@@ -14,21 +13,18 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
+import { hentHarAAP } from "~/utils/aapUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { hentHarDP } from "~/utils/dpUtils";
 import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { hentTpBruker, ITPBruker } from "~/utils/tpUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
-import { hentHarAAP } from "~/utils/aapUtils";
-import { hentTpBruker, ITPBruker } from "~/utils/tpUtils";
 
 
 export const links: LinksFunction = () => {
   return [
-    ...(cssBundleHref
-      ? [
-        { rel: "stylesheet", href: cssBundleHref },
         {
           rel: "icon",
           type: "image/png",
@@ -46,8 +42,6 @@ export const links: LinksFunction = () => {
           type: "image/x-icon",
           href: `${getEnv("BASE_PATH")}/favicon.ico`,
         },
-      ]
-      : []),
   ];
 };
 

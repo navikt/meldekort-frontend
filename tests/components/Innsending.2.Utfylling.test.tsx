@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, describe, expect, test } from "vitest";
 
 import Utfylling from "~/components/innsending/2-Utfylling";
@@ -177,7 +177,7 @@ const createRouteAndRender = (
         sporsmal={sporsmal}
         setSporsmal={() => {
         }}
-        fom={valgtMeldekort.meldeperiode.fra.toISOString()}
+        fom={valgtMeldekort.meldeperiode.fra}
         ytelsestypePostfix={""}
         meldegruppe={valgtMeldekort.meldegruppe}
         activeStep={1}

@@ -1,13 +1,12 @@
-import * as cssBundle from "@remix-run/css-bundle";
-import { createRemixStub } from "@remix-run/testing";
 import { render, screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
+import { createRoutesStub } from "react-router";
 import { describe, expect, test, vi } from "vitest";
 
 import App, { ErrorBoundary, links, loader } from "~/root";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "./helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "./helpers/test-helpers";
 import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
 import { server } from "./mocks/server";
 
@@ -225,7 +224,7 @@ describe("Root", () => {
     // IS_LOCALHOST brukes i mock for å velge hva som må returneres fra hasLoadedNamespace: true ller false
     vi.stubEnv("IS_LOCALHOST", "false");
 
-    renderRemixStub(
+    renderRoutesStub(
       App,
       () => {
         return {
@@ -241,7 +240,7 @@ describe("Root", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true (skal ikke vise Loader)", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       App,
       () => {
         return {
@@ -261,7 +260,7 @@ describe("Root", () => {
   });
 
   test("Skal vise innhold", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       App,
       () => {
         return {
@@ -280,7 +279,7 @@ describe("Root", () => {
   });
 
   test("Skal vise ErrorBoundary", async () => {
-    const RemixStub = createRemixStub([
+    const RoutesStub = createRoutesStub([
       {
         path: "/",
         Component: App,
@@ -291,17 +290,12 @@ describe("Root", () => {
       },
     ]);
 
-    render(<RemixStub />);
+    render(<RoutesStub />);
 
     await waitFor(() => screen.findByText("Feil i baksystem / System error"));
   });
 
-  test("Skal returnere tom array fra links() uten cssBundleHref", async () => {
-    expect(links().length).toBe(0);
-  });
-
-  test("Skal returnere array fra links() med cssBundleHref", async () => {
-    vi.spyOn(cssBundle, "cssBundleHref", "get").mockReturnValue("true");
-    expect(links().length).toBe(4);
+  test("Skal returnere array med icon fra links()", async () => {
+    expect(links().length).toBe(3);
   });
 });

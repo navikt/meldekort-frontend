@@ -1,6 +1,6 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import * as reactI18next from "react-i18next";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeAll, describe, test, vi } from "vitest";
 
 import Sporsmal from "~/components/innsending/1-Sporsmal";
@@ -86,7 +86,7 @@ const createRouteAndRender = (
     {
       path: "/",
       element: <Sporsmal innsendingstype={innsendingstype}
-                         fom={valgtMeldekort.meldeperiode.fra.toISOString()}
+                         fom={valgtMeldekort.meldeperiode.fra}
                          ytelsestypePostfix={ytelsestypePostfix}
                          begrunnelse={""}
                          setBegrunnelse={() => {

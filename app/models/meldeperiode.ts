@@ -1,6 +1,6 @@
 export interface IMeldeperiode {
-  fra: Date;
-  til: Date;
-  kortKanSendesFra: Date;
+  fra: string;
+  til: string;
+  kortKanSendesFra: string;
   kanKortSendes: boolean;
 }

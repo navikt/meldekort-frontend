@@ -1,7 +1,6 @@
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents, SubmitFunction } from "@remix-run/react";
+import type { FetcherWithComponents, SubmitFunction } from "react-router";
 import { render } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, expectTypeOf, test } from "vitest";
 
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";

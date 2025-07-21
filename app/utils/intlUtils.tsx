@@ -44,7 +44,7 @@ export function getText(key: string, values?: object): string {
 
   if (values) {
     for (const key in values) {
-      text = text.replace("{" + key + "}", values[key]);
+      text = text.replace("{" + key + "}", values[key as keyof typeof values]);
     }
   }
 

@@ -1,13 +1,13 @@
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import type { ReactElement } from "react";
+import type { LoaderFunctionArgs, MetaFunction } from "react-router";
+import { useLoaderData } from "react-router";
 
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
-import { RemixLink } from "~/components/RemixLink";
+import { ReactLink } from "~/components/ReactLink";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import SporsmalOgSvar from "~/components/sporsmalOgSvar/SporsmalOgSvar";
 import Ukeliste from "~/components/ukeliste/Ukeliste";
@@ -161,17 +161,17 @@ export default function Meldekortdetaljer() {
       </div>
 
       <div className="buttons notForPrint">
-        <RemixLink as="Button" variant="primary" to={"/tidligere-meldekort"}>
+        <ReactLink as="Button" variant="primary" to={"/tidligere-meldekort"}>
           {tt("naviger.tilbake")}
-        </RemixLink>
+        </ReactLink>
         {
           // Viser Korriger-knappen kun når valgt meldekort er korrigerbart
           valgtMeldekort.korrigerbart &&
-          <RemixLink as="Button"
+          <ReactLink as="Button"
                      variant="secondary"
                      to={`/tidligere-meldekort/${valgtMeldekort.meldekortId}/korriger`}>
             {tt("korriger.meldekort")}
-          </RemixLink>
+          </ReactLink>
         }
       </div>
       <div className="centeredButtons notForPrint">

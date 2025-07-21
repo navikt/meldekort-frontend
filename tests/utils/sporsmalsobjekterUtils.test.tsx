@@ -1,4 +1,3 @@
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
 import i18next from "i18next";
 import type { MockInstance } from "vitest";
 import { describe, expect, test, vi } from "vitest";
@@ -26,7 +25,7 @@ describe("Sporsmalsobjekter utils", () => {
     });
 
     const result = opprettSporsmalsobjekter(
-      (valgtMeldekort as unknown) as Jsonify<IMeldekort>,
+      (valgtMeldekort as unknown) as IMeldekort,
       Innsendingstype.INNSENDING,
       begrunnelse,
       TEST_SPORSMAL,
@@ -133,7 +132,7 @@ describe("Sporsmalsobjekter utils", () => {
 
   test("opprettSporsmalsobjekter skal returnere riktige objekter for KORRIGERING", async () => {
     const result = opprettSporsmalsobjekter(
-      (valgtMeldekort as unknown) as Jsonify<IMeldekort>,
+      (valgtMeldekort as unknown) as IMeldekort,
       Innsendingstype.KORRIGERING,
       begrunnelse,
       TEST_SPORSMAL,

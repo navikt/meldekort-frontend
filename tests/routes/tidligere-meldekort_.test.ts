@@ -1,4 +1,4 @@
-import type { ServerRuntimeMetaArgs } from "@remix-run/server-runtime/dist/routeModules";
+import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { describe, expect, test } from "vitest";
@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 import TidligereMeldekort, { loader, meta } from "~/routes/tidligere-meldekort_";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
-import { beforeAndAfterSetup, renderRemixStub } from "../helpers/test-helpers";
+import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
 import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMODUS } from "../mocks/data";
 import { server } from "../mocks/server";
 
@@ -83,7 +83,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis feil = true", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -100,7 +100,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise feilmelding hvis skrivemodus er null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -117,7 +117,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise melding fra skrivemodus om den finnes når skrivemodus = false", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -140,7 +140,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise standard melding hvis det ikke finnes melding i skrivemodus når skrivemodus = false", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -159,7 +159,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise melding om det ikke finnes meldekort hvis historiskeMeldekort = null", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -176,7 +176,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise melding om det ikke finnes meldekort hvis historiskeMeldekort er tom", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {
@@ -193,7 +193,7 @@ describe("Tidligere meldekort", () => {
   });
 
   test("Skal vise innhold hvis det finnes historiske meldekort", async () => {
-    renderRemixStub(
+    renderRoutesStub(
       TidligereMeldekort,
       () => {
         return {

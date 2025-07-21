@@ -1,6 +1,5 @@
 import { BodyLong, Box, Stepper } from "@navikt/ds-react";
-import type { Jsonify } from "@remix-run/server-runtime/dist/jsonify";
-import { useState } from "react";
+import { JSX, useState } from "react";
 
 import Sporsmal from "~/components/innsending/1-Sporsmal";
 import Utfylling from "~/components/innsending/2-Utfylling";
@@ -21,11 +20,11 @@ import { byggBegrunnelseObjekt } from "~/utils/miscUtils";
 
 interface IProps {
   innsendingstype: Innsendingstype;
-  valgtMeldekort: Jsonify<IMeldekort>;
+  valgtMeldekort: IMeldekort;
   nesteMeldekortId?: number | undefined;
   nesteEtterregistrerteMeldekortId?: number | undefined;
   nesteMeldekortKanSendes?: string | undefined;
-  sporsmal: Jsonify<ISporsmal>;
+  sporsmal: ISporsmal;
   personInfo: IPersonInfo;
   infomelding: IInfomelding;
 }
@@ -83,7 +82,7 @@ export default function Innsending(props: IProps) {
                          activeStep={activeStep}
                          setActiveStep={setActiveStep} />;
   } else if (activeStep === 3) {
-    innhold = <Bekreftelse begrunnelse={begrunnelseObjekt[begrunnelse]}
+    innhold = <Bekreftelse begrunnelse={begrunnelseObjekt[begrunnelse as keyof typeof begrunnelseObjekt]}
                            sporsmal={nyeSporsmal}
                            valgtMeldekort={valgtMeldekort}
                            innsendingstype={innsendingstype}
@@ -97,7 +96,7 @@ export default function Innsending(props: IProps) {
                           personInfo={personInfo}
                           fom={fom}
                           tom={tom}
-                          begrunnelse={begrunnelseObjekt[begrunnelse]}
+                          begrunnelse={begrunnelseObjekt[begrunnelse as keyof typeof begrunnelseObjekt]}
                           sporsmal={nyeSporsmal}
                           nesteMeldekortId={nesteMeldekortId}
                           nesteEtterregistrerteMeldekortId={nesteEtterregistrerteMeldekortId}
