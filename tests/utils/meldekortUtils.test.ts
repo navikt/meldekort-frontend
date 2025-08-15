@@ -179,10 +179,10 @@ describe("Meldekort utils", () => {
   });
 
   test("finnFoersteSomIkkeKanSendesEnna skal returnere riktig meldekort", () => {
-    const meldekort1: IMeldekort = opprettTestMeldekort(1707156950);
-    const meldekort2: IMeldekort = opprettTestMeldekort(1707156951, false, KortStatus.SENDT);
-    const meldekort3: IMeldekort = opprettTestMeldekort(1707156952, false);
-    const meldekort4: IMeldekort = opprettTestMeldekort(1707156953);
+    const meldekort1: IMeldekort = opprettTestMeldekort(1707100000);
+    const meldekort2: IMeldekort = opprettTestMeldekort(1707200000, false, KortStatus.SENDT);
+    const meldekort3: IMeldekort = opprettTestMeldekort(1707300000, false);
+    const meldekort4: IMeldekort = opprettTestMeldekort(1707400000);
 
     // Unsorted Array. Da kan vi teste også meldekortEtterKanSendesFraKomparator
     const meldekort: IMeldekort[] = [meldekort1, meldekort3, meldekort4, meldekort2];
