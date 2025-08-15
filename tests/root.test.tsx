@@ -3,11 +3,21 @@ import { http, HttpResponse } from "msw";
 import { createRoutesStub } from "react-router";
 import { describe, expect, test, vi } from "vitest";
 
+import { KortType } from "~/models/kortType";
+import { Meldegruppe } from "~/models/meldegruppe";
+import { KortStatus } from "~/models/meldekort";
 import App, { ErrorBoundary, links, loader } from "~/root";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
 import { beforeAndAfterSetup, renderRoutesStub } from "./helpers/test-helpers";
-import { TEST_DECORATOR_FRAGMENTS, TEST_PERSON_STATUS, TEST_SKRIVEMODUS } from "./mocks/data";
+import {
+  opprettTestMeldekort,
+  TEST_DECORATOR_FRAGMENTS,
+  TEST_DECORATOR_RESPONSE,
+  TEST_DECORATOR_VERSION,
+  TEST_PERSON_STATUS,
+  TEST_SKRIVEMODUS,
+} from "./mocks/data";
 import { server } from "./mocks/server";
 
 
@@ -17,6 +27,82 @@ describe("Root", () => {
   );
 
   beforeAndAfterSetup();
+
+  test("Skal fortsette i felles løsningen hvis har Arena-meldekort", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        () => HttpResponse.json(
+          {
+            meldekort: [opprettTestMeldekort(12345678, true, KortStatus.OPPRE, true, KortType.ELEKTRONISK, Meldegruppe.ATTF)],
+            etterregistrerteMeldekort: [],
+          },
+          { status: 200 },
+        ),
+      ),
+      http.get(
+        'https://dekoratoren.ekstern.dev.nav.no/api/version',
+        () => HttpResponse.json(
+          TEST_DECORATOR_VERSION,
+          { status: 200 },
+        ),
+      ),
+      http.get(
+        'https://dekoratoren.ekstern.dev.nav.no/ssr',
+        () => HttpResponse.json(
+          TEST_DECORATOR_RESPONSE,
+          { status: 200 },
+        ),
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).toBe(false);
+  });
+
+  test("Skal fortsette i felles løsningen hvis har etterregistrerte Arena-meldekort", async () => {
+    server.use(
+      http.get(
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        () => HttpResponse.json(
+          {
+            meldekort: [],
+            etterregistrerteMeldekort: [opprettTestMeldekort(12345678, true, KortStatus.OPPRE, true, KortType.ELEKTRONISK, Meldegruppe.INDIV)],
+          },
+          { status: 200 },
+        ),
+      ),
+      http.get(
+        'https://dekoratoren.ekstern.dev.nav.no/api/version',
+        () => HttpResponse.json(
+          TEST_DECORATOR_VERSION,
+          { status: 200 },
+        ),
+      ),
+      http.get(
+        'https://dekoratoren.ekstern.dev.nav.no/ssr',
+        () => HttpResponse.json(
+          TEST_DECORATOR_RESPONSE,
+          { status: 200 },
+        ),
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.fragments).not.toBeNull();
+    expect(response.feil).toBe(false);
+  });
 
   test("Skal få feil = true når feil med harDP", async () => {
     server.use(
@@ -52,6 +138,24 @@ describe("Root", () => {
     });
 
     expect(response.status).toBe(307);
+  });
+
+  test("Skal få feil = true når feil med AAP API", async () => {
+    server.use(
+      http.get(
+        'http://meldekort-backend.aap/api/ansvarlig-system-felles',
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.feil).toEqual(true);
   });
 
   test("Skal sende til AAP når AAP API returnerer AAP", async () => {
@@ -110,6 +214,24 @@ describe("Root", () => {
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
     expect(response.env).not.toBeNull();
+  });
+
+  test("Skal få feil = true når feil med TP API", async () => {
+    server.use(
+      http.get(
+        'http://tiltakspenger-meldekort-api.tpts/brukerfrontend/bruker',
+        () => new HttpResponse(null, { status: 500 }),
+        { once: true },
+      ),
+    );
+
+    const response = await loader({
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    });
+
+    expect(response.feil).toEqual(true);
   });
 
   test("Skal sende til TP når TP API returnerer true", async () => {

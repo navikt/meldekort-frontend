@@ -127,7 +127,7 @@ describe("Send meldekort", () => {
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
-      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
+      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toJSON().slice(0, 10), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       infomelding: TEST_INFOMELDING,
     });
@@ -164,7 +164,7 @@ describe("Send meldekort", () => {
       valgtMeldekort: meldekort1,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
-      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toISOString(), // Dato fra nesteMeldekortId
+      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toJSON().slice(0, 10), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       infomelding: TEST_INFOMELDING,
     });

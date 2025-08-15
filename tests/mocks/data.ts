@@ -59,9 +59,9 @@ export const opprettTestMeldekort = (
     meldekortId: meldekortId,
     kortType: kortType,
     meldeperiode: {
-      fra: new Date(meldekortId * 1000),
-      til: new Date(meldekortId * 1000 + 7 * 24 * 60 * 60),
-      kortKanSendesFra: new Date(meldekortId * 1000),
+      fra: new Date(meldekortId * 1000).toJSON().slice(0, 10),
+      til: new Date(meldekortId * 1000 + 7 * 24 * 60 * 60).toJSON().slice(0, 10),
+      kortKanSendesFra: new Date(meldekortId * 1000).toJSON().slice(0, 10),
       kanKortSendes: kanKortSendes,
     },
     meldegruppe: meldegruppe,
@@ -150,6 +150,17 @@ export const TEST_SKRIVEMODUS: ISkrivemodus = {
     norsk: "Norsk",
     engelsk: "English",
   },
+};
+export const TEST_DECORATOR_VERSION = {
+  "localVersion":"678600c725d69f25c0da1f6f05f4c1eb4d3c56f9",
+  "latestVersion":"678600c725d69f25c0da1f6f05f4c1eb4d3c56f9"
+};
+export const TEST_DECORATOR_RESPONSE = {
+  "header": "<header id=\"decorator-header\">DECORATOR HEADER</header>",
+  "footer": "<div id=\"decorator-footer\">DECORATOR FOOTER</div>",
+  "scripts": "<script type=\"application/json\" id=\"__DECORATOR_DATA__\"></script>",
+  "headAssets": "<link type=\"text/css\" rel=\"stylesheet\">",
+  "versionId": "678600c725d69f25c0da1f6f05f4c1eb4d3c56f9",
 };
 export const TEST_DECORATOR_FRAGMENTS = {
   DECORATOR_HEAD_ASSETS: "",

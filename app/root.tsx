@@ -3,14 +3,14 @@ import "~/index.css";
 
 import { Alert } from "@navikt/ds-react";
 import parse from "html-react-parser";
-import type { LinksFunction, LoaderFunctionArgs } from "react-router";
-import { redirect } from "react-router";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "react-router";
+import { LinksFunction, LoaderFunctionArgs } from "react-router";
+import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration, useLoaderData } from "react-router";
 
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
+import { hentPerson, IPerson } from "~/models/person";
 import type { IPersonStatus } from "~/models/personStatus";
 import { hentPersonStatus } from "~/models/personStatus";
 import { hentHarAAP } from "~/utils/aapUtils";
@@ -51,33 +51,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const meldekortApiOBOToken = await getOboToken(request);
 
-  // Sjekk at denne personen skal sendes til den nye DP løsningen
-  // Redirect til DP ellers fortsett
-  const harDPResponse = await hentHarDP(meldekortApiOBOToken);
-  if (harDPResponse.status === 307) {
-    return redirect(getEnv("DP_URL"), 307);
-  }
-
-  // Sjekk at denne personen skal sendes til den nye AAP løsningen
-  // Redirect til AAP ellers fortsett
-  const aapApiOBOToken = await getOboToken(request, getEnv("AAP_API_AUDIENCE"));
-  const harAAPResponse = await hentHarAAP(aapApiOBOToken);
-  const harAapBody = await harAAPResponse.text()
-  if (harAAPResponse.status === 200 && harAapBody === '"AAP"') { // Returneres fra API med sitattegn
-    return redirect(getEnv("AAP_URL"), 307);
-  }
-
-  // Sjekk at denne personen skal sendes til den nye TP løsningen
-  // Redirect til TP ellers fortsett
-  const tpApiOBOToken = await getOboToken(request, getEnv("TP_API_AUDIENCE"));
-  const tpBrukerResponse = await hentTpBruker(tpApiOBOToken);
-  if (tpBrukerResponse.status === 200) {
-    const tpBruker: ITPBruker = await tpBrukerResponse.json();
-    if (tpBruker.harSak) {
-      return redirect(getEnv("TP_URL"), 307);
-    }
-  }
-
   const url = new URL(request.url);
   // Sjekk at denne personen har tilgang (dvs. har meldeplikt)
   const personStatusResponse = await hentPersonStatus(meldekortApiOBOToken);
@@ -88,6 +61,58 @@ export async function loader({ request }: LoaderFunctionArgs) {
   if (personStatus == null) {
     feil = true;
   } else {
+    let antallMeldekort = 0;
+
+    // Sjekk at personen har meldekort i Arena med meldegrupper som ikke er ARBS og DAGP
+    // Dette sjekker vi fordi ALLE ARBS og DAGP meldekort KAN (og må) sendes gjennom den nye dp-løsningen
+    // Det er ingen vits i å sjekke antall meldekort i Arena når vi har tom id i personStatus (dvs. ingen meldeplikt i Arena)
+    if (personStatus.id !== "") {
+      const personResponse = await hentPerson(meldekortApiOBOToken);
+      const person = await personResponse.json() as IPerson;
+      antallMeldekort =
+        person.meldekort.filter(meldekort => meldekort.meldegruppe !== "ARBS" && meldekort.meldegruppe !== "DAGP").length +
+        person.etterregistrerteMeldekort.filter(meldekort => meldekort.meldegruppe !== "ARBS" && meldekort.meldegruppe !== "DAGP").length;
+    }
+
+    // Fortsett i felles løsningen hvis det finnes noe
+    // Hvis det ikke finnes noe, sjekk om personen skal sendes til DP, AAP eller TP
+    if (antallMeldekort === 0) {
+      // Sjekk at denne personen skal sendes til den nye DP løsningen
+      // Redirect til DP ellers fortsett
+      const harDPResponse = await hentHarDP(meldekortApiOBOToken);
+      if (harDPResponse.status === 307) {
+        return redirect(getEnv("DP_URL"), 307);
+      } else if (!harDPResponse.ok) {
+        feil = true;
+      }
+
+      // Sjekk at denne personen skal sendes til den nye AAP løsningen
+      // Redirect til AAP ellers fortsett
+      const aapApiOBOToken = await getOboToken(request, getEnv("AAP_API_AUDIENCE"));
+      const harAAPResponse = await hentHarAAP(aapApiOBOToken);
+      if (harAAPResponse.status === 200) {
+        const harAapBody = await harAAPResponse.text();
+        if (harAapBody === '"AAP"') {  // Returneres fra API med sitattegn
+          return redirect(getEnv("AAP_URL"), 307);
+        }
+      } else {
+        feil = true;
+      }
+
+      // Sjekk at denne personen skal sendes til den nye TP løsningen
+      // Redirect til TP ellers fortsett
+      const tpApiOBOToken = await getOboToken(request, getEnv("TP_API_AUDIENCE"));
+      const tpBrukerResponse = await hentTpBruker(tpApiOBOToken);
+      if (tpBrukerResponse.status === 200) {
+        const tpBruker: ITPBruker = await tpBrukerResponse.json();
+        if (tpBruker.harSak) {
+          return redirect(getEnv("TP_URL"), 307);
+        }
+      } else {
+        feil = true;
+      }
+    }
+
     // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
     if (url.pathname.endsWith("/ikke-tilgang") && personStatus.id !== "") {
       return redirect("/send-meldekort", 307);
@@ -100,10 +125,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   const fragments = await hentDekoratorHtml();
-
-  if (!harDPResponse.ok) {
-    feil = true;
-  }
 
   return {
     fragments,
