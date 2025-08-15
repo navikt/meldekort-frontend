@@ -1,6 +1,6 @@
-import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { screen, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
+import { MetaArgs } from "react-router";
 import { describe, expect, test } from "vitest";
 
 import type { IMeldekort } from "~/models/meldekort";
@@ -175,7 +175,7 @@ describe("Send meldekort", () => {
   });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs;
+    const args = {} as MetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },

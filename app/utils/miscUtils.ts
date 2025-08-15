@@ -37,7 +37,9 @@ export function byggBegrunnelseObjekt(str: string) {
 export function hentSvar(sporsmal: ISporsmal, spmid: string): boolean | null {
   for (const sporsmalKey in sporsmal) {
     if (sporsmalKey === spmid) {
-      return sporsmal[sporsmalKey as keyof typeof sporsmal];
+      const value = sporsmal[sporsmalKey as keyof typeof sporsmal]
+      if (typeof value === "boolean") return value;
+      else return null;
     }
   }
 

@@ -28,11 +28,13 @@ export const renderRoutesStub = (
   const RoutesStub = createRoutesStub([
     {
       path: "/",
+      // @ts-expect-error Vet ikke hvorfor disse typene er inkompatible
       Component: component,
       loader,
     },
     {
       path: nextPath,
+      // @ts-expect-error Vet ikke hvorfor disse typene er inkompatible
       Component: nextComponent,
     },
   ]);

@@ -2,6 +2,7 @@ import "@navikt/ds-css/dist/index.css";
 import "~/index.css";
 
 import { Alert } from "@navikt/ds-react";
+import { DecoratorElements } from "@navikt/nav-dekoratoren-moduler/ssr";
 import parse from "html-react-parser";
 import { LinksFunction, LoaderFunctionArgs } from "react-router";
 import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration, useLoaderData } from "react-router";
@@ -22,6 +23,15 @@ import { hentTpBruker, ITPBruker } from "~/utils/tpUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 
+export interface IRootLoaderData {
+  fragments: DecoratorElements;
+  feil: boolean;
+  env: {
+    BASE_PATH: string;
+    MIN_SIDE_URL: string;
+    AMPLITUDE_API_KEY: string;
+  };
+}
 
 export const links: LinksFunction = () => {
   return [
@@ -45,7 +55,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export async function loader({ request }: LoaderFunctionArgs) {
+export async function loader({ request }: LoaderFunctionArgs): Promise<Response | IRootLoaderData> {
   let feil = false;
   let personStatus: IPersonStatus | null = null;
 

@@ -51,7 +51,7 @@ describe("Meldekortdetaljer Innsending", () => {
       ),
     );
 
-    const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING)));
+    const response = await sendInnMeldekortAction(opprettActionFunctionArgs(Innsendingstype.KORRIGERING));
 
     expect(response).toEqual({
       baksystemFeil: true,
@@ -68,7 +68,7 @@ describe("Meldekortdetaljer Innsending", () => {
       ),
     );
 
-    const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs()));
+    const response = await sendInnMeldekortAction(opprettActionFunctionArgs());
 
     expect(response).toEqual({
       baksystemFeil: true,
@@ -113,7 +113,7 @@ describe("Meldekortdetaljer Innsending", () => {
     // Stopper server slik at fetch kaster exception
     server.close();
 
-    const response = await catchErrorResponse(() => sendInnMeldekortAction(opprettActionFunctionArgs()));
+    const response = await sendInnMeldekortAction(opprettActionFunctionArgs());
 
     expect(response).toEqual({
       baksystemFeil: true,

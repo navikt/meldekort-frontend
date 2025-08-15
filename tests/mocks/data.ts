@@ -10,14 +10,17 @@ import type { IPersonStatus } from "~/models/personStatus";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
 
-// Denne metoden gjør det samme som json() i loader (nå konvertere bare Date til String)
+// Denne metoden gjør det samme som json() i loader (nå konverterer bare Date til String)
 // Den oppretter ikke et nytt objekt, men gjør endringer i det gitte
 export const jsonify = (data: object) => {
   for (const key in data) {
-    if (data[key] instanceof Date) {
-      data[key] = data[key].toISOString();
-    } else if (typeof data[key] === "object") {
-      jsonify(data[key]);
+    // @ts-expect-error Det er helt OK å ha any her
+    const value = data[key]
+    if (value instanceof Date) {
+      // @ts-expect-error Det er helt OK å ha any her
+      data[key] = value.toISOString();
+    } else if (typeof value === "object") {
+      jsonify(value);
     }
   }
 };

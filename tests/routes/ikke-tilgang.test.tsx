@@ -1,6 +1,5 @@
-import type { ServerRuntimeMetaArgs } from "@react-router/server-runtime/dist/routeModules";
 import { render, screen, waitFor } from "@testing-library/react";
-import { createMemoryRouter, RouterProvider } from "react-router";
+import { createMemoryRouter, MetaArgs, RouterProvider } from "react-router";
 import { describe, expect, test } from "vitest";
 
 import IkkeTilgang, { meta } from "~/routes/ikke-tilgang";
@@ -22,7 +21,7 @@ describe("Ikke tilgang", () => {
   });
 
   test("Skal returnere metainformasjon", async () => {
-    const args = {} as ServerRuntimeMetaArgs;
+    const args = {} as MetaArgs;
 
     expect(meta(args)).toStrictEqual([
       { title: "Meldekort" },
