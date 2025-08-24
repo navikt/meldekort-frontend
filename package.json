@@ -54,7 +54,7 @@
     "@types/compression": "^1.8.1",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
-    "@types/react": "^19.1.10",
+    "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.7",
     "@types/source-map-support": "^0.5.10",
     "@vitejs/plugin-react": "^5.0.0",
