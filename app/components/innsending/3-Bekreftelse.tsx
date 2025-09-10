@@ -1,4 +1,5 @@
 import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
+import { DateTime } from "luxon";
 import { useState } from "react";
 
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
@@ -103,7 +104,7 @@ export default function Bekreftelse(props: IProps) {
       // Send
       setLoading(true);
 
-      const mottattDato = new Date();
+      const mottattDato = DateTime.now().setZone("Europe/Oslo")
 
       const meldekortdetaljer: IMeldekortdetaljerInnsending = {
         begrunnelse: begrunnelse,
@@ -115,7 +116,7 @@ export default function Bekreftelse(props: IProps) {
         meldegruppe: valgtMeldekort.meldegruppe,
         meldekortId: valgtMeldekort.meldekortId,
         meldeperiode: valgtMeldekort.meldeperiode,
-        mottattDato: mottattDato,
+        mottattDato: mottattDato.toISODate()!,
         sesjonsId: "IKKE I BRUK",
         signatur: true, // Vi sender ikke uten brukerens samtykke
         sporsmalsobjekter: opprettSporsmalsobjekter(valgtMeldekort, innsendingstype, begrunnelse, sporsmal, mottattDato, nesteMeldekortKanSendes), // Her samler vi alt bruker har sett for å lagre i Dokarkiv

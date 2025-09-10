@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { DateTime } from "luxon";
 import type { MockInstance } from "vitest";
 import { describe, expect, test, vi } from "vitest";
 
@@ -13,8 +14,8 @@ import { opprettTestMeldekort, TEST_SPORSMAL } from "../mocks/data";
 describe("Sporsmalsobjekter utils", () => {
   const valgtMeldekort = opprettTestMeldekort(1707156945);
   const begrunnelse = "Begrunnelse";
-  const mottattDato = new Date();
-  const nesteMeldekortKanSendes = "09.02.2024";
+  const mottattDato = DateTime.now();
+  const nesteMeldekortKanSendes = "2024-02-09";
 
   test("opprettSporsmalsobjekter skal returnere riktige objekter for INNSENDING", async () => {
     const tSpy: MockInstance = vi.spyOn(i18next, "t");
@@ -43,7 +44,7 @@ describe("Sporsmalsobjekter utils", () => {
         + " "
         + formaterDato(mottattDato)
         + " "
-        + formaterTid(mottattDato)
+        + formaterTid(mottattDato) + " CET"
         + " "
         + formaterDato(nesteMeldekortKanSendes)
         + "<br/>",

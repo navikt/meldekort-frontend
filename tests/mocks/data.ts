@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import type { IInfomelding } from "~/models/infomelding";
 import { KortType } from "~/models/kortType";
 import { Meldegruppe } from "~/models/meldegruppe";
@@ -16,9 +18,9 @@ export const jsonify = (data: object) => {
   for (const key in data) {
     // @ts-expect-error Det er helt OK å ha any her
     const value = data[key]
-    if (value instanceof Date) {
+    if (value instanceof DateTime) {
       // @ts-expect-error Det er helt OK å ha any her
-      data[key] = value.toISOString();
+      data[key] = value.toISO();
     } else if (typeof value === "object") {
       jsonify(value);
     }
@@ -62,15 +64,15 @@ export const opprettTestMeldekort = (
     meldekortId: meldekortId,
     kortType: kortType,
     meldeperiode: {
-      fra: new Date(meldekortId * 1000).toJSON().slice(0, 10),
-      til: new Date(meldekortId * 1000 + 7 * 24 * 60 * 60).toJSON().slice(0, 10),
-      kortKanSendesFra: new Date(meldekortId * 1000).toJSON().slice(0, 10),
+      fra: DateTime.fromMillis(meldekortId * 1000).toISODate()!,
+      til: DateTime.fromMillis(meldekortId * 1000 + 7 * 24 * 60 * 60).toISODate()!,
+      kortKanSendesFra: DateTime.fromMillis(meldekortId * 1000).toISODate()!,
       kanKortSendes: kanKortSendes,
     },
     meldegruppe: meldegruppe,
     kortStatus: kortStatus,
     bruttoBelop: 100,
-    mottattDato: new Date(meldekortId * 1000),
+    mottattDato: DateTime.fromMillis(meldekortId * 1000),
     korrigerbart: korrigerbart,
   };
 };
@@ -82,8 +84,8 @@ export const opprettTestMeldekortdetaljer = (meldekortId: number, begrunnelse: s
     meldeperiode: "",
     arkivnokkel: "",
     kortType: KortType.ELEKTRONISK,
-    meldeDato: new Date(meldekortId * 1000),
-    lestDato: new Date(meldekortId * 1000),
+    meldeDato: DateTime.fromMillis(meldekortId * 1000),
+    lestDato: DateTime.fromMillis(meldekortId * 1000),
     sporsmal: {
       arbeidssoker: true,
       arbeidet: true,

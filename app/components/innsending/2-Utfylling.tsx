@@ -1,5 +1,6 @@
 import { Accordion, Alert, Button, Checkbox, Heading, TextField } from "@navikt/ds-react";
 import classNames from "classnames";
+import { DateTime } from "luxon";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
@@ -81,8 +82,7 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles.arbeid)}></div>
         {
           ukedager.map((dag, index) => {
-            const date = new Date(fom);
-            date.setDate(date.getDate() + index + plussDager);
+            const date = DateTime.fromISO(fom).plus({ days: index + plussDager });
 
             return <div key={"arbeid" + index} className={styles.centered}>
               {opprettDag(dag)}
@@ -117,8 +117,7 @@ export default function Utfylling(props: IProps) {
         <div className={classNames(styles.placeholder, styles[type])}></div>
         {
           ukedager.map((dag, index) => {
-            const date = new Date(fom);
-            date.setDate(date.getDate() + index + plussDager);
+            const date = DateTime.fromISO(fom).plus({ days: index + plussDager });
 
             return <div key={type + index} className={styles.centered}>
               {opprettDag(dag)}

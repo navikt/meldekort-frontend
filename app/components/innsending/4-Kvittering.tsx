@@ -1,6 +1,6 @@
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
 import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
-import { format } from "date-fns";
+import { DateTime } from "luxon";
 import { NavLink } from "react-router";
 
 import Begrunnelse from "~/components/begrunnelse/Begrunnelse";
@@ -14,7 +14,7 @@ import type { IPersonInfo } from "~/models/person";
 import type { ISporsmal } from "~/models/sporsmal";
 import { Ytelsestype } from "~/models/ytelsestype";
 import { loggAktivitet } from "~/utils/amplitudeUtils";
-import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
+import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer, formaterTid } from "~/utils/datoUtils";
 import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
@@ -50,7 +50,7 @@ export default function Kvittering(props: IProps) {
 
   const { tt } = useExtendedTranslation();
 
-  const mottattDato = new Date(); // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
+  const mottattDato = DateTime.now().setZone("Europe/Oslo"); // API returnerer ikke noe mottat dato og vi må bare ta nåværende tidspunkt
 
   const createButton = (to: string, text: string) => {
     return (
@@ -137,7 +137,7 @@ export default function Kvittering(props: IProps) {
       <BodyLong size="large">
         {parseHtml(
           tt("sendt.mottatt.label"),
-          [formaterDato(mottattDato), format(mottattDato, "HH:mm")],
+          [formaterDato(mottattDato), formaterTid(mottattDato) + " CET"],
         )}
       </BodyLong>
       {nesteMeldekortKanSendes && (

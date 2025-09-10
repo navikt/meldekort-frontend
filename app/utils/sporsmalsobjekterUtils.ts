@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import { Innsendingstype } from "~/models/innsendingstype";
 import type { IMeldekort } from "~/models/meldekort";
 import type { ISporsmalsobjekt } from "~/models/meldekortdetaljerInnsending";
@@ -16,7 +18,7 @@ export function opprettSporsmalsobjekter(
   innsendingstype: Innsendingstype,
   begrunnelse: string,
   sporsmal: ISporsmal,
-  mottattDato: Date,
+  mottattDato: DateTime,
   nesteMeldekortKanSendes: string | undefined,
 ): ISporsmalsobjekt[] {
   const ytelsestypePostfix = finnYtelsestypePostfix(valgtMeldekort.meldegruppe);
@@ -57,10 +59,10 @@ export function opprettSporsmalsobjekter(
 function header(
   korrigering: boolean,
   valgtMeldekort: IMeldekort,
-  mottattDato: Date,
+  mottattDato: DateTime,
   nesteDato: string | undefined,
 ): ISporsmalsobjekt {
-  const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato);
+  const meldekortMottatt = formaterDato(mottattDato) + " " + formaterTid(mottattDato) + " CET";
 
   return {
     sporsmal: "",

@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import type { KortType } from "~/models/kortType";
 import type { ISporsmal } from "~/models/sporsmal";
 import { getEnv } from "~/utils/envUtils";
@@ -10,8 +12,8 @@ export interface IMeldekortdetaljer {
   meldeperiode: string;
   arkivnokkel: string;
   kortType: KortType;
-  meldeDato: Date;
-  lestDato: Date;
+  meldeDato: DateTime;
+  lestDato: DateTime;
   sporsmal: ISporsmal;
   begrunnelse: string | null;
 }
