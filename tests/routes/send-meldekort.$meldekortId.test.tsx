@@ -1,4 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
+import { DateTime } from "luxon";
 import { http, HttpResponse } from "msw";
 import { MetaArgs } from "react-router";
 import { describe, expect, test, vi } from "vitest";
@@ -10,6 +11,7 @@ import SendMeldekort, {
   meta,
   shouldRevalidate,
 } from "~/routes/send-meldekort.$meldekortId";
+import { formaterDato } from "~/utils/datoUtils";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
@@ -127,7 +129,7 @@ describe("Send meldekort", () => {
       valgtMeldekort: expectedValgtMeldekort,
       nesteMeldekortId: 1707156946,
       nesteEtterregistrerteMeldekortId: 1707156947,
-      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toJSON().slice(0, 10), // Dato fra nesteMeldekortId
+      nesteMeldekortKanSendes: DateTime.fromMillis(1707156946 * 1000).toISODate(), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       infomelding: TEST_INFOMELDING,
     });
@@ -164,7 +166,7 @@ describe("Send meldekort", () => {
       valgtMeldekort: meldekort1,
       nesteMeldekortId: undefined,
       nesteEtterregistrerteMeldekortId: undefined,
-      nesteMeldekortKanSendes: new Date(Number(1707156946 * 1000)).toJSON().slice(0, 10), // Dato fra nesteMeldekortId
+      nesteMeldekortKanSendes: DateTime.fromMillis(1707156946 * 1000).toISODate(), // Dato fra nesteMeldekortId
       personInfo: TEST_PERSON_INFO,
       infomelding: TEST_INFOMELDING,
     });

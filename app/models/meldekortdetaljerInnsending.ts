@@ -10,7 +10,7 @@ export interface IMeldekortdetaljerInnsending {
   kortType: KortType;
   kortStatus: KortStatus;
   meldegruppe: Meldegruppe,
-  mottattDato: Date;
+  mottattDato: string; // ISO-format
   meldeperiode: IMeldeperiode;
   erArbeidssokerNestePeriode: boolean;
   bruttoBelop?: number;

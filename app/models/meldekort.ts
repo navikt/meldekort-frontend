@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 import type { KortType } from "~/models/kortType";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { IMeldeperiode } from "~/models/meldeperiode";
@@ -12,7 +14,7 @@ export interface IMeldekort {
   meldegruppe: Meldegruppe;
   kortStatus: KortStatus;
   bruttoBelop?: number;
-  mottattDato: Date;
+  mottattDato: DateTime;
   korrigerbart: boolean;
 }
 
