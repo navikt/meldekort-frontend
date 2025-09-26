@@ -18,12 +18,6 @@ const fom = "2024-02-12";
 const tom = "2024-02-25";
 
 describe("Kvittering", () => {
-  const hjMock = vi.fn();
-  Object.defineProperty(window, "hj", {
-    writable: true,
-    value: hjMock,
-  });
-
   const replaceMock = vi.fn();
   Object.defineProperty(window, "location", {
     writable: true,
@@ -42,14 +36,11 @@ describe("Kvittering", () => {
   /*
   * Innsending
   */
-  test("Skal vise innhold for Innsending uten neste meldekort, kalle HJ og Amplitude og kunne skrive ut", async () => {
-    hjMock.mockClear();
+  test("Skal vise innhold for Innsending uten neste meldekort, Amplitude og kunne skrive ut", async () => {
     vi.stubEnv("SKAL_LOGGE", "true");
     const trackSpy = vi.spyOn(amplitude, "track");
 
     createRouteAndRender(Innsendingstype.INNSENDING);
-
-    expect(hjMock).toBeCalledWith("trigger", "meldekortAAP");
 
     expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
       arbeidssoker: "ja",
@@ -104,11 +95,7 @@ describe("Kvittering", () => {
    * Etterregistrering
    */
   test("Skal vise innhold for Etterregistrering uten neste meldekort", async () => {
-    hjMock.mockClear();
-
     createRouteAndRender(Innsendingstype.ETTERREGISTRERING, undefined, undefined, undefined, Ytelsestype.TILTAKSPENGER);
-
-    expect(hjMock).toBeCalledWith("trigger", "meldekortTP");
 
     await waitFor(() => screen.findByText("tilbake.minSide"));
   });
@@ -134,16 +121,13 @@ describe("Kvittering", () => {
   /*
    * Korrigering
    */
-  test("Skal vise innhold for korrigering og med nesteMeldekortKanSendes og kalle HJ med Sp.5 = false", async () => {
-    hjMock.mockClear();
+  test("Skal vise innhold for korrigering og med nesteMeldekortKanSendes med Sp.5 = false", async () => {
     vi.stubEnv("SKAL_LOGGE", "true");
     const trackSpy = vi.spyOn(amplitude, "track");
 
     const sporsmal = { ...TEST_SPORSMAL, arbeidssoker: false };
 
     createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, "2024-02-26", Ytelsestype.DAGPENGER, sporsmal);
-
-    expect(hjMock).toBeCalledWith("trigger", "meldekortDP");
 
     expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
       arbeidssoker: "nei",

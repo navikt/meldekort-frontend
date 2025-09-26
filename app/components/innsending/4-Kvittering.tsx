@@ -78,19 +78,6 @@ export default function Kvittering(props: IProps) {
     }
   }
 
-  if (
-    ytelsestypePostfix === Ytelsestype.AAP &&
-    nesteMeldekortId == undefined &&
-    window["hj"]
-  ) {
-    window.hj("trigger", "meldekortAAP");
-  } else if (ytelsestypePostfix === Ytelsestype.TILTAKSPENGER && window["hj"]) {
-    window.hj("trigger", "meldekortTP");
-  } else if (ytelsestypePostfix === Ytelsestype.DAGPENGER && window["hj"]) {
-    window.hj("trigger", "meldekortDP");
-  }
-
-
   loggAktivitet(
     "Viser kvittering",
     {
