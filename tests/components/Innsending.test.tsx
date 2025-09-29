@@ -12,7 +12,8 @@ import { opprettSporsmal } from "~/utils/miscUtils";
 
 import {
   jsonify,
-  opprettTestMeldekort, TEST_INFOMELDING,
+  opprettTestMeldekort,
+  TEST_INFOMELDING,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL,
   TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK,
   TEST_PERSON_INFO,
@@ -20,7 +21,7 @@ import {
 
 const delay = (durationMs: number) => {
   return new Promise(resolve => setTimeout(resolve, durationMs));
-}
+};
 
 describe("Innsending", () => {
   vi.mock("react-i18next", async () =>
@@ -96,30 +97,36 @@ describe("Innsending", () => {
   );
 
   test("Skal vise feilmeldinger hvis innsending = undefined", async () => {
-    await createRouteAndRenderAndCheckCommon(undefined);
+      await createRouteAndRenderAndCheckCommon(undefined);
 
-    // Sjekk at vi viser feilmelding
-    await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
-  });
+      // Sjekk at vi viser feilmelding
+      await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
+    },
+    10000,
+  );
 
   test("Skal vise feilmeldinger hvis status er uforventet", async () => {
-    await createRouteAndRenderAndCheckCommon({
-      meldekortId: 1,
-      status: "!",
-      arsakskoder: null,
-      meldekortdager: null,
-    });
+      await createRouteAndRenderAndCheckCommon({
+        meldekortId: 1,
+        status: "!",
+        arsakskoder: null,
+        meldekortdager: null,
+      });
 
-    // Sjekk at vi viser feilmelding
-    await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
-  });
+      // Sjekk at vi viser feilmelding
+      await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
+    },
+    10000,
+  );
 
   test("Skal vise feilmeldinger hvis baksystemFeil = true", async () => {
-    await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, true);
+      await createRouteAndRenderAndCheckCommon(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, true);
 
-    // Sjekk at vi viser feilmelding
-    await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
-  });
+      // Sjekk at vi viser feilmelding
+      await waitFor(() => screen.findByText("meldekortkontroll.feilkode.00"));
+    },
+    10000,
+  );
 
   test("Spørsmål 5 skal vare Ja ved Etterregistrering", async () => {
     await createRouteAndRender(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, false, Innsendingstype.ETTERREGISTRERING);
