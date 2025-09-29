@@ -1,4 +1,5 @@
-import { Alert, Box, Button, ConfirmationPanel } from "@navikt/ds-react";
+import { Alert, Box, Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import { AkselLegacyBackgroundColorToken, AkselLegacyBorderColorToken } from "@navikt/ds-tokens/types";
 import { DateTime } from "luxon";
 import { useState } from "react";
 
@@ -155,6 +156,18 @@ export default function Bekreftelse(props: IProps) {
 
   loggAktivitet("Viser bekreftelse");
 
+  let bekreftelseBackground = "surface-warning-subtle";
+  let bekreftelseBorderColor = "border-warning";
+
+  if (!bekreftet && visFeil) {
+    bekreftelseBackground = "surface-danger-subtle";
+    bekreftelseBorderColor = "border-danger";
+  }
+  if (bekreftet) {
+    bekreftelseBackground = "surface-success-subtle";
+    bekreftelseBorderColor = "border-success";
+  }
+
   return (
     <div>
       <Alert variant="warning">
@@ -178,14 +191,21 @@ export default function Bekreftelse(props: IProps) {
 
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
-      <ConfirmationPanel
-        label={tt("utfylling.bekreftAnsvar")}
-        checked={bekreftet}
-        onChange={() => setBekreftet((bekreftet) => !bekreftet)}
-        error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
+      <Box
+        background={ bekreftelseBackground as AkselLegacyBackgroundColorToken }
+        borderColor={ bekreftelseBorderColor as AkselLegacyBorderColorToken }
+        padding="space-16"
+        borderWidth="1"
+        borderRadius="medium"
       >
-        {parseHtml(tt("utfylling.bekreft" + ytelsestypePostfix))}
-      </ConfirmationPanel>
+        <CheckboxGroup
+          legend={parseHtml(tt("utfylling.bekreft" + ytelsestypePostfix))}
+          onChange={() => setBekreftet((bekreftet) => !bekreftet)}
+          error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
+        >
+          <Checkbox value="" checked={bekreftet}>{tt("utfylling.bekreftAnsvar")}</Checkbox>
+        </CheckboxGroup>
+      </Box>
 
       {baksystemFeil &&
         <div>
