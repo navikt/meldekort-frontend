@@ -3,8 +3,8 @@ import { Link } from "@navikt/ds-react";
 import type { ReactElement } from "react";
 import React, { useState } from "react";
 
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { useExtendedTranslation } from "~/utils/intlUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 import styles from "./UtvidetInformasjon.module.css";
 

@@ -10,7 +10,6 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { KortStatus } from "~/models/meldekort";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { formaterDato, formaterPeriode, formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
@@ -19,6 +18,7 @@ import {
   finnNesteSomKanSendes,
   meldekortEtterKanSendesFraKomparator,
 } from "~/utils/meldekortUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -154,7 +154,7 @@ export default function SendMeldekort() {
     }
   }
 
-  loggAktivitet("Viser send");
+  loggAktivitet("Viser Send meldekort");
 
   return (
     <div>

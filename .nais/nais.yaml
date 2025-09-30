@@ -61,14 +61,12 @@ spec:
       value: "{{ tpUrl }}"
     - name: TP_API_AUDIENCE
       value: "{{ tpApiAudience }}"
-    - name: AMPLITUDE_API_KEY
-      value: "{{ amplitudeApiKey }}"
+    - name: UMAMI_ID
+      value: "{{umami_id}}"
     - name: SKAL_LOGGE
       value: "{{ skal_logge }}"
   accessPolicy:
     outbound:
-      external:
-        - host: amplitude.nav.no
       rules:
         - application: meldekort-api{{ dashEnv }}
         - application: nav-dekoratoren

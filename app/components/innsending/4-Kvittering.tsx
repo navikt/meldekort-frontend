@@ -12,11 +12,10 @@ import { Innsendingstype } from "~/models/innsendingstype";
 import type { Meldegruppe } from "~/models/meldegruppe";
 import type { IPersonInfo } from "~/models/person";
 import type { ISporsmal } from "~/models/sporsmal";
-import { Ytelsestype } from "~/models/ytelsestype";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { formaterDato, formaterPeriodeDato, formaterPeriodeTilUkenummer, formaterTid } from "~/utils/datoUtils";
 import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 interface IProps {
@@ -79,17 +78,11 @@ export default function Kvittering(props: IProps) {
   }
 
   loggAktivitet(
-    "Viser kvittering",
+    "Viser Kvittering",
     {
       arbeidssoker: sporsmal.arbeidssoker ? "ja" : "nei",
       meldegruppe: meldegruppe,
       innsendingstype: innsendingstype,
-    },
-  );
-  loggAktivitet(
-    "skjema fullført",
-    {
-      meldegruppe: meldegruppe,
     },
   );
 
