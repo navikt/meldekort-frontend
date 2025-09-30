@@ -1,6 +1,9 @@
 declare global {
   interface Window {
     env: IEnv;
+    umami: {
+      track(event: string, props: { [key: string]: unknown }): void;
+    };
   }
 }
 
@@ -19,7 +22,7 @@ interface IEnv {
   TP_API_AUDIENCE: string;
   IS_LOCALHOST: string;
   MELDEKORT_API_TOKEN: string;
-  AMPLITUDE_API_KEY: string;
+  UMAMI_ID: string;
   SKAL_LOGGE: string;
 }
 

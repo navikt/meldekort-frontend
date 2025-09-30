@@ -1,7 +1,6 @@
-import amplitude from "@amplitude/analytics-browser";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import Kvittering from "~/components/innsending/4-Kvittering";
 import { Innsendingstype } from "~/models/innsendingstype";
@@ -19,6 +18,8 @@ const tom = "2024-02-25";
 
 describe("Kvittering", () => {
   const replaceMock = vi.fn();
+  const trackMock = vi.fn();
+
   Object.defineProperty(window, "location", {
     writable: true,
     value: { assign: vi.fn() },
@@ -29,6 +30,13 @@ describe("Kvittering", () => {
     value: replaceMock,
   });
 
+  beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).umami = {
+      track: trackMock,
+    };
+  });
+
   afterEach(() => {
     cleanup();
   });
@@ -36,22 +44,20 @@ describe("Kvittering", () => {
   /*
   * Innsending
   */
-  test("Skal vise innhold for Innsending uten neste meldekort, Amplitude og kunne skrive ut", async () => {
+  test("Skal vise innhold for Innsending uten neste meldekort, Umami og kunne skrive ut", async () => {
     vi.stubEnv("SKAL_LOGGE", "true");
-    const trackSpy = vi.spyOn(amplitude, "track");
 
     createRouteAndRender(Innsendingstype.INNSENDING);
 
-    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
-      arbeidssoker: "ja",
-      meldegruppe: Meldegruppe.DAGP,
-      innsendingstype: Innsendingstype.INNSENDING,
-      aktivitet: "Viser kvittering",
-    });
-    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
-      meldegruppe: Meldegruppe.DAGP,
-      aktivitet: "skjema fullført",
-    });
+    expect(trackMock).toBeCalledWith(
+      "Viser Kvittering",
+      {
+        appNavn: "meldekort-frontend",
+        arbeidssoker: "ja",
+        meldegruppe: Meldegruppe.DAGP,
+        innsendingstype: Innsendingstype.INNSENDING,
+      },
+    );
 
     await waitFor(() => screen.findAllByText("overskrift.meldekort.sendt")); // overskrift.meldekort.sendt x 2
     await waitFor(() => screen.findByText("sendt.klagerettigheterInfo"));
@@ -123,22 +129,20 @@ describe("Kvittering", () => {
    */
   test("Skal vise innhold for korrigering og med nesteMeldekortKanSendes med Sp.5 = false", async () => {
     vi.stubEnv("SKAL_LOGGE", "true");
-    const trackSpy = vi.spyOn(amplitude, "track");
 
     const sporsmal = { ...TEST_SPORSMAL, arbeidssoker: false };
 
     createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, "2024-02-26", Ytelsestype.DAGPENGER, sporsmal);
 
-    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
-      arbeidssoker: "nei",
-      meldegruppe: Meldegruppe.DAGP,
-      innsendingstype: Innsendingstype.KORRIGERING,
-      aktivitet: "Viser kvittering",
-    });
-    expect(trackSpy).toBeCalledWith("meldekort.aktivitet", {
-      meldegruppe: Meldegruppe.DAGP,
-      aktivitet: "skjema fullført",
-    });
+    expect(trackMock).toBeCalledWith(
+      "Viser Kvittering",
+      {
+        appNavn: "meldekort-frontend",
+        arbeidssoker: "nei",
+        meldegruppe: Meldegruppe.DAGP,
+        innsendingstype: Innsendingstype.KORRIGERING,
+      },
+    );
 
     await waitFor(() => screen.findByText("sendt.meldekortKanSendes"));
     await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"));

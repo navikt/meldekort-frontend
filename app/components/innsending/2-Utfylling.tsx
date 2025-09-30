@@ -10,11 +10,11 @@ import { Meldegruppe } from "~/models/meldegruppe";
 import type { ISendInnMeldekortActionResponse } from "~/models/meldekortdetaljerInnsending";
 import type { ISporsmal } from "~/models/sporsmal";
 import type { IMeldekortDag } from "~/models/sporsmal";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { formaterDato, ukeFormatert } from "~/utils/datoUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { ukeDager } from "~/utils/miscUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 import styles from "./Innsending.module.css";
 
@@ -291,7 +291,7 @@ export default function Utfylling(props: IProps) {
     }
   };
 
-  loggAktivitet("Viser utfylling");
+  loggAktivitet("Viser Utfylling");
 
   return (
     <div>

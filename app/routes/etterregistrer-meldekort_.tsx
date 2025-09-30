@@ -10,11 +10,11 @@ import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { KortStatus } from "~/models/meldekort";
 import type { IPerson } from "~/models/person";
 import { hentPerson } from "~/models/person";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { meldekortEtterKanSendesFraKomparator } from "~/utils/meldekortUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -102,7 +102,7 @@ export default function Etterregistrering() {
     </div>;
   }
 
-  loggAktivitet("Viser etterregistrere meldekort");
+  loggAktivitet("Viser Etterregistrer meldekort");
 
   return (
     <div>

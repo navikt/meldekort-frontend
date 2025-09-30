@@ -3,8 +3,8 @@ import type { MetaFunction } from "react-router";
 
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -45,7 +45,7 @@ export default function OmMeldekort() {
     </Box>
   </GuidePanel>;
 
-  loggAktivitet("Viser om meldekort");
+  loggAktivitet("Viser Om meldekort");
 
   return (
     <div>

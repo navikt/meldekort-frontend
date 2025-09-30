@@ -16,11 +16,11 @@ import type {
 } from "~/models/meldekortdetaljerInnsending";
 import { FravaerTypeInnsending } from "~/models/meldekortdetaljerInnsending";
 import type { ISporsmal } from "~/models/sporsmal";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { useFetcherWithPromise } from "~/utils/fetchUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { finnYtelsestypePostfix } from "~/utils/meldekortUtils";
 import { opprettSporsmalsobjekter } from "~/utils/sporsmalsobjekterUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 interface IProps {
@@ -154,7 +154,7 @@ export default function Bekreftelse(props: IProps) {
     }
   };
 
-  loggAktivitet("Viser bekreftelse");
+  loggAktivitet("Viser Bekreftelse");
 
   let bekreftelseBackground = "surface-warning-subtle";
   let bekreftelseBorderColor = "border-warning";

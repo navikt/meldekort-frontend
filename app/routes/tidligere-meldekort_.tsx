@@ -10,9 +10,9 @@ import type { IMeldekort } from "~/models/meldekort";
 import { hentHistoriskeMeldekort } from "~/models/meldekort";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import { hentSkrivemodus } from "~/models/skrivemodus";
-import { loggAktivitet } from "~/utils/amplitudeUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
+import { loggAktivitet } from "~/utils/umamiUtils";
 
 
 export const meta: MetaFunction = () => {
@@ -83,7 +83,7 @@ export default function TidligereMeldekort() {
 
   const innhold = <div>{forklaring}{alertOrData}</div>;
 
-  loggAktivitet("Viser tidligere meldekort");
+  loggAktivitet("Viser Tidligere meldekort");
 
   return (
     <div>
