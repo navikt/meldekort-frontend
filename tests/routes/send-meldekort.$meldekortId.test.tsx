@@ -11,7 +11,6 @@ import SendMeldekort, {
   meta,
   shouldRevalidate,
 } from "~/routes/send-meldekort.$meldekortId";
-import { formaterDato } from "~/utils/datoUtils";
 
 import { TEST_MELDEKORT_API_URL, TEST_URL } from "../helpers/setup";
 import { beforeAndAfterSetup, renderRoutesStub } from "../helpers/test-helpers";
@@ -28,7 +27,7 @@ import { server } from "../mocks/server";
 describe("Send meldekort", () => {
   vi.mock(
     "react-i18next",
-    async () => (await vi.importActual("tests/mocks/react-i18next.ts")).mock
+    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
   );
 
   beforeAndAfterSetup();

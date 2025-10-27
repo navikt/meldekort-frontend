@@ -22,8 +22,9 @@ import { server } from "./mocks/server";
 
 
 describe("Root", () => {
-  vi.mock("react-i18next", async () =>
-    (await vi.importActual("tests/mocks/react-i18next.ts")).mock,
+  vi.mock(
+    "react-i18next",
+    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
   );
 
   beforeAndAfterSetup();
