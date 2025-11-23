@@ -54,7 +54,7 @@
     "@types/express": "5.0.5",
     "@types/luxon": "3.7.1",
     "@types/morgan": "1.9.10",
-    "@types/react": "19.2.5",
+    "@types/react": "19.2.6",
     "@types/react-dom": "19.2.3",
     "@types/source-map-support": "0.5.10",
     "@vitejs/plugin-react": "5.1.1",
