@@ -108,7 +108,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
           return redirect(getEnv("AAP_URL"), 307);
         }
       } else {
-        feil = false;
+        feil = true;
       }
 
       // Sjekk at denne personen skal sendes til den nye TP løsningen
@@ -121,7 +121,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
           return redirect(getEnv("TP_URL"), 307);
         }
       } else {
-        feil = false;
+        feil = true;
       }
     }
 
