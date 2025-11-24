@@ -108,7 +108,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
           return redirect(getEnv("AAP_URL"), 307);
         }
       } else {
-        feil = true;
+        feil = false;
       }
 
       // Sjekk at denne personen skal sendes til den nye TP løsningen
@@ -121,7 +121,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
           return redirect(getEnv("TP_URL"), 307);
         }
       } else {
-        feil = true;
+        feil = false;
       }
     }
 
@@ -166,7 +166,7 @@ export default function App() {
   if (feil) {
     // Hvis det er feil, vis feilmelding
     // Ellers vis Outlet
-    const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
+    const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))} !!</Alert>;
 
     innhold = <div>
       <MeldekortHeader />
