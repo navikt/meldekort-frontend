@@ -3,10 +3,10 @@ import { ActionFunctionArgs, AppLoadContext, Params } from "react-router";
 import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { Innsendingstype } from "~/models/innsendingstype";
+import { KortType } from "~/models/kortType";
 import { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import { sendInnMeldekortAction } from "~/utils/sendInnMeldekortUtils";
 
-import { catchErrorResponse } from "../helpers/response-helper";
 import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK } from "../mocks/data";
 import { server } from "../mocks/server";
@@ -92,7 +92,7 @@ describe("Meldekortdetaljer Innsending", () => {
         async ({ request }) => {
           const data = await request.json() as IMeldekortdetaljer
           const kortType = data.kortType
-          if (kortType === "KORRIGERT_ELEKTRONISK") {
+          if (kortType === KortType.KORRIGERT_ELEKTRONISK) {
             return HttpResponse.json(TEST_MELDEKORT_VALIDERINGS_RESULTAT_OK, { status: 200 });
           } else {
             return HttpResponse.json("", { status: 500 });
