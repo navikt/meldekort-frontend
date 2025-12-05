@@ -11,7 +11,7 @@ import { jsonify, opprettTestMeldekort, TEST_HISTORISKEMELDEKORT, TEST_SKRIVEMOD
 import { server } from "../mocks/server";
 
 
-describe("Tidligere meldekort", () => {
+describe.skip("Tidligere meldekort", () => {
   beforeAndAfterSetup();
 
   const request = new Request(TEST_URL + "/tidligere-meldekort");

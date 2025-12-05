@@ -38,6 +38,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     historiskeMeldekort = await historiskeMeldekortResponse.json();
   }
 
+  skrivemodus = {
+    skrivemodus: true
+  }
   return { feil, skrivemodus, historiskeMeldekort };
 }
 
