@@ -12,8 +12,6 @@ import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
 import { hentPerson, IPerson } from "~/models/person";
-import type { IPersonStatus } from "~/models/personStatus";
-import { hentPersonStatus } from "~/models/personStatus";
 import { hentHarAAP } from "~/utils/aapUtils";
 import { getOboToken } from "~/utils/authUtils";
 import { hentHarDP } from "~/utils/dpUtils";
@@ -59,27 +57,20 @@ export const links: LinksFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs): Promise<Response | IRootLoaderData> {
   let feil = false;
-  let personStatus: IPersonStatus | null = null;
 
   const meldekortApiOBOToken = await getOboToken(request);
 
   const url = new URL(request.url);
-  // Sjekk at denne personen har tilgang (dvs. har meldeplikt)
-  const personStatusResponse = await hentPersonStatus(meldekortApiOBOToken);
-  if (personStatusResponse.ok) {
-    personStatus = await personStatusResponse.json();
-  }
-
-  if (personStatus == null) {
+  const personResponse = await hentPerson(meldekortApiOBOToken);
+  if (!personResponse.ok) {
     feil = true;
   } else {
     let antallMeldekort = 0;
 
     // Sjekk at personen har meldekort i Arena med meldegrupper som ikke er ARBS og DAGP
     // Dette sjekker vi fordi ALLE ARBS og DAGP meldekort KAN (og må) sendes gjennom den nye dp-løsningen
-    // Det er ingen vits i å sjekke antall meldekort i Arena når vi har tom id i personStatus (dvs. ingen meldeplikt i Arena)
-    if (personStatus.id !== "") {
-      const personResponse = await hentPerson(meldekortApiOBOToken);
+    // Det er ingen vits i å sjekke antall meldekort i Arena når person ikke finnes i Arena
+    if (personResponse.status === 200) {
       const person = await personResponse.json() as IPerson;
       antallMeldekort =
         person.meldekort.filter(meldekort => meldekort.meldegruppe !== "ARBS" && meldekort.meldegruppe !== "DAGP").length +
@@ -126,12 +117,12 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
     }
 
     // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
-    if (url.pathname.endsWith("/ikke-tilgang") && personStatus.id !== "") {
+    if (url.pathname.endsWith("/ikke-tilgang") && personResponse.status === 200) {
       return redirect("/send-meldekort", 307);
     }
 
     // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
-    if (!url.pathname.endsWith("/ikke-tilgang") && personStatus.id === "") {
+    if (!url.pathname.endsWith("/ikke-tilgang") && personResponse.status === 204) {
       return redirect("/ikke-tilgang", 307);
     }
   }

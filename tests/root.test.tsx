@@ -15,7 +15,6 @@ import {
   TEST_DECORATOR_FRAGMENTS,
   TEST_DECORATOR_RESPONSE,
   TEST_DECORATOR_VERSION,
-  TEST_PERSON_STATUS,
   TEST_SKRIVEMODUS,
 } from "./mocks/data";
 import { server } from "./mocks/server";
@@ -58,6 +57,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -96,6 +96,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -115,6 +116,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -133,6 +135,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -151,6 +154,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -169,6 +173,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -187,6 +192,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -207,6 +213,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -227,6 +234,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -245,6 +253,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -263,6 +272,7 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -283,9 +293,10 @@ describe("Root", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
-      context: {},
+      context: {}
     }) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
@@ -293,8 +304,9 @@ describe("Root", () => {
     expect(response.env).not.toBeNull();
   });
 
-  test("Skal sende til send-meldekort fra ikke-tilgang når personStatus er OK", async () => {
+  test("Skal sende til send-meldekort fra ikke-tilgang når person finnes i Arena", async () => {
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL + "/ikke-tilgang"),
       params: {},
       context: {},
@@ -304,16 +316,17 @@ describe("Root", () => {
     expect(response.headers.get("location")).toBe("/send-meldekort");
   });
 
-  test("Skal ikke sende til ikke-tilgang når feil med personStatus", async () => {
+  test("Skal ikke sende til ikke-tilgang når feil med person", async () => {
     server.use(
       http.get(
-        `${TEST_MELDEKORT_API_URL}/person/status`,
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
         () => new HttpResponse(null, { status: 500 }),
         { once: true },
       ),
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -324,16 +337,17 @@ describe("Root", () => {
     expect(response.env).not.toBeNull();
   });
 
-  test("Skal sende til ikke-tilgang når personstatus.id er tom", async () => {
+  test("Skal sende til ikke-tilgang når person ikke finnes i Arena", async () => {
     server.use(
       http.get(
-        `${TEST_MELDEKORT_API_URL}/person/status`,
-        () => HttpResponse.json({ id: "" }, { status: 200 }),
+        `${TEST_MELDEKORT_API_URL}/person/meldekort`,
+        () => new HttpResponse(null, { status: 204 }),
         { once: true },
       ),
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -352,7 +366,6 @@ describe("Root", () => {
       () => {
         return {
           feil: false,
-          personStatus: TEST_PERSON_STATUS,
           skrivemodus: TEST_SKRIVEMODUS,
           fragments: TEST_DECORATOR_FRAGMENTS,
         };
@@ -368,7 +381,6 @@ describe("Root", () => {
       () => {
         return {
           feil: true,
-          personStatus: TEST_PERSON_STATUS,
           skrivemodus: null,
           fragments: TEST_DECORATOR_FRAGMENTS,
         };
@@ -388,7 +400,6 @@ describe("Root", () => {
       () => {
         return {
           feil: false,
-          personStatus: TEST_PERSON_STATUS,
           skrivemodus: {
             skrivemodus: true,
           },

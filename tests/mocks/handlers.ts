@@ -8,7 +8,6 @@ import {
   TEST_MELDEKORTDETALJER,
   TEST_PERSON,
   TEST_PERSON_INFO,
-  TEST_PERSON_STATUS,
   TEST_SKRIVEMODUS,
 } from "./data";
 
@@ -33,11 +32,6 @@ export const handlers = [
   http.get(
     `${TEST_MELDEKORT_API_URL}/person/historiskemeldekort`,
     () => HttpResponse.json(TEST_HISTORISKEMELDEKORT, { status: 200 }),
-  ),
-
-  http.get(
-    `${TEST_MELDEKORT_API_URL}/person/status`,
-    () => HttpResponse.json(TEST_PERSON_STATUS, { status: 200 }),
   ),
 
   http.get(
