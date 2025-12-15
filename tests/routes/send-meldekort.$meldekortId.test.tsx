@@ -37,6 +37,7 @@ describe("Send meldekort", () => {
 
   const checkLoader = async (meldekortId?: string) => {
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId },
       context: {},
@@ -62,6 +63,7 @@ describe("Send meldekort", () => {
     });
 
     const response = await action({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},
@@ -118,6 +120,7 @@ describe("Send meldekort", () => {
     jsonify(expectedValgtMeldekort);
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId },
       context: {},
@@ -155,6 +158,7 @@ describe("Send meldekort", () => {
     jsonify(meldekort1);
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId },
       context: {},

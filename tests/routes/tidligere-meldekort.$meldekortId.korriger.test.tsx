@@ -50,6 +50,7 @@ describe("Korriger tidligere meldekort", () => {
     infomelding: IInfomelding | null = null,
   ) => {
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId },
       context: {},
@@ -73,6 +74,7 @@ describe("Korriger tidligere meldekort", () => {
     });
 
     const response = await action({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},
@@ -165,6 +167,7 @@ describe("Korriger tidligere meldekort", () => {
     jsonify(meldekortdetaljerData);
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId: meldekortId },
       context: {},

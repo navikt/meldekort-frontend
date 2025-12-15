@@ -34,6 +34,7 @@ describe("Meldekortdetaljer Innsending", () => {
     const context: AppLoadContext = {};
 
     const actionFunctionArgs: ActionFunctionArgs = {
+      unstable_pattern: "",
       request,
       params,
       context,
