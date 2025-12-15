@@ -16,7 +16,6 @@ export default defineConfig({
     environment: "jsdom",
     coverage: {
       provider: "istanbul",
-      all: true,
       include: ["app/**/*"],
     },
   },
