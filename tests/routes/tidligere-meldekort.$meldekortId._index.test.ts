@@ -26,6 +26,7 @@ describe("Tidligere meldekort detaljer", () => {
 
   const check = async (meldekortId?: string) => {
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId },
       context: {},
@@ -83,6 +84,7 @@ describe("Tidligere meldekort detaljer", () => {
 
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: { meldekortId: meldekortId },
       context: {},

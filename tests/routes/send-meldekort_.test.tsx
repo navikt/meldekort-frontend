@@ -28,6 +28,7 @@ describe("Send meldekort", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},
@@ -41,6 +42,7 @@ describe("Send meldekort", () => {
     jsonify(expectedPersondata);
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},

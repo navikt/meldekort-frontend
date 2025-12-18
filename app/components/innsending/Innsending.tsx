@@ -118,13 +118,14 @@ export default function Innsending(props: IProps) {
       <Stepper
         aria-labelledby="stepper-heading"
         activeStep={activeStep}
-        interactive={false}
         orientation="horizontal"
         className="notForPrint"
       >
-        {
-          steps.map(step => <Stepper.Step key={step} href="#">{tt(step)}</Stepper.Step>)
-        }
+        {steps.map((step) => (
+          <Stepper.Step key={step} href="#" interactive={false}>
+            {tt(step)}
+          </Stepper.Step>
+        ))}
       </Stepper>
 
       <Box padding="8" className="notForPrint" />

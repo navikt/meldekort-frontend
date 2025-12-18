@@ -8,7 +8,6 @@ import { KortStatus } from "~/models/meldekort";
 import type { IMeldekortdetaljer } from "~/models/meldekortdetaljer";
 import type { IValideringsResultat } from "~/models/meldekortdetaljerInnsending";
 import type { IPerson, IPersonInfo } from "~/models/person";
-import type { IPersonStatus } from "~/models/personStatus";
 import type { ISkrivemodus } from "~/models/skrivemodus";
 import type { ISporsmal } from "~/models/sporsmal";
 
@@ -139,11 +138,6 @@ export const TEST_MELDEKORT_VALIDERINGS_RESULTAT_FEIL: IValideringsResultat = {
     },
   ],
   meldekortdager: null,
-};
-export const TEST_PERSON_STATUS: IPersonStatus = {
-  id: "ID",
-  statusArbeidsoker: null,
-  statusYtelse: null,
 };
 export const TEST_INFOMELDING: IInfomelding = {
   norsk: "Norsk infomelding",

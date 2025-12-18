@@ -27,6 +27,7 @@ describe("Etterregistrering", () => {
     );
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},
@@ -40,6 +41,7 @@ describe("Etterregistrering", () => {
     jsonify(expectedPersondata);
 
     const response = await loader({
+      unstable_pattern: "",
       request,
       params: {},
       context: {},
