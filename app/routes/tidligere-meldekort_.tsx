@@ -39,7 +39,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   skrivemodus = {
-    skrivemodus: true
+    skrivemodus: false
   }
   return { feil, skrivemodus, historiskeMeldekort };
 }
