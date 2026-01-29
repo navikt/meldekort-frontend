@@ -56,10 +56,13 @@ export default function Etterregistrering() {
   if (feil || !person) {
     innhold = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
   } else if (meldekortListe.length === 0) {
-    innhold = <GuidePanel>
-      <div>&nbsp;</div>
-      <div>{tt("sporsmal.ingenMeldekortASende")}</div>
-    </GuidePanel>;
+    innhold = (
+      <GuidePanel style={{ margin: "auto" }}>
+        <div>&nbsp;</div>
+        <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+        <div>&nbsp;</div>
+      </GuidePanel>
+    );
   } else if (meldekortListe.length === 1) {
     // Det finnes kun 1 meldekort. Sender brukeren til dette meldekortet med en gang
     innhold = <Navigate to={`/etterregistrer-meldekort/${meldekortListe[0].meldekortId}`} replace={true} />;

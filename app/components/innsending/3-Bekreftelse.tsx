@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Checkbox, CheckboxGroup } from "@navikt/ds-react";
-import { AkselLegacyBackgroundColorToken, AkselLegacyBorderColorToken } from "@navikt/ds-tokens/types";
+import { AkselColoredBorderToken, AkselRootBackgroundToken } from "@navikt/ds-tokens/types";
 import { DateTime } from "luxon";
 import { useState } from "react";
 
@@ -156,16 +156,16 @@ export default function Bekreftelse(props: IProps) {
 
   loggAktivitet("Viser Bekreftelse");
 
-  let bekreftelseBackground = "surface-warning-subtle";
-  let bekreftelseBorderColor = "border-warning";
+  let bekreftelseBackground = "warning-moderate";
+  let bekreftelseBorderColor = "warning-strong";
 
   if (!bekreftet && visFeil) {
-    bekreftelseBackground = "surface-danger-subtle";
-    bekreftelseBorderColor = "border-danger";
+    bekreftelseBackground = "danger-moderate";
+    bekreftelseBorderColor = "danger-strong";
   }
   if (bekreftet) {
-    bekreftelseBackground = "surface-success-subtle";
-    bekreftelseBorderColor = "border-success";
+    bekreftelseBackground = "success-moderate";
+    bekreftelseBorderColor = "success-strong";
   }
 
   return (
@@ -175,7 +175,7 @@ export default function Bekreftelse(props: IProps) {
         {parseHtml(tt("overskrift.steg3.info.bekreftVerdier"))}
       </Alert>
 
-      <Box padding="4" />
+      <Box padding="space-16" />
 
       {
         innsendingstype === Innsendingstype.KORRIGERING &&
@@ -192,11 +192,11 @@ export default function Bekreftelse(props: IProps) {
       <Ukeliste dager={sporsmal.meldekortDager} ytelsestypePostfix={ytelsestypePostfix} fom={fom} fraDag={7} />
 
       <Box
-        background={ bekreftelseBackground as AkselLegacyBackgroundColorToken }
-        borderColor={ bekreftelseBorderColor as AkselLegacyBorderColorToken }
+        background={ bekreftelseBackground as AkselRootBackgroundToken }
+        borderColor={ bekreftelseBorderColor as AkselColoredBorderToken }
         padding="space-16"
         borderWidth="1"
-        borderRadius="medium"
+        borderRadius="4"
       >
         <CheckboxGroup
           legend={parseHtml(tt("utfylling.bekreft" + ytelsestypePostfix))}
@@ -209,7 +209,7 @@ export default function Bekreftelse(props: IProps) {
 
       {baksystemFeil &&
         <div>
-          <Box padding="4" />
+          <Box padding="space-16" />
 
           <Alert variant="error">
             {parseHtml(tt("meldekortkontroll.feilkode.00"))}

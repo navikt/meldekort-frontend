@@ -31,12 +31,12 @@ body {
     margin-top: 2rem;
 }
 
-.navds-text-field--error {
+.aksel-text-field--error {
     forced-color-adjust: none;
 }
 
-.navds-checkbox--error .navds-checkbox__label {
-    --ac-radio-checkbox-action: var(--a-red-500);
+.aksel-checkbox--error .aksel-checkbox__label {
+    --ac-radio-checkbox-action: var(--ax-danger-600);
     forced-color-adjust: none;
 }
 
@@ -46,38 +46,38 @@ body {
 
 /* Sette forskjellige størrelser for overskrifter iht skjermbredde */
 @media only screen and (max-width: 580px) {
-    .navds-heading--xlarge {
-        font-size: var(--a-font-size-heading-xlarge);
+    .aksel-heading--xlarge {
+        font-size: var(--ax-font-size-heading-xlarge);
         letter-spacing: -.008em;
-        line-height: var(--a-font-line-height-heading-xlarge);
+        line-height: var(--ax-font-line-height-heading-xlarge);
     }
 
-    .navds-heading--large {
-        font-size: var(--a-font-size-heading-medium);
+    .aksel-heading--large {
+        font-size: var(--ax-font-size-heading-medium);
         letter-spacing: -.004em;
-        line-height: var(--a-font-line-height-heading-medium);
+        line-height: var(--ax-font-line-height-heading-medium);
     }
 }
 
 @media only screen and (max-width: 470px) {
-    .navds-heading--xlarge {
-        font-size: var(--a-font-size-heading-large);
+    .aksel-heading--xlarge {
+        font-size: var(--ax-font-size-heading-large);
         letter-spacing: -.008em;
-        line-height: var(--a-font-line-height-heading-large);
+        line-height: var(--ax-font-line-height-heading-large);
     }
 }
 
 @media only screen and (max-width: 460px) {
-    .navds-heading--xlarge {
-        font-size: var(--a-font-size-heading-medium);
+    .aksel-heading--xlarge {
+        font-size: var(--ax-font-size-heading-medium);
         letter-spacing: -.006em;
-        line-height: var(--a-font-line-height-heading-medium);
+        line-height: var(--ax-font-line-height-heading-medium);
     }
 
-    .navds-heading--large {
-        font-size: var(--a-font-size-heading-small);
+    .aksel-heading--large {
+        font-size: var(--ax-font-size-heading-small);
         letter-spacing: -.002em;
-        line-height: var(--a-font-line-height-heading-small);
+        line-height: var(--ax-font-line-height-heading-small);
     }
 }
 

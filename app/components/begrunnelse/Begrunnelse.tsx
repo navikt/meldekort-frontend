@@ -23,7 +23,7 @@ export default function Begrunnelse(props: IProps) {
         innhold={parseHtml(tt("forklaring.sporsmal.begrunnelse" + ytelsestypePostfix))}
         logText={"Viser \"Les mer\" for begrunnelse for korrigering på Bekreftelse/Kvittering"}
       />
-      <Box paddingBlock="1">
+      <Box paddingBlock="space-4">
         <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />&nbsp;{begrunnelse}
       </Box>
     </div>

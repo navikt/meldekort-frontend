@@ -1,5 +1,5 @@
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
-import { Alert, BodyLong, Box, Button } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, Button, Heading } from "@navikt/ds-react";
 import { DateTime } from "luxon";
 import { NavLink } from "react-router";
 
@@ -91,22 +91,22 @@ export default function Kvittering(props: IProps) {
       <BodyLong as="div" align="center" spacing className="onlyForPrint">
         <img src={nav} className="imgBig" alt="" />
         <br /><br />
-        <h2 className="navds-heading navds-heading--medium">
+        <Heading size="medium" level="2">
           {parseHtml(tt("overskrift.meldekort.sendt"))}
-        </h2>
+        </Heading>
       </BodyLong>
 
       <Alert variant="success" className="notForPrint">
         {parseHtml(tt("overskrift.meldekort.sendt"))}
       </Alert>
 
-      <Box padding="4" />
+      <Box padding="space-16" />
 
       <Alert variant="info">
         {parseHtml(tt("sendt.klagerettigheterInfo" + ytelsestypePostfix))}
       </Alert>
 
-      <Box padding="4" />
+      <Box padding="space-16" />
 
       <BodyLong size="large">
         {tt("meldekort.for")} {personInfo.fornavn} {personInfo.etternavn} ({personInfo.fodselsnr})
@@ -131,7 +131,7 @@ export default function Kvittering(props: IProps) {
         </BodyLong>
       )}
 
-      <Box padding="6" />
+      <Box padding="space-24" />
 
       {
         innsendingstype === Innsendingstype.KORRIGERING &&

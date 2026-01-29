@@ -1,5 +1,5 @@
 import { MenuHamburgerIcon } from "@navikt/aksel-icons";
-import { Button } from "@navikt/ds-react";
+import { Button, Heading } from "@navikt/ds-react";
 import classNames from "classnames";
 import { NavLink } from "react-router";
 
@@ -28,19 +28,20 @@ export default function MeldekortHeader() {
   const { tt } = useExtendedTranslation();
 
   return (
-    <div>
-      <div className={classNames(styles.heading, "notForPrint")}>
+    <div className="notForPrint">
+      <div className={styles.heading}>
         <div className={styles.title}>
-          <h1 className="navds-heading navds-heading--xlarge">{tt("overskrift.meldekort")}</h1>
+          <Heading size="xlarge" level="1">{tt("overskrift.meldekort")}</Heading>
         </div>
-        <Button variant="tertiary-neutral"
-                className={styles.mobileMenu}
-                data-testid="mobileMenu"
-                onClick={() => togleMobileMenu()}
-                icon={<MenuHamburgerIcon title="a11y-title" fontSize="3rem" />}
-        />
+        <Button
+          data-color="neutral"
+          variant="tertiary"
+          className={styles.mobileMenu}
+          data-testid="mobileMenu"
+          onClick={() => togleMobileMenu()}
+          icon={<MenuHamburgerIcon title="a11y-title" fontSize="3rem" />} />
       </div>
-      <div className={classNames(styles.menu, "notForPrint")} id="menu" data-testid="menu">
+      <div className={styles.menu} id="menu" data-testid="menu">
         <NavLink to={"/send-meldekort"} className={setClassName}>
           {tt("sekundarmeny.send")}
         </NavLink>

@@ -139,8 +139,12 @@ export default function Utfylling(props: IProps) {
   const opprettUke = (plussDager: number) => {
     return (
       <Accordion.Item defaultOpen className={styles.uke}>
-        <Accordion.Header>{tt("overskrift.uke")} {ukeFormatert(fom, plussDager)}</Accordion.Header>
-        <Accordion.Content>
+        <Accordion.Header className={styles.header}>
+          <Heading size="large" level="2">
+            {tt("overskrift.uke")} {ukeFormatert(fom, plussDager)}
+          </Heading>
+        </Accordion.Header>
+        <Accordion.Content className={styles.content}>
           <div>
             <div className={classNames(styles.rad, styles.desktop)}>
               <div className={styles.grid}>
@@ -361,7 +365,7 @@ export default function Utfylling(props: IProps) {
           </ul>
         </Alert>
       }
-      <Accordion headingSize="large">
+      <Accordion>
         {opprettUke(0)}
         {opprettUke(7)}
       </Accordion>
