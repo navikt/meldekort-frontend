@@ -3,6 +3,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "packageManager": "pnpm@10.29.3",
   "scripts": {
     "build": "react-router build",
     "dev": "node ./server.js",
@@ -10,7 +11,7 @@
     "typecheck": "react-router typegen && tsc --project tsconfig.json",
     "lint": "eslint",
     "lint-fix": "eslint . --fix",
-    "validate": "npm run lint && tsc",
+    "validate": "pnpm lint && tsc",
     "test": "vitest",
     "test-coverage": "vitest --coverage"
   },
