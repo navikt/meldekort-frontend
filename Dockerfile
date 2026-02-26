@@ -1,4 +1,4 @@
-FROM node:24-alpine AS node
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24@sha256:d84eaf833b497938d9bf029c218e5490512e23032d467a5d5b82ca22c9bb35e4 AS node
 RUN corepack enable
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
     pnpm config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)
