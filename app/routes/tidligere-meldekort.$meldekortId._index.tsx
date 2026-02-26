@@ -1,5 +1,5 @@
 import { PrinterSmallFillIcon } from "@navikt/aksel-icons";
-import { Alert, BodyLong, Box, Button, Table, Tag } from "@navikt/ds-react";
+import { Alert, BodyLong, Box, Button, Heading, Table, Tag } from "@navikt/ds-react";
 import type { ReactElement } from "react";
 import type { LoaderFunctionArgs, MetaFunction } from "react-router";
 import { useLoaderData } from "react-router";
@@ -98,17 +98,17 @@ export default function Meldekortdetaljer() {
         <br /><br />
         {tt("meldekort.for")}
         <br />
-        <h2 className="navds-heading navds-heading--medium">
+        <Heading size="medium" level="2">
           {personInfo.fornavn.toUpperCase()} {personInfo.etternavn.toUpperCase()} ({personInfo.fodselsnr})
-        </h2>
+        </Heading>
       </BodyLong>
       <BodyLong as="div" align="center" spacing>
         <img src={utklippstavle} className="imgSmall notForPrint" alt="" />
         <div>{tt("meldekort.for.perioden")}</div>
         <div>
-          <h2 className="navds-heading navds-heading--large">
+          <Heading size="large" level="2">
             {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
-          </h2>
+          </Heading>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
       </BodyLong>
@@ -142,7 +142,7 @@ export default function Meldekortdetaljer() {
         </Table.Body>
       </Table>
 
-      <Box padding="6" />
+      <Box padding="space-24" />
 
       {
         meldekortdetaljer.begrunnelse &&

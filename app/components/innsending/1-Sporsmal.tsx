@@ -115,7 +115,7 @@ export default function Sporsmal(props: IProps) {
             {riktigInfomelding}
           </Alert>
 
-          <Box padding="4" />
+          <Box padding="space-16" />
         </div>
       }
 
@@ -124,7 +124,7 @@ export default function Sporsmal(props: IProps) {
           {parseHtml(tt("sporsmal.registrertMerknad" + ytelsestypePostfix))}
         </Alert>
 
-        <Box padding="4" />
+        <Box padding="space-16" />
       </div>
 
       {
@@ -134,20 +134,20 @@ export default function Sporsmal(props: IProps) {
             {parseHtml(tt("etterregistrering.sporsmal.omVedtak"))}
           </Alert>
 
-          <Box padding="4" />
+          <Box padding="space-16" />
         </div>
       }
 
       <GuidePanel poster>
         <Box>{parseHtml(tt("sporsmal.lesVeiledning"))}</Box>
-        <Box padding="2" />
+        <Box padding="space-8" />
         <Box>{parseHtml(tt("sporsmal.ansvarForRiktigUtfylling"))}</Box>
       </GuidePanel>
 
       {
         // Man må velge bregrunnelse hvis det er KORRIGERING
         innsendingstype === Innsendingstype.KORRIGERING && <div>
-          <Box padding="4" />
+          <Box padding="space-16" />
 
           <Select label={parseHtml(tt("korrigering.sporsmal.begrunnelse"))}
                   description={
@@ -201,8 +201,7 @@ export default function Sporsmal(props: IProps) {
 
           return (
             <div key={item.sporsmal} style={{ display: disabled ? "none" : "" }}>
-              <Box padding="4" />
-
+              <Box padding="space-16" />
               <RadioGroup
                 legend={label}
                 description={desc}

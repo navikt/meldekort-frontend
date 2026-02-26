@@ -92,7 +92,7 @@ describe("ReactLink", () => {
     // Sjekk at ikonet er på riktig side
     const children = link?.parentElement?.children;
     expect(children?.length).toBe(2);
-    expect(children?.item(0)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon");
+    expect(children?.item(0)?.attributes.getNamedItem("class")?.value).toBe("aksel-button__icon");
 
     link.click();
 
@@ -116,7 +116,7 @@ describe("ReactLink", () => {
     // Sjekk at ikonet er på riktig side
     const children = link?.parentElement?.children;
     expect(children?.length).toBe(2);
-    expect(children?.item(1)?.attributes.getNamedItem("class")?.value).toBe("navds-button__icon");
+    expect(children?.item(1)?.attributes.getNamedItem("class")?.value).toBe("aksel-button__icon");
 
     link.click();
 

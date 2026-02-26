@@ -77,10 +77,13 @@ export default function SendMeldekort() {
       </GuidePanel>;
     } else {
       // Nei, det finnes ingen meldekort å sende
-      innhold = <GuidePanel>
-        <div>&nbsp;</div>
-        <div>{tt("sporsmal.ingenMeldekortASende")}</div>
-      </GuidePanel>;
+      innhold = (
+        <GuidePanel style={{ margin: "auto" }}>
+          <div>&nbsp;</div>
+          <div>{tt("sporsmal.ingenMeldekortASende")}</div>
+          <div>&nbsp;</div>
+        </GuidePanel>
+      );
     }
   } else {
     const meldekortListe = person?.meldekort
@@ -97,7 +100,7 @@ export default function SendMeldekort() {
         <BodyLong size="large">
           {parseHtml(tt("sendMeldekort.info.forMangeMeldekort"))}
         </BodyLong>
-        <Box padding="2" />
+        <Box padding="space-8" />
         <BodyLong>
           {parseHtml(tt("sendMeldekort.info.forMangeMeldekort.feilmelding"))}
         </BodyLong>
@@ -136,9 +139,9 @@ export default function SendMeldekort() {
           </Table.Body>
         </Table>
 
-        <Box padding="4" />
+        <Box padding="space-16" />
 
-        <Box padding="4" borderColor="border-subtle" borderWidth="2" borderRadius="xlarge">
+        <Box padding="space-16" borderColor="neutral-subtle" borderWidth="2" borderRadius="12">
           <div>{parseHtml(tt("sendMeldekort.info.neste"))}</div>
           <div>{parseHtml(tt("sendMeldekort.info.eldstePerioden"))}</div>
           <div>{parseHtml(tt("sendMeldekort.info.automatiskLedet"))}</div>

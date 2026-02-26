@@ -1,7 +1,8 @@
-FROM node:24-alpine AS node
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24@sha256:d84eaf833b497938d9bf029c218e5490512e23032d467a5d5b82ca22c9bb35e4 AS node
+RUN corepack enable
 RUN --mount=type=secret,id=NODE_AUTH_TOKEN \
-    npm config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)
-RUN npm config set @navikt:registry=https://npm.pkg.github.com
+    pnpm config set //npm.pkg.github.com/:_authToken=$(cat /run/secrets/NODE_AUTH_TOKEN)
+RUN pnpm config set @navikt:registry=https://npm.pkg.github.com
 
 
 # build app
@@ -13,10 +14,10 @@ COPY ./public ./public
 COPY ./vite.config.ts ./
 COPY ./react-router.config.ts ./
 COPY ./package.json ./
-COPY ./package-lock.json  ./
+COPY ./pnpm-lock.yaml  ./
 
-RUN npm ci --ignore-scripts
-RUN npm run build
+RUN pnpm install --ignore-scripts --frozen-lockfile
+RUN pnpm run build
 
 
 # install dependencies
@@ -24,9 +25,9 @@ FROM node AS app-dependencies
 WORKDIR /app
 
 COPY ./package.json ./
-COPY ./package-lock.json  ./
+COPY pnpm-lock.yaml ./
 
-RUN npm ci --ignore-scripts --omit dev
+RUN pnpm install --ignore-scripts --frozen-lockfile --prod
 
 
 # export build to filesystem (GitHub)
@@ -35,7 +36,7 @@ COPY --from=app-build /app/build /
 
 
 # runtime
-FROM gcr.io/distroless/nodejs24-debian12 AS runtime
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:24@sha256:d84eaf833b497938d9bf029c218e5490512e23032d467a5d5b82ca22c9bb35e4 AS runtime
 WORKDIR /app
 
 ENV TZ="Europe/Oslo"

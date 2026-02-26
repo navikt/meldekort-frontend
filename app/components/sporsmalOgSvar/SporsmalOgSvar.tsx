@@ -49,7 +49,7 @@ export default function SporsmalOgSvar(props: IProps) {
           innhold={parseHtml(tt(item.forklaring))}
           logText={`Viser "Les mer" for ${item.id} på Bekreftelse/Kvittering`}
         />
-        <Box paddingBlock="1" data-testid={item.sporsmal + ".svar"}>
+        <Box paddingBlock="space-4" data-testid={item.sporsmal + ".svar"}>
           <CheckmarkCircleIcon className={styles.checkmarkCircleIcon} />
           &nbsp;
           {

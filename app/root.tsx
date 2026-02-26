@@ -157,7 +157,7 @@ export default function App() {
   if (feil) {
     // Hvis det er feil, vis feilmelding
     // Ellers vis Outlet
-    const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))} !!</Alert>;
+    const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
     innhold = <div>
       <MeldekortHeader />

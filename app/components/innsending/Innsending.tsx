@@ -1,4 +1,4 @@
-import { BodyLong, Box, Stepper } from "@navikt/ds-react";
+import { BodyLong, Box, Heading, Stepper } from "@navikt/ds-react";
 import { JSX, useState } from "react";
 
 import Sporsmal from "~/components/innsending/1-Sporsmal";
@@ -108,9 +108,9 @@ export default function Innsending(props: IProps) {
       <BodyLong as="div" align="center" spacing className="notForPrint">
         <div>{tt("meldekort.for.perioden")}</div>
         <div>
-          <h2 className="navds-heading navds-heading--large">
+          <Heading size="large" level="2">
             {tt("overskrift.uke")} {formaterPeriodeTilUkenummer(fom, tom)}
-          </h2>
+          </Heading>
         </div>
         <div>{formaterPeriodeDato(fom, tom)}</div>
       </BodyLong>
@@ -128,7 +128,7 @@ export default function Innsending(props: IProps) {
         ))}
       </Stepper>
 
-      <Box padding="8" className="notForPrint" />
+      <Box padding="space-32" className="notForPrint" />
 
       <Sideoverskrift tittel={tt(steps[activeStep - 1])} />
       {innhold}

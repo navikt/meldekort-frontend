@@ -1,11 +1,11 @@
 .header {
-    border-bottom: 2px solid var(--a-border-default);
+    border-bottom: 2px solid var(--ax-border-neutral);
 }
 
 .row {
     display: grid;
     grid-template: auto / 4fr 6fr 3fr 7fr 4fr;
-    border-bottom: 1px solid var(--a-border-default);
+    border-bottom: 1px solid var(--ax-border-neutral);
 }
 
 .row div {
@@ -17,7 +17,7 @@
 }
 
 .row:nth-child(even) {
-    background-color: var(--a-surface-subtle);
+    background-color: var(--ax-bg-neutral-soft);
 }
 
 .tag {
@@ -32,11 +32,11 @@
     .row {
         grid-auto-flow: column;
         grid-template: 1fr 1fr 1fr 1fr 1fr / 1fr 3fr;
-        border-bottom: 2px solid var(--a-border-default);
+        border-bottom: 2px solid var(--ax-border-neutral);
     }
 
     .row div {
-        border-bottom: 1px solid var(--a-border-default)
+        border-bottom: 1px solid var(--ax-border-neutral)
     }
 
     .row .header {
