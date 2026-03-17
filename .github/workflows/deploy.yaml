@@ -12,7 +12,6 @@ on:
         default: 'q2'
         type: choice
         options:
-          - q1
           - q2
           - p
 
