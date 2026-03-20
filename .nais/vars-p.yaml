@@ -1,6 +1,6 @@
 dashEnv: ""
 ingresses:
-  - "https://meldekort-frontend.nav.no/meldekort"
+  - "https://meldekort-frontend.nav.no/felles-meldekort"
   - "https://www.nav.no/meldekort"
 basePath: "/meldekort"
 dekoratorMiljo: "prod"
