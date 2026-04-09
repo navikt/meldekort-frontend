@@ -19,13 +19,12 @@ import {
 } from "./mocks/data";
 import { server } from "./mocks/server";
 
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
 describe("Root", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
-
   beforeAndAfterSetup();
 
   test("Skal fortsette i felles løsningen hvis har Arena-meldekort", async () => {
@@ -56,12 +55,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).toBe(false);
@@ -95,12 +95,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).toBe(false);
@@ -115,12 +116,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.feil).toEqual(true);
   });
@@ -134,12 +136,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
   });
@@ -153,12 +156,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.feil).toEqual(true);
   });
@@ -172,12 +176,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
   });
@@ -191,12 +196,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -212,12 +218,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -233,12 +240,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.feil).toEqual(true);
   });
@@ -252,12 +260,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
   });
@@ -271,12 +280,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -292,12 +302,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
-      context: {}
-    }) as IRootLoaderData;
+      context: {},
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -305,12 +316,13 @@ describe("Root", () => {
   });
 
   test("Skal sende til send-meldekort fra ikke-tilgang når person finnes i Arena", async () => {
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL + "/ikke-tilgang"),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("/send-meldekort");
@@ -325,12 +337,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -346,12 +359,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("/ikke-tilgang");

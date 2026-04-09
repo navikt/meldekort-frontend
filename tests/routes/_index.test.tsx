@@ -9,6 +9,7 @@ import { TEST_URL } from "../helpers/setup";
 describe("Index", () => {
   test("Skal få redirect til Send meldekort", async () => {
     const response = (await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request: new Request(TEST_URL),
       params: {},

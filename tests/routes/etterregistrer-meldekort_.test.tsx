@@ -27,6 +27,7 @@ describe("Etterregistrering", () => {
     );
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
@@ -41,6 +42,7 @@ describe("Etterregistrering", () => {
     jsonify(expectedPersondata);
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},

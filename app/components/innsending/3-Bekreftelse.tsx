@@ -203,7 +203,7 @@ export default function Bekreftelse(props: IProps) {
           onChange={() => setBekreftet((bekreftet) => !bekreftet)}
           error={!bekreftet && visFeil && tt("utfylling.bekreft.feil")}
         >
-          <Checkbox value="" checked={bekreftet}>{tt("utfylling.bekreftAnsvar")}</Checkbox>
+          <Checkbox value={bekreftet}>{tt("utfylling.bekreftAnsvar")}</Checkbox>
         </CheckboxGroup>
       </Box>
 

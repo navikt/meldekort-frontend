@@ -30,13 +30,12 @@ import {
 } from "../mocks/data";
 import { server } from "../mocks/server";
 
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
 describe("Korriger tidligere meldekort", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
-
   beforeAndAfterSetup();
 
   const meldekortId = "1707156949";
@@ -50,6 +49,7 @@ describe("Korriger tidligere meldekort", () => {
     infomelding: IInfomelding | null = null,
   ) => {
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: { meldekortId },
@@ -74,6 +74,7 @@ describe("Korriger tidligere meldekort", () => {
     });
 
     const response = await action({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
@@ -167,6 +168,7 @@ describe("Korriger tidligere meldekort", () => {
     jsonify(meldekortdetaljerData);
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: { meldekortId: meldekortId },

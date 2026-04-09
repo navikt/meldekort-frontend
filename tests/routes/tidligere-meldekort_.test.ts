@@ -26,10 +26,11 @@ describe("Tidligere meldekort", () => {
     );
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
-      context: {}
+      context: {},
     });
 
     expect(response.feil).toEqual(true);
@@ -46,6 +47,7 @@ describe("Tidligere meldekort", () => {
     );
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
@@ -58,6 +60,7 @@ describe("Tidligere meldekort", () => {
 
   test("Skal få feil = false og skrivemodus-objektet fra backend", async () => {
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
@@ -75,6 +78,7 @@ describe("Tidligere meldekort", () => {
     jsonify(historiskemeldekortData);
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},

@@ -23,12 +23,12 @@ const delay = (durationMs: number) => {
   return new Promise(resolve => setTimeout(resolve, durationMs));
 };
 
-describe("Innsending", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
+describe("Innsending", () => {
   afterEach(() => {
     cleanup();
   });

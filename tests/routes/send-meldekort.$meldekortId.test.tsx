@@ -24,12 +24,12 @@ import {
 } from "../mocks/data";
 import { server } from "../mocks/server";
 
-describe("Send meldekort", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
+describe("Send meldekort", () => {
   beforeAndAfterSetup();
 
   const meldekortId = "1707156945";
@@ -37,6 +37,7 @@ describe("Send meldekort", () => {
 
   const checkLoader = async (meldekortId?: string) => {
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: { meldekortId },
@@ -63,6 +64,7 @@ describe("Send meldekort", () => {
     });
 
     const response = await action({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: {},
@@ -120,6 +122,7 @@ describe("Send meldekort", () => {
     jsonify(expectedValgtMeldekort);
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: { meldekortId },
@@ -158,6 +161,7 @@ describe("Send meldekort", () => {
     jsonify(meldekort1);
 
     const response = await loader({
+      unstable_url: new URL("http://localhost"),
       unstable_pattern: "",
       request,
       params: { meldekortId },
