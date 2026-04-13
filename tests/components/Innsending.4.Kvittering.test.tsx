@@ -1,6 +1,6 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import Kvittering from "~/components/innsending/4-Kvittering";
 import { Innsendingstype } from "~/models/innsendingstype";
@@ -11,15 +11,22 @@ import { formaterPeriodeDato, formaterPeriodeTilUkenummer } from "~/utils/datoUt
 
 import { TEST_PERSON_INFO, TEST_SPORSMAL } from "../mocks/data";
 
+const replaceMock = vi.fn();
+const trackMock = vi.hoisted(() => vi.fn());
+
+vi.mock("@navikt/nav-dekoratoren-moduler", async () => {
+  const actualModule = await import("@navikt/nav-dekoratoren-moduler");
+  return {
+    ...actualModule,
+    getAnalyticsInstance: vi.fn(() => trackMock),
+  };
+});
 
 const personInfo = TEST_PERSON_INFO;
 const fom = "2024-02-12";
 const tom = "2024-02-25";
 
 describe("Kvittering", () => {
-  const replaceMock = vi.fn();
-  const trackMock = vi.fn();
-
   Object.defineProperty(window, "location", {
     writable: true,
     value: { assign: vi.fn() },
@@ -30,34 +37,25 @@ describe("Kvittering", () => {
     value: replaceMock,
   });
 
-  beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).umami = {
-      track: trackMock,
-    };
-  });
-
   afterEach(() => {
     cleanup();
+    trackMock.mockClear();
   });
 
   /*
   * Innsending
   */
   test("Skal vise innhold for Innsending uten neste meldekort, Umami og kunne skrive ut", async () => {
-    vi.stubEnv("SKAL_LOGGE", "true");
-
     createRouteAndRender(Innsendingstype.INNSENDING);
 
-    expect(trackMock).toBeCalledWith(
-      "Viser Kvittering",
-      {
+    await vi.waitFor(() => {
+      expect(trackMock).toHaveBeenCalledWith("Viser Kvittering", {
         appNavn: "meldekort-frontend",
         arbeidssoker: "ja",
         meldegruppe: Meldegruppe.DAGP,
         innsendingstype: Innsendingstype.INNSENDING,
-      },
-    );
+      });
+    });
 
     await waitFor(() => screen.findAllByText("overskrift.meldekort.sendt")); // overskrift.meldekort.sendt x 2
     await waitFor(() => screen.findByText("sendt.klagerettigheterInfo"));
@@ -70,7 +68,7 @@ describe("Kvittering", () => {
     const spyPrint = vi.spyOn(window, "print");
     const button = await waitFor(() => screen.findByText("overskrift.skrivUt"));
     button.click();
-    expect(spyPrint).toBeCalled();
+    expect(spyPrint).toHaveBeenCalled();
   });
 
   test("Skal vise innhold for Innsending med neste meldekort", async () => {
@@ -78,7 +76,7 @@ describe("Kvittering", () => {
 
     const button = await waitFor(() => screen.findByText("overskrift.nesteMeldekort"));
     button.click();
-    expect(replaceMock).toBeCalledWith("undefined/send-meldekort/1"); // BASE_PATH/send-meldekort/1
+    expect(replaceMock).toHaveBeenCalledWith("undefined/send-meldekort/1"); // BASE_PATH/send-meldekort/1
     replaceMock.mockClear();
   });
 
@@ -87,7 +85,7 @@ describe("Kvittering", () => {
 
     const button = await waitFor(() => screen.findByText("overskrift.etterregistrertMeldekort"));
     button.click();
-    expect(replaceMock).toBeCalledWith("undefined/etterregistrer-meldekort/2"); // BASE_PATH/etterregistrer-meldekort/w
+    expect(replaceMock).toHaveBeenCalledWith("undefined/etterregistrer-meldekort/2"); // BASE_PATH/etterregistrer-meldekort/w
     replaceMock.mockClear();
   });
 
@@ -128,21 +126,18 @@ describe("Kvittering", () => {
    * Korrigering
    */
   test("Skal vise innhold for korrigering og med nesteMeldekortKanSendes med Sp.5 = false", async () => {
-    vi.stubEnv("SKAL_LOGGE", "true");
-
     const sporsmal = { ...TEST_SPORSMAL, arbeidssoker: false };
 
     createRouteAndRender(Innsendingstype.KORRIGERING, 1, 2, "2024-02-26", Ytelsestype.DAGPENGER, sporsmal);
 
-    expect(trackMock).toBeCalledWith(
-      "Viser Kvittering",
-      {
+    await vi.waitFor(() => {
+      expect(trackMock).toHaveBeenCalledWith("Viser Kvittering", {
         appNavn: "meldekort-frontend",
         arbeidssoker: "nei",
         meldegruppe: Meldegruppe.DAGP,
         innsendingstype: Innsendingstype.KORRIGERING,
-      },
-    );
+      });
+    });
 
     await waitFor(() => screen.findByText("sendt.meldekortKanSendes"));
     await waitFor(() => screen.findByText("korrigering.sporsmal.begrunnelse"));
