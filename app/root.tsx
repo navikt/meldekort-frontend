@@ -18,7 +18,6 @@ import { hentHarDP } from "~/utils/dpUtils";
 import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 import { hentTpBruker, ITPBruker } from "~/utils/tpUtils";
-import { Umami } from "~/utils/umamiUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
 
@@ -28,8 +27,6 @@ export interface IRootLoaderData {
   env: {
     BASE_PATH: string;
     MIN_SIDE_URL: string;
-    UMAMI_ID: string;
-    SKAL_LOGGE: string;
   };
 }
 
@@ -135,8 +132,6 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
     env: {
       BASE_PATH: getEnv("BASE_PATH"),
       MIN_SIDE_URL: getEnv("MIN_SIDE_URL"),
-      UMAMI_ID: getEnv("UMAMI_ID"),
-      SKAL_LOGGE: getEnv("SKAL_LOGGE"),
     },
   };
 }
@@ -175,7 +170,6 @@ export default function App() {
         <Meta />
         {parse(fragments.DECORATOR_HEAD_ASSETS, { trim: true })}
         <Links />
-        <Umami />
       </head>
       <body>
         <script dangerouslySetInnerHTML={{ __html: `window.env = ${JSON.stringify(env)}` }} />

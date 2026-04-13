@@ -59,10 +59,6 @@ spec:
       value: "{{ tpUrl }}"
     - name: TP_API_AUDIENCE
       value: "{{ tpApiAudience }}"
-    - name: UMAMI_ID
-      value: "{{umami_id}}"
-    - name: SKAL_LOGGE
-      value: "{{ skal_logge }}"
   accessPolicy:
     outbound:
       rules:
