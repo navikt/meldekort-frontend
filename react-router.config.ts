@@ -2,9 +2,9 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
   ssr: true,
-  basename: "/meldekort",
+  basename: "/felles-meldekort",
   routeDiscovery: {
     mode: "lazy",
-    manifestPath: "/meldekort"
+    manifestPath: "/felles-meldekort"
   }
 } satisfies Config;
