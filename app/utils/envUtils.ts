@@ -17,8 +17,6 @@ interface IEnv {
   MIN_SIDE_URL: string;
   IS_LOCALHOST: string;
   MELDEKORT_API_TOKEN: string;
-  UMAMI_ID: string;
-  SKAL_LOGGE: string;
 }
 
 export function getEnv(key: keyof IEnv) {

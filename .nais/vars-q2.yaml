@@ -1,8 +1,8 @@
 dashEnv: -q2
 ingresses:
-  - "https://meldekort-frontend-q2.intern.dev.nav.no/meldekort"
-  - "https://meldekort-frontend-q2.ansatt.dev.nav.no/meldekort"
-basePath: "/meldekort"
+  - "https://meldekort-frontend-q2.intern.dev.nav.no/felles-meldekort"
+  - "https://meldekort-frontend-q2.ansatt.dev.nav.no/felles-meldekort"
+basePath: "/felles-meldekort"
 dekoratorMiljo: "dev"
 meldekortApiAudience: "dev-gcp:meldekort:meldekort-api-q2"
 meldekortApiUrl: "https://meldekort-api-q2.intern.dev.nav.no/meldekort/meldekort-api/api"
@@ -12,5 +12,3 @@ aapUrl: "https://aap-meldekort.ansatt.dev.nav.no/aap/meldekort"
 aapApiAudience: "dev-gcp:aap:meldekort-backend"
 tpUrl: "https://www.ansatt.dev.nav.no/tiltakspenger/meldekort"
 tpApiAudience: "dev-gcp:tpts:tiltakspenger-meldekort-api"
-umami_id: "5eff7856-c890-434d-a970-eab44b1c1af1"
-skal_logge: "true"
