@@ -8,7 +8,7 @@ import morgan from "morgan";
 
 export const app = express();
 
-const basePath = process.env.BASE_PATH || "/felles-meldekort";
+const basePath = process.env.BASE_PATH || "/meldekort";
 const port = process.env.PORT || 8080;
 const isProductionMode = process.env.NODE_ENV === "production";
 

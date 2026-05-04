@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     target: "ESNext",
   },
-  base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/felles-meldekort",
+  base: process.env.NODE_ENV === "production" ? "https://cdn.nav.no/meldekort/meldekort-frontend/client/" : "/meldekort",
   plugins: [
     reactRouter(),
     tsconfigPaths(),

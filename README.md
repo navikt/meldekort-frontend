@@ -42,4 +42,4 @@ For å starte appen lokalt:
 - Kopier `.env.example` og rename til `.env`.
 - `pnpm install`
 - `pnpm run dev`
-- Åpne http://localhost:8080/felles-meldekort/send-meldekort i nettleseren
+- Åpne http://localhost:8080/meldekort/send-meldekort i nettleseren
