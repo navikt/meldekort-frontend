@@ -8,7 +8,7 @@ import { Meldegruppe } from "~/models/meldegruppe";
 import { KortStatus } from "~/models/meldekort";
 import App, { ErrorBoundary, IRootLoaderData, links, loader } from "~/root";
 
-import { TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
+import { TEST_DP_URL, TEST_MELDEKORT_API_URL, TEST_URL } from "./helpers/setup";
 import { beforeAndAfterSetup, renderRoutesStub } from "./helpers/test-helpers";
 import {
   opprettTestMeldekort,
@@ -56,12 +56,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
       unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).toBe(false);
@@ -95,24 +96,63 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
       unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).toBe(false);
   });
 
-  test("Skal sende til send-meldekort fra ikke-tilgang når person finnes i Arena", async () => {
-    const response = await loader({
+  test("Skal få feil = true når feil med harDP", async () => {
+    server.use(
+      http.get(`${TEST_MELDEKORT_API_URL}/hardp`, () => new HttpResponse(null, { status: 500 }), {
+        once: true,
+      })
+    );
+
+    const response = (await loader({
       unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    })) as IRootLoaderData;
+
+    expect(response.feil).toEqual(true);
+  });
+
+  test("Skal sende til DP når harDP = true", async () => {
+    server.use(
+      http.get(`${TEST_MELDEKORT_API_URL}/hardp`, () => new HttpResponse(null, { status: 307 }), {
+        once: true,
+      })
+    );
+
+    const response = (await loader({
+      unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
+      request: new Request(TEST_URL),
+      params: {},
+      context: {},
+    })) as Response;
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe(TEST_DP_URL);
+  });
+
+  test("Skal sende til send-meldekort fra ikke-tilgang når person finnes i Arena", async () => {
+    const response = (await loader({
+      unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
       request: new Request(TEST_URL + "/ikke-tilgang"),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("/send-meldekort");
@@ -127,12 +167,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
       unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as IRootLoaderData;
+    })) as IRootLoaderData;
 
     expect(response.fragments).not.toBeNull();
     expect(response.feil).not.toBeNull();
@@ -148,12 +189,13 @@ describe("Root", () => {
       ),
     );
 
-    const response = await loader({
+    const response = (await loader({
       unstable_pattern: "",
+      unstable_url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
-    }) as Response;
+    })) as Response;
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("/ikke-tilgang");
