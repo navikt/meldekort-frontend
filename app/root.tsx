@@ -4,19 +4,30 @@ import "~/index.css";
 import { Alert } from "@navikt/ds-react";
 import { DecoratorElements } from "@navikt/nav-dekoratoren-moduler/ssr";
 import parse from "html-react-parser";
-import { LinksFunction, LoaderFunctionArgs } from "react-router";
-import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration, useLoaderData } from "react-router";
+import {
+  Links,
+  LinksFunction,
+  LoaderFunctionArgs,
+  Meta,
+  Outlet,
+  redirect,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+} from "react-router";
 
 import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
-import { hentPerson } from "~/models/person";
+import { hentPerson, IPerson } from "~/models/person";
 import { getOboToken } from "~/utils/authUtils";
+import { hentHarDP } from "~/utils/dpUtils";
 import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
+import { Meldegruppe } from "~/models/meldegruppe";
 
 export interface IRootLoaderData {
   fragments: DecoratorElements;
@@ -29,23 +40,23 @@ export interface IRootLoaderData {
 
 export const links: LinksFunction = () => {
   return [
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "32x32",
-          href: `${getEnv("BASE_PATH")}/favicon-32x32.png`,
-        },
-        {
-          rel: "icon",
-          type: "image/png",
-          sizes: "16x16",
-          href: `${getEnv("BASE_PATH")}/favicon-16x16.png`,
-        },
-        {
-          rel: "icon",
-          type: "image/x-icon",
-          href: `${getEnv("BASE_PATH")}/favicon.ico`,
-        },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      href: `${getEnv("BASE_PATH")}/favicon-32x32.png`,
+    },
+    {
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      href: `${getEnv("BASE_PATH")}/favicon-16x16.png`,
+    },
+    {
+      rel: "icon",
+      type: "image/x-icon",
+      href: `${getEnv("BASE_PATH")}/favicon.ico`,
+    },
   ];
 };
 
@@ -59,6 +70,37 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
   if (!personResponse.ok) {
     feil = true;
   } else {
+    let antallMeldekort = 0;
+
+    // Sjekk at personen har meldekort i Arena med meldegrupper som ikke er ARBS og DAGP
+    // Dette sjekker vi fordi ALLE ARBS og DAGP meldekort KAN (og må) sendes gjennom den nye dp-løsningen
+    // Det er ingen vits i å sjekke antall meldekort i Arena når person ikke finnes i Arena
+    if (personResponse.status === 200) {
+      const person = (await personResponse.json()) as IPerson;
+      antallMeldekort =
+        person.meldekort.filter(
+          (meldekort) =>
+            meldekort.meldegruppe !== Meldegruppe.ARBS && meldekort.meldegruppe !== Meldegruppe.DAGP
+        ).length +
+        person.etterregistrerteMeldekort.filter(
+          (meldekort) =>
+            meldekort.meldegruppe !== Meldegruppe.ARBS && meldekort.meldegruppe !== Meldegruppe.DAGP
+        ).length;
+    }
+
+    // Fortsett i felles løsningen hvis det finnes noe
+    // Hvis det ikke finnes noe, sjekk om personen skal sendes til DP, AAP eller TP
+    if (antallMeldekort === 0) {
+      // Sjekk at denne personen skal sendes til den nye DP løsningen
+      // Redirect til DP ellers fortsett
+      const harDPResponse = await hentHarDP(meldekortApiOBOToken);
+      if (harDPResponse.status === 307) {
+        return redirect(getEnv("DP_URL"), 307);
+      } else if (!harDPResponse.ok) {
+        feil = true;
+      }
+    }
+
     // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
     if (url.pathname.endsWith("/ikke-tilgang") && personResponse.status === 200) {
       return redirect("/send-meldekort", 307);
@@ -83,7 +125,6 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
 }
 
 export default function App() {
-
   const { fragments, feil, env } = useLoaderData<typeof loader>();
 
   const { i18n, tt } = useExtendedTranslation();
@@ -100,16 +141,18 @@ export default function App() {
     // Ellers vis Outlet
     const alert = <Alert variant="error">{parseHtml(tt("feilmelding.baksystem"))}</Alert>;
 
-    innhold = <div>
-      <MeldekortHeader />
-      <Sideinnhold utenSideoverskrift={true} innhold={alert} />
-    </div>;
+    innhold = (
+      <div>
+        <MeldekortHeader />
+        <Sideinnhold utenSideoverskrift={true} innhold={alert} />
+      </div>
+    );
   }
 
   useInjectDecoratorScript(fragments.DECORATOR_SCRIPTS);
 
   return (
-    <html lang={ i18n.language }>
+    <html lang={i18n.language}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -135,7 +178,7 @@ export function ErrorBoundary() {
   const alert = <Alert variant="error">Feil i baksystem / System error</Alert>;
 
   return (
-    <html lang={ i18n.language }>
+    <html lang={i18n.language}>
       <head>
         <title>Meldekort</title>
         <Meta />
