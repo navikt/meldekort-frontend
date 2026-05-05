@@ -54,9 +54,4 @@ export const handlers = [
     () => HttpResponse.json(TEST_SKRIVEMODUS, { status: 200 }),
   ),
 
-  http.get(
-    `${TEST_MELDEKORT_API_URL}/hardp`,
-    () => HttpResponse.json(null, { status: 200 }),
-  ),
-
 ];
