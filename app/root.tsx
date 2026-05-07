@@ -89,7 +89,7 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
     }
 
     // Fortsett i felles løsningen hvis det finnes noe
-    // Hvis det ikke finnes noe, sjekk om personen skal sendes til DP, AAP eller TP
+    // Hvis det ikke finnes noe, sjekk om personen skal sendes til DP
     if (antallMeldekort === 0) {
       // Sjekk at denne personen skal sendes til den nye DP løsningen
       // Redirect til DP ellers fortsett
