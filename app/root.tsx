@@ -20,6 +20,7 @@ import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
+import { Meldegruppe } from "~/models/meldegruppe";
 import { hentPerson, IPerson } from "~/models/person";
 import { getOboToken } from "~/utils/authUtils";
 import { hentHarDP } from "~/utils/dpUtils";
@@ -27,7 +28,6 @@ import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
-import { Meldegruppe } from "~/models/meldegruppe";
 
 export interface IRootLoaderData {
   fragments: DecoratorElements;
