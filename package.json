@@ -22,7 +22,7 @@
     "@navikt/nav-dekoratoren-moduler": "4.0.0",
     "@navikt/oasis": "4.1.4",
     "@react-router/express": "7.15.1",
-    "@react-router/node": "7.15.0",
+    "@react-router/node": "7.15.1",
     "classnames": "2.5.1",
     "compression": "1.8.1",
     "cross-env": "10.1.0",
