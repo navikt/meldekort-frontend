@@ -103,8 +103,8 @@ importers:
         specifier: 7.15.0
         version: 7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7))
       '@react-router/fs-routes':
-        specifier: 7.15.0
-        version: 7.15.0(@react-router/dev@7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7)))(typescript@6.0.3)
+        specifier: 7.15.1
+        version: 7.15.1(@react-router/dev@7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7)))(typescript@6.0.3)
       '@testing-library/react':
         specifier: 16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -785,11 +785,11 @@ packages:
       typescript:
         optional: true
 
-  '@react-router/fs-routes@7.15.0':
-    resolution: {integrity: sha512-Bn0PvYQCpFm547UBc2hP6bI9Rv6i5ewHiVG+hZsPxkYH/txvTWwwF7b4lle7TaO/UeHA7J5rhlB2a8C4ubXO7w==}
+  '@react-router/fs-routes@7.15.1':
+    resolution: {integrity: sha512-rKRszgD0h9O4UrLJl3jWBBke3RghHxZp6Bc+JRc6nsuBt7hF0sT4V7Af3EoBLtUSo2hn75Vr4T++yJL4ADBNCA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@react-router/dev': ^7.15.0
+      '@react-router/dev': ^7.15.1
       typescript: ^5.1.0 || ^6.0.0
     peerDependenciesMeta:
       typescript:
@@ -3822,7 +3822,7 @@ snapshots:
     optionalDependencies:
       typescript: 6.0.3
 
-  '@react-router/fs-routes@7.15.0(@react-router/dev@7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7)))(typescript@6.0.3)':
+  '@react-router/fs-routes@7.15.1(@react-router/dev@7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7)))(typescript@6.0.3)':
     dependencies:
       '@react-router/dev': 7.15.0(@types/node@25.9.1)(lightningcss@1.32.0)(react-router@7.15.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(typescript@6.0.3)(vite@8.0.12(@types/node@25.9.1)(esbuild@0.27.7))
       minimatch: 9.0.9
