@@ -16,9 +16,9 @@
     "test-coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "8.12.1",
-    "@navikt/ds-css": "8.12.1",
-    "@navikt/ds-react": "8.12.1",
+    "@navikt/aksel-icons": "8.13.0",
+    "@navikt/ds-css": "8.13.0",
+    "@navikt/ds-react": "8.13.0",
     "@navikt/nav-dekoratoren-moduler": "4.2.2",
     "@navikt/oasis": "4.1.4",
     "@react-router/express": "7.17.0",
@@ -33,7 +33,7 @@
     "i18next-browser-languagedetector": "8.2.1",
     "i18next-fs-backend": "2.6.6",
     "i18next-http-backend": "4.0.0",
-    "isbot": "5.1.42",
+    "isbot": "5.1.43",
     "jsdom": "29.1.1",
     "luxon": "3.7.2",
     "morgan": "1.11.0",
@@ -71,7 +71,7 @@
     "msw": "2.14.6",
     "prettier": "3.8.4",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.61.0",
+    "typescript-eslint": "8.61.1",
     "vite": "8.0.16",
     "vitest": "4.1.9"
   },
