@@ -57,8 +57,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -97,8 +97,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -116,8 +116,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -134,8 +134,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -147,8 +147,8 @@ describe("Root", () => {
 
   test("Skal sende til send-meldekort fra ikke-tilgang når person finnes i Arena", async () => {
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL + "/ikke-tilgang"),
       request: new Request(TEST_URL + "/ikke-tilgang"),
       params: {},
       context: {},
@@ -168,8 +168,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
@@ -190,8 +190,8 @@ describe("Root", () => {
     );
 
     const response = (await loader({
-      unstable_pattern: "",
-      unstable_url: new URL(TEST_URL),
+      pattern: "",
+      url: new URL(TEST_URL),
       request: new Request(TEST_URL),
       params: {},
       context: {},
