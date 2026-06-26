@@ -5,6 +5,6 @@ export default {
   basename: "/felles-meldekort",
   routeDiscovery: {
     mode: "lazy",
-    manifestPath: "/felles-meldekort"
-  }
+    manifestPath: "/felles-meldekort",
+  },
 } satisfies Config;

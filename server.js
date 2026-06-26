@@ -106,6 +106,7 @@ if (isProductionMode) {
     `${basePath}`,
     createRequestHandler({
       build: await import("./build/server/index.js"),
+      useRequestContextDomainName: true,
     })
   );
 } else {
@@ -126,6 +127,7 @@ if (isProductionMode) {
         viteDevServer.ssrLoadModule(
           "virtual:react-router/server-build"
         ),
+      useRequestContextDomainName: true,
     })
   );
 }

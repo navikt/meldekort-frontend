@@ -60,12 +60,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export async function loader({ request }: LoaderFunctionArgs): Promise<Response | IRootLoaderData> {
+export async function loader({ request, url }: LoaderFunctionArgs): Promise<Response | IRootLoaderData> {
   let feil = false;
 
   const meldekortApiOBOToken = await getOboToken(request);
 
-  const url = new URL(request.url);
   const personResponse = await hentPerson(meldekortApiOBOToken);
   if (!personResponse.ok) {
     feil = true;
@@ -102,12 +101,19 @@ export async function loader({ request }: LoaderFunctionArgs): Promise<Response 
     }
 
     // Hvis vi er på ikke-tilgang og bruker har tilgang, redirect til send-meldekort
-    if (url.pathname.endsWith("/ikke-tilgang") && personResponse.status === 200) {
+    if (
+      (url.pathname.endsWith("/ikke-tilgang") || url.pathname.endsWith("/ikke-tilgang/")) &&
+      personResponse.status === 200
+    ) {
       return redirect("/send-meldekort", 307);
     }
 
     // Hvis vi ikke er på ikke-tilgang og bruker ikke har tilgang, redirect til ikke-tilgang
-    if (!url.pathname.endsWith("/ikke-tilgang") && personResponse.status === 204) {
+    if (
+      !url.pathname.endsWith("/ikke-tilgang") &&
+      !url.pathname.endsWith("/ikke-tilgang/") &&
+      personResponse.status === 204
+    ) {
       return redirect("/ikke-tilgang", 307);
     }
   }
