@@ -112,8 +112,8 @@ importers:
         specifier: 5.0.6
         version: 5.0.6
       '@types/luxon':
-        specifier: 3.7.1
-        version: 3.7.1
+        specifier: 3.7.2
+        version: 3.7.2
       '@types/morgan':
         specifier: 1.9.10
         version: 1.9.10
@@ -593,9 +593,6 @@ packages:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@navikt/ds-tokens@8.13.0':
     resolution: {integrity: sha512-rtdyubAcoP4f8onbtghjjCyL5UlOLvz9eK53bR7CJbUUTEGovebgoUwB6S10LFGj3BktFe7m91Vu6vtsCpmEZw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.13.0/63a58bf567e0a95c1ced6a3d7356de06c19a2457}
@@ -606,9 +603,6 @@ packages:
     peerDependencies:
       html-react-parser: '>=5.x'
       react: '>=17.x'
-    peerDependenciesMeta:
-      react:
-        optional: true
 
   '@navikt/oasis@4.1.4':
     resolution: {integrity: sha512-v+LW8V5CTiHkfIXhceQ8RXRtrBktCK8wSFYmiR6hmzl9CJRYRLUpFC7YbLiC7jwHIuLHKUyl+Zawf8zQm6fDeQ==, tarball: https://npm.pkg.github.com/download/@navikt/oasis/4.1.4/0d9c93820b9b6d93b1bd9da134feb95461ad8a47}
@@ -858,8 +852,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/luxon@3.7.1':
-    resolution: {integrity: sha512-H3iskjFIAn5SlJU7OuxUmTEpebK6TKB8rxZShDslBMZJ5u9S//KM1sbdAisiSrqwLQncVjnpi2OK2J51h+4lsg==}
+  '@types/luxon@3.7.2':
+    resolution: {integrity: sha512-gW+Oib+vUtGJBtNC8V9Reww0oIpusw+4m81uncg9REGZAJfqOQHfo/nkabnc7w0QReXyPqjrbWMJk6NuAkiX3Q==}
 
   '@types/morgan@1.9.10':
     resolution: {integrity: sha512-sS4A1zheMvsADRVfT0lYbJ4S9lmsey8Zo2F7cnbYjWHP67Q0AwMYuuzLlkIM2N8gAbb9cubhIVFwcIN2XyYCkA==}
@@ -3356,12 +3350,11 @@ snapshots:
       '@floating-ui/react-dom': 2.1.8(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@navikt/aksel-icons': 8.13.0
       '@navikt/ds-tokens': 8.13.0
+      '@types/react': 19.2.17
       date-fns: 4.4.0
       react: 19.2.7
       react-day-picker: 9.14.0(react@19.2.7)
       react-dom: 19.2.7(react@19.2.7)
-    optionalDependencies:
-      '@types/react': 19.2.17
 
   '@navikt/ds-tokens@8.13.0': {}
 
@@ -3371,7 +3364,6 @@ snapshots:
       csp-header: 6.3.1
       html-react-parser: 6.1.3(@types/react@19.2.17)(react@19.2.7)
       js-cookie: 3.0.7
-    optionalDependencies:
       react: 19.2.7
 
   '@navikt/oasis@4.1.4':
@@ -3584,7 +3576,7 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/luxon@3.7.1': {}
+  '@types/luxon@3.7.2': {}
 
   '@types/morgan@1.9.10':
     dependencies:
