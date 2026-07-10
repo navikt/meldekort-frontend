@@ -1,5 +1,7 @@
 FROM node:25-alpine AS node
-RUN corepack enable
+RUN npm install -g corepack@latest --force && \
+    corepack enable && \
+    corepack prepare pnpm@latest --activate
 RUN pnpm config set @navikt:registry=https://npm.pkg.github.com
 
 
