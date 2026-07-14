@@ -1,15 +1,18 @@
 import { resolve } from "node:path";
 
 import Backend from "i18next-fs-backend";
-import { RemixI18Next } from "remix-i18next/server";
+import { createCookie } from "react-router";
+import { createI18nextMiddleware } from "remix-i18next";
 
 import i18n from "~/i18n"; // your i18n configuration file
 
-
-const i18next = new RemixI18Next({
+export const [i18nextMiddleware, getLocale, getInstance] = createI18nextMiddleware({
   detection: {
     supportedLanguages: i18n.supportedLngs,
     fallbackLanguage: i18n.fallbackLng,
+    // We will use only cookies for detection of preferred language. If there is no cookie we will use fallbackLng
+    order: ["cookie"],
+    cookie: createCookie("decorator-language"),
   },
   // This is the configuration for i18next used when translating messages server-side only
   i18next: {
@@ -22,5 +25,3 @@ const i18next = new RemixI18Next({
   // E.g. The Backend plugin for loading translations from the backend (or file system)
   plugins: [Backend],
 });
-
-export default i18next;
