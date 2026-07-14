@@ -5,7 +5,6 @@ import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
-import { getInitialNamespaces } from "remix-i18next/client";
 
 import { getEnv } from "~/utils/envUtils";
 
@@ -19,7 +18,7 @@ async function hydrate() {
     .use(Backend) // Setup backend (use http-backend)
     .init({
       ...i18n, // Spread the configuration
-      ns: getInitialNamespaces(),  // This function detects the namespaces your routes rendered while SSR use
+      ns: i18n.defaultNS,
       backend: { loadPath: `${getEnv("BASE_PATH")}/locales/{{lng}}/{{ns}}.json` },
       detection: {
         // We will use only cookies for detection of preferred language. If there is no cookie we will use fallbackLng

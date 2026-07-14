@@ -20,6 +20,7 @@ import LoaderMedPadding from "~/components/LoaderMedPadding";
 import MeldekortHeader from "~/components/meldekortHeader/MeldekortHeader";
 import Sideinnhold from "~/components/sideinnhold/Sideinnhold";
 import { hentDekoratorHtml } from "~/dekorator/dekorator.server";
+import { i18nextMiddleware } from "~/i18next.server";
 import { Meldegruppe } from "~/models/meldegruppe";
 import { hentPerson, IPerson } from "~/models/person";
 import { getOboToken } from "~/utils/authUtils";
@@ -28,6 +29,9 @@ import { getEnv } from "~/utils/envUtils";
 import { parseHtml, useExtendedTranslation } from "~/utils/intlUtils";
 
 import { useInjectDecoratorScript } from "./utils/dekoratorUtils";
+
+// Unused, men fungerer ikke uten middleware export
+export const middleware = [i18nextMiddleware];
 
 export interface IRootLoaderData {
   fragments: DecoratorElements;
