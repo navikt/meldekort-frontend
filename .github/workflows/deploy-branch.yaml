@@ -1,12 +1,19 @@
-name: Build and deploy
+name: Build and deploy branch
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Miljø'
+        required: true
+        default: 'q2'
+        type: choice
+        options:
+          - q2
 
 env:
   APPNAME: meldekort-frontend
+  ENVIRONMENT: ${{ github.event.inputs.environment }}
 
 jobs:
   build:
@@ -81,22 +88,6 @@ jobs:
         env:
           CLUSTER: dev-gcp
           VAR: image=${{ needs.build.outputs.image }},appName=${{ env.APPNAME }}
-          VARS: .nais/vars-q2.yaml
-          RESOURCE: .nais/nais.yaml
-          PRINT_PAYLOAD: true
-
-  deploy-prod:
-    needs: [ build, test, deploy-dev ]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: nais/deploy/actions/deploy@v2
-        env:
-          CLUSTER: prod-gcp
-          VAR: image=${{ needs.build.outputs.image }},appName=${{ env.APPNAME }}
-          VARS: .nais/vars-p.yaml
+          VARS: .nais/vars-${{ env.ENVIRONMENT }}.yaml
           RESOURCE: .nais/nais.yaml
           PRINT_PAYLOAD: true
