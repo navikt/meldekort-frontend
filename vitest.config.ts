@@ -4,6 +4,8 @@ import { defineConfig } from "vitest/config";
 
 import { TEST_PORT } from "./tests/helpers/setup";
 
+const __dirname = import.meta.dirname;
+
 export default defineConfig({
   server: {
     port: TEST_PORT,
