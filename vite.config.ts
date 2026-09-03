@@ -7,6 +7,7 @@ const __dirname = import.meta.dirname;
 export default defineConfig({
   build: {
     target: "esnext",
+    sourcemap: true,
   },
   base:
     process.env.NODE_ENV === "production"
