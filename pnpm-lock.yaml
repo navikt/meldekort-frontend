@@ -48,8 +48,8 @@ importers:
         specifier: 6.1.7
         version: 6.1.7(@types/react@19.2.18)(react@19.2.8)
       i18next:
-        specifier: 26.4.0
-        version: 26.4.0(typescript@7.0.2)
+        specifier: 26.4.1
+        version: 26.4.1(typescript@7.0.2)
       i18next-browser-languagedetector:
         specifier: 8.2.1
         version: 8.2.1
@@ -82,13 +82,13 @@ importers:
         version: 19.2.8(react@19.2.8)
       react-i18next:
         specifier: 17.0.13
-        version: 17.0.13(i18next@26.4.0(typescript@7.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2)
+        version: 17.0.13(i18next@26.4.1(typescript@7.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2)
       react-router:
         specifier: 8.3.0
         version: 8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       remix-i18next:
         specifier: 8.0.0
-        version: 8.0.0(i18next@26.4.0(typescript@7.0.2))(react-router@8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
+        version: 8.0.0(i18next@26.4.1(typescript@7.0.2))(react-router@8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
       source-map-support:
         specifier: 0.5.21
         version: 0.5.21
@@ -1818,8 +1818,8 @@ packages:
     resolution: {integrity: sha512-O+7MwPCJIKCu68vho8JtD1HF8QHyMPzoChIDFfYCrpaDqX6oq3RqASujnpKEdnNCEOb+kLMOHTNTcGKpj7B1BA==}
     engines: {node: '>=18'}
 
-  i18next@26.4.0:
-    resolution: {integrity: sha512-rsmK5bFqsD1AetSFSIa43wtNR4WpvvH4p0tLEsTxkC7QTrfdFm06nbQ95bh8Og4wwaCnUEcm9DVYL2cgxitiQg==}
+  i18next@26.4.1:
+    resolution: {integrity: sha512-9YbX5E6gd1H+yaOSX3izCsPj5iWXyH7X4oC+iuHHJJw8AeHglzOK5SJf+1CHxaYKYigcea+8jvzSxqYx46YvyA==}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
     peerDependenciesMeta:
@@ -4799,7 +4799,7 @@ snapshots:
 
   i18next-http-backend@4.0.1: {}
 
-  i18next@26.4.0(typescript@7.0.2):
+  i18next@26.4.1(typescript@7.0.2):
     optionalDependencies:
       typescript: 7.0.2
 
@@ -5361,11 +5361,11 @@ snapshots:
       react: 19.2.8
       scheduler: 0.27.0
 
-  react-i18next@17.0.13(i18next@26.4.0(typescript@7.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2):
+  react-i18next@17.0.13(i18next@26.4.1(typescript@7.0.2))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
-      i18next: 26.4.0(typescript@7.0.2)
+      i18next: 26.4.1(typescript@7.0.2)
       react: 19.2.8
       use-sync-external-store: 1.6.0(react@19.2.8)
     optionalDependencies:
@@ -5411,9 +5411,9 @@ snapshots:
       gopd: 1.2.0
       set-function-name: 2.0.2
 
-  remix-i18next@8.0.0(i18next@26.4.0(typescript@7.0.2))(react-router@8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)):
+  remix-i18next@8.0.0(i18next@26.4.1(typescript@7.0.2))(react-router@8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)):
     dependencies:
-      i18next: 26.4.0(typescript@7.0.2)
+      i18next: 26.4.1(typescript@7.0.2)
       react-router: 8.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   require-directory@2.1.1: {}
