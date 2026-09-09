@@ -16,9 +16,9 @@
     "test-coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "8.16.1",
+    "@navikt/aksel-icons": "8.16.2",
     "@navikt/ds-css": "8.16.2",
-    "@navikt/ds-react": "8.16.1",
+    "@navikt/ds-react": "8.16.2",
     "@navikt/nav-dekoratoren-moduler": "4.3.0",
     "@navikt/oasis": "4.1.4",
     "@react-router/express": "8.3.0",
@@ -66,7 +66,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-simple-import-sort": "14.0.0",
-    "globals": "17.11.0",
+    "globals": "17.12.0",
     "msw": "2.15.0",
     "prettier": "3.9.6",
     "typescript": "7.0.2",
