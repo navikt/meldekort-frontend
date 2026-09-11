@@ -11,10 +11,10 @@ import { opprettSporsmal } from "~/utils/miscUtils";
 
 import { opprettTestMeldekort, TEST_INFOMELDING } from "../mocks/data";
 
+vi.mock("react-i18next");
 
 describe("Sporsmal", () => {
   beforeAll(() => {
-    vi.mock("react-i18next");
     setLocale("en");
   });
 

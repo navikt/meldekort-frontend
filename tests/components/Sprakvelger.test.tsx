@@ -5,19 +5,16 @@ import { afterEach, beforeAll, describe, expect, test, vi } from "vitest";
 
 import Sprakvelger from "~/components/sprakvelger/Sprakvelger";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => {
+    return {
+      t: (args: string[]) => args[1],
+      i18n: i18next,
+    };
+  },
+}));
 
 describe("Sprakvelger", () => {
-  beforeAll(() => {
-    vi.mock("react-i18next", () => ({
-      useTranslation: () => {
-        return {
-          t: (args: string[]) => args[1],
-          i18n: i18next,
-        };
-      },
-    }));
-  });
-
   afterEach(() => {
     cleanup();
   });
