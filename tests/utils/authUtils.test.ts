@@ -4,45 +4,44 @@ import { FALLBACK_TOKEN, getOboToken } from "~/utils/authUtils";
 
 import { catchErrorResponse } from "../helpers/response-helper";
 
+vi.mock("@navikt/oasis", () => {
+  vi.stubGlobal("window", undefined);
+  vi.stubEnv("IS_LOCALHOST", "false");
+
+  return {
+    getToken: (request: Request) => {
+      if (request.url === "http://uten.token/") {
+        return null;
+      }
+
+      if (request.url === "http://med.invalid.token/") {
+        return "INVALID_TOKEN";
+      }
+
+      if (request.url === "http://med.valid.token.uten.tokenx/") {
+        return "VALID_TOKEN_UTEN_TOKENX";
+      }
+
+      return "VALID_TOKEN_MED_TOKENX";
+    },
+    validateIdportenToken: (token: string) => {
+      if (token === "INVALID_TOKEN") {
+        return { ok: false };
+      }
+
+      return { ok: true };
+    },
+    requestTokenxOboToken: (token: string) => {
+      if (token === "VALID_TOKEN_UTEN_TOKENX") {
+        return { ok: false, token: "" };
+      }
+
+      return { ok: true, token: "API TOKEN" };
+    },
+  };
+});
 
 describe("Auth utils", () => {
-  vi.mock("@navikt/oasis", () => {
-    vi.stubGlobal("window", undefined);
-    vi.stubEnv("IS_LOCALHOST", "false");
-
-    return {
-      getToken: (request: Request) => {
-        if (request.url === "http://uten.token/") {
-          return null;
-        }
-
-        if (request.url === "http://med.invalid.token/") {
-          return "INVALID_TOKEN";
-        }
-
-        if (request.url === "http://med.valid.token.uten.tokenx/") {
-          return "VALID_TOKEN_UTEN_TOKENX";
-        }
-
-        return "VALID_TOKEN_MED_TOKENX";
-      },
-      validateIdportenToken: (token: string) => {
-        if (token === "INVALID_TOKEN") {
-          return { ok: false };
-        }
-
-        return { ok: true };
-      },
-      requestTokenxOboToken: (token: string) => {
-        if (token === "VALID_TOKEN_UTEN_TOKENX") {
-          return { ok: false, token: "" };
-        }
-
-        return { ok: true, token: "API TOKEN" };
-      },
-    };
-  });
-
   test("getOboToken skal returnere FALLBACK_TOKEN på localhost uten MELDEKORT_API_TOKEN", async () => {
     vi.stubEnv("IS_LOCALHOST", "true");
 

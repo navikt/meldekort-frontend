@@ -19,13 +19,12 @@ import {
 } from "./mocks/data";
 import { server } from "./mocks/server";
 
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
 describe("Root", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
-
   beforeAndAfterSetup();
 
   test("Skal fortsette i felles løsningen hvis har Arena-meldekort", async () => {

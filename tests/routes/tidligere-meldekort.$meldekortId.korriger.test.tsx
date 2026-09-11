@@ -30,13 +30,12 @@ import {
 } from "../mocks/data";
 import { server } from "../mocks/server";
 
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
 describe("Korriger tidligere meldekort", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
-
   beforeAndAfterSetup();
 
   const meldekortId = "1707156949";

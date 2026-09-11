@@ -24,12 +24,12 @@ import {
 } from "../mocks/data";
 import { server } from "../mocks/server";
 
-describe("Send meldekort", () => {
-  vi.mock(
-    "react-i18next",
-    async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock,
-  );
+vi.mock(
+  "react-i18next",
+  async () => (await vi.importActual("./tests/mocks/react-i18next.ts")).mock
+);
 
+describe("Send meldekort", () => {
   beforeAndAfterSetup();
 
   const meldekortId = "1707156945";
