@@ -201,8 +201,8 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2))
       '@react-router/fs-routes':
-        specifier: 8.3.0
-        version: 8.3.0(@react-router/dev@8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2)))(typescript@7.0.2)
+        specifier: 8.4.0
+        version: 8.4.0(@react-router/dev@8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2)))(typescript@7.0.2)
       '@testing-library/react':
         specifier: 16.3.3
         version: 16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -781,11 +781,11 @@ packages:
       typescript:
         optional: true
 
-  '@react-router/fs-routes@8.3.0':
-    resolution: {integrity: sha512-rElHqQQr4XO0bh2VXEBWtJvVWc2340EoZNL29qwLeZPvUTgAZDI2x/x/VnHNSiEYIMvKTJQziKM7krzWCydN8A==}
+  '@react-router/fs-routes@8.4.0':
+    resolution: {integrity: sha512-CIEYxrapbr6iO589fBmN7/RBJ10H8X/Tl2i7MNkuJZQ9W2Z3wPifPCHv9bFR/+FlmzeLXJlYyHyUgaCkgOIZYg==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
-      '@react-router/dev': ^8.3.0
+      '@react-router/dev': ^8.4.0
       typescript: ^5.1.0 || ^6.0.0 || ^7.0.0
     peerDependenciesMeta:
       typescript:
@@ -3678,7 +3678,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  '@react-router/fs-routes@8.3.0(@react-router/dev@8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2)))(typescript@7.0.2)':
+  '@react-router/fs-routes@8.4.0(@react-router/dev@8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2)))(typescript@7.0.2)':
     dependencies:
       '@react-router/dev': 8.3.0(react-router@8.3.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(typescript@7.0.2)(vite@8.3.0(@types/node@26.6.2))
       minimatch: 10.2.6
