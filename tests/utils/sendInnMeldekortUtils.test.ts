@@ -1,6 +1,6 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { ActionFunctionArgs, AppLoadContext, Params } from "react-router";
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+import { afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { Innsendingstype } from "~/models/innsendingstype";
 import { KortType } from "~/models/kortType";
@@ -14,8 +14,7 @@ import { server } from "../mocks/server";
 
 // Kan ikke kjøres parallelt!
 describe("Meldekortdetaljer Innsending", () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-  afterAll(() => server.close());
+  beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
   afterEach(() => server.resetHandlers());
 
   const opprettActionFunctionArgs = (innsendingstype: Innsendingstype = Innsendingstype.INNSENDING) => {

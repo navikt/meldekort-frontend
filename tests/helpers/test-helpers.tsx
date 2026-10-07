@@ -8,7 +8,7 @@ import { server } from "../mocks/server";
 
 
 export const beforeAndAfterSetup = () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
+  beforeAll(() => server.listen({ onUnhandledFrame: "warn" }));
   beforeEach(() => {
     vi.stubEnv("IS_LOCALHOST", "true");
   });
@@ -28,13 +28,11 @@ export const renderRoutesStub = (
   const RoutesStub = createRoutesStub([
     {
       path: "/",
-      // @ts-expect-error Vet ikke hvorfor disse typene er inkompatible
       Component: component,
       loader,
     },
     {
       path: nextPath,
-      // @ts-expect-error Vet ikke hvorfor disse typene er inkompatible
       Component: nextComponent,
     },
   ]);

@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+import { http, HttpResponse } from "msw/http";
+import { afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { hentHarDP } from "~/utils/dpUtils";
 
@@ -8,8 +8,7 @@ import { TEST_MELDEKORT_API_URL } from "../helpers/setup";
 import { server } from "../mocks/server";
 
 describe("DP utils", () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
-  afterAll(() => server.close());
+  beforeAll(() => server.listen({ onUnhandledFrame: "warn" }));
   afterEach(() => server.resetHandlers());
 
   test("hentHarDP skal få status 500 når feil i backend", async () => {
