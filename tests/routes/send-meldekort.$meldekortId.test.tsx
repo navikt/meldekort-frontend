@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import { DateTime } from "luxon";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { MetaArgs } from "react-router";
 import { describe, expect, test, vi } from "vitest";
 

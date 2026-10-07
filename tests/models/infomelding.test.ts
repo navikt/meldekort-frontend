@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+import { http, HttpResponse } from "msw/http";
+import { afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { hentInfomelding } from "~/models/infomelding";
 
@@ -12,8 +12,7 @@ import { server } from "../mocks/server";
 // Kan ikke kjøres parallelt!
 describe("Infomelding", () => {
 
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-  afterAll(() => server.close());
+  beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
   afterEach(() => server.resetHandlers());
 
   test("hentInfomelding skal få status 500 når feil i backend", async () => {

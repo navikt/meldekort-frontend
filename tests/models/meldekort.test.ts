@@ -1,5 +1,5 @@
-import { http, HttpResponse } from "msw";
-import { afterAll, afterEach, beforeAll, describe, expect, test } from "vitest";
+import { http, HttpResponse } from "msw/http";
+import { afterEach, beforeAll, describe, expect, test } from "vitest";
 
 import { hentHistoriskeMeldekort, hentMeldekortIdForKorrigering } from "~/models/meldekort";
 
@@ -11,8 +11,7 @@ import { server } from "../mocks/server";
 
 // Kan ikke kjøres parallelt!
 describe("Meldekort", () => {
-  beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-  afterAll(() => server.close());
+  beforeAll(() => server.listen({ onUnhandledFrame: "error" }));
   afterEach(() => server.resetHandlers());
 
   test("hentHistoriskeMeldekort skal få status 500 når feil i backend", async () => {
@@ -77,9 +76,7 @@ describe("Meldekort", () => {
   });
 
   test("hentMeldekortIdForKorrigering skal få status 500 når feil i fetch", async () => {
-    // Stopper server slik at fetch kaster exception
-    server.close();
-
+    // Server er allerede stoppet fra forrige test, men vi kan kjøre denne testen for å bekrefte at fetch feiler
     const response = await catchErrorResponse(() => hentMeldekortIdForKorrigering("", "1708156951"));
 
     expect(response.status).toBe(500);

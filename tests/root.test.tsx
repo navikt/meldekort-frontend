@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 import { createRoutesStub } from "react-router";
 import { describe, expect, test, vi } from "vitest";
 
