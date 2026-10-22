@@ -212,8 +212,8 @@ importers:
         specifier: 8.2.1
         version: 8.2.1
       i18next-fs-backend:
-        specifier: 2.6.8
-        version: 2.6.8
+        specifier: 2.6.9
+        version: 2.6.9
       i18next-http-backend:
         specifier: 4.0.3
         version: 4.0.3
@@ -1993,8 +1993,8 @@ packages:
   i18next-browser-languagedetector@8.2.1:
     resolution: {integrity: sha512-bZg8+4bdmaOiApD7N7BPT9W8MLZG+nPTOFlLiJiT8uzKXFjhxw4v2ierCXOwB5sFDMtuA5G4kgYZ0AznZxQ/cw==}
 
-  i18next-fs-backend@2.6.8:
-    resolution: {integrity: sha512-6w7An//zrZgwOrniDl0E3jXTPQayMexFnksuHrBA3dTyFbpbmmkKfPoI6SgaKq5gH5jXMzqrQpzN10jlKj6n7Q==}
+  i18next-fs-backend@2.6.9:
+    resolution: {integrity: sha512-YZ5PQUV9xnAeh45CCSQW095wYDWZEwKse/1wr3m0z0Mij5zoCFMs67Q3M+w/9un8fUruubMR4DzETnDGH85heQ==}
 
   i18next-http-backend@4.0.3:
     resolution: {integrity: sha512-B5GJysCsJwqiDQRpUcikWsut82Vmekix58WIyiCpYtxaZ/wY8kwJCicMRvVcMoIa1x84siiRl5vBt6iCBVO6zg==}
@@ -4956,7 +4956,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.10
 
-  i18next-fs-backend@2.6.8: {}
+  i18next-fs-backend@2.6.9: {}
 
   i18next-http-backend@4.0.3: {}
 
