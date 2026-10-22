@@ -215,8 +215,8 @@ importers:
         specifier: 2.6.8
         version: 2.6.8
       i18next-http-backend:
-        specifier: 4.0.2
-        version: 4.0.2
+        specifier: 4.0.3
+        version: 4.0.3
       isbot:
         specifier: 5.2.2
         version: 5.2.2
@@ -1996,8 +1996,8 @@ packages:
   i18next-fs-backend@2.6.8:
     resolution: {integrity: sha512-6w7An//zrZgwOrniDl0E3jXTPQayMexFnksuHrBA3dTyFbpbmmkKfPoI6SgaKq5gH5jXMzqrQpzN10jlKj6n7Q==}
 
-  i18next-http-backend@4.0.2:
-    resolution: {integrity: sha512-oay62dIB2kL7+WHzoUXBjWfL3+mwijD3pQkQkIEaRLhy6kjXxUhrRenV0gInwlCASAaJaDy94+XvYizK+cAGdA==}
+  i18next-http-backend@4.0.3:
+    resolution: {integrity: sha512-B5GJysCsJwqiDQRpUcikWsut82Vmekix58WIyiCpYtxaZ/wY8kwJCicMRvVcMoIa1x84siiRl5vBt6iCBVO6zg==}
     engines: {node: '>=18'}
 
   i18next@26.4.4:
@@ -4958,7 +4958,7 @@ snapshots:
 
   i18next-fs-backend@2.6.8: {}
 
-  i18next-http-backend@4.0.2: {}
+  i18next-http-backend@4.0.3: {}
 
   i18next@26.4.4(typescript@7.0.2):
     optionalDependencies:
