@@ -59,7 +59,7 @@
     "@types/source-map-support": "0.5.10",
     "@vitejs/plugin-react": "6.1.2",
     "@vitest/coverage-istanbul": "5.0.5",
-    "chokidar": "5.0.0",
+    "chokidar": "6.0.0",
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-jsx-a11y": "6.10.2",
