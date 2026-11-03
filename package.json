@@ -3,7 +3,7 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.16.0",
   "scripts": {
     "build": "react-router build",
     "dev": "node ./server.js",
@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "@navikt/aksel-icons": "8.20.1",
-    "@navikt/ds-css": "8.20.0",
-    "@navikt/ds-react": "8.20.0",
-    "@navikt/nav-dekoratoren-moduler": "4.5.2",
+    "@navikt/ds-css": "8.20.1",
+    "@navikt/ds-react": "8.20.1",
+    "@navikt/nav-dekoratoren-moduler": "4.5.3",
     "@navikt/oasis": "4.2.2",
     "@react-router/express": "8.3.0",
     "@react-router/node": "8.3.0",
@@ -70,7 +70,7 @@
     "msw": "3.0.3",
     "prettier": "3.9.10",
     "typescript": "7.0.2",
-    "typescript-eslint": "8.72.0",
+    "typescript-eslint": "8.72.1",
     "vite": "8.3.5",
     "vitest": "5.0.5"
   },
